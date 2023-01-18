@@ -8,7 +8,7 @@ require_once __DIR__ . '/../includes/app.php';
 use MVC\Router;
 use Controllers\AppController;
 $router = new Router();
-$router->setBaseURL('/demo');
+$router->setBaseURL('/medios-comunicacion');
 
 $router->get('/', [AppController::class,'index']);
 
