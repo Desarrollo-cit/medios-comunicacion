@@ -1,7 +1,7 @@
 {
-  "name": "demo-app",
+  "name": "medios-d2",
   "version": "1.0.0",
-  "description": "Aplicacion MVC demo",
+  "description": "Aplicacion Análisis de Medios D2",
   "main": "index.js",
   "scripts": {
     "build": "webpack",
