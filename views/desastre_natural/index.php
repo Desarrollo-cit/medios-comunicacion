@@ -8,7 +8,7 @@
         <input type="hidden" name="id" id="id">
         <div class="row mb-4 mt-3">
             <div class="col-lg-12">
-                <label for="nombre">Nombre del Desastre Natural</label>
+                <label for="nombre">Nombre de los Desastre Natural</label>
                 <input type="text" name="desc" id="desc" class="form-control" placeholder="Ingrese nuevo Desastre Natural">
             </div>
         </div>
