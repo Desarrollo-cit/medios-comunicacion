@@ -1,6 +1,6 @@
 {
-    "name": "mindef/demo",
-    "description": "Proyecto MVC demo",
+    "name": "mindef/medios",
+    "description": "Aplicación Análisis de Medios D2",
     "type": "project",
     "config": {
         "platform-check": false
