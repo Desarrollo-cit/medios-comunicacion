@@ -40,7 +40,7 @@ class Router
             // Call user fn va a llamar una función cuando no sabemos cual sera
             call_user_func($fn, $this); // This es para pasar argumentos
         } else {
-            debuguear($_SERVER);
+            //debuguear($_SERVER);
             if( empty($_SERVER['HTTP_X_REQUESTED_WITH'])){
                 $this->render('pages/notfound');
             
