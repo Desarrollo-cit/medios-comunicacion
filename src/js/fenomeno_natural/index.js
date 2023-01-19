@@ -4,21 +4,21 @@ import Datatable from 'datatables.net-bs5';
 import { lenguaje } from "../lenguaje";
 import Swal from "sweetalert2";
 
-const formDesastre = document.getElementById('formDesastre');
+const formFenomeno = document.getElementById('formFenomeno');
 const btnGuardar = document.getElementById('btnGuardar');
 const btnModificar = document.getElementById('btnModificar');
 const divTabla = document.getElementById('divTabla');
-let tablaDesastres = new Datatable('#desastrestabla');
+let tablaFenomenos = new Datatable('#fenomenosTabla');
 
 
 btnModificar.parentElement.style.display = 'none';
 btnGuardar.disabled = false;
 btnModificar.disabled = true;
 
-const guardarDesastre = async (evento) => {
+const guardarFenomeno = async (evento) => {
     evento.preventDefault();
 
-    let formularioValido = validarFormulario(formDesastre, ['id']);
+    let formularioValido = validarFormulario(formFenomeno, ['id']);
     if (!formularioValido) {
         Toast.fire({
             icon: 'warning',
@@ -31,9 +31,9 @@ const guardarDesastre = async (evento) => {
 
     try {
         //Crear el cuerpo de la consulta
-        const url = '/medios-comunicacion/API/desastre_natural/guardar'
+        const url = '/medios-comunicacion/API/fenomeno_natural/guardar'
 
-        const body = new FormData(formDesastre);
+        const body = new FormData(formFenomeno);
         body.delete('id');
         const headers = new Headers();
         headers.append("X-Requested-With", "fetch");
@@ -53,12 +53,12 @@ const guardarDesastre = async (evento) => {
         switch (codigo) {
             case 1:
                 icon = "success"
-                formDesastre.reset();
+                formFenomeno.reset();
                
                 break;
             case 2:
                 icon = "warning"
-                formDesastre.reset();
+                formFenomeno.reset();
 
                 break;
             case 3:
@@ -81,18 +81,18 @@ const guardarDesastre = async (evento) => {
         })
 
 
-        buscarDesastres()
+        buscarFenomeno()
 
     } catch (error) {
         console.log(error);
     }
 }
 
-const buscarDesastres = async (evento) => {
+const buscarFenomeno = async (evento) => {
     evento && evento.preventDefault();
 
     try {
-        const url = '/medios-comunicacion/API/desastre_natural/buscar'
+        const url = '/medios-comunicacion/API/fenomeno_natural/buscar'
         const headers = new Headers();
         headers.append("X-Requested-With", "fetch");
 
@@ -106,9 +106,9 @@ const buscarDesastres = async (evento) => {
         // console.log(data);
 
 
-        tablaDesastres.destroy();
+        tablaFenomenos.destroy();
         let contador = 1;
-        tablaDesastres = new Datatable('#desastresTabla', {
+        tablaFenomenos = new Datatable('#fenomenosTabla', {
             language: lenguaje,
             data: data,
             columns: [
@@ -140,10 +140,10 @@ const buscarDesastres = async (evento) => {
     }
 }
 
-const modificarDesastre = async (evento) => {
+const modificarFenomeno = async (evento) => {
     evento.preventDefault();
 
-    let formularioValido = validarFormulario(formDesastre);
+    let formularioValido = validarFormulario(formFenomeno);
 
     if (!formularioValido) {
         Toast.fire({
@@ -155,8 +155,8 @@ const modificarDesastre = async (evento) => {
 
     try {
         //Crear el cuerpo de la consulta
-        const url = '/medios-comunicacion/API/desastre_natural/modificar'
-        const body = new FormData(formDesastre);
+        const url = '/medios-comunicacion/API/fenomeno_natural/modificar'
+        const body = new FormData(formFenomeno);
         const headers = new Headers();
         headers.append("X-Requested-With", "fetch");
 
@@ -177,8 +177,8 @@ const modificarDesastre = async (evento) => {
                 icon: 'success',
                 title: 'Registro modificado'
             })
-            buscarDesastres();
-            formDesastre.reset();
+            buscarFenomeno();
+            formFenomeno.reset();
             btnModificar.parentElement.style.display = 'none';
             btnGuardar.parentElement.style.display = '';
             btnGuardar.disabled = false;
@@ -197,11 +197,11 @@ const modificarDesastre = async (evento) => {
     }
 }
 
-buscarDesastres();
+buscarFenomeno();
 
 window.asignarValores = (id, desc) => {
-    formDesastre.id.value = id;
-    formDesastre.desc.value = desc;
+    formFenomeno.id.value = id;
+    formFenomeno.desc.value = desc;
     btnModificar.parentElement.style.display = '';
     btnGuardar.parentElement.style.display = 'none';
     btnGuardar.disabled = true;
@@ -221,7 +221,7 @@ window.eliminarRegistro = (id) => {
         confirmButtonText: 'Si, eliminar'
     }).then(async (result) => {
         if (result.isConfirmed) {
-            const url = '/medios-comunicacion/API/desastre_natural/eliminar'
+            const url = '/medios-comunicacion/API/fenomeno_natural/eliminar'
             const body = new FormData();
             body.append('id', id);
             const headers = new Headers();
@@ -246,8 +246,8 @@ window.eliminarRegistro = (id) => {
                     title: 'Registro eliminado'
                 })
 
-                formDesastre.reset();
-                buscarDesastres();
+                formFenomeno.reset();
+                buscarFenomeno();
             } else {
                 Toast.fire({
                     icon: 'error',
@@ -262,7 +262,7 @@ window.eliminarRegistro = (id) => {
 function NumText(string){//solo letras y numeros
     var out = '';
     //Se añaden las letras validas
-    var filtro = 'abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ ';//Caracteres validos
+    var filtro = 'abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ123456789  ';//Caracteres validos
   
     for (var i=0; i<string.length; i++)
        if (filtro.indexOf(string.charAt(i)) != -1) 
@@ -270,13 +270,13 @@ function NumText(string){//solo letras y numeros
     return out;
   }
 
-formDesastre.desc.addEventListener('keyup', e=>{
+formFenomeno.desc.addEventListener('keyup', e=>{
     let out = NumText(e.target.value)
     e.target.value = out 
 
 })
 
 
-formDesastre.addEventListener('submit', guardarDesastre);
-btnModificar.addEventListener('click', modificarDesastre);
+formFenomeno.addEventListener('submit', guardarFenomeno);
+btnModificar.addEventListener('click', modificarFenomeno);
 
