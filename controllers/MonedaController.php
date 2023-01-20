@@ -2,22 +2,22 @@
 
 namespace Controllers;
 use Exception;
-use Model\Desastre_natural;
+use Model\Moneda;
 use MVC\Router;
-class Desastre_naturalController{
+class MonedaController{
 
     public function index(Router $router)
     {
-        $router->render('desastre_natural/index');
+        $router->render('Moneda/index');
     }
     public function guardarAPI(){
         getHeadersApi();
 
         try {
             $_POST["desc"] = strtoupper($_POST["desc"]);
-            $desastre = new Desastre_natural($_POST);
+            $moneda = new Moneda($_POST);
             $valor = $_POST["desc"];
-            $existe = Desastre_natural::SQL("select * from amc_tipo_desastre_natural where situacion =1 AND desc = '$valor'
+            $existe = Moneda::SQL("select * from amc_moneda where situacion =1 AND desc = '$valor'
             ");
 
 
@@ -31,7 +31,7 @@ class Desastre_naturalController{
                exit;
             }
              
-            $resultado = $desastre->guardar();
+            $resultado = $moneda->guardar();
     
             if($resultado['resultado'] == 1){
                 echo json_encode([
@@ -59,8 +59,8 @@ class Desastre_naturalController{
 
     public function buscarApi(){
         getHeadersApi();
-        $desastre = Desastre_natural::where('situacion', '1');
-        echo json_encode($desastre);
+        $moneda = Moneda::where('situacion', '1');
+        echo json_encode($moneda);
     }
 
 
@@ -69,9 +69,9 @@ class Desastre_naturalController{
     public function modificarAPI(){
         getHeadersApi();
         $_POST["desc"] = strtoupper($_POST["desc"]);
-        $desastre = new Desastre_natural($_POST);
+        $moneda = new Moneda($_POST);
         
-        $resultado = $desastre->guardar();
+        $resultado = $moneda->guardar();
 
         if($resultado['resultado'] == 1){
             echo json_encode([
@@ -89,10 +89,10 @@ class Desastre_naturalController{
     public function eliminarAPI(){
         getHeadersApi();
         $_POST['situacion'] = 0;
-        $desastre = new Desastre_natural($_POST);
+        $moneda = new Moneda($_POST);
      
         
-        $resultado = $desastre->eliminar();
+        $resultado = $moneda->eliminar();
 
         if($resultado == 1){
             echo json_encode([

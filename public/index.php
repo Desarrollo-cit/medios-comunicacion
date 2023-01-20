@@ -9,6 +9,7 @@ use MVC\Router;
 use Controllers\AppController;
 use Controllers\Desastre_naturalController;
 use Controllers\Fenomeno_naturalController;
+use Controllers\MonedaController;
 
 $router = new Router();
 $router->setBaseURL('/medios-comunicacion');
@@ -28,6 +29,16 @@ $router->post('/API/fenomeno_natural/guardar', [Fenomeno_naturalController::clas
 $router->get('/API/fenomeno_natural/buscar', [Fenomeno_naturalController::class, 'buscarAPI'] );
 $router->post('/API/fenomeno_natural/modificar', [Fenomeno_naturalController::class, 'modificarAPI'] );
 $router->post('/API/fenomeno_natural/eliminar', [Fenomeno_naturalController::class, 'eliminarAPI'] );
+
+
+ 
+//MONEDA
+$router->get('/moneda', [MonedaController::class , 'index']);
+$router->post('/API/moneda/guardar', [MonedaController::class, 'guardarAPI'] );
+$router->get('/API/moneda/buscar', [MonedaController::class, 'buscarAPI'] );
+$router->post('/API/moneda/modificar', [MonedaController::class, 'modificarAPI'] );
+$router->post('/API/moneda/eliminar', [MonedaController::class, 'eliminarAPI'] );
+
 
 // Comprueba y valida las rutas, que existan y les asigna las funciones del Controlador
 $router->comprobarRutas();

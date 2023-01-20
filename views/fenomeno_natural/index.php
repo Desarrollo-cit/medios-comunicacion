@@ -29,7 +29,7 @@
             <thead>
                 <tr>
                     <th>NO.</th>
-                    <th>FENOMENO NATUAL</th>
+                    <th>DESCRIPCION</th>
                     <th>MODIFICAR</th>
                     <th>ELIMINAR</th>
                 </tr>

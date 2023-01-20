@@ -4,21 +4,21 @@ import Datatable from 'datatables.net-bs5';
 import { lenguaje } from "../lenguaje";
 import Swal from "sweetalert2";
 
-const formDesastre = document.getElementById('formDesastre');
+const formMoneda = document.getElementById('formMoneda');
 const btnGuardar = document.getElementById('btnGuardar');
 const btnModificar = document.getElementById('btnModificar');
 const divTabla = document.getElementById('divTabla');
-let tablaDesastres = new Datatable('#desastrestabla');
+let tablaMoneda = new Datatable('#monedaTabla');
 
 
 btnModificar.parentElement.style.display = 'none';
 btnGuardar.disabled = false;
 btnModificar.disabled = true;
 
-const guardarDesastre = async (evento) => {
+const guardarMoneda = async (evento) => {
     evento.preventDefault();
 
-    let formularioValido = validarFormulario(formDesastre, ['id']);
+    let formularioValido = validarFormulario(formMoneda, ['id']);
     if (!formularioValido) {
         Toast.fire({
             icon: 'warning',
@@ -31,9 +31,9 @@ const guardarDesastre = async (evento) => {
 
     try {
         //Crear el cuerpo de la consulta
-        const url = '/medios-comunicacion/API/desastre_natural/guardar'
+        const url = '/medios-comunicacion/API/moneda/guardar'
 
-        const body = new FormData(formDesastre);
+        const body = new FormData(formMoneda);
         body.delete('id');
         const headers = new Headers();
         headers.append("X-Requested-With", "fetch");
@@ -53,12 +53,12 @@ const guardarDesastre = async (evento) => {
         switch (codigo) {
             case 1:
                 icon = "success"
-                formDesastre.reset();
+                formMoneda.reset();
                
                 break;
             case 2:
                 icon = "warning"
-                formDesastre.reset();
+                formMoneda.reset();
 
                 break;
             case 3:
@@ -92,7 +92,7 @@ const buscarDesastres = async (evento) => {
     evento && evento.preventDefault();
 
     try {
-        const url = '/medios-comunicacion/API/desastre_natural/buscar'
+        const url = '/medios-comunicacion/API/moneda/buscar'
         const headers = new Headers();
         headers.append("X-Requested-With", "fetch");
 
@@ -106,9 +106,9 @@ const buscarDesastres = async (evento) => {
         // console.log(data);
 
 
-        tablaDesastres.destroy();
+        tablaMoneda.destroy();
         let contador = 1;
-        tablaDesastres = new Datatable('#desastresTabla', {
+        tablaMoneda = new Datatable('#monedaTabla', {
             language: lenguaje,
             data: data,
             columns: [
@@ -119,11 +119,17 @@ const buscarDesastres = async (evento) => {
                     }
                 },
                 { data: 'desc' },
+                { 
+                    data : 'cambio',
+                    render : (data, type, row, meta) => {
+                        return `Q. ${data}`
+                    } 
+                },
 
                 {
                     data: 'id',
                     'render': (data, type, row, meta) => {
-                        return `<button class="btn btn-warning" onclick="asignarValores('${row.id}', '${row.desc}' )">Modificar</button>`
+                        return `<button class="btn btn-warning" onclick="asignarValores('${row.id}', '${row.desc}','${row.cambio}' )">Modificar</button>`
                     }
                 },
                 {
@@ -143,7 +149,7 @@ const buscarDesastres = async (evento) => {
 const modificarDesastre = async (evento) => {
     evento.preventDefault();
 
-    let formularioValido = validarFormulario(formDesastre);
+    let formularioValido = validarFormulario(formMoneda);
 
     if (!formularioValido) {
         Toast.fire({
@@ -155,8 +161,8 @@ const modificarDesastre = async (evento) => {
 
     try {
         //Crear el cuerpo de la consulta
-        const url = '/medios-comunicacion/API/desastre_natural/modificar'
-        const body = new FormData(formDesastre);
+        const url = '/medios-comunicacion/API/moneda/modificar'
+        const body = new FormData(formMoneda);
         const headers = new Headers();
         headers.append("X-Requested-With", "fetch");
 
@@ -178,7 +184,7 @@ const modificarDesastre = async (evento) => {
                 title: 'Registro modificado'
             })
             buscarDesastres();
-            formDesastre.reset();
+            formMoneda.reset();
             btnModificar.parentElement.style.display = 'none';
             btnGuardar.parentElement.style.display = '';
             btnGuardar.disabled = false;
@@ -199,9 +205,10 @@ const modificarDesastre = async (evento) => {
 
 buscarDesastres();
 
-window.asignarValores = (id, desc) => {
-    formDesastre.id.value = id;
-    formDesastre.desc.value = desc;
+window.asignarValores = (id, desc, cambio) => {
+    formMoneda.id.value = id;
+    formMoneda.desc.value = desc;
+    formMoneda.cambio.value = cambio;
     btnModificar.parentElement.style.display = '';
     btnGuardar.parentElement.style.display = 'none';
     btnGuardar.disabled = true;
@@ -221,7 +228,7 @@ window.eliminarRegistro = (id) => {
         confirmButtonText: 'Si, eliminar'
     }).then(async (result) => {
         if (result.isConfirmed) {
-            const url = '/medios-comunicacion/API/desastre_natural/eliminar'
+            const url = '/medios-comunicacion/API/moneda/eliminar'
             const body = new FormData();
             body.append('id', id);
             const headers = new Headers();
@@ -246,7 +253,7 @@ window.eliminarRegistro = (id) => {
                     title: 'Registro eliminado'
                 })
 
-                formDesastre.reset();
+                formMoneda.reset();
                 buscarDesastres();
             } else {
                 Toast.fire({
@@ -270,7 +277,7 @@ function NumText(string){//solo letras y numeros
     return out;
   }
 
-formDesastre.desc.addEventListener('keyup', e=>{
+formMoneda.desc.addEventListener('keyup', e=>{
     let out = NumText(e.target.value)
     e.target.value = out 
 
@@ -278,9 +285,21 @@ formDesastre.desc.addEventListener('keyup', e=>{
 
 
 
+function numeros(){
+   let cambio = document.getElementById('cambio').value
+ //  alert(cambio);
+if (cambio<0){
+    //alert(cambio)
+    document.getElementById('cambio').value=""
+}
 
-//formDesastre.desc.addEventListener('onkeyup', mayus);
+}
 
-formDesastre.addEventListener('submit', guardarDesastre);
+
+
+
+
+formMoneda.cambio.addEventListener('keyup', numeros);
+formMoneda.addEventListener('submit', guardarMoneda);
 btnModificar.addEventListener('click', modificarDesastre);
 

@@ -14,6 +14,7 @@ class Fenomeno_naturalController{
         getHeadersApi();
 
         try {
+            $_POST["desc"] = strtoupper($_POST["desc"]);
             $fenomeno = new Fenomeno_natural($_POST);
             $valor = $_POST["desc"];
             $existe = Fenomeno_natural::SQL("select * from amc_fenomeno_natural where situacion =1 AND desc = '$valor'
@@ -67,6 +68,7 @@ class Fenomeno_naturalController{
 
     public function modificarAPI(){
         getHeadersApi();
+        $_POST["desc"] = strtoupper($_POST["desc"]);
         $fenomeno = new Fenomeno_natural($_POST);
         
         $resultado = $fenomeno->guardar();
