@@ -25,7 +25,7 @@ class Desastre_naturalController{
 
             if (count($existe)>0){
                echo json_encode([
-                   "mensaje" => "el registro ya existe",
+                   "mensaje" => "El registro ya existe.",
                    "codigo" => 2,
                ]);
                exit;
@@ -35,13 +35,13 @@ class Desastre_naturalController{
     
             if($resultado['resultado'] == 1){
                 echo json_encode([
-                    "mensaje" => "el registro se guardo",
+                    "mensaje" => "El registro se guardo.",
                     "codigo" => 1,
                 ]);
                 
             }else{
                 echo json_encode([
-                    "mensaje" => "ocurrio un error",
+                    "mensaje" => "Ocurrio un error.",
                     "codigo" => 0,
                 ]);
     
@@ -49,7 +49,7 @@ class Desastre_naturalController{
         } catch (Exception $e) {
             echo json_encode([
                 "detalle" => $e->getMessage(),       
-                "mensaje" => "ocurrio un error en base de datos",
+                "mensaje" => "Ocurrio un error en base de datos.",
 
                 "codigo" => 4,
             ]);
