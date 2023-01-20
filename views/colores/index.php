@@ -36,17 +36,11 @@
                 <select name="topico" id="topico" class="form-control">
                     <option value="0">Seleccionar</option>
                     <?php
-                    foreach ($busqueda as $fila) {
-                        $id = $fila['id'];
-                        $desc = $fila['desc'];
-                        ?>
+                    foreach ($busqueda as $fila) : ?>
 
-                        <option value="<?php echo $id?>"> <?php echo $desc?></option>
+                        <option value="<?= $fila['id']?>"> <?=$fila['desc']?></option>
 
-                <?php
-                    }
-                        
-                    ?>
+                <?php endforeach ?>
 
 
                 </select>
@@ -67,9 +61,39 @@
             </div>
         </div>
        
-        
-    </form>
+        </div>
+        <div class="row text-center">
+    <div class="col">
+        <h3>BUSQUEDA DE COLORES POR TOPICO</h3>
+    </div>
 </div>
+
+<div class="row mb-3">
+            <div class="col-lg-12">
+                <label for="topico" >Topico</label>
+                <select name="topico2" id="topico2" class="form-control">
+                    <option value="0">Seleccionar</option>
+                    <?php
+                    foreach ($busqueda as $fila) : ?>
+
+                        <option value="<?= $fila['id']?>"> <?=$fila['desc']?> </option>
+
+                <?php endforeach ?>
+
+
+                </select>
+                
+                    
+                    
+
+                   
+              
+            </div>
+        </div>
+    </form>
+
+
+
 <div class="row justify-content-center" id="divTabla">
     <div class="col-lg-10">
         <table id="coloresTabla" class="table table-bordered table-hover w-100">
