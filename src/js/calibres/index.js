@@ -99,7 +99,7 @@ const buscarcalibres = async (evento) => {
     try {
         const url = '/medios-comunicacion/API/calibres/buscar'
         const headers = new Headers();
-        headers.append("X-requested-With", "fetch");
+        headers.append("X-Requested-With", "fetch");
 
         const config = {
             method : 'GET',
@@ -253,7 +253,7 @@ window.eliminarRegistro = (id) => {
             const body = new FormData();
             body.append('id', id);
             const headers = new Headers();
-            headers.append("X-requested-With", "fetch");
+            headers.append("X-Requested-With", "fetch");
     
             const config = {
                 method : 'POST',
