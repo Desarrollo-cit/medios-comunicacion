@@ -151,6 +151,7 @@ class ActiveRecord {
     public static function fetchArray($query){
         $resultado = self::$db->query($query);
         $respuesta = $resultado->fetchAll(PDO::FETCH_ASSOC);
+        $data =[];
         foreach ($respuesta as $value) {
             $data[] = array_change_key_case($value); 
         }
