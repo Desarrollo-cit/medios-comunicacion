@@ -25,13 +25,13 @@ public function guardarAPI(){
 
         if($resultado['resultado'] == 1){
             echo json_encode([
-                "mensaje" => "el registro se guardo",
+                "mensaje" => "El registro se guardo.",
                 "codigo" => 1,
             ]);
             
         }else{
             echo json_encode([
-                "mensaje" => "ocurrio un error",
+                "mensaje" => "Ocurrio un error.",
                 "codigo" => 0,
             ]);
 
@@ -40,7 +40,7 @@ public function guardarAPI(){
     } catch (Exception $e) {
         echo json_encode([
             "detalle" => $e->getMessage(),       
-            "mensaje" => "ocurrio un error en base de datos",
+            "mensaje" => "Ocurrio un error en base de datos.",
 
             "codigo" => 4,
         ]);
@@ -76,13 +76,13 @@ public function modificarAPI(){
 
         if($resultado['resultado'] == 1){
             echo json_encode([
-                "mensaje" => "el registro se modifico",
+                "mensaje" => "El registro se modifico.",
                 "codigo" => 1,
             ]);
             
         }else{
             echo json_encode([
-                "mensaje" => "ocurrio un error",
+                "mensaje" => "Ocurrio un error.",
                 "codigo" => 0,
             ]);
 
@@ -91,7 +91,7 @@ public function modificarAPI(){
     } catch (Exception $e) {
         echo json_encode([
             "detalle" => $e->getMessage(),       
-            "mensaje" => "ocurrio un error en base de datos", 
+            "mensaje" => "Ocurrio un error en base de datos.", 
             "codigo" => 4,
         ]);
     }
@@ -111,13 +111,13 @@ public function eliminarAPI(){
 
     if($resultado == 1){
         echo json_encode([
-            "mensaje" => "el registro se elimino",
+            "mensaje" => "El registro se elimino.",
             "codigo" => 1,
         ]);
         
     }else{
         echo json_encode([
-            "mensaje" => "ocurrio un error",
+            "mensaje" => "Ocurrio un error.",
             "codigo" => 0,
         ]);
 
@@ -125,7 +125,7 @@ public function eliminarAPI(){
     } catch (Exception $e) {
         echo json_encode([
             "detalle" => $e->getMessage(),       
-            "mensaje" => "ocurrio un error en base de datos", 
+            "mensaje" => "Ocurrio un error en base de datos", 
             "codigo" => 4,
         ]);
     }
