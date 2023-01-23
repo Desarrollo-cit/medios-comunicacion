@@ -41,7 +41,7 @@ class MonedaController{
                 
             }else{
                 echo json_encode([
-                    "mensaje" => "Ocurrio un error.",
+                    "mensaje" => "Ocurrió  un error.",
                     "codigo" => 0,
                 ]);
     
@@ -49,7 +49,7 @@ class MonedaController{
         } catch (Exception $e) {
             echo json_encode([
                 "detalle" => $e->getMessage(),       
-                "mensaje" => "Ocurrio un error en base de datos.",
+                "mensaje" => "Ocurrió  un error en base de datos.",
 
                 "codigo" => 4,
             ]);
