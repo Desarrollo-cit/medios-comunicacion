@@ -20,9 +20,9 @@
         </div>
 
         <div class="mb-3">
-          <label for="" class="form-label">Color</label>
-          <input type="color" class="form-control" name="color" id="color" >
-          
+            <label for="" class="form-label">Color</label>
+            <input type="color" class="form-control" name="color" id="color">
+
         </div>
         <div class="row mb-3">
             <div class="col-lg-12">
@@ -32,24 +32,19 @@
         </div>
         <div class="row mb-3">
             <div class="col-lg-12">
-                <label for="topico" >Topico</label>
+                <label for="topico">Topico</label>
                 <select name="topico" id="topico" class="form-control">
                     <option value="0">Seleccionar</option>
                     <?php
                     foreach ($busqueda as $fila) : ?>
 
-                        <option value="<?= $fila['id']?>"> <?=$fila['desc']?></option>
+                        <option value="<?= $fila['id'] ?>"> <?= $fila['desc'] ?></option>
 
-                <?php endforeach ?>
+                    <?php endforeach ?>
 
 
                 </select>
-                
-                    
-                    
 
-                   
-              
             </div>
         </div>
         <div class="row mb-3">
@@ -57,40 +52,48 @@
                 <button id="btnGuardar" type="submit" class="btn btn-primary w-100">Guardar Color</button>
             </div>
             <div class="col">
-                <button id="btnModificar" type="button" class="btn btn-warning w-100" >Modificar Color</button>
+                <button id="btnModificar" type="button" class="btn btn-warning w-100">Modificar Color</button>
             </div>
         </div>
-       
-        </div>
-        <div class="row text-center">
+
+</div>
+<div class="row text-center">
     <div class="col">
         <h3>BUSQUEDA DE COLORES POR TOPICO</h3>
     </div>
 </div>
 
-<div class="row mb-3">
-            <div class="col-lg-12">
-                <label for="topico" >Topico</label>
-                <select name="topico2" id="topico2" class="form-control">
-                    <option value="0">Seleccionar</option>
-                    <?php
-                    foreach ($busqueda as $fila) : ?>
-
-                        <option value="<?= $fila['id']?>"> <?=$fila['desc']?> </option>
-
-                <?php endforeach ?>
 
 
-                </select>
-                
-                    
-                    
 
-                   
-              
-            </div>
-        </div>
-    </form>
+
+
+
+
+
+<div class="row justify-content-center mb-3">
+    <div class="col-lg-4 col-lg-4 border rounded bg-light p-3">
+        <label for="topico2">Topico</label>
+        <select name="topico2" id="topico2" class="form-control">
+            <option value="0">Seleccionar</option>
+            <?php
+            foreach ($busqueda as $fila) : ?>
+
+                <option value="<?= $fila['id'] ?>"> <?= $fila['desc'] ?> </option>
+
+            <?php endforeach ?>
+
+
+        </select>
+
+
+
+
+
+
+    </div>
+</div>
+
 
 
 

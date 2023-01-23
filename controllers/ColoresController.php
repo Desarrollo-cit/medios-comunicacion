@@ -48,12 +48,14 @@ public function guardarAPI(){
 }
 public function buscarApi(){
     $topico= $_GET['topico'];
+  
+    
+    // echo json_encode($_GET);
     try {
         getHeadersApi();
 
-        echo json_encode($_GET);
-        exit;
-        $armas = Colores::fetchArray('SELECT amc_colores.id, amc_colores.descripcion, amc_colores.cantidad,amc_colores.color, amc_colores.nivel, amc_colores.topico, amc_tipo_topics.desc from amc_colores inner join amc_tipo_topics on amc_tipo_topics.id = amc_colores.topico where amc_colores.situacion = 1 and amc_colores.topico= $topico');
+      
+        $armas = Colores::fetchArray("SELECT amc_colores.id, amc_colores.descripcion, amc_colores.cantidad,amc_colores.color, amc_colores.nivel, amc_colores.topico, amc_tipo_topics.desc from amc_colores inner join amc_tipo_topics on amc_tipo_topics.id = amc_colores.topico where amc_colores.situacion = 1 and amc_colores.topico= $topico");
         echo json_encode($armas);        } 
         
         catch (Exception $e) {

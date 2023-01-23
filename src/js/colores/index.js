@@ -15,7 +15,7 @@ const tablaColores= document.getElementById('coloresTabla')
 btnModificar.parentElement.style.display = 'none';
 btnGuardar.disabled = false;
 btnModificar.disabled = true;
-tablaColores.parentElement.style.display='none';
+// tablaColores.parentElement.style.display='none';
 
 
 const guardarColores = async (evento) => {
@@ -56,7 +56,7 @@ const guardarColores = async (evento) => {
             case 1:
                 icon = "success"
                 formColores.reset();
-                buscarColores();
+                // buscarColores();
 
                 break;
             case 2:
@@ -90,16 +90,17 @@ const guardarColores = async (evento) => {
 }
 
 const buscarColores = async (evento) => {
-    evento && evento.preventDefault();
+    // evento && evento.preventDefault();
     
     let topico = evento ?  evento.target.value : '';
 
-    alert(topico)
+   
 
     try {
+        // alert(topico)
         const url = `/medios-comunicacion/API/colores/buscar?topico=${topico}`
         const headers = new Headers();
-        headers.append("X-requested-With", "fetch");
+        headers.append("X-Requested-With", "fetch");
 
         const config = {
             method: 'GET',
@@ -108,7 +109,7 @@ const buscarColores = async (evento) => {
         const respuesta = await fetch(url, config);
         let data = await respuesta.json();
 
-        // console.log(data);
+        console.log(data);
         data = data ? data : [];
 
         let tablaColores = new Datatable('#coloresTabla');
@@ -124,7 +125,8 @@ const buscarColores = async (evento) => {
                         return contador++;
                     }
                 },
-                { data: 'descripcion' },
+                { data: 'descripcion', 
+                },
                 {
                     data: 'cantidad',
                 },
@@ -242,7 +244,7 @@ const modificarColores = async (evento) => {
     }
 }
 
-buscarColores();
+// buscarColores();
 
 window.asignarValores = (id, descripcion, cantidad, color, nivel, topico) => {
     formColores.id.value = id;
@@ -274,7 +276,7 @@ window.eliminarRegistro = (id) => {
             const body = new FormData();
             body.append('id', id);
             const headers = new Headers();
-            headers.append("X-requested-With", "fetch");
+            headers.append("X-Requested-With", "fetch");
 
             const config = {
                 method: 'POST',
