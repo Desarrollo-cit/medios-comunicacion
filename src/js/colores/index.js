@@ -148,7 +148,7 @@ const buscarColores = async (evento) => {
                     data: 'id',
                     'render': (data, type, row, meta) => {
                         // return '1'
-                        return `<button class="btn btn-warning" onclick="asignarValores('${row.id}', '${row.descripcion}', '${row.cantidad}', '${row.color}', '${row.nivel}', '${row.topico}')">Modificar</button>`
+                        return `<button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalColores" onclick="asignarValores('${row.id}', '${row.descripcion}', '${row.cantidad}', '${row.color}', '${row.nivel}', '${row.topico}')">Modificar</button>`
                     }
                 },
                 {
