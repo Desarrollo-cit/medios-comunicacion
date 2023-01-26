@@ -9,6 +9,7 @@ use Controllers\CalibresController;
 use Controllers\DelitosController;
 use MVC\Router;
 use Controllers\AppController;
+use Controllers\ColoresController;
 use Controllers\Desastre_naturalController;
 use Controllers\Fenomeno_naturalController;
 use Controllers\MonedaController;
@@ -17,6 +18,12 @@ $router = new Router();
 $router->setBaseURL('/medios-comunicacion');
 
 $router->get('/', [AppController::class,'index']);
+$router->get('/colores',[ColoresController::class,'index']);
+$router->post('/API/colores/guardar', [ColoresController::class, 'guardarAPI'] );
+$router->get('/API/colores/buscar', [ColoresController::class, 'buscarAPI'] );
+$router->post('/API/colores/modificar', [ColoresController::class, 'modificarAPI'] );
+$router->post('/API/colores/eliminar', [ColoresController::class, 'eliminarAPI'] );
+
 
 
 
