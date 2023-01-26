@@ -33,7 +33,7 @@ const guardarNacionalidad = async (evento) => {
         const body = new FormData(formNacionalidad);
         body.delete('id');
         const headers = new Headers();
-        headers.append("X-requested-With", "fetch");
+        headers.append("X-Requested-With", "fetch");
 
         const config = {
             method : 'POST',
@@ -89,7 +89,7 @@ const buscarNacionalidad = async (evento) => {
     try {
         const url = '/medios-comunicacion/API/nacionalidad/buscar'
         const headers = new Headers();
-        headers.append("X-requested-With", "fetch");
+        headers.append("X-Requested-With", "fetch");
 
         const config = {
             method : 'GET',
@@ -157,7 +157,7 @@ const modificarNacionalidad = async (evento) => {
         const url = '/medios-comunicacion/API/nacionalidad/modificar'
         const body = new FormData(formNacionalidad);
         const headers = new Headers();
-        headers.append("X-requested-With", "fetch");
+        headers.append("X-Requested-With", "fetch");
 
         const config = {
             method : 'POST',
@@ -226,7 +226,7 @@ window.eliminarRegistro = (id) => {
             const body = new FormData();
             body.append('id', id);
             const headers = new Headers();
-            headers.append("X-requested-With", "fetch");
+            headers.append("X-Requested-With", "fetch");
     
             const config = {
                 method : 'POST',

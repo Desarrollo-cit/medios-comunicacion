@@ -21,7 +21,7 @@ class OrganizacionController{
             $existe = Organizacion::SQL("SELECT * FROM amc_organizacion_mov_social where desc = '$dato' and situacion = 1 ");
             if (count($existe)>0){
                echo json_encode([
-                   "mensaje" => "el registro ya existe",
+                   "mensaje" => "El registro ya existe.",
                    "codigo" => 2,
                ]);
                exit;
@@ -32,13 +32,13 @@ class OrganizacionController{
     
             if($resultado['resultado'] == 1){
                 echo json_encode([
-                    "mensaje" => "el registro se guardo",
+                    "mensaje" => "El registro se guardó correctamente.",
                     "codigo" => 1,
                 ]);
                 
             }else{
                 echo json_encode([
-                    "mensaje" => "ocurrio un error",
+                    "mensaje" => "Ocurrió un error.",
                     "codigo" => 0,
                 ]);
     
@@ -46,7 +46,7 @@ class OrganizacionController{
         } catch (Exception $e) {
             echo json_encode([
                 "detalle" => $e->getMessage(),       
-                "mensaje" => "ocurrio un error en base de datos",
+                "mensaje" => "Ocurrió un error en la base de datos",
 
                 "codigo" => 4,
             ]);
