@@ -29,7 +29,7 @@ const guardarNacionalidad = async (evento) => {
 
     try {
         //Crear el cuerpo de la consulta
-        const url = '/demo/API/nacionalidad/guardar'
+        const url = '/medios-comunicacion/API/nacionalidad/guardar'
         const body = new FormData(formNacionalidad);
         body.delete('id');
         const headers = new Headers();
@@ -43,24 +43,40 @@ const guardarNacionalidad = async (evento) => {
 
         const respuesta = await fetch(url, config);
         const data = await respuesta.json();
-
-        const {resultado} = data;
+        const { mensaje, codigo, detalle } = data;
         // const resultado = data.resultado;
+        let icon = "";
+        switch (codigo) {
+            case 1:
+                icon = "success"
+                formNacionalidad.reset();
+                buscarNacionalidad();
+                break;
+            case 2:
+                icon = "warning"
 
-        if(resultado == 1){
-            Toast.fire({
-                icon : 'success',
-                title : 'Registro guardado'
-            })
+                break;
+            case 3:
+                icon = "error"
 
-            formNacionalidad.reset();
-            buscarNacionalidad();
-        }else{
-            Toast.fire({
-                icon : 'error',
-                title : 'Ocurrió un error'
-            })
+                break;
+            case 4:
+                icon = "error"
+                console.log(detalle)
+
+                break;
+
+            default:
+                break;
         }
+
+        Toast.fire({
+            icon: icon,
+            title: mensaje,
+        })
+
+
+        //buscarProducto();
 
     } catch (error) {
         console.log(error);
@@ -71,7 +87,7 @@ const buscarNacionalidad = async (evento) => {
     evento && evento.preventDefault();
 
     try {
-        const url = '/demo/API/nacionalidad/buscar'
+        const url = '/medios-comunicacion/API/nacionalidad/buscar'
         const headers = new Headers();
         headers.append("X-requested-With", "fetch");
 
@@ -138,7 +154,7 @@ const modificarNacionalidad = async (evento) => {
 
     try {
         //Crear el cuerpo de la consulta
-        const url = '/demo/API/nacionalidad/modificar'
+        const url = '/medios-comunicacion/API/nacionalidad/modificar'
         const body = new FormData(formNacionalidad);
         const headers = new Headers();
         headers.append("X-requested-With", "fetch");
@@ -185,7 +201,8 @@ buscarNacionalidad();
 window.asignarValores = (id, desc, pais) => {
     formNacionalidad.id.value = id;
     formNacionalidad.desc.value = desc;
-    formNacionalidad.pais.value = pais;
+    formNacionalidad.id.value = id;
+    // console.log(pais);
     btnModificar.parentElement.style.display = '';
     btnGuardar.parentElement.style.display = 'none';
     btnGuardar.disabled = true;
@@ -205,7 +222,7 @@ window.eliminarRegistro = (id) => {
         confirmButtonText: 'Si, eliminar'
     }).then( async (result) => {
         if(result.isConfirmed){
-            const url = '/demo/API/nacionalidad/eliminar'
+            const url = '/medios-comunicacion/API/nacionalidad/eliminar'
             const body = new FormData();
             body.append('id', id);
             const headers = new Headers();
@@ -240,6 +257,22 @@ window.eliminarRegistro = (id) => {
     })
 }
 
+function NumText(string){//solo letras y numeros
+    var out = '';
+    //Se añaden las letras validas
+    var filtro = 'abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ  ';//Caracteres validos
+  
+    for (var i=0; i<string.length; i++)
+       if (filtro.indexOf(string.charAt(i)) != -1) 
+       out += string.charAt(i);
+    return out;
+  }
+
+formNacionalidad.desc.addEventListener('keyup', e=>{
+    let out = NumText(e.target.value)
+    e.target.value = out 
+
+})
 formNacionalidad.addEventListener('submit', guardarNacionalidad )
 btnModificar.addEventListener('click', modificarNacionalidad);
 

@@ -12,23 +12,48 @@ class TipoController{
         $router->render('tipo/index');
     }
 
+
     public function guardarAPI(){
         getHeadersApi();
-        $Tipo = new Tipo($_POST);
-        
-        $resultado = $Tipo->guardar();
 
-        if($resultado['resultado'] == 1){
+        try {
+            $_POST["desc"] = strtoupper($_POST["desc"]);
+            $tipo = new Tipo($_POST);
+            $dato = $_POST["desc"];
+            $existe = Tipo::SQL("SELECT * FROM amc_tipo_movimiento_social where desc = '$dato' and situacion = 1 ");
+            if (count($existe)>0){
+               echo json_encode([
+                   "mensaje" => "el registro ya existe",
+                   "codigo" => 2,
+               ]);
+               exit;
+            }
+             
+            $resultado = $tipo->guardar();
+            // echo json_encode($resultado['resultado']);
+    
+            if($resultado['resultado'] == 1){
+                echo json_encode([
+                    "mensaje" => "el registro se guardo",
+                    "codigo" => 1,
+                ]);
+                
+            }else{
+                echo json_encode([
+                    "mensaje" => "ocurrio un error",
+                    "codigo" => 0,
+                ]);
+    
+            }
+        } catch (Exception $e) {
             echo json_encode([
-                "resultado" => 1
-            ]);
-            
-        }else{
-            echo json_encode([
-                "resultado" => 0
-            ]);
+                "detalle" => $e->getMessage(),       
+                "mensaje" => "ocurrio un error en base de datos",
 
+                "codigo" => 4,
+            ]);
         }
+        
     }
 
     public function buscarApi(){
@@ -44,6 +69,7 @@ class TipoController{
 
     public function modificarAPI(){
         getHeadersApi();
+        $_POST["desc"] = strtoupper($_POST["desc"]);
         $Tipo = new Tipo($_POST);
         
         $resultado = $Tipo->guardar();
@@ -66,16 +92,16 @@ class TipoController{
         $_POST['situacion'] = 0;
         $Tipo = new Tipo($_POST);
         
-        $resultado = $Tipo->guardar();
+        $resultado = $Tipo->eliminar();
 
         if($resultado['resultado'] == 1){
             echo json_encode([
-                "resultado" => 1
+                "resultado" => 0
             ]);
             
         }else{
             echo json_encode([
-                "resultado" => 0
+                "resultado" => 1
             ]);
 
         }

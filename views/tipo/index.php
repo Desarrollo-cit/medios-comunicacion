@@ -9,7 +9,7 @@
         <div class="row mb-3">
             <div class="col-lg-12">
                 <label for="desc">Tipo de Movimiento</label>
-                <input type="text" name="desc" id="desc" class="form-control">
+                <input type="text" name="desc" id="desc" class="form-control" style="text-transform:uppercase">
             </div>
         </div>
         <div class="row mb-3">

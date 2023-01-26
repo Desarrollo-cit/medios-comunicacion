@@ -9,7 +9,7 @@
         <div class="row mb-3">
             <div class="col-lg-12">
                 <label for="desc">Tipo de Movimiento</label>
-                <input type="text" name="desc" id="desc" class="form-control">
+                <input type="text" name="desc" id="desc" style="text-transform:uppercase" class="form-control" >
             </div>
         </div>
         <div class="row mb-3">
@@ -39,4 +39,4 @@
         </table>
     </div>
 </div>
-<script src="build/js/tipo/index.js"></script>
+<script src="build/js/organizacion/index.js"></script>

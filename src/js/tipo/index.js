@@ -44,23 +44,43 @@ const guardarTipo = async (evento) => {
         const respuesta = await fetch(url, config);
         const data = await respuesta.json();
 
-        const {resultado} = data;
+        const { mensaje, codigo, detalle } = data;
+        console.log(data)
         // const resultado = data.resultado;
+        let icon = "";
+        switch (codigo) {
+            case 1:
+                icon = "success"
+                formTipos.reset();
+                buscarTipo();
+                break;
+            case 2:
+                icon = "warning"
+                formTipos.reset();
 
-        if(resultado == 1){
-            Toast.fire({
-                icon : 'success',
-                title : 'Registro guardado'
-            })
+                break;
+            case 3:
+                icon = "error"
 
-            formTipos.reset();
-            buscarTipo();
-        }else{
-            Toast.fire({
-                icon : 'error',
-                title : 'Ocurrió un error'
-            })
+                break;
+            case 4:
+                icon = "error"
+                console.log(detalle)
+                buscarTipo();
+
+                break;
+
+            default:
+                break;
         }
+
+        Toast.fire({
+            icon: icon,
+            title: mensaje,
+        })
+
+
+        //buscarProducto();
 
     } catch (error) {
         console.log(error);
@@ -81,7 +101,7 @@ const buscarTipo = async (evento) => {
 
         const respuesta = await fetch(url, config);
         const data = await respuesta.json();
-        console.log(data);
+        // console.log(data);
 
 
         
@@ -219,6 +239,7 @@ window.eliminarRegistro = (id) => {
             const respuesta = await fetch(url, config);
             const data = await respuesta.json();
             const {resultado} = data;
+            console.log(data);
             // const resultado = data.resultado;
     
             if(resultado == 1){
@@ -238,6 +259,23 @@ window.eliminarRegistro = (id) => {
         }
     })
 }
+
+function NumText(string){//solo letras y numeros
+    var out = '';
+    //Se añaden las letras validas
+    var filtro = 'abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ  ';//Caracteres validos
+  
+    for (var i=0; i<string.length; i++)
+       if (filtro.indexOf(string.charAt(i)) != -1) 
+       out += string.charAt(i);
+    return out;
+  }
+
+formTipos.desc.addEventListener('keyup', e=>{
+    let out = NumText(e.target.value)
+    e.target.value = out 
+
+})
 
 formTipos.addEventListener('submit', guardarTipo )
 btnModificar.addEventListener('click', modificarTipo);

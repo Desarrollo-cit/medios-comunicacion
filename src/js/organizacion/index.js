@@ -44,23 +44,40 @@ const guardarOrganizacion = async (evento) => {
         const respuesta = await fetch(url, config);
         const data = await respuesta.json();
 
-        const {resultado} = data;
+        const { mensaje, codigo, detalle } = data;
         // const resultado = data.resultado;
+        let icon = "";
+        switch (codigo) {
+            case 1:
+                icon = "success"
+                formOrganizacion.reset();
+                buscarOrganizacion();
+                break;
+            case 2:
+                icon = "warning"
 
-        if(resultado == 1){
-            Toast.fire({
-                icon : 'success',
-                title : 'Registro guardado'
-            })
+                break;
+            case 3:
+                icon = "error"
 
-            formOrganizacion.reset();
-            buscarOrganizacion();
-        }else{
-            Toast.fire({
-                icon : 'error',
-                title : 'Ocurrió un error'
-            })
+                break;
+            case 4:
+                icon = "error"
+                console.log(detalle)
+
+                break;
+
+            default:
+                break;
         }
+
+        Toast.fire({
+            icon: icon,
+            title: mensaje,
+        })
+
+
+        //buscarProducto();
 
     } catch (error) {
         console.log(error);
@@ -81,7 +98,7 @@ const buscarOrganizacion = async (evento) => {
 
         const respuesta = await fetch(url, config);
         const data = await respuesta.json();
-        console.log(data);
+        // console.log(data);
 
 
         
@@ -238,6 +255,24 @@ window.eliminarRegistro = (id) => {
         }
     })
 }
+
+function NumText(string){//solo letras y numeros
+    var out = '';
+    //Se añaden las letras validas
+    var filtro = 'abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ  ';//Caracteres validos
+  
+    for (var i=0; i<string.length; i++)
+       if (filtro.indexOf(string.charAt(i)) != -1) 
+       out += string.charAt(i);
+    return out;
+  }
+
+formOrganizacion.desc.addEventListener('keyup', e=>{
+    let out = NumText(e.target.value)
+    e.target.value = out 
+
+})
+
 
 formOrganizacion.addEventListener('submit', guardarOrganizacion )
 btnModificar.addEventListener('click', modificarOrganizacion);
