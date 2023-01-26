@@ -1,4 +1,4 @@
-import { Dropdown } from "bootstrap";
+import { Dropdown, Modal } from "bootstrap";
 import { validarFormulario, Toast } from "../funciones";
 import Datatable from 'datatables.net-bs5';
 import { lenguaje } from "../lenguaje";
@@ -9,7 +9,7 @@ const btnGuardar = document.getElementById('btnGuardar');
 const btnModificar = document.getElementById('btnModificar');
 const divTabla = document.getElementById('divTabla');
 const tablaColores= document.getElementById('coloresTabla')
-
+const modal = new Modal(document.getElementById('modalColores')) 
 
 
 btnModificar.parentElement.style.display = 'none';
@@ -151,12 +151,7 @@ const buscarColores = async (evento) => {
                         return `<button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalColores" onclick="asignarValores('${row.id}', '${row.descripcion}', '${row.cantidad}', '${row.color}', '${row.nivel}', '${row.topico}')">Modificar</button>`
                     }
                 },
-                {
-                    data: 'id',
-                    'render': (data, type, row, meta) => {
-                        return `<button class="btn btn-danger" onclick="eliminarRegistro('${data}')">Eliminar</button>`
-                    }
-                },
+               
             ]
         })
 
@@ -230,7 +225,14 @@ const modificarColores = async (evento) => {
             title: mensaje,
 
         })
+
+        select = formColores.id_topico.value
+
+        formColores.topico.value= select
+
+        modal.hide();
         buscarColores();
+        
         btnModificar.parentElement.style.display = 'none';
         btnGuardar.parentElement.style.display = '';
         btnGuardar.disabled = false;
@@ -252,7 +254,8 @@ window.asignarValores = (id, descripcion, cantidad, color, nivel, topico) => {
     formColores.cantidad.value = cantidad;
     formColores.color.value = color;
     formColores.nivel.value = nivel;
-    formColores.topico.value = topico;
+    formColores.nombre_topico.value = topico;
+    formColores.topico.value= topico;
     btnModificar.parentElement.style.display = '';
     btnGuardar.parentElement.style.display = 'none';
     btnGuardar.disabled = true;

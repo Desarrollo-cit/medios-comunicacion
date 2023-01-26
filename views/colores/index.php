@@ -23,7 +23,7 @@
         </div>
         <div class="row mb-3">
             <div class="col-lg-12">
-                <label for="modelo">Cantidad</label>
+                <label for="modelo">Cantidad de Inicio de Color</label>
                 <input type="number" name="cantidad" id="cantidad" class="form-control">
             </div>
         </div>
@@ -42,7 +42,7 @@
         <div class="row mb-3">
             <div class="col-lg-12">
                 <label for="topico">Topico</label>
-                <select name="topico" id="topico" class="form-control">
+                <select name="nombre_topico" id="nombre_topico" class="form-control" disabled>
                     <option value="0">Seleccionar</option>
                     <?php
                     foreach ($busqueda as $fila) : ?>
@@ -56,6 +56,7 @@
 
             </div>
         </div>
+        <input type="hidden" id="topico" name="topico">
         <div class="row mb-3">
             <div class="col">
                 <button id="btnGuardar" type="submit" class="btn btn-primary w-100">Guardar Color</button>
@@ -130,7 +131,7 @@
                     <th>NIVEL</th>
                     <th>TOPICO</th>
                     <th>MODIFICAR</th>
-                    <th>ELIMINAR</th>
+          
                 </tr>
             </thead>
             <tbody>
