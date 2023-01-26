@@ -9,8 +9,8 @@ const btnGuardar = document.getElementById('btnGuardar');
 const btnModificar = document.getElementById('btnModificar');
 const btnCerrar = document.getElementById('btnCerrar');
 const divTabla = document.getElementById('divTabla');
-const tablaColores= document.getElementById('coloresTabla')
-const modal = new Modal(document.getElementById('modalColores')) 
+const tablaColores = document.getElementById('coloresTabla')
+const modal = new Modal(document.getElementById('modalColores'))
 
 
 btnModificar.parentElement.style.display = 'none';
@@ -25,19 +25,19 @@ const buscarColores = async (evento) => {
     evento && evento.preventDefault();
 
 
-        
+
     var topico = formColores.topico2.value
-   
 
 
-     
+
+
 
     //    var topico = evento ?  evento.target.value : '';
 
-   
 
 
-   
+
+
 
     try {
         // alert(topico)
@@ -68,7 +68,8 @@ const buscarColores = async (evento) => {
                         return contador++;
                     }
                 },
-                { data: 'descripcion', 
+                {
+                    data: 'descripcion',
                 },
                 {
                     data: 'cantidad',
@@ -94,7 +95,7 @@ const buscarColores = async (evento) => {
                         return `<button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalColores" onclick="asignarValores('${row.id}', '${row.descripcion}', '${row.cantidad}', '${row.color}', '${row.nivel}', '${row.topico}')">Modificar</button>`
                     }
                 },
-               
+
             ]
         })
 
@@ -169,12 +170,12 @@ const modificarColores = async (evento) => {
 
         })
 
-        
 
 
-        
+
+
         buscarColores();
-        
+
         btnModificar.parentElement.style.display = 'none';
         btnGuardar.parentElement.style.display = '';
         btnGuardar.disabled = false;
@@ -200,7 +201,7 @@ window.asignarValores = (id, descripcion, cantidad, color, nivel, topico) => {
     formColores.color.value = color;
     formColores.nivel.value = nivel;
     formColores.nombre_topico.value = topico;
-    formColores.topico.value= topico;
+    formColores.topico.value = topico;
     btnModificar.parentElement.style.display = '';
     btnGuardar.parentElement.style.display = 'none';
     btnGuardar.disabled = true;
@@ -215,9 +216,7 @@ btnModificar.addEventListener('click', modificarColores);
 
 document.getElementById('topico2').addEventListener('change', buscarColores)
 
-document.getElementById('modalColores').addEventListener('hide.bs.modal', function (event){
-    buscarColores()
-})
+
 
 
 

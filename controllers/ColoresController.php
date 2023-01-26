@@ -48,7 +48,7 @@ public function modificarAPI(){
 
         if($resultado['resultado'] == 1){
             echo json_encode([
-                "mensaje" => "El registro se modifico.",
+                "mensaje" => "El registro se modificó.",
                 "codigo" => 1,
             ]);
             
