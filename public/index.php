@@ -9,10 +9,14 @@ use Controllers\CalibresController;
 use Controllers\DelitosController;
 use MVC\Router;
 use Controllers\AppController;
+use Controllers\OrganizacionController;
+use Controllers\TipoController;
+use Controllers\NacionalidadController;
 use Controllers\ColoresController;
 use Controllers\Desastre_naturalController;
 use Controllers\Fenomeno_naturalController;
 use Controllers\MonedaController;
+
 
 $router = new Router();
 $router->setBaseURL('/medios-comunicacion');
@@ -70,6 +74,25 @@ $router->get('/API/moneda/buscar', [MonedaController::class, 'buscarAPI'] );
 $router->post('/API/moneda/modificar', [MonedaController::class, 'modificarAPI'] );
 $router->post('/API/moneda/eliminar', [MonedaController::class, 'eliminarAPI'] );
 
+
+
+$router->get('/organizacion', [OrganizacionController::class , 'index']);
+$router->post('/API/organizacion/guardar', [OrganizacionController::class, 'guardarAPI'] );
+$router->get('/API/organizacion/buscar', [OrganizacionController::class, 'buscarAPI'] );
+$router->post('/API/organizacion/modificar', [OrganizacionController::class, 'modificarAPI'] );
+$router->post('/API/organizacion/eliminar', [OrganizacionController::class, 'eliminarAPI'] );
+
+$router->get('/tipo', [TipoController::class , 'index']);
+$router->post('/API/tipo/guardar', [TipoController::class, 'guardarAPI'] );
+$router->get('/API/tipo/buscar', [TipoController::class, 'buscarAPI'] );
+$router->post('/API/tipo/modificar', [TipoController::class, 'modificarAPI'] );
+$router->post('/API/tipo/eliminar', [TipoController::class, 'eliminarAPI'] );
+
+$router->get('/nacionalidad', [NacionalidadController::class , 'index']);
+$router->post('/API/nacionalidad/guardar', [NacionalidadController::class, 'guardarAPI'] );
+$router->get('/API/nacionalidad/buscar', [NacionalidadController::class, 'buscarAPI'] );
+$router->post('/API/nacionalidad/modificar', [NacionalidadController::class, 'modificarAPI'] );
+$router->post('/API/nacionalidad/eliminar', [NacionalidadController::class, 'eliminarAPI'] );
 
 
 // Comprueba y valida las rutas, que existan y les asigna las funciones del Controlador

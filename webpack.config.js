@@ -6,6 +6,9 @@ module.exports = {
   entry: {
     'js/app' : './src/js/app.js',
     'js/inicio' : './src/js/inicio.js',
+    'js/organizacion/index' : './src/js/organizacion/index.js',
+    'js/tipo/index' : './src/js/tipo/index.js',
+    'js/nacionalidad/index' : './src/js/nacionalidad/index.js',
     'js/colores/index' : './src/js/colores/index.js',
     'js/armas/index' : './src/js/armas/index.js',
     'js/calibres/index' : './src/js/calibres/index.js',
