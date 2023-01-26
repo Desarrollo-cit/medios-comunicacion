@@ -6,16 +6,29 @@ import Swal from "sweetalert2";
 import { Modal } from "bootstrap";
 import tinymce from 'tinymce/tinymce';
 import 'tinymce/themes/silver/theme';
+import Chart from 'chart.js/auto';
 
 const formBusqueda_resumen = document.getElementById('formBusqueda_resumen');
+const formBusqueda_mapa = document.getElementById('formBusqueda_mapa');
 const btnBuscarmapacalor = document.querySelector("#buscaravanzada");
 const btnresumenbuscar = document.querySelector("#buscarresumen");
 const btnBuscar = document.getElementById("buscarcapturas");
+const btnmapa = document.querySelector("#ver_mapa");
 
 let tablaregistro = new Datatable('#dataTable2');
 let TablaInfoPer = new Datatable('#dataTable3');
 let TablaInfoPer1 = new Datatable('#dataTable4');
-
+const formcaptura = document.querySelector('#formInformacion1')
+const formdroga = document.querySelector('#formInformacion2')
+const capturas = new Modal(document.getElementById('modalPersonal12'), {
+    keyboard: false
+})
+const modaldroga1 = new Modal(document.getElementById('modalPersonal13'), {
+    keyboard: false
+})
+const modaldeptos = new Modal(document.getElementById('modaldepto'), {
+    keyboard: false
+})
 
 
 const cambiarmes = async (evento) => {
@@ -63,6 +76,17 @@ const cambiarmes = async (evento) => {
             title: 'Ingreso mal las fechas'
         })
 
+    }
+
+}
+
+function ocultar_mapa() {
+    if (document.querySelector("#mapa_calor").style.display === "none") {
+        document.querySelector("#mapa_calor").style.display = "block";
+        // document.querySelector("#info7").style.display = "block";
+    } else {
+        document.querySelector("#mapa_calor").style.display = "none";
+        // document.querySelector("#info7").style.display = "none";
     }
 
 }
@@ -161,14 +185,7 @@ const Buscar_capturas = async (e) => {
 
 }
 
-const formcaptura = document.querySelector('#formInformacion1')
-const formdroga = document.querySelector('#formInformacion2')
-const capturas = new Modal(document.getElementById('modalPersonal12'), {
-    keyboard: false
-})
-const modaldroga1 = new Modal(document.getElementById('modalPersonal13'), {
-    keyboard: false
-})
+
 
 window.ModalPersonal = async (id, tipo) => {
 
@@ -296,10 +313,6 @@ window.ModalPersonal = async (id, tipo) => {
 }
 
 
-formBusqueda_resumen.addEventListener('submit', cambiarmes)
-btnBuscar.addEventListener("click", Buscar_capturas);
-btnresumenbuscar.addEventListener("click", ocultar_select);
-btnBuscarmapacalor.addEventListener("click", ocultar_busquedad_mapa);
 
 
 
@@ -341,7 +354,7 @@ const busquedad_mapa_Calor = async(e) => {
     headers1.append("X-Requested-With", "fetch");
 
     const config1 = {
-        method: 'GET',
+        method: 'POST',
 
     }
 
@@ -391,5 +404,166 @@ const busquedad_mapa_Calor = async(e) => {
     }
 }
 
+
+
+window.detalle = async(valor) => {
+    if (valor < 1000) {
+
+        valor = '0' + valor
+    }
+    const delito = formMapa.delitos_mapa_calor.value 
+    const url = `/medios-comunicacion/API/mapas/infoCapturas/mapaCalorPorDepto`
+    const body = new FormData(formMapa);
+    body.append('departamento', valor);
+    const headers = new Headers();
+    headers.append("X-Requested-With", "fetch");
+
+    const config = {
+        method: 'POST',
+        headers,
+        body,
+
+    }
+
+    const respuesta = await fetch(url, config);
+    const info_depto1 = await respuesta.json();
+   
+        console.log(info_depto1)
+    if (info_depto1) {
+        deptoinfo.innerText = info_depto1[0].cantidad_delito
+        deptoincidencia.innerText = info_depto1[1].desc
+        if (delito != "") {
+            label_delito.innerText = 'Delito seleccionado:'
+        }
+        if (delito == "") {
+            label_delito.innerText = 'Incidencia:'
+        }
+    } else {
+        deptoinfo.innerText = ''
+        deptoincidencia.innerText = ''
+        label_delito.innerText = 'Incidencia:'
+
+    }
+
+    const label = document.getElementById('depto_name')
+    const deptoname = document.getElementById(valor)
+    const name = deptoname.getAttribute("name");
+    //    alert(name)
+
+    modaldeptos.show();
+    label.innerText = 'DEPARTAMENTO DE ' + name.toUpperCase();
+    const url_grafica = `info.php?delitos_cant=1&depto=${valor}&delito=${delito}&fecha1=${fecha1}&fecha2=${fecha2}`
+
+    fetch(url_grafica)
+        .then(response => response.json())
+        .then(datos => mostrar(datos))
+
+    .catch(error => console.log(error))
+        //  $("#delitos_cant").destroy();
+    const ctx = document.getElementById('delitos_cant');
+    if (window.grafica) {
+        window.grafica.clear();
+        window.grafica.destroy();
+    }
+    window.grafica = new Chart(ctx, {
+        type: 'bar',
+        data: {
+
+            datasets: [{
+                label: 'DELITOS',
+
+                backgroundColor: [
+                    'rgba(255, 199, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderColor: [
+                    'rgba(255, 236, 0, 1)',
+                    'rgba(255, 236, 0, 1)',
+                    'rgba(255, 236, 0, 1)',
+                    'rgba(255, 236, 0, 1)',
+                    'rgba(255, 236, 0, 1)',
+                    'rgba(255, 236, 0, 1)'
+                ],
+                borderWidth: 4
+            }],
+        },
+        options: {
+
+            scales: {
+                y: { // not 'yAxes: [{' anymore (not an array anymore)
+                    ticks: {
+                        color: "black", // not 'fontColor:' anymore
+                        // fontSize: 18,
+                        font: {
+                            size: 18, // 'size' now within object 'font {}'
+                        },
+                        stepSize: 1,
+                        beginAtZero: false,
+                        grid: {
+                            color: 'rgba(255, 199, 132, 1)'
+                        }
+                    }
+                },
+                x: { // not 'xAxes: [{' anymore (not an array anymore)
+                    ticks: {
+                        color: "black", // not 'fontColor:' anymore
+                        //fontSize: 14,
+                        font: {
+                            size: 14 // 'size' now within object 'font {}'
+                        },
+                        stepSize: 1,
+                        beginAtZero: true,
+
+                    }
+                }
+
+            },
+            legend: {
+                labels: {
+                    color: "black",
+                    labels: {
+                        color: "blue", // not 'fontColor:' anymore
+                        // fontSize: 18  // not 'fontSize:' anymore
+                        font: {
+                            size: 18 // 'size' now within object 'font {}'
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+    const mostrar = (delitos_depto) => {
+        // console.log(delitos_depto)
+
+        if (delitos_depto) {
+            document.getElementById('grafica_depto1').style.display = "block"
+            document.getElementById('texto_no').style.display = "none"
+            delitos_depto.forEach(element => {
+
+                window.grafica.data['labels'].push(element.DESCRIPCION)
+                window.grafica.data['datasets'][0].data.push(element.CANTIDAD)
+
+            });
+        } else {
+
+            document.getElementById('grafica_depto1').style.display = "none"
+            document.getElementById('texto_no').style.display = "block"
+        }
+    }
+
+
+
+    
+formBusqueda_resumen.addEventListener('submit', cambiarmes)
+btnBuscar.addEventListener("click", Buscar_capturas);
+btnresumenbuscar.addEventListener("click", ocultar_select);
+btnBuscarmapacalor.addEventListener("click", ocultar_busquedad_mapa);
+formBusqueda_mapa.addEventListener('submit', busquedad_mapa_Calor)
+btnmapa.addEventListener("click", ocultar_mapa);
 busquedad_mapa_Calor();
 

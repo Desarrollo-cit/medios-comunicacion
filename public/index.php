@@ -20,7 +20,8 @@ $router->post('/API/mapas/infoCapturas/modal', [infoCapturaController::class , '
 $router->post('/API/mapas/infoCapturas/informacion', [infoCapturaController::class , 'informacionModalAPI'] );
 $router->post('/API/mapas/infoCapturas/informacion1', [infoCapturaController::class , 'informacionModalAPI1'] );
 $router->post('/API/mapas/infoCapturas/mapaCalor', [infoCapturaController::class , 'mapaCalorAPI'] );
-$router->get('/API/mapas/infoCapturas/colores', [infoCapturaController::class , 'coloresAPI'] );
+$router->post('/API/mapas/infoCapturas/mapaCalorPorDepto', [infoCapturaController::class , 'mapaCalorDeptoAPI'] );
+$router->post('/API/mapas/infoCapturas/colores', [infoCapturaController::class , 'coloresAPI'] );
 // $router->get('/API/productos/buscar', [ProductoController::class, 'buscarAPI'] );
 // $router->post('/API/productos/modificar', [ProductoController::class, 'modificarAPI'] );
 // $router->post('/API/productos/eliminar', [ProductoController::class, 'eliminarAPI'] );
