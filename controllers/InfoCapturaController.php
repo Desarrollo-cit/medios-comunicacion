@@ -4,6 +4,7 @@ namespace Controllers;
 
 use Exception;
 use Model\Capturadas;
+use Model\Delito;
 use Model\DepMun;
 // use Model\Delito;
 use MVC\Router;
@@ -19,9 +20,11 @@ class InfoCapturaController
         $depto = static::departamento_capturas();
         $delito = static::delitoIncurrente();
         $colores = static::coloresAPI1();
+        $delitos = static::delitosApi();
         $router->render('mapas/capturas', [
             'capturas' => $capturas,
             'delito' => $delito,
+            'delitos' => $delitos,
             'mujeres' => $mujeres,
             'hombres' => $hombres,
             'depto' => $depto,
@@ -474,13 +477,87 @@ class InfoCapturaController
         }
     }
 
-    
+
+    public function mapaCalorDeptoAPI()
+    {
+        getHeadersApi();
+        try {
+
+            $depto = $_POST['departamento'];
+            $delito = $_POST['delitos_mapa_calor'];
+            $fecha1 = str_replace('T', ' ', $_POST['fecha_mapa']);
+            $fecha2 = str_replace('T', ' ', $_POST['fecha2']);
+
+
+            $sql ="  SELECT  count (*) as cantidad_delito from amc_per_capturadas inner join amc_topico on amc_per_capturadas.topico = amc_topico.id  where amc_topico.situacion = 1 and amc_per_capturadas.situacion = 1 AND amc_topico.departamento = $depto  ";
+         
+            if($delito != ''){
+         
+               $sql.= " AND amc_per_capturadas.delito = $delito";
+            }
+         
+            if($fecha1 != '' && $fecha2 != ''){
+         
+               $sql.= " AND amc_topico.fecha   BETWEEN '$fecha1' AND  '$fecha2' ";
+            }else {
+         
+               $sql.= " AND year(amc_topico.fecha) = year(current) and  month(amc_topico.fecha) = month(current)";
+            }
+           
+            $info = Capturadas::fetchArray($sql);
+            
+         
+            $consulta="    SELECT FIRST 1 amc_delito.desc, count(*) as cantidad_max FROM amc_per_capturadas inner join amc_topico on amc_per_capturadas.topico = amc_topico.id inner join amc_delito on amc_per_capturadas.delito = amc_delito.id    where  amc_topico.situacion = 1 and amc_per_capturadas.situacion = 1 AND amc_topico.departamento = $depto ";
+         
+            if($delito != ''){
+         
+               $consulta.="AND amc_per_capturadas.delito = $delito";
+            }
+         
+            if($fecha1 != '' && $fecha2 != ''){
+         
+               $consulta.= " AND amc_topico.fecha   BETWEEN '$fecha1' AND  '$fecha2' ";
+            }else {
+         
+               $consulta.= " AND year(amc_topico.fecha) = year(current) and  month(amc_topico.fecha) = month(current)";
+            }
+         
+            $consulta.="group by desc ORDER by cantidad_max desc";
+         
+            $info1 = Capturadas::fetchArray($consulta);
+            $array_resultante= array_merge($info,$info1);
+         
+            echo json_encode($array_resultante);
+            
+            
+            
+        } catch (Exception $e) {
+           return [];
+        }
+    }
+
+
     public function coloresAPI1()
     {
 
         try {
             $sql = "SELECT * from amc_colores where topico = 1  ";
             $info = Capturadas::fetchArray($sql);
+            return $info;
+            
+            
+        } catch (Exception $e) {
+           return [];
+        }
+    }
+
+
+    public function delitosApi()
+    {
+
+        try {
+            $sql = "SELECT * from amc_delito where situacion = 1  ";
+            $info = Delito::fetchArray($sql);
             return $info;
             
             
