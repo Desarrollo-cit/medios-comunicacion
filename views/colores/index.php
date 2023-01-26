@@ -3,7 +3,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Modificar Color</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"  id="btnCerrar"></button>
       </div>
       <div class="modal-body">
         
@@ -13,7 +13,7 @@
     </div>
 </div>
 <div class="row justify-content-center mb-3">
-    <form id="formColores" class="col-lg-4 border rounded bg-light p-3">
+    <form id="formColores" class="col-lg-11 border rounded bg-light p-3">
         <input type="hidden" name="id" id="id">
         <div class="row mb-3">
             <div class="col-lg-12">
@@ -68,10 +68,7 @@
 
 </div>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
+    
     </div>
   </div>
 </div>

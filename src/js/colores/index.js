@@ -7,6 +7,7 @@ import Swal from "sweetalert2";
 const formColores = document.getElementById('formColores');
 const btnGuardar = document.getElementById('btnGuardar');
 const btnModificar = document.getElementById('btnModificar');
+const btnCerrar = document.getElementById('btnCerrar');
 const divTabla = document.getElementById('divTabla');
 const tablaColores= document.getElementById('coloresTabla')
 const modal = new Modal(document.getElementById('modalColores')) 
@@ -20,19 +21,20 @@ btnModificar.disabled = true;
 
 
 
-const buscarColores = async (evento, topico) => {
+const buscarColores = async (evento) => {
     evento && evento.preventDefault();
-    
-    if(topico === null){
-
-        topico = 0
 
 
-    }else{
+        
+    var topico = formColores.topico2.value
+   
 
-       var topico = evento ?  evento.target.value : '';
 
-    }
+     
+
+    //    var topico = evento ?  evento.target.value : '';
+
+   
 
 
    
@@ -169,10 +171,9 @@ const modificarColores = async (evento) => {
 
         
 
-        var topico = formColores.topico.value
 
         
-        buscarColores(topico);
+        buscarColores();
         
         btnModificar.parentElement.style.display = 'none';
         btnGuardar.parentElement.style.display = '';
@@ -186,6 +187,9 @@ const modificarColores = async (evento) => {
         console.log(error);
     }
 }
+
+
+
 
 // buscarColores();
 
@@ -202,13 +206,18 @@ window.asignarValores = (id, descripcion, cantidad, color, nivel, topico) => {
     btnGuardar.disabled = true;
     btnModificar.disabled = false;
 
-    divTabla.style.display = 'none'
 }
 
 
 
 
 btnModificar.addEventListener('click', modificarColores);
+
 document.getElementById('topico2').addEventListener('change', buscarColores)
-document.getElementById('topico').addEventListener('change', modificarColores)
+
+document.getElementById('modalColores').addEventListener('hide.bs.modal', function (event){
+    buscarColores()
+})
+
+
 
