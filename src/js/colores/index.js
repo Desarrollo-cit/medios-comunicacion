@@ -18,81 +18,22 @@ btnModificar.disabled = true;
 // tablaColores.parentElement.style.display='none';
 
 
-const guardarColores = async (evento) => {
-    evento.preventDefault();
-
-    let formularioValido = validarFormulario(formColores, ['id']);
-
-    if (!formularioValido || formColores.descripcion.value == '') {
-        Toast.fire({
-            icon: 'warning',
-            title: 'Debe llenar todos los campos'
-        })
-        return;
-    }
 
 
-    try {
-        //Crear el cuerpo de la consulta
-        const url = '/medios-comunicacion/API/colores/guardar'
-        const body = new FormData(formColores);
-        body.delete('id');
-        const headers = new Headers();
-        headers.append("X-Requested-With", "fetch");
-
-        const config = {
-            method: 'POST',
-            headers,
-            body
-        }
-
-        const respuesta = await fetch(url, config);
-        const data = await respuesta.json();
-        console.log(data);
-        const { mensaje, codigo, detalle } = data;
-        // const resultado = data.resultado;
-        let icon = "";
-        switch (codigo) {
-            case 1:
-                icon = "success"
-                formColores.reset();
-                // buscarColores();
-
-                break;
-            case 2:
-                icon = "warning"
-
-                break;
-            case 3:
-                icon = "error"
-
-                break;
-            case 4:
-                icon = "error"
-                console.log(detalle)
-
-                break;
-
-            default:
-                break;
-        }
-
-        Toast.fire({
-            icon: icon,
-            title: mensaje,
-
-        })
-
-
-    } catch (error) {
-        console.log(error);
-    }
-}
-
-const buscarColores = async (evento) => {
-    // evento && evento.preventDefault();
+const buscarColores = async (evento, topico) => {
+    evento && evento.preventDefault();
     
-    let topico = evento ?  evento.target.value : '';
+    if(topico === null){
+
+        topico = 0
+
+
+    }else{
+
+       var topico = evento ?  evento.target.value : '';
+
+    }
+
 
    
 
@@ -198,7 +139,7 @@ const modificarColores = async (evento) => {
         switch (codigo) {
             case 1:
                 icon = "success"
-                formColores.reset();
+                modal.hide();
 
 
                 break;
@@ -226,12 +167,12 @@ const modificarColores = async (evento) => {
 
         })
 
-        select = formColores.id_topico.value
+        
 
-        formColores.topico.value= select
+        var topico = formColores.topico.value
 
-        modal.hide();
-        buscarColores();
+        
+        buscarColores(topico);
         
         btnModificar.parentElement.style.display = 'none';
         btnGuardar.parentElement.style.display = '';
@@ -264,76 +205,10 @@ window.asignarValores = (id, descripcion, cantidad, color, nivel, topico) => {
     divTabla.style.display = 'none'
 }
 
-window.eliminarRegistro = (id) => {
-    Swal.fire({
-        title: 'Confirmación',
-        icon: 'warning',
-        text: '¿Esta seguro que desea eliminar este registro?',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Si, eliminar'
-    }).then(async (result) => {
-        if (result.isConfirmed) {
-            const url = '/medios-comunicacion/API/colores/eliminar'
-            const body = new FormData();
-            body.append('id', id);
-            const headers = new Headers();
-            headers.append("X-Requested-With", "fetch");
-
-            const config = {
-                method: 'POST',
-                headers,
-                body
-            }
-
-            const respuesta = await fetch(url, config);
-            const data = await respuesta.json();
-            // const {resultado} = data;
-            // // const resultado = data.resultado;
-
-            console.log(data);
 
 
-            const { mensaje, codigo, detalle } = data;
-            // const resultado = data.resultado;
-            let icon = "";
-            switch (codigo) {
-                case 1:
-                    icon = "success"
-                    formColores.reset();
 
-
-                    break;
-                case 2:
-                    icon = "warning"
-
-                    break;
-                case 3:
-                    icon = "error"
-
-                    break;
-                case 4:
-                    icon = "error"
-                    console.log(detalle)
-
-                    break;
-
-                default:
-                    break;
-            }
-buscarColores();
-            Toast.fire({
-                icon: icon,
-                title: mensaje,
-
-            })
-            
-        }
-    })
-}
-
-formColores.addEventListener('submit', guardarColores)
 btnModificar.addEventListener('click', modificarColores);
 document.getElementById('topico2').addEventListener('change', buscarColores)
+document.getElementById('topico').addEventListener('change', modificarColores)
 

@@ -78,7 +78,7 @@
 
 
 
-
+  
 <div class="row text-center">
     <div class="col">
         <h3>BUSQUEDA DE COLORES POR TOPICO</h3>

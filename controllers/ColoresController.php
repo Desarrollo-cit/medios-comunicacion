@@ -15,37 +15,7 @@ public static function index(Router $router){
     ]);
 }
 
-public function guardarAPI(){
 
-    try {
-        getHeadersApi();
-        $colores = new Colores($_POST);
-        
-        $resultado = $colores->guardar();
-
-        if($resultado['resultado'] == 1){
-            echo json_encode([
-                "mensaje" => "El registro se guardo.",
-                "codigo" => 1,
-            ]);
-            
-        }else{
-            echo json_encode([
-                "mensaje" => "Ocurrio un error.",
-                "codigo" => 0,
-            ]);
-
-        }
-        //code...
-    } catch (Exception $e) {
-        echo json_encode([
-            "detalle" => $e->getMessage(),       
-            "mensaje" => "Ocurrio un error en base de datos.",
-
-            "codigo" => 4,
-        ]);
-    }
-}
 public function buscarApi(){
     $topico= $_GET['topico'];
   
@@ -67,10 +37,12 @@ public function buscarApi(){
 public function modificarAPI(){
     try {
         getHeadersApi();
+        $_POST["descripcion"] = strtoupper($_POST["descripcion"]);
         $colores = new Colores($_POST);
 
         // echo json_encode($_POST);
         // exit;
+
         
         $resultado = $colores->guardar();
 
@@ -97,44 +69,7 @@ public function modificarAPI(){
     }
 }
 
-public function eliminarAPI(){
 
-
-    try {
-            getHeadersApi();
-        $colores = new Colores($_POST);
-    
-        $resultado = $colores->eliminar();
-
-        // echo json_encode($resultado);
-        // exit;
-
-    if($resultado == 1){
-        echo json_encode([
-            "mensaje" => "El registro se elimino.",
-            "codigo" => 1,
-        ]);
-        
-    }else{
-        echo json_encode([
-            "mensaje" => "Ocurrio un error.",
-            "codigo" => 0,
-        ]);
-
-    }
-    } catch (Exception $e) {
-        echo json_encode([
-            "detalle" => $e->getMessage(),       
-            "mensaje" => "Ocurrio un error en base de datos", 
-            "codigo" => 4,
-        ]);
-    }
-
-    
-
-       
-
-}
 
 
 }
