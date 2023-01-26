@@ -18,12 +18,14 @@ class InfoCapturaController
         $hombres = static::hombres();
         $depto = static::departamento_capturas();
         $delito = static::delitoIncurrente();
+        $colores = static::coloresAPI1();
         $router->render('mapas/capturas', [
             'capturas' => $capturas,
             'delito' => $delito,
             'mujeres' => $mujeres,
             'hombres' => $hombres,
             'depto' => $depto,
+            'colores' => $colores,
         ]);
     }
 
@@ -133,7 +135,7 @@ class InfoCapturaController
 
     protected static function departamento_capturas($fecha1 = "", $fecha2 = "")
     {
-        $sql = "SELECT FIRST 1 amc_topico.depto as departamento, count(*) as cantidad FROM amc_topico inner join amc_per_capturadas on amc_topico.id = amc_per_capturadas.topico where  amc_topico.situacion = 1 ";
+        $sql = "SELECT FIRST 1 amc_topico.departamento as departamento, count(*) as cantidad FROM amc_topico inner join amc_per_capturadas on amc_topico.id = amc_per_capturadas.topico where  amc_topico.situacion = 1 ";
         if($fecha1 != '' && $fecha2 != ''){
 
             $sql.= " AND amc_topico.fecha   BETWEEN '$fecha1' AND  '$fecha2' ";
@@ -142,7 +144,7 @@ class InfoCapturaController
             $sql.=" AND year(amc_topico.fecha) = year(current)  and  month(amc_topico.fecha) = month(current) ";
          }
 
-        $sql .= " group by depto order by cantidad desc";
+        $sql .= " group by departamento order by cantidad desc";
 
 
 
@@ -200,7 +202,7 @@ class InfoCapturaController
 
         try {
 
-            $sql = "SELECT DISTINCT amc_topico.id as id, amc_topico.lugar as lugar, amc_topico.tipo as tipo, amc_tipo_topics.desc as topico,  amc_topico.fecha as fecha, dm_desc_lg as departamento,  amc_delito.desc as delito,  amc_actividad_vinculada.desc as actividad from amc_topico inner join amc_per_capturadas on topico = amc_topico.id inner join amc_delito on amc_per_capturadas.delito = amc_delito.id inner join amc_tipo_topics on amc_topico.tipo = amc_tipo_topics.id inner join depmun on amc_topico.depto = depmun.dm_codigo  inner join amc_actividad_vinculada on amc_topico.actividad = amc_actividad_vinculada.id and amc_per_capturadas.situacion = 1 and amc_topico.situacion = 1";
+            $sql = "SELECT DISTINCT amc_topico.id as id, amc_topico.lugar as lugar, amc_topico.tipo as tipo, amc_tipo_topics.desc as topico,  amc_topico.fecha as fecha, dm_desc_lg as departamento,  amc_delito.desc as delito,  amc_actividad_vinculada.desc as actividad from amc_topico inner join amc_per_capturadas on topico = amc_topico.id inner join amc_delito on amc_per_capturadas.delito = amc_delito.id inner join amc_tipo_topics on amc_topico.tipo = amc_tipo_topics.id inner join depmun on amc_topico.departamento = depmun.dm_codigo  inner join amc_actividad_vinculada on amc_topico.actividad = amc_actividad_vinculada.id and amc_per_capturadas.situacion = 1 and amc_topico.situacion = 1";
             $info =  Capturadas::fetchArray($sql);
 
             $data = [];
@@ -210,7 +212,7 @@ class InfoCapturaController
                 $id = $key['id'];
                 $lugar = $key['lugar'];
                 $fecha = $key['fecha'];
-                $municipio = $key['departamento'];
+                $departamento = $key['departamento'];
                 $topico = $key['topico'];
                 $tipo = $key['tipo'];
                 $delito = $key['delito'];
@@ -221,7 +223,7 @@ class InfoCapturaController
                     "id" => $id,
                     "lugar" => $lugar,
                     "fecha" => $fecha,
-                    "municipio" => $municipio,
+                    "departamento" => $departamento,
                     "topico" => $topico,
                     "tipo" => $tipo,
                     "delito" => $delito,
@@ -256,7 +258,7 @@ class InfoCapturaController
             $id = $_POST['id'];
             
             
-            $sql = "SELECT amc_topico.id, fecha, lugar, depto, municipio, tipo,latitud,longitud,actividad, amc_topico.situacion, depmun.dm_desc_lg as departamento, amc_actividad_vinculada.desc as act, amc_tipo_topics.desc as topico from amc_topico inner join depmun on amc_topico.depto = depmun.dm_codigo inner join amc_actividad_vinculada on amc_topico.actividad = amc_actividad_vinculada.id inner join amc_tipo_topics on amc_topico.tipo = amc_tipo_topics.id where amc_topico.situacion = 1 and amc_topico.id =  $id";
+            $sql = "SELECT amc_topico.id, fecha, lugar, departamento, municipio as muni, tipo,latitud,longitud,actividad, amc_topico.situacion, depmun.dm_desc_lg as departamento1, amc_actividad_vinculada.desc as act, amc_tipo_topics.desc as topico from amc_topico inner join depmun on amc_topico.departamento = depmun.dm_codigo inner join amc_actividad_vinculada on amc_topico.actividad = amc_actividad_vinculada.id inner join amc_tipo_topics on amc_topico.tipo = amc_tipo_topics.id where amc_topico.situacion = 1 and amc_topico.id =  $id";
             $info =Capturadas::fetchArray($sql);
             $data=[];
             
@@ -266,9 +268,9 @@ class InfoCapturaController
                  $id = $key['id'];
                $lugar = $key['lugar'];
                $fecha = $key['fecha'];
-               $depto =trim( $key['departamento']);
-               $depto1 =trim( (string)$key['depto']);
-               $municipio = $key['municipio'];
+               $depto =trim( $key['departamento1']);
+               $depto1 =trim( (string)$key['departamento']);
+               $muni = $key['muni'];
                $latitud = $key['latitud'];
                $longitud = $key['longitud'];
                $tipo = $key['topico'];
@@ -276,15 +278,20 @@ class InfoCapturaController
                $actividad = $key['act'];
             
             
-               if($depto <1000){
+               if($depto1 <1000){
             
                   $depto1 = '0'.$depto1;
                }
             
             //    $sql1 = "SELECT dm_desc_md as municipio from depmun where dm_codigo = $municipio ";
             
-               $municipio = DepMun::where('dm_codigo', $municipio);
+               $municipio = DepMun::fetchArray("SELECT dm_desc_lg from depmun where dm_codigo = $muni");
+            //    foreach($municipio as $key1){ 
+            //     $nombreMuni = $key1['dm_desc_lg'];
             
+            // }
+         
+
                 $arrayInterno = [[
                    "contador" => $i,
                    "id" => $id,
@@ -304,7 +311,8 @@ class InfoCapturaController
                
               
             }
-            echo json_encode($data);
+           
+         echo json_encode($data);
             
         } catch (Exception $e) {
             echo json_encode([
@@ -401,6 +409,83 @@ class InfoCapturaController
 
                 "codigo" => 4,
             ]);
+        }
+    }
+
+
+    public function mapaCalorAPI()
+    {
+        getHeadersApi();
+       
+        // echo json_encode($sql);
+
+        try {
+            $delito = $_POST['delitos_mapa_calor'];
+            $fecha1 = str_replace('T', ' ', $_POST['fecha_mapa']);
+            $fecha2 = str_replace('T', ' ', $_POST['fecha2']);
+         
+         
+            $sql ="SELECT distinct dm_desc_lg as descripcion, dm_codigo as codigo, count (*) as cantidad FROM amc_topico 
+            inner join depmun on amc_topico.departamento = dm_codigo 
+            inner join amc_per_capturadas on amc_per_capturadas.topico = amc_topico.id  
+            where 1 = 1  and amc_topico.situacion = 1 and amc_per_capturadas.situacion = 1";
+            if($delito != ''){
+         
+               $sql.= "AND amc_per_capturadas.delito = $delito";
+            }
+            if($fecha1 != '' && $fecha2 == ''){
+         
+               $sql.= "AND amc_topico.fecha = '$fecha1'";
+            }
+            if($fecha1 != '' && $fecha2 != ''){
+               $sql.= " AND amc_topico.fecha   BETWEEN '$fecha1' AND  '$fecha2' ";
+           }
+           if($fecha1 == '' && $fecha2 == ''){
+            $sql.= " AND year(fecha) = year(current) AND month(fecha) = month(current)  ";
+         }
+            $sql.=" group by descripcion, codigo ";
+         
+            $info = Capturadas::fetchArray($sql);
+         echo json_encode($info);
+            
+            
+        } catch (Exception $e) {
+            echo json_encode([
+                "detalle" => $e->getMessage(),
+                "mensaje" => "ocurrio un error en base de datos",
+
+                "codigo" => 4,
+            ]);
+        }
+    }
+
+
+    public function coloresAPI()
+    {
+        getHeadersApi();
+        try {
+            $sql = "SELECT * from amc_colores where topico = 1 and situacion = 1 order by nivel asc ";
+            $info = Capturadas::fetchArray($sql);
+           echo json_encode($info);
+            
+            
+        } catch (Exception $e) {
+           return [];
+        }
+    }
+
+    
+    public function coloresAPI1()
+    {
+
+        try {
+            $sql = "SELECT * from amc_colores where topico = 1  ";
+            $info = Capturadas::fetchArray($sql);
+            return $info;
+            
+            
+        } catch (Exception $e) {
+           return [];
         }
     }
 }

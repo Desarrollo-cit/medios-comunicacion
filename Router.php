@@ -28,12 +28,12 @@ class Router
 
         $currentUrl = $_SERVER['REQUEST_URI'] ? str_replace("?" . $_SERVER['QUERY_STRING'], '', $_SERVER['REQUEST_URI']) : $this->base .'/';
         $method = $_SERVER['REQUEST_METHOD'];
-        // debuguear($currentUrl);
         if ($method === 'GET') {
             $fn = $this->getRoutes[$currentUrl] ?? null;
         } else {
             $fn = $this->postRoutes[$currentUrl] ?? null;
         }
+        // debuguear($fn);
         
 
         if ( $fn ) {

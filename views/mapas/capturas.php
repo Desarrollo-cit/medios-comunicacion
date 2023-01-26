@@ -27,6 +27,8 @@
     $mujeres = $mujeres[0]['cantidad'];
     $hombres = $hombres[0]['cantidad1'];
     $depto = $depto[0]['desc'];
+
+
  
 
     ?>
@@ -39,10 +41,10 @@
                         <div  class="row mb-2 ">
                             <div  class="justify-content-center d-flex ">
                             <h1 > Resumen de las capturas de <?php echo     $fechaLarga; ?> 
-                                <a type="button" id="buscarresumen"> <img src="./images/iconos/lupa.png" style="width:40px; height:40px;" alt="capturas"></a> 
-                                <a type="button" id="buscarcapturas"> <img src="./images/iconos/reporte.png" style="width:40px; height:40px;" alt="capturas"></a> 
-                                <a type="button" id="ver_mapa"> <img src="./images/iconos/mapa_calor.png" style="width:40px; height:40px;" alt="capturas"></a> 
-                                <a type="button" id="ver_grafica"> <img src="./images/iconos/btn_graficas.png" style="width:40px; height:40px;" alt="capturas"></a>
+                                <a type="button" id="buscarresumen"> <img src="<?= asset('./images/iconos/lupa.png')?>" style="width:40px; height:40px;" alt="capturas"></a> 
+                                <a type="button" id="buscarcapturas"> <img src="<?= asset('./images/iconos/reporte.png')?>" style="width:40px; height:40px;" alt="capturas"></a> 
+                                <a type="button" id="ver_mapa"> <img src="<?= asset('./images/iconos/mapa_calor.png ')?>" style="width:40px; height:40px;" alt="capturas"></a> 
+                                <a type="button" id="ver_grafica"> <img src="<?= asset('./images/iconos/btn_graficas.png')?>" style="width:40px; height:40px;" alt="capturas"></a>
                             </h1>
                             </div>
                         </div>
@@ -85,7 +87,7 @@
                         </div>
                         <div class="row justify-content-center">
                             <div class="col-2 col-sm-4">
-                                <img src="./images/iconos//capturas/handcuffs.png" class="w-100" alt="capturas">
+                                <img src="<?= asset('./images/iconos//capturas/handcuffs.png')?>" class="w-100" alt="capturas">
 
                             </div>
                         </div>
@@ -103,7 +105,7 @@
                         </div>
                         <div class="row justify-content-center">
                             <div class="col-2 col-sm-4">
-                                <img src="./images/iconos/capturas/delito.png" class="w-100" alt="capturas">
+                                <img src="<?= asset('./images/iconos/capturas/delito.png')?>" class="w-100" alt="capturas">
 
                             </div>
                         </div>
@@ -121,7 +123,7 @@
                         </div>
                         <div class="row justify-content-center">
                             <div class="col-2 col-sm-4">
-                                <img src="./images/iconos/calendario.png" class="w-100" alt="capturas">
+                                <img src="<?= asset('./images/iconos/calendario.png')?>" class="w-100" alt="capturas">
 
                             </div>
                         </div>
@@ -140,7 +142,7 @@
                         </div>
                         <div class="row justify-content-center">
                             <div class="col-2 col-sm-4">
-                                <img src="./images/iconos/capturas/mujer.png" class="w-100" alt="capturas">
+                                <img src="<?= asset('./images/iconos/capturas/mujer.png')?>" class="w-100" alt="capturas">
 
                             </div>
                         </div>
@@ -159,7 +161,7 @@
                         </div>
                         <div class="row justify-content-center">
                             <div class="col-2 col-sm-4">
-                                <img src="./images/iconos/capturas/hombre.png" class="w-100" alt="capturas">
+                                <img src="<?= asset('./images/iconos/capturas/hombre.png')?>" class="w-100" alt="capturas">
 
                             </div>
                         </div>
@@ -178,7 +180,7 @@
                         </div>
                         <div class="row justify-content-center">
                             <div class="col-2 col-sm-4">
-                                <img src="./images/iconos/ubicacion.png" class="w-100" alt="capturas">
+                                <img src="<?= asset('./images/iconos/ubicacion.png')?>" class="w-100" alt="capturas">
 
                             </div>
                         </div>
@@ -207,7 +209,7 @@
                                 <tr>
                                     <th>NO</th>
                                     <th>FECHA</th>
-                                    <th>MUNICIPIO</th>
+                                    <th>DEPARTAMENTO</th>
                                     <th>LUGAR</th>
                                     <th>TOPICO</th>
                                     <th>DELITO</th>
@@ -467,7 +469,7 @@
                 <div class="row mb-1">
 
                     <div class=" ms-5 col-lg-11" style="border:solid; border-radius:10px; background-color:#34495E;">
-                        <h1 class="ms-5" style="color:white;"> DEPARTAMENTOS CON MAS CAPTURAS EN EL MES DE <?= strtoupper($fechaLarga) ?><a type="button" id="buscaravanzada"> <img src="./images/iconos/lupa.png" style="width:40px; height:40px;" alt="capturas"></a></h1>
+                        <h1 class="ms-5" style="color:white;"> DEPARTAMENTOS CON MAS CAPTURAS EN EL MES DE <?= strtoupper($fechaLarga) ?><a type="button" id="buscaravanzada"> <img src="<?= asset('./images/iconos/lupa.png')?>" style="width:40px; height:40px;" alt="capturas"></a></h1>
                         <hr style="width:100%; height:5px; color:#9A7D0A;">
                         <div id="mapa_de_calor" class="w-100">
                             <center>
@@ -667,46 +669,46 @@
                                             <div class="row mb-2 ms-1">
                                                 <div class="col-7 ">
                                                     <label for="">
-                                                        <h3 style="color:white"><?php echo $primer_desc?></h3>
+                                                        <h3 style="color:white"><?php echo $colores[0]['descripcion'];?></h3>
                                                     </label>
 
                                                 </div>
                                                 <div class="col-4  justify-content-end ms-2">
 
-                                                    <div style="border:solid; width:50px; height:50px; background-color:<?= $primer_color?>"></div>
+                                                    <div style="border:solid; width:50px; height:50px; background-color:<?= $colores[0]['color']?>"></div>
 
                                                 </div>
                                             </div>
                                             <div class="row mb-2 ">
                                                 <div class="col-7">
                                                     <label for="">
-                                                        <h3 style="color:white"><?php echo $segundo_desc?></h3>
+                                                        <h3 style="color:white"><?php echo $colores[1]['descripcion']?></h3>
                                                     </label>
 
                                                 </div>
                                                 <div class="col-4  justify-content-end ms-2">
 
-                                                    <div style="border:solid; width:50px; height:50px; background-color:<?= $segundo_color?>"></div>
+                                                    <div style="border:solid; width:50px; height:50px; background-color:<?= $colores[1]['color']?>"></div>
 
                                                 </div>
                                             </div>
                                             <div class="row mb-2 ">
                                                 <div class="col-7 ">
                                                     <label for="">
-                                                        <h3 style="color:white"><?php echo $tercer_desc?></h3>
+                                                        <h3 style="color:white"><?php echo $colores[2]['descripcion']?></h3>
                                                     </label>
 
                                                 </div>
                                                 <div class="col-4  justify-content-end ms-2">
 
-                                                    <div style="border:solid; width:50px; height:50px; background-color:<?= $tercer_color?>"></div>
+                                                    <div style="border:solid; width:50px; height:50px; background-color:<?= $colores[2]['color']?>"></div>
 
                                                 </div>
                                             </div>
                                             <div class="row mb-2 ">
                                                 <div class="col-7 ">
                                                     <label for="">
-                                                        <h3 style="color:white">Sin registros</h3>
+                                                        <h3 style="color:white">SIN REGISTROS</h3>
                                                     </label>
 
                                                 </div>
@@ -894,4 +896,4 @@
 
     <!-- <script src="../assets/js/scriptscarga.js"></script> -->
 
-    <script src="build/js/mapas/infoCapturas.js"></script>
+    <script src="../public/build/js/mapas/infoCapturas.js"></script>

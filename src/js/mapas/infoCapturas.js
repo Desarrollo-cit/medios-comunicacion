@@ -126,7 +126,7 @@ const Buscar_capturas = async (e) => {
             columns: [
                 { data: "contador", "width": "5%" },
                 { data: "fecha", "width": "11%" },
-                { data: "municipio", "width": "11%" },
+                { data: "departamento", "width": "11%" },
                 { data: "lugar", "width": "11%" },
                 { data: "topico", "width": "15%" },
                 { data: "delito", "width": "11%" },
@@ -300,3 +300,96 @@ formBusqueda_resumen.addEventListener('submit', cambiarmes)
 btnBuscar.addEventListener("click", Buscar_capturas);
 btnresumenbuscar.addEventListener("click", ocultar_select);
 btnBuscarmapacalor.addEventListener("click", ocultar_busquedad_mapa);
+
+
+
+const formMapa = document.querySelector('#formBusqueda_mapa')
+
+const busquedad_mapa_Calor = async(e) => {
+    e && e.preventDefault();
+
+    // const delito = formMapa.cantidad_droga.value
+    // const fecha1 = formMapa.fecha_mapa.value
+    // const fecha2 = formMapa.fecha2.value
+   
+    
+
+    const url = `/medios-comunicacion/API/mapas/infoCapturas/mapaCalor`
+    const body = new FormData(formMapa);
+    
+    const headers = new Headers();
+    headers.append("X-Requested-With", "fetch");
+
+    const config = {
+        method: 'POST',
+        headers,
+        body,
+
+    }
+
+    const respuesta = await fetch(url, config);
+    const info = await respuesta.json();
+   
+        // console.log(info)
+   window.deptos = document.querySelectorAll('path');
+    deptos.forEach(element => {
+        element.setAttribute('fill', '#145A32 ')
+
+    })
+    const url1 = `/medios-comunicacion/API/mapas/infoCapturas/colores`
+    const headers1 = new Headers();
+    headers1.append("X-Requested-With", "fetch");
+
+    const config1 = {
+        method: 'GET',
+
+    }
+
+    const respuesta1 = await fetch(url1, config1);
+    const info1 = await respuesta1.json();
+   
+        // console.log(info1)
+
+    info1.forEach(data1 => {
+        
+        window.cantidad_baja = parseInt(info1[0]['cantidad'])
+        window.color_bajo = info1[0]['color']
+        window.cantidad_medio = parseInt(info1[1]['cantidad'])
+        window.color_medio = info1[1]['color']
+        window.cantidad_alta = parseInt(info1[2]['cantidad'])
+        window.color_alta = info1[2]['color']
+
+    })
+
+
+
+
+    // console.log(cantidad_baja)
+    if (info != null) {
+        info.forEach(data => {
+            // console.log(parseInt(data.CANTIDAD), cantidad_alta, cantidad_baja, cantidad_medio)
+            data.fill = 'gray'
+            let color = '#145A32 '
+
+            if (parseInt(data.cantidad) >= cantidad_baja && parseInt(data.cantidad) <= cantidad_medio) {
+
+                color = color_bajo;
+            }
+            if (parseInt(data.cantidad) >= cantidad_medio && parseInt(data.cantidad) < cantidad_alta) {
+                // console.log(color_medio)
+                color = color_medio;
+            }
+            if (parseInt(data.cantidad) >= cantidad_alta) {
+
+                color = color_alta;
+            }
+
+            document.getElementById(data.codigo).setAttribute('fill', color);
+
+
+        })
+    }
+}
+
+busquedad_mapa_Calor();
+

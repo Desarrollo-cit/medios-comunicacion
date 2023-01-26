@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="build/js/app.js"></script>
-    <link rel="shortcut icon" href="./images/cit.png" type="image/x-icon">
-    <link rel="stylesheet" href="build/styles.css">
+    <script src="<?= asset('build/js/app.js') ?>"></script>
+    <link rel="shortcut icon" href="<?= asset('images/cit.png') ?>" type="image/x-icon">
+    <link rel="stylesheet" href="<?= asset('build/styles.css') ?>">
     <title>Medios</title>
 </head>
 <body>
@@ -17,7 +17,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <a class="navbar-brand" href="/medios-comunicacion/">
-                <img src="./images/cit.png" width="35px" alt="cit" >
+                <img src="<?= asset('./images/cit.png') ?>" width="35px'" alt="cit" >
                 Medios
             </a>
             <div class="collapse navbar-collapse" id="navbarToggler">
@@ -37,7 +37,7 @@
                         <ul class="dropdown-menu  dropdown-menu-dark "id="dropwdownRevision" style="margin: 0;">
                             <!-- <h6 class="dropdown-header">Información</h6> -->
                             <li>
-                                <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/mapas"><i class="ms-lg-0 ms-2 bi bi-plus-circle me-2"></i>Capturas</a>
+                                <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/mapas/capturas"><i class="ms-lg-0 ms-2 bi bi-plus-circle me-2"></i>Capturas</a>
                             </li>
                         
                     
