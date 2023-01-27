@@ -9,8 +9,13 @@ module.exports = {
     'js/organizacion/index' : './src/js/organizacion/index.js',
     'js/tipo/index' : './src/js/tipo/index.js',
     'js/nacionalidad/index' : './src/js/nacionalidad/index.js',
-
-
+    'js/colores/index' : './src/js/colores/index.js',
+    'js/armas/index' : './src/js/armas/index.js',
+    'js/calibres/index' : './src/js/calibres/index.js',
+    'js/delitos/index' : './src/js/delitos/index.js',
+    'js/desastre_natural/index' : './src/js/desastre_natural/index.js',
+    'js/fenomeno_natural/index' : './src/js/fenomeno_natural/index.js',
+    'js/moneda/index' : './src/js/moneda/index.js',
   },
   output: {
     filename: '[name].js',
