@@ -46,7 +46,7 @@ class OrganizacionController{
         } catch (Exception $e) {
             echo json_encode([
                 "detalle" => $e->getMessage(),       
-                "mensaje" => "Ocurrió un error en la base de datos",
+                "mensaje" => "Ocurrió un error en base de datos.",
 
                 "codigo" => 4,
             ]);
@@ -67,25 +67,35 @@ class OrganizacionController{
     }
 
     public function modificarAPI(){
-        $_POST["desc"] = strtoupper($_POST["desc"]);
-        getHeadersApi();
-        $Organizacion = new Organizacion($_POST);
-        
-        $resultado = $Organizacion->guardar();
-
-        if($resultado['resultado'] == 1){
-            echo json_encode([
-                "resultado" => 1
-            ]);
+        try {
+            $_POST["desc"] = strtoupper($_POST["desc"]);
+            getHeadersApi();
+            $Organizacion = new Organizacion($_POST);
             
-        }else{
+            $resultado = $Organizacion->guardar();
+            
+            if($resultado['resultado'] == 1){
+                echo json_encode([
+                    "mensaje" => "El registro se guardó correctamente.",
+                    "codigo" => 1,
+                ]);
+                
+            }else{
+                echo json_encode([
+                    "mensaje" => "Ocurrió un error.",
+                    "codigo" => 0,
+                ]);
+    
+            }
+        } catch (Exception $e) {
             echo json_encode([
-                "resultado" => 0
-            ]);
+                "detalle" => $e->getMessage(),       
+                "mensaje" => "Ocurrió un error en la base de datos.",
 
+                "codigo" => 4,
+            ]);
         }
     }
-
     public function eliminarAPI(){
         getHeadersApi();
         $_POST['situacion'] = 0;

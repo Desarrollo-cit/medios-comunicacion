@@ -169,28 +169,45 @@ const modificarOrganizacion = async (evento) => {
         const respuesta = await fetch(url, config);
         const data = await respuesta.json();
 
-        const {resultado} = data;
+        const { mensaje, codigo, detalle } = data;
         // const resultado = data.resultado;
+        let icon = "";
+        switch (codigo) {
+            case 1:
+                icon = "success"
+                formOrganizacion.reset();
+                buscarOrganizacion();
+                break;
+            case 2:
+                icon = "warning"
 
-        if(resultado == 1){
-            Toast.fire({
-                icon : 'success',
-                title : 'Registro modificado'
-            })
-            buscarOrganizacion();
-            formOrganizacion.reset();
-            btnModificar.parentElement.style.display = 'none';
-            btnGuardar.parentElement.style.display = '';
-            btnGuardar.disabled = false;
-            btnModificar.disabled = true;
-        
-            divTabla.style.display = ''
-        }else{
-            Toast.fire({
-                icon : 'error',
-                title : 'Ocurrió un error'
-            })
+                break;
+            case 3:
+                icon = "error"
+
+                break;
+            case 4:
+                icon = "error"
+                console.log(detalle)
+
+                break;
+
+            default:
+                break;
         }
+
+        Toast.fire({
+            icon: icon,
+            title: mensaje,
+        })
+
+        buscarOrganizacion();
+        btnModificar.parentElement.style.display = 'none';
+        btnGuardar.parentElement.style.display = '';
+        btnGuardar.disabled = false;
+        btnModificar.disabled = true;
+        divTabla.style.display = ''
+ 
 
     } catch (error) {
         console.log(error);
@@ -225,7 +242,7 @@ window.eliminarRegistro = (id) => {
             const body = new FormData();
             body.append('id', id);
             const headers = new Headers();
-            headers.append("X-Requested-With", "fetch");
+            headers.append("X-requested-With", "fetch");
     
             const config = {
                 method : 'POST',
@@ -259,7 +276,7 @@ window.eliminarRegistro = (id) => {
 function NumText(string){//solo letras y numeros
     var out = '';
     //Se añaden las letras validas
-    var filtro = 'abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ  ';//Caracteres validos
+    var filtro = 'abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ  1234567890';//Caracteres validos
   
     for (var i=0; i<string.length; i++)
        if (filtro.indexOf(string.charAt(i)) != -1) 
