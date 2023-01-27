@@ -13,6 +13,9 @@ $router->setBaseURL('/medios-comunicacion');
 
 $router->get('/', [AppController::class,'index']);
 $router->get('/eventos', [EventoController::class,'index']);
+$router->get('/API/eventos', [EventoController::class,'eventos']);
+$router->get('/API/eventos/municipios', [EventoController::class, 'municipios']);
+$router->post('/API/eventos/guardar', [EventoController::class, 'guardar']);
 
 // Comprueba y valida las rutas, que existan y les asigna las funciones del Controlador
 $router->comprobarRutas();
