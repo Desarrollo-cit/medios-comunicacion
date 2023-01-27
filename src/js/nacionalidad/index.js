@@ -120,7 +120,7 @@ const buscarNacionalidad = async (evento) => {
                 { 
                     data : 'id',
                     'render': (data, type, row, meta) => {
-                        return `<button class="btn btn-warning" onclick="asignarValores('${row.id}', '${row.desc}','${row.pais}')">Modificar</button>`
+                        return `<button class="btn btn-warning" onclick="asignarValores('${row.id}', '${row.desc}','${row.idpais}')">Modificar</button>`
                     } 
                 },
                 { 
@@ -168,28 +168,45 @@ const modificarNacionalidad = async (evento) => {
         const respuesta = await fetch(url, config);
         const data = await respuesta.json();
 
-        const {resultado} = data;
+        const { mensaje, codigo, detalle } = data;
         // const resultado = data.resultado;
+        let icon = "";
+        switch (codigo) {
+            case 1:
+                icon = "success"
+                formNacionalidad.reset();
+                buscarNacionalidad();
+                break;
+            case 2:
+                icon = "warning"
 
-        if(resultado == 1){
-            Toast.fire({
-                icon : 'success',
-                title : 'Registro modificado'
-            })
-            buscarNacionalidad();
-            formNacionalidad.reset();
-            btnModificar.parentElement.style.display = 'none';
-            btnGuardar.parentElement.style.display = '';
-            btnGuardar.disabled = false;
-            btnModificar.disabled = true;
-        
-            divTabla.style.display = ''
-        }else{
-            Toast.fire({
-                icon : 'error',
-                title : 'Ocurrió un error'
-            })
+                break;
+            case 3:
+                icon = "error"
+
+                break;
+            case 4:
+                icon = "error"
+                console.log(detalle)
+
+                break;
+
+            default:
+                break;
         }
+
+        Toast.fire({
+            icon: icon,
+            title: mensaje,
+        })
+
+        buscarNacionalidad();
+        btnModificar.parentElement.style.display = 'none';
+        btnGuardar.parentElement.style.display = '';
+        btnGuardar.disabled = false;
+        btnModificar.disabled = true;
+        divTabla.style.display = ''
+ 
 
     } catch (error) {
         console.log(error);
@@ -197,11 +214,16 @@ const modificarNacionalidad = async (evento) => {
 }
 
 buscarNacionalidad();
+        btnModificar.parentElement.style.display = 'none';
+        btnGuardar.parentElement.style.display = '';
+        btnGuardar.disabled = false;
+        btnModificar.disabled = true;
+        divTabla.style.display = ''
 
-window.asignarValores = (id, desc, pais) => {
+window.asignarValores = (id, desc, idpais) => {
     formNacionalidad.id.value = id;
     formNacionalidad.desc.value = desc;
-    formNacionalidad.id.value = id;
+    formNacionalidad.pais.value = idpais;
     // console.log(pais);
     btnModificar.parentElement.style.display = '';
     btnGuardar.parentElement.style.display = 'none';

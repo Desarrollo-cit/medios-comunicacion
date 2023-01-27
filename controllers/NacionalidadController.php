@@ -64,7 +64,7 @@ class NacionalidadController{
     public function buscarApi(){
         try {
             getHeadersApi();
-            $nacionalidad = Nacionalidad::fetchArray('SELECT amc_nacionalidad.id, amc_nacionalidad.desc, paises.pai_desc_lg as pais from amc_nacionalidad inner join paises on amc_nacionalidad.pais = paises.pai_codigo');
+            $nacionalidad = Nacionalidad::fetchArray('SELECT amc_nacionalidad.id, amc_nacionalidad.desc, paises.pai_desc_lg as pais, paises.pai_codigo as idpais from amc_nacionalidad inner join paises on amc_nacionalidad.pais = paises.pai_codigo');
             echo json_encode($nacionalidad);       
         } catch (Exception $e) {
             echo json_encode(["error"=>$e->getMessage()]);
@@ -74,21 +74,33 @@ class NacionalidadController{
 
     public function modificarAPI(){
         getHeadersApi();
-        $_POST["desc"] = strtoupper($_POST["desc"]);
-        $Nacionalidad = new Nacionalidad($_POST);
-        
-        $resultado = $Nacionalidad->guardar();
-
-        if($resultado['resultado'] == 1){
-            echo json_encode([
-                "resultado" => 1
-            ]);
+        try {
+            $_POST["desc"] = strtoupper($_POST["desc"]);
+            $Nacionalidad = new Nacionalidad($_POST);
             
-        }else{
+            $resultado = $Nacionalidad->guardar();
+         
+    
+            if($resultado['resultado'] == 1){
+                echo json_encode([
+                    "mensaje" => "El registro se guardó correctamente.",
+                    "codigo" => 1,
+                ]);
+                
+            }else{
+                echo json_encode([
+                    "mensaje" => "Ocurrió un error.",
+                    "codigo" => 0,
+                ]);
+    
+            }
+        } catch (Exception $e) {
             echo json_encode([
-                "resultado" => 0
-            ]);
+                "detalle" => $e->getMessage(),       
+                "mensaje" => "Ocurrió un error en la base de datos.",
 
+                "codigo" => 4,
+            ]);
         }
     }
 
@@ -99,6 +111,8 @@ class NacionalidadController{
         
         $resultado = $Nacionalidad->guardar();
 
+
+        
         if($resultado['resultado'] == 1){
             echo json_encode([
                 "resultado" => 1

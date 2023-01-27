@@ -69,21 +69,32 @@ class TipoController{
 
     public function modificarAPI(){
         getHeadersApi();
-        $_POST["desc"] = strtoupper($_POST["desc"]);
-        $Tipo = new Tipo($_POST);
-        
-        $resultado = $Tipo->guardar();
 
-        if($resultado['resultado'] == 1){
-            echo json_encode([
-                "resultado" => 1
-            ]);
+        try {
+            $_POST["desc"] = strtoupper($_POST["desc"]);
+            $Tipo = new Tipo($_POST);
             
-        }else{
+            $resultado = $Tipo->guardar();
+            if($resultado['resultado'] == 1){
+                echo json_encode([
+                    "mensaje" => "El registro se guardó correctamente.",
+                    "codigo" => 1,
+                ]);
+                
+            }else{
+                echo json_encode([
+                    "mensaje" => "Ocurrió un error.",
+                    "codigo" => 0,
+                ]);
+    
+            }
+        } catch (Exception $e) {
             echo json_encode([
-                "resultado" => 0
-            ]);
+                "detalle" => $e->getMessage(),       
+                "mensaje" => "Ocurrió un error en la base de datos.",
 
+                "codigo" => 4,
+            ]);
         }
     }
 

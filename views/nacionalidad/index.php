@@ -10,7 +10,7 @@
             <div class="col-lg-12">
             <label for="pais">Pais</label>
             
-                                    <select name="pais" id="pais" value="" class="form-control">
+                                    <select name="pais" id="pais" selected class="form-control">
                                         <option value="">Seleccione...</option>
                                         <?php foreach ($busqueda as $pai) { ?>
                                             <option value="<?= $pai['pai_codigo']  ?>"><?= $pai['pai_desc_lg']?></option>
