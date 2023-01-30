@@ -4,7 +4,8 @@ namespace Controllers;
 
 use Model\Evento;
 use MVC\Router;
-use Sabberworm\CSS\Value\Size;
+// use PDOException;
+use Exception;
 
 class EventoController {
     public static function index(Router $router){
@@ -68,12 +69,24 @@ class EventoController {
     public static function eventos(){
         try {
             $topicos = $_GET['topicos'];
-
+            $inicio = str_replace('T',' ',$_GET['inicio']);
+            $fin = str_replace('T',' ',$_GET['fin']);
+            // $fin= $_GET['fin'];
+            // echo json_encode($_GET);
+            // exit;
 
             $eventos = null;
             if(strlen($topicos) > 0){
                 
-                $sql = "SELECT amc_topico.latitud as latitud, amc_topico.longitud as longitud, amc_actividad_vinculada.desc as actividad, amc_tipo_topics.desc as tipo, amc_tipo_topics.id as tipo_id  from amc_topico inner join amc_actividad_vinculada on amc_topico.actividad = amc_actividad_vinculada.id inner join amc_tipo_topics on amc_topico.tipo = amc_tipo_topics.id where amc_topico.situacion = 1 and amc_tipo_topics.id in ($topicos)" ; 
+                $sql = "SELECT amc_topico.latitud as latitud, amc_topico.longitud as longitud, amc_actividad_vinculada.desc as actividad, amc_tipo_topics.desc as tipo, amc_tipo_topics.id as tipo_id  from amc_topico inner join amc_actividad_vinculada on amc_topico.actividad = amc_actividad_vinculada.id inner join amc_tipo_topics on amc_topico.tipo = amc_tipo_topics.id where amc_topico.situacion = 1 and amc_tipo_topics.id in ($topicos) " ; 
+                
+                if($inicio != ''){
+                    $sql .= " and amc_topico.fecha >= '$inicio'";
+                }
+                if($fin != ''){
+                    $sql .= " and amc_topico.fecha <= '$fin'";
+                }
+                
                 $eventos = Evento::fetchArray($sql);
             }
             

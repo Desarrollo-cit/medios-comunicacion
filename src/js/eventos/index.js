@@ -8,7 +8,8 @@ const modalInformacion = new Modal(document.getElementById('modalIngreso'), {})
 const formInformacion = document.querySelector('#formInformacion')
 const divPills = document.getElementById('divPills')
 
-
+const inicioInput = document.getElementById('inicio');
+const finInput = document.getElementById('fin');
 
 const map = L.map('map', {
     center: [15.825158, -89.72959],
@@ -203,9 +204,12 @@ let iconos = {
 const buscarEventos = async e => {
     e && e.preventDefault();
     // map.removeLayer(markers)
+    let inicio = inicioInput.value,
+        fin = finInput.value;
+        // console.log(inicio, fin);
     markers.clearLayers();
     try {
-        const url = `/medios-comunicacion/API/eventos?topicos=${topicos}`
+        const url = `/medios-comunicacion/API/eventos?topicos=${topicos}&fin=${fin}&inicio=${inicio}`
         const headers = new Headers();
         headers.append("X-Requested-With", "fetch");
 
@@ -259,3 +263,5 @@ const crearIcono = (nombre) => {
 map.on('click', abreModal)
 formInformacion.departamento.addEventListener('change', buscarMunicipio)
 formInformacion.addEventListener('submit', guardarEvento)
+inicioInput.addEventListener('change', buscarEventos)
+finInput.addEventListener('change', buscarEventos)

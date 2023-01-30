@@ -1,5 +1,21 @@
+
 <div class="row">
-    <div class="col-lg-3 bg-light pt-3 ">
+    <div class="col-lg-3 border pt-3 ">
+        <div class="row">
+            <div class="col text-center">
+                <h3>Filtros</h3>
+                <div class="row py-4">
+                    <div class="col">
+                        <label for="inicio">Inicio</label>
+                        <input type="datetime-local" class="form-control" name="inicio" id="inicio">
+                    </div>
+                    <div class="col">
+                        <label for="fin">Fin</label>
+                        <input type="datetime-local" class="form-control" name="fin" id="fin">
+                    </div>
+                </div>
+            </div>
+        </div>
         <h3 class="text-center">Leyenda</h3>
         <div class="row justify-content-center">
             <div class="list-group col-lg-12 p-3">
