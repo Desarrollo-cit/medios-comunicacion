@@ -32,12 +32,24 @@
   
                     <div class="nav-item dropdown " >
                         <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
-                            <i class="bi bi-gear me-2"></i>Dropdown
+                            <i class="bi bi-tools me-2"></i>MANTENIMIENTOS
                         </a>
                         <ul class="dropdown-menu  dropdown-menu-dark "id="dropwdownRevision" style="margin: 0;">
                             <!-- <h6 class="dropdown-header">Información</h6> -->
                             <li>
-                                <a class="dropdown-item nav-link text-white " href="/aplicaciones/nueva"><i class="ms-lg-0 ms-2 bi bi-plus-circle me-2"></i>Subitem</a>
+                                <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/armas"><i class="ms-lg-0 ms-2 bi bi-hammer me-2"></i>Armas</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/calibres"><i class="ms-lg-0 ms-2 bi bi-hash me-2"></i>Calibres</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/colores"><i class="ms-lg-0 ms-2 bi bi-palette me-2"></i>Colores</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/delitos"><i class="ms-lg-0 ms-2 bi bi-clipboard-x me-2"></i>Delitos</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/desastre_natural"><i class="ms-lg-0 ms-2 bi bi-cloud-lightning-rain me-2"></i>Desastres Naturales</a>
                             </li>
                         
                     
