@@ -4,9 +4,13 @@
 // error_reporting(E_ALL);
 require_once __DIR__ . '/../includes/app.php';
 
+
 use Controllers\ArmasController;
 use Controllers\CalibresController;
 use Controllers\DelitosController;
+
+
+use Controllers\EventoController;
 use MVC\Router;
 use Controllers\AppController;
 use Controllers\OrganizacionController;
@@ -22,6 +26,7 @@ $router = new Router();
 $router->setBaseURL('/medios-comunicacion');
 
 $router->get('/', [AppController::class,'index']);
+
 $router->get('/colores',[ColoresController::class,'index']);
 $router->post('/API/colores/guardar', [ColoresController::class, 'guardarAPI'] );
 $router->get('/API/colores/buscar', [ColoresController::class, 'buscarAPI'] );
@@ -93,6 +98,12 @@ $router->post('/API/nacionalidad/guardar', [NacionalidadController::class, 'guar
 $router->get('/API/nacionalidad/buscar', [NacionalidadController::class, 'buscarAPI'] );
 $router->post('/API/nacionalidad/modificar', [NacionalidadController::class, 'modificarAPI'] );
 $router->post('/API/nacionalidad/eliminar', [NacionalidadController::class, 'eliminarAPI'] );
+
+
+$router->get('/eventos', [EventoController::class,'index']);
+$router->get('/API/eventos', [EventoController::class,'eventos']);
+$router->get('/API/eventos/municipios', [EventoController::class, 'municipios']);
+$router->post('/API/eventos/guardar', [EventoController::class, 'guardar']);
 
 
 // Comprueba y valida las rutas, que existan y les asigna las funciones del Controlador

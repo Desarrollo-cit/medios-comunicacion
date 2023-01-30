@@ -16,6 +16,8 @@ module.exports = {
     'js/desastre_natural/index' : './src/js/desastre_natural/index.js',
     'js/fenomeno_natural/index' : './src/js/fenomeno_natural/index.js',
     'js/moneda/index' : './src/js/moneda/index.js',
+    'js/eventos/index' : './src/js/eventos/index.js',
+
   },
   output: {
     filename: '[name].js',
