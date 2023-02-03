@@ -259,50 +259,51 @@
 
                 </form> -->
                 <div class="row justify-content-center mb-3">
-                    <div id="formCaptura" class="col p-1">
-                        <input type="hidden" id="id">
-                        <div class="row justify-content-center mb-5">
-                            <h4>Información de la captura</h4>
-                            <div class="col-12 text-center">
-                                <label class="h3 " for="info">Noticia</label>
-                                <textarea name="CapturaNoticia" id="CapturaNoticia" class="form-control"> </textarea>
-                                
+                    <form id="formCaptura" novalidate >
+                        <div class="col p-1">
+                            <input type="text" name="topico" id="topico">
+                            <div class="row justify-content-center mb-5">
+                                <h4>Información de la captura</h4>
+                                <div class="col-12 text-center">
+                                    <label class="h3 " for="info">Noticia</label>
+                                    <textarea name="info" id="info" class="form-control"></textarea>
+                                    
+                                </div>
+                            </div>  
+                        </div>
+                        <div class="row justify-content-center">
+
+                            <div class="col">
+
+                                <h2>Personas capturada</h2>
                             </div>
-                        </div>  
-                    </div>
-                    <div class="row justify-content-center">
+                            <div class="col-lg-1">
+                                <button type="button" id="agregarInputscaptura" class="btn btn-success w-100"><i class="bi bi-plus-circle "></i></button>                     
+                            </div>
+                            <div class="col-lg-1">
+                                <button type="button" id="quitarInputscaptura" class="btn btn-secondary w-100"><i class="bi bi-dash-circle"></i></button>
+                            </div>
 
-                        <div class="col">
 
-                            <h2>Personas capturada</h2>
-                        </div>
-                        <div class="col-lg-1">
-                            <button type="button" id="agregarInputscaptura" class="btn btn-success w-100"><i class="bi bi-plus-circle "></i></button>                     
-                        </div>
-                        <div class="col-lg-1">
-                            <button type="button" id="quitarInputscaptura" class="btn btn-secondary w-100"><i class="bi bi-dash-circle"></i></button>
                         </div>
 
 
-                    </div>
-
-
-                    <div id='divCapturados' class="row">
-                        
-                    </div>
-                    
+                        <div id='divCapturados' class="row">
+                            
+                        </div>
+                    </form>
                 </div>
             </div>
             <div class="modal-footer row justify-content-end">
             
                 <div class="col-lg-3">
-                    <button type="submit" form="formcaptura" id="btn_guardar_captura" class="btn btn-primary w-100"><i class="bi bi-save me-2"></i>Guardar</button>
+                    <button type="submit" form="formCaptura" id="btnGuardarCaptura" class="btn btn-primary w-100"><i class="bi bi-save me-2"></i>Guardar</button>
                 </div>
                 <div class="col-lg-3">
-                    <button type="button" class="btn btn-warning w-100" id="btnmodificar_i_captura"><i class="bi bi-save me-2"></i>Modificar</button>
+                    <button type="button" class="btn btn-warning w-100" id="btnModificarCaptura"><i class="bi bi-save me-2"></i>Modificar</button>
                 </div>
                 <div class="col-lg-3">
-                    <button type="button" class="btn btn-danger w-100" id="btnborrar_i_captura"><i class="bi bi-trash  me-2"> </i> Borrar</button>
+                    <button type="button" class="btn btn-danger w-100" id="btnBorrarCaptura"><i class="bi bi-trash  me-2"> </i> Borrar</button>
                 </div>
 
             </div>
