@@ -702,7 +702,7 @@ class InfoCapturaController
         try {
 
             $mes = date("n");
-            $mes = 1;
+            // $mes = 1;
             $año = date("Y");
 
             $meses = [];

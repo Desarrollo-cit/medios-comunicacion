@@ -211,9 +211,7 @@ const Buscar_capturas = async (e) => {
 
     }
 
-
 }
-
 
 
 window.ModalPersonal = async (id, tipo) => {
@@ -341,10 +339,6 @@ window.ModalPersonal = async (id, tipo) => {
 
 }
 
-
-
-
-
 const formMapa = document.querySelector('#formBusqueda_mapa')
 
 const busquedad_mapa_Calor = async (e) => {
@@ -381,8 +375,20 @@ const busquedad_mapa_Calor = async (e) => {
 
         const respuesta = await fetch(url, config);
         const info = await respuesta.json();
-
-        // console.log(info)
+if( (fecha1 != "" && fecha2 != "") || formMapa.delitos_mapa_calor.value !="" ){
+if(info.length ==  0){
+Toast.fire({
+    icon: 'error',
+    title: 'Sin registros'
+})
+}else{
+    Toast.fire({
+        icon: 'success',
+        title: 'Se tienen siguientes registros'
+    })
+}
+}
+        console.log(info)
         window.deptos = document.querySelectorAll('path');
         deptos.forEach(element => {
             element.setAttribute('fill', '#145A32 ')
