@@ -12,9 +12,11 @@ import { validarFormulario } from "../funciones";
 const L = require('leaflet')
 const modalInformacion = new Modal(document.getElementById('modalIngreso'), {})
 const modalCaptura = new Modal(document.getElementById('modalCaptura'), {})
+const modalAsesinato = new Modal(document.getElementById('modalAsesinato'), {})
 const formInformacion = document.querySelector('#formInformacion')
 const divPills = document.getElementById('divPills')
 const formCaptura = document.querySelector('#formCaptura')
+const formAsesinatos = document.querySelector('#formAsesinatos')
 const buttonAgregarInputsCaptura = document.getElementById('agregarInputscaptura');
 const buttonQuitarInputsCaptura = document.getElementById('quitarInputscaptura');
 const btnGuardarCaptura = document.getElementById('btnGuardarCaptura');
@@ -279,6 +281,10 @@ const buscarEventos = async e => {
                             modal1(e, p)
                             break;
 
+                            case '2':
+                            modal2(e, p)
+                            break;
+
                     }
                 })
                 markers.addTo(map)
@@ -361,6 +367,65 @@ const modal1 = async (e, punto) => {
     }
 
     modalCaptura.show();
+
+
+
+}
+
+// MODAL 2
+const divAsesinados = document.getElementById('divAsesinados');
+let inputsasesinatos = 0;
+const modal2 = async (e, punto) => {
+    L.DomEvent.stopPropagation(e);
+    formAsesinatos.reset()
+    formAsesinatos.topico.value = punto.id
+    while (inputscapturas > 0) {
+        quitarInputsCaptura();
+    }
+
+    try {
+        const url = `/medios-comunicacion/API/capturas/buscar?topico=${punto.id}`
+        const headers = new Headers();
+        headers.append("X-Requested-With", "fetch");
+
+        const config = {
+            method: 'GET',
+            headers
+        }
+
+        const respuesta = await fetch(url, config);
+        const data = await respuesta.json();
+        const { captura , capturados } = data;
+
+        if(captura && capturados){
+            tinymce.get('info').setContent(captura.info)
+            console.log(data);
+            capturados.forEach(c => {
+                agregarInputsCaptura(c.id, c.nombre, c.edad, c.nacionalidad, c.sexo, c.delito, c.vinculo )
+            })
+
+            btnGuardarCaptura.disabled = true
+            btnModificarCaptura.disabled = false
+            btnBorrarCaptura.disabled = false
+
+            btnGuardarCaptura.parentElement.style.display = 'none'
+            btnModificarCaptura.parentElement.style.display = ''
+            btnBorrarCaptura.parentElement.style.display = ''
+        }else{
+            btnGuardarCaptura.disabled = false
+            btnModificarCaptura.disabled = true
+            btnBorrarCaptura.disabled = true
+
+            btnGuardarCaptura.parentElement.style.display = ''
+            btnModificarCaptura.parentElement.style.display = 'none'
+            btnBorrarCaptura.parentElement.style.display = 'none'
+        }
+
+    }catch(e){
+        console.log(e);
+    }
+
+    modalAsesinato.show();
 
 
 
@@ -645,6 +710,79 @@ const guardarCaptura = async e => {
 
 }
 
+const guardarAsesinatos = async e => {
+    e.preventDefault();
+
+    let info = tinymce.get('info').getContent()
+    // console.log(info);
+    if (validarFormulario(formCaptura, ['id_per[]', 'info']) && info != '') {
+
+        // console.log('hola');
+        try {
+
+            const url = '/medios-comunicacion/API/capturas/guardar'
+
+            const body = new FormData(formCaptura);
+            body.append('info', info)
+            const headers = new Headers();
+            headers.append("X-Requested-With", "fetch");
+
+            const config = {
+                method: 'POST',
+                headers,
+                body
+            }
+
+            const respuesta = await fetch(url, config);
+            const data = await respuesta.json();
+
+            // console.log(data);
+            const { mensaje, codigo, detalle } = data;
+            // const resultado = data.resultado;
+            let icon = "";
+            switch (codigo) {
+                case 1:
+                    icon = "success"
+                    formCaptura.reset();
+                    modalCaptura.hide();
+                    break;
+                case 2:
+                    icon = "warning"
+                    formCaptura.reset();
+
+                    break;
+                case 3:
+                    icon = "error"
+
+                    break;
+                case 4:
+                    icon = "error"
+                    console.log(detalle)
+
+                    break;
+
+                default:
+                    break;
+            }
+
+            Toast.fire({
+                icon: icon,
+                title: mensaje,
+            })
+
+        } catch (error) {
+            console.log(error);
+        }
+
+    } else {
+        Toast.fire({
+            icon: 'warning',
+            title: 'Debe llenar todos los campos'
+        });
+    }
+
+}
+
 
 map.on('click', abreModal)
 formInformacion.departamento.addEventListener('change', buscarMunicipio)
@@ -654,3 +792,4 @@ finInput.addEventListener('change', buscarEventos)
 buttonAgregarInputsCaptura.addEventListener('click', agregarInputsCaptura)
 buttonQuitarInputsCaptura.addEventListener('click', quitarInputsCaptura)
 formCaptura.addEventListener('submit', guardarCaptura)
+formAsesinatos.addEventListener('submit', guardarAsesinatos)
