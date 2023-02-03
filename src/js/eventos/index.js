@@ -1,5 +1,5 @@
 import { Dropdown, Tooltip, Modal } from "bootstrap";
-import { TinyMCE } from "tinymce";
+import tinymce, { TinyMCE } from "tinymce";
 import 'tinymce/themes/silver'
 import 'tinymce/icons/default'
 import 'tinymce/plugins/advlist'
@@ -11,12 +11,15 @@ import { validarFormulario } from "../funciones";
 
 const L = require('leaflet')
 const modalInformacion = new Modal(document.getElementById('modalIngreso'), {})
-const modalcaptura = new Modal(document.getElementById('modalCaptura'), {})
+const modalCaptura = new Modal(document.getElementById('modalCaptura'), {})
 const formInformacion = document.querySelector('#formInformacion')
 const divPills = document.getElementById('divPills')
 const formCaptura = document.querySelector('#formCaptura')
 const buttonAgregarInputsCaptura = document.getElementById('agregarInputscaptura');
 const buttonQuitarInputsCaptura = document.getElementById('quitarInputscaptura');
+const btnGuardarCaptura = document.getElementById('btnGuardarCaptura');
+const btnModificarCaptura = document.getElementById('btnModificarCaptura');
+const btnBorrarCaptura = document.getElementById('btnBorrarCaptura');
 
 const inicioInput = document.getElementById('inicio');
 const finInput = document.getElementById('fin');
@@ -199,11 +202,11 @@ const guardarEvento = async e => {
 
 let topicos = [];
 const seleccionarTopico = (e, iddiv, idregistro) => {
-    console.log(e);
+    // console.log(e);
     const div = document.getElementById(iddiv);
     if (div.classList.contains('bg-info')) {
 
-        if(e){
+        if (e) {
             div.classList.remove('bg-info')
             topicos = topicos.filter(el => el != div.dataset.id)
         }
@@ -212,26 +215,26 @@ const seleccionarTopico = (e, iddiv, idregistro) => {
         div.classList.add('bg-info')
         topicos.push(idregistro)
     }
-    console.log(topicos);
+    // console.log(topicos);
     buscarEventos()
 }
 
 document.querySelectorAll('[id^=divTopico]').forEach(d => {
     d.addEventListener('click', (e) => {
-        seleccionarTopico(e, d.id , d.dataset.id)
+        seleccionarTopico(e, d.id, d.dataset.id)
     })
 })
 
 let iconos = {
-    "1":"handcuffs.png",
-    "2":"murder.png",
-    "9":"walk.png",
-    "4":"pills.png",
-    "5":"money-bag.png",
-    "6":"rifle.png",
-    "7":"disaster.png",
-    "8":"dynamite.png",
-    "10":"banner.png",
+    "1": "handcuffs.png",
+    "2": "murder.png",
+    "9": "walk.png",
+    "4": "pills.png",
+    "5": "money-bag.png",
+    "6": "rifle.png",
+    "7": "disaster.png",
+    "8": "dynamite.png",
+    "10": "banner.png",
 }
 
 const buscarEventos = async e => {
@@ -239,7 +242,7 @@ const buscarEventos = async e => {
     // map.removeLayer(markers)
     let inicio = inicioInput.value,
         fin = finInput.value;
-        // console.log(inicio, fin);
+    // console.log(inicio, fin);
     markers.clearLayers();
     try {
         const url = `/medios-comunicacion/API/eventos?topicos=${topicos}&fin=${fin}&inicio=${inicio}`
@@ -253,7 +256,7 @@ const buscarEventos = async e => {
 
         const respuesta = await fetch(url, config);
         const data = await respuesta.json();
-        console.log(data);
+        // console.log(data);
 
         if (data) {
             data.forEach(p => {
@@ -275,7 +278,7 @@ const buscarEventos = async e => {
                         case '1':
                             modal1(e, p)
                             break;
-    
+
                     }
                 })
                 markers.addTo(map)
@@ -307,16 +310,63 @@ const crearIcono = (nombre) => {
 // MODAL 1
 const divCapturados = document.getElementById('divCapturados');
 let inputscapturas = 0;
-const modal1 = async(e, punto) => {
+const modal1 = async (e, punto) => {
     L.DomEvent.stopPropagation(e);
+    formCaptura.reset()
+    formCaptura.topico.value = punto.id
     while (inputscapturas > 0) {
         quitarInputsCaptura();
     }
-    modalcaptura.show();
-   
+
+    try {
+        const url = `/medios-comunicacion/API/capturas/buscar?topico=${punto.id}`
+        const headers = new Headers();
+        headers.append("X-Requested-With", "fetch");
+
+        const config = {
+            method: 'GET',
+            headers
+        }
+
+        const respuesta = await fetch(url, config);
+        const data = await respuesta.json();
+        const { captura , capturados } = data;
+
+        if(captura && capturados){
+            tinymce.get('info').setContent(captura.info)
+            console.log(data);
+            capturados.forEach(c => {
+                agregarInputsCaptura(c.id, c.nombre, c.edad, c.nacionalidad, c.sexo, c.delito, c.vinculo )
+            })
+
+            btnGuardarCaptura.disabled = true
+            btnModificarCaptura.disabled = false
+            btnBorrarCaptura.disabled = false
+
+            btnGuardarCaptura.parentElement.style.display = 'none'
+            btnModificarCaptura.parentElement.style.display = ''
+            btnBorrarCaptura.parentElement.style.display = ''
+        }else{
+            btnGuardarCaptura.disabled = false
+            btnModificarCaptura.disabled = true
+            btnBorrarCaptura.disabled = true
+
+            btnGuardarCaptura.parentElement.style.display = ''
+            btnModificarCaptura.parentElement.style.display = 'none'
+            btnBorrarCaptura.parentElement.style.display = 'none'
+        }
+
+    }catch(e){
+        console.log(e);
+    }
+
+    modalCaptura.show();
+
+
+
 }
 
-const agregarInputsCaptura = async () => {
+const agregarInputsCaptura = async (id = '', nombre = '', edad = '', nacionalidad = '', sexo = '', delito = '', vinculo = "") => {
     inputscapturas++;
     // console.log(inputscapturas);
     const fragment = document.createDocumentFragment();
@@ -344,35 +394,39 @@ const agregarInputsCaptura = async () => {
     const label5 = document.createElement('label')
     const label6 = document.createElement('label')
 
-
     const option = document.createElement('option')
     option.value = ""
     option.innerText = "SELECCIONE..."
     select.appendChild(option)
+    const option2 = document.createElement('option')
+    option2.value = ""
+    option2.innerText = "SELECCIONE..."
+    select3.appendChild(option2)
     const option9 = document.createElement('option')
     option9.value = ""
     option9.innerText = "SELECCIONE..."
     select5.appendChild(option9)
     const option6 = document.createElement('option')
     option6.value = "1"
-    option6.innerText = "Mara 18"
+    option6.innerText = "MARA 18"
     const option7 = document.createElement('option')
     option7.value = "2"
-    option7.innerText = "Mara Salvatrucha"
+    option7.innerText = "MARA SALVATRUCHA"
     const option8 = document.createElement('option')
     option8.value = "0"
-    option8.innerText = "otro"
+    option8.innerText = "OTRO"
 
     select5.appendChild(option6)
     select5.appendChild(option7)
     select5.appendChild(option8)
+    select4.appendChild(option9)
 
-    
+
     divRow.classList.add("row", "justify-content-center");
-    divCuadro.classList.add("col", "border","rounded", "mb-2", "bg-light");
+    divCuadro.classList.add("col", "border", "rounded", "mb-2", "bg-light");
 
-    divRow1.classList.add("row", "justify-content-center", "mb-2");
-    divRow2.classList.add("row", "justify-content-center", "mb-2");
+    divRow1.classList.add("row", "justify-content-start", "mb-2");
+    divRow2.classList.add("row", "justify-content-start", "mb-2");
     divCol1.classList.add("col-lg-3");
     divCol2.classList.add("col-lg-3");
     divCol3.classList.add("col-lg-3");
@@ -406,8 +460,8 @@ const agregarInputsCaptura = async () => {
     select5.id = `vinculo[]`
     select5.required = true;
     select.classList.add("form-control")
-    select.name = `delito_captura[]`
-    select.id = `delito_captura[]`
+    select.name = `delito[]`
+    select.id = `delito[]`
     select.required = true;
     label1.innerText = `Persona ${inputscapturas}`
     label1.htmlFor = `nombre[]`
@@ -421,6 +475,57 @@ const agregarInputsCaptura = async () => {
     label5.htmlFor = `sexo[]`
     label6.innerText = `Relacion`
     label6.htmlFor = `vinculo[]`
+
+    const headers = new Headers();
+    headers.append("X-Requested-With", "fetch");
+
+    const url3 = `/medios-comunicacion/API/nacionalidad/buscar`;
+    const config3 = { method: "GET", headers }
+    const response3 = await fetch(url3, config3);
+    const nacionalidades = await response3.json()
+
+    // console.log(nacionalidades);
+    nacionalidades.forEach(nacionalidad => {
+        const option_nacionalidad = document.createElement('option')
+        option_nacionalidad.value = nacionalidad.id
+        option_nacionalidad.innerText = `${nacionalidad.desc} `
+        select3.appendChild(option_nacionalidad)
+    })
+
+    const url1 = `/medios-comunicacion/API/delitos/buscar`
+    const config1 = { method: "GET", headers }
+    const response1 = await fetch(url1, config1);
+    const delitos = await response1.json()
+
+
+    delitos.forEach(delito => {
+        const option = document.createElement('option')
+        option.value = delito.id
+        option.innerText = `${delito.desc} `
+        select.appendChild(option)
+    })
+
+    const url2 = `/medios-comunicacion/API/eventos/sexo`
+    const config2 = { method: "GET", headers }
+    const response2 = await fetch(url2, config2);
+    const sexos = await response2.json()
+
+    sexos.forEach(sexo => {
+        const option_sexo = document.createElement('option')
+        option_sexo.value = sexo.id
+        option_sexo.innerText = `${sexo.desc} `
+        select4.appendChild(option_sexo)
+    })
+
+
+    select.value = delito;
+    input1.value = nombre;
+    inputIdRow.value = id;
+    input2.value = edad;
+    select3.value = nacionalidad;
+    select4.value = sexo;
+
+    select5.value = vinculo;
 
     divCol1.appendChild(inputIdRow)
     divCol1.appendChild(label1)
@@ -467,6 +572,79 @@ const quitarInputsCaptura = () => {
     }
 }
 
+const guardarCaptura = async e => {
+    e.preventDefault();
+
+    let info = tinymce.get('info').getContent()
+    // console.log(info);
+    if (validarFormulario(formCaptura, ['id_per[]', 'info']) && info != '') {
+
+        // console.log('hola');
+        try {
+
+            const url = '/medios-comunicacion/API/capturas/guardar'
+
+            const body = new FormData(formCaptura);
+            body.append('info', info)
+            const headers = new Headers();
+            headers.append("X-Requested-With", "fetch");
+
+            const config = {
+                method: 'POST',
+                headers,
+                body
+            }
+
+            const respuesta = await fetch(url, config);
+            const data = await respuesta.json();
+
+            // console.log(data);
+            const { mensaje, codigo, detalle } = data;
+            // const resultado = data.resultado;
+            let icon = "";
+            switch (codigo) {
+                case 1:
+                    icon = "success"
+                    formCaptura.reset();
+                    modalCaptura.hide();
+                    break;
+                case 2:
+                    icon = "warning"
+                    formCaptura.reset();
+
+                    break;
+                case 3:
+                    icon = "error"
+
+                    break;
+                case 4:
+                    icon = "error"
+                    console.log(detalle)
+
+                    break;
+
+                default:
+                    break;
+            }
+
+            Toast.fire({
+                icon: icon,
+                title: mensaje,
+            })
+
+        } catch (error) {
+            console.log(error);
+        }
+
+    } else {
+        Toast.fire({
+            icon: 'warning',
+            title: 'Debe llenar todos los campos'
+        });
+    }
+
+}
+
 
 map.on('click', abreModal)
 formInformacion.departamento.addEventListener('change', buscarMunicipio)
@@ -475,3 +653,4 @@ inicioInput.addEventListener('change', buscarEventos)
 finInput.addEventListener('change', buscarEventos)
 buttonAgregarInputsCaptura.addEventListener('click', agregarInputsCaptura)
 buttonQuitarInputsCaptura.addEventListener('click', quitarInputsCaptura)
+formCaptura.addEventListener('submit', guardarCaptura)

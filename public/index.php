@@ -7,6 +7,7 @@ require_once __DIR__ . '/../includes/app.php';
 
 use Controllers\ArmasController;
 use Controllers\CalibresController;
+use Controllers\CapturaController;
 use Controllers\DelitosController;
 
 
@@ -104,6 +105,10 @@ $router->get('/eventos', [EventoController::class,'index']);
 $router->get('/API/eventos', [EventoController::class,'eventos']);
 $router->get('/API/eventos/municipios', [EventoController::class, 'municipios']);
 $router->post('/API/eventos/guardar', [EventoController::class, 'guardar']);
+$router->get('/API/eventos/sexo', [EventoController::class, 'sexos']);
+
+$router->post('/API/capturas/guardar', [CapturaController::class, 'guardar']);
+$router->get('/API/capturas/buscar', [CapturaController::class, 'buscarCapturaAPI']);
 
 
 // Comprueba y valida las rutas, que existan y les asigna las funciones del Controlador

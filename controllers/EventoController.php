@@ -2,7 +2,9 @@
 
 namespace Controllers;
 
+use Model\Delitos;
 use Model\Evento;
+use Model\Nacionalidad;
 use MVC\Router;
 // use PDOException;
 use Exception;
@@ -20,6 +22,7 @@ class EventoController {
     }
 
     public static function municipios(){
+        getHeadersApi();
         try {
             $departamento = substr($_GET['departamento'], 0,2);
             $municipios = Evento::fetchArray("SELECT dm_codigo as codigo, trim(dm_desc_lg) as descripcion from depmun WHERE dm_codigo[1,2] = $departamento AND dm_codigo[3,4] > 00");
@@ -33,8 +36,25 @@ class EventoController {
             ]);
         }
     }
+    
+    public static function sexos(){
+        getHeadersApi();
+        try {
+
+            $sexos = Evento::fetchArray("SELECT * from amc_sexo where situacion = 1");
+            echo json_encode($sexos);
+        } catch (Exception $e) {
+            echo json_encode([
+                "detalle" => $e->getMessage(),       
+                "mensaje" => "Ocurrió  un error en base de datos.",
+
+                "codigo" => 4,
+            ]);
+        }
+    }
 
     public static function guardar(){
+        getHeadersApi();
         $_POST['fecha'] = str_replace('T', ' ', $_POST['fecha']);
         $_POST['lugar'] = strtoupper($_POST['lugar']);
 
@@ -67,6 +87,7 @@ class EventoController {
     }
 
     public static function eventos(){
+        getHeadersApi();
         try {
             $topicos = $_GET['topicos'];
             $inicio = str_replace('T',' ',$_GET['inicio']);
