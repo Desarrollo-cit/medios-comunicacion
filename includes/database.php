@@ -13,6 +13,6 @@ try {
    
     
 } catch (PDOException $e) {
-    echo "ERROR DE CONEXION BD";
-    exit;
+    echo $e;
+    // exit;
 }

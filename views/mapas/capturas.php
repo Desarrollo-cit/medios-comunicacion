@@ -788,16 +788,13 @@ $depto = $depto[0]['desc'];
                                             <canvas id="depto_cant" width="50" height="50"></canvas>
                                         </div>
                                     </div> -->
-                        <div id="grafica_depto1" class="col-lg-12 pt-5 ">
+                        <div id="grafica_depto1" class="row ">
 
-                            <div class="col-lg-6 " style="width: 600px; height:400px; ">
+                            <div class="col-lg-12" >
                                 <h2 style="color:black">Delitos cometidos</h2>
-                                <canvas id="delitos_cant" width="50" height="50"></canvas>
+                                <canvas id="delitos_cant" ></canvas>
                             </div>
-                            <div class="col-lg-6  " style="width: 600px; height:400px; ">
-
-                                <canvas id="delitos_cant2" width="50" height="50"></canvas>
-                            </div>
+                        
                         </div>
 
                     </div>
@@ -815,25 +812,64 @@ $depto = $depto[0]['desc'];
         </div>
     </div>
 </div>
+</div>
 
 <div class=" ms-2 container-fluid text-center pt-4" id="div_graficas" style="display:none; ">
     <div class="justify-content-center">
         <div class="  row col-lg-12 justify-content-end " style="border:solid; border-radius:10px; background-color:white;">
-            <h1 style="color:black">ESTADISTICAS DEL MES DE <?= strtoupper($fechaLarga) ?> </h1>
+            <h1 style="color:black">ESTADISTICAS DEL MES DE <?= strtoupper($fechaLarga) ?> <a type="button" id="buscarGrafica"> <img src="<?= asset('./images/iconos/lupa.png') ?>" style="width:40px; height:40px;" alt="capturas"></a>
+</h1>
+            <div id="cuadro_busquedad_grafica" class="row mb-3 " style="display:none">
+            <div class="col-lg-12 text-center ">
+
+                <form class=" ms-5  col-lg-11 justify-content-center border border-2 border-dark rounded bg-dark pt-3  " id="formBusqueda_grafica">
+                    <div class="row mb-3">
+                        <div class="col">
+                            <h2 style="color: white;">Ingrese los criterios de busqueda</h2>
+                        </div>
+                    </div>
+                    <div class="row mb-3 justify-content-center">
+                        <div class="col-lg-3">
+                            <label for="fecha_grafica" style="color: white;">DE</label>
+                            <input type="datetime-local" id="fecha_grafica" name="fecha_grafica" class="form-control" required>
+                        </div>
+                        <div class="col-lg-3">
+                            <label for="fecha_grafica2" style="color: white;">HASTA</label>
+                            <input type="datetime-local" id="fecha_grafica2" name="fecha_grafica2" class="form-control" required>
+                        </div>
+                        <div class="col-lg-2 pt-4">
+                            <button type="submit" class="btn btn-info w-100"><i class="bi bi-search me-2"></i>Buscar</button>
+                        </div>
+                    </div>
+
+
+                </form>
+
+            </div>
+        </div>
+
 
             <hr style="color:#0B3254; height:10px;">
             <div class="row mb-1">
                 <div class="col-lg-6 ">
 
-                    <div style="width: 800px; height:900px; ">
-                        <h2 style="color:black">Delitos cometidos</h2>
+                <h2 style="color:black">Delitos cometidos</h2>
+                <div id="texto_no1" style="display:none;">
+                            <h3> No se encontraron delitos</h3>
+                        </div>
+                    <div id="graficaDelitos" style="width: 800px; height:900px; ">
+                        
                         <canvas id="myChart1" width="50" height="50"></canvas>
                     </div>
+                    
                 </div>
                 <div class="col-lg-6 ">
-
-                    <div style="width: 800px; height:900px; ">
-                        <h2 style="color:black">Delitos cometidos por departamentos</h2>
+                <h2 style="color:black">Delitos cometidos por departamentos</h2>
+                <div id="texto_no2" style="display:none;">
+                            <h3> No se encontraron delitos</h3>
+                        </div>
+                    <div id="graficaDelitosDepartamento" style="width: 800px; height:900px; ">
+                       
                         <canvas id="myChart2" width="50" height="50"></canvas>
                     </div>
                 </div>
@@ -848,7 +884,7 @@ $depto = $depto[0]['desc'];
 
                     <div class="col-lg-12 " style="height:800px;">
                         <h2 style="color:black">Capturas realizadas en el mes de <?= strtoupper($fechaLarga) ?></h2>
-                        <canvas id="myChart3" height="100"></canvas>
+                        <canvas id="myChart3" height="100" width="300"></canvas>
                     </div>
                 </div>
 
