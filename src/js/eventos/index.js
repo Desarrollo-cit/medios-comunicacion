@@ -8,6 +8,7 @@ import 'tinymce/models/dom/model'
 import { Toast } from '../funciones';
 
 import { validarFormulario } from "../funciones";
+import Swal from "sweetalert2";
 
 const L = require('leaflet')
 const modalInformacion = new Modal(document.getElementById('modalIngreso'), {})
@@ -312,14 +313,25 @@ const divCapturados = document.getElementById('divCapturados');
 let inputscapturas = 0;
 const modal1 = async (e, punto) => {
     L.DomEvent.stopPropagation(e);
+
+
+    recargarModalCaptura(punto.id)
+
+
+    modalCaptura.show();
+
+
+
+}
+
+const recargarModalCaptura = async (id) => {
     formCaptura.reset()
-    formCaptura.topico.value = punto.id
+    formCaptura.topico.value = id
     while (inputscapturas > 0) {
         quitarInputsCaptura();
     }
-
     try {
-        const url = `/medios-comunicacion/API/capturas/buscar?topico=${punto.id}`
+        const url = `/medios-comunicacion/API/capturas/buscar?topico=${id}`
         const headers = new Headers();
         headers.append("X-Requested-With", "fetch");
 
@@ -330,43 +342,39 @@ const modal1 = async (e, punto) => {
 
         const respuesta = await fetch(url, config);
         const data = await respuesta.json();
-        const { captura , capturados } = data;
-
-        if(captura && capturados){
-            tinymce.get('info').setContent(captura.info)
-            console.log(data);
+        const { captura, capturados } = data;
+        // console.log(captura.info);
+        // if(captura){
+        tinymce.get('info').setContent(captura.info)
+        // }
+        if (captura && capturados) {
+            // console.log(data);
             capturados.forEach(c => {
-                agregarInputsCaptura(c.id, c.nombre, c.edad, c.nacionalidad, c.sexo, c.delito, c.vinculo )
+                agregarInputsCaptura(null, c.id, c.nombre, c.edad, c.nacionalidad, c.sexo, c.delito, c.vinculo, true)
             })
 
             btnGuardarCaptura.disabled = true
             btnModificarCaptura.disabled = false
-            btnBorrarCaptura.disabled = false
+
 
             btnGuardarCaptura.parentElement.style.display = 'none'
             btnModificarCaptura.parentElement.style.display = ''
-            btnBorrarCaptura.parentElement.style.display = ''
-        }else{
+
+        } else {
             btnGuardarCaptura.disabled = false
             btnModificarCaptura.disabled = true
-            btnBorrarCaptura.disabled = true
 
             btnGuardarCaptura.parentElement.style.display = ''
             btnModificarCaptura.parentElement.style.display = 'none'
-            btnBorrarCaptura.parentElement.style.display = 'none'
+
         }
 
-    }catch(e){
+    } catch (e) {
         console.log(e);
     }
-
-    modalCaptura.show();
-
-
-
 }
 
-const agregarInputsCaptura = async (id = '', nombre = '', edad = '', nacionalidad = '', sexo = '', delito = '', vinculo = "") => {
+const agregarInputsCaptura = async (e, id = '', nombre = '', edad = '', nacionalidad = '', sexo = '', delito = '', vinculo = "", boton = false) => {
     inputscapturas++;
     // console.log(inputscapturas);
     const fragment = document.createDocumentFragment();
@@ -393,6 +401,9 @@ const agregarInputsCaptura = async (id = '', nombre = '', edad = '', nacionalida
     const label4 = document.createElement('label')
     const label5 = document.createElement('label')
     const label6 = document.createElement('label')
+    const buttonEliminar = document.createElement('button')
+    const divColBoton = document.createElement('div');
+
 
     const option = document.createElement('option')
     option.value = ""
@@ -433,6 +444,7 @@ const agregarInputsCaptura = async (id = '', nombre = '', edad = '', nacionalida
     divCol4.classList.add("col-lg-3");
     divCol5.classList.add("col-lg-3");
     divCol6.classList.add("col-lg-3");
+    divColBoton.classList.add("col-lg-3", 'd-flex', 'flex-column', 'justify-content-end');
     inputIdRow.name = `id_per[]`
     inputIdRow.id = `id_per[]`
     inputIdRow.type = 'hidden'
@@ -475,6 +487,11 @@ const agregarInputsCaptura = async (id = '', nombre = '', edad = '', nacionalida
     label5.htmlFor = `sexo[]`
     label6.innerText = `Relacion`
     label6.htmlFor = `vinculo[]`
+
+    buttonEliminar.classList.add('btn', 'btn-danger', 'w-100')
+    buttonEliminar.innerHTML = "<i class='bi bi-x-circle me-2'></i>Eliminar"
+    buttonEliminar.type = 'button'
+    divColBoton.appendChild(buttonEliminar);
 
     const headers = new Headers();
     headers.append("X-Requested-With", "fetch");
@@ -546,6 +563,10 @@ const agregarInputsCaptura = async (id = '', nombre = '', edad = '', nacionalida
     divRow1.appendChild(divCol1)
     divRow1.appendChild(divCol2)
     divRow1.appendChild(divCol4)
+    if (boton) {
+        divRow1.appendChild(divColBoton)
+        buttonEliminar.addEventListener('click', (e) => eliminarCapturado(e, id))
+    }
     divRow2.appendChild(divCol3)
     divRow2.appendChild(divCol5)
     divRow2.appendChild(divCol6)
@@ -605,8 +626,7 @@ const guardarCaptura = async e => {
             switch (codigo) {
                 case 1:
                     icon = "success"
-                    formCaptura.reset();
-                    modalCaptura.hide();
+                    recargarModalCaptura(formCaptura.topico.value)
                     break;
                 case 2:
                     icon = "warning"
@@ -645,12 +665,228 @@ const guardarCaptura = async e => {
 
 }
 
+const eliminarCapturado = async (e, id) => {
+    Swal.fire({
+        title: 'Confirmación',
+        text: "¿Esta seguro que desea eliminar este registro?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, Eliminar'
+    }).then( async(result) => {
+        if (result.isConfirmed) {
+            try {
+
+                const url = '/medios-comunicacion/API/capturas/capturado/eliminar'
+    
+                const body = new FormData();
+                body.append('id', id)
+                const headers = new Headers();
+                headers.append("X-Requested-With", "fetch");
+    
+                const config = {
+                    method: 'POST',
+                    headers,
+                    body
+                }
+    
+                const respuesta = await fetch(url, config);
+                const data = await respuesta.json();
+    
+                // console.log(data);
+                // return 
+                const { mensaje, codigo, detalle } = data;
+                // const resultado = data.resultado;
+                let icon = "";
+                switch (codigo) {
+                    case 1:
+                        icon = "success"
+                        recargarModalCaptura(formCaptura.topico.value)
+                        break;
+                    case 2:
+                        icon = "warning"
+                        formCaptura.reset();
+    
+                        break;
+                    case 3:
+                        icon = "error"
+    
+                        break;
+                    case 4:
+                        icon = "error"
+                        console.log(detalle)
+    
+                        break;
+    
+                    default:
+                        break;
+                }
+    
+                Toast.fire({
+                    icon: icon,
+                    title: mensaje,
+                })
+    
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    })
+}
+
+const eliminarCaptura = async (e) => {
+    Swal.fire({
+        title: 'Confirmación',
+        text: "¿Esta seguro que desea eliminar esta captura?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, Eliminar'
+    }).then( async(result) => {
+        if (result.isConfirmed) {
+            try {
+
+                const url = '/medios-comunicacion/API/capturas/eliminar'
+    
+                const body = new FormData();
+                body.append('topico', formCaptura.topico.value)
+                const headers = new Headers();
+                headers.append("X-Requested-With", "fetch");
+    
+                const config = {
+                    method: 'POST',
+                    headers,
+                    body
+                }
+    
+                const respuesta = await fetch(url, config);
+                const data = await respuesta.json();
+    
+                console.log(data);
+                // return 
+                const { mensaje, codigo, detalle } = data;
+                // const resultado = data.resultado;
+                let icon = "";
+                switch (codigo) {
+                    case 1:
+                        icon = "success"
+                        modalCaptura.hide()
+                        buscarEventos()
+                        break;
+                    case 2:
+                        icon = "warning"
+                        formCaptura.reset();
+    
+                        break;
+                    case 3:
+                        icon = "error"
+    
+                        break;
+                    case 4:
+                        icon = "error"
+                        console.log(detalle)
+    
+                        break;
+    
+                    default:
+                        break;
+                }
+    
+                Toast.fire({
+                    icon: icon,
+                    title: mensaje,
+                })
+    
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    })
+}
+
+
+
+const modificarCaptura = async e => {
+    e.preventDefault();
+
+    let info = tinymce.get('info').getContent()
+    if (validarFormulario(formCaptura, ['id_per[]', 'info']) && info != '') {
+
+        // console.log('hola');
+        try {
+
+            const url = '/medios-comunicacion/API/capturas/modificar'
+
+            const body = new FormData(formCaptura);
+            body.append('info', info)
+            const headers = new Headers();
+            headers.append("X-Requested-With", "fetch");
+
+            const config = {
+                method: 'POST',
+                headers,
+                body
+            }
+
+            const respuesta = await fetch(url, config);
+            const data = await respuesta.json();
+
+            // console.log(data);
+            // return 
+            const { mensaje, codigo, detalle } = data;
+            // const resultado = data.resultado;
+            let icon = "";
+            switch (codigo) {
+                case 1:
+                    icon = "success"
+                    recargarModalCaptura(formCaptura.topico.value)
+                    break;
+                case 2:
+                    icon = "warning"
+                    formCaptura.reset();
+
+                    break;
+                case 3:
+                    icon = "error"
+
+                    break;
+                case 4:
+                    icon = "error"
+                    console.log(detalle)
+
+                    break;
+
+                default:
+                    break;
+            }
+
+            Toast.fire({
+                icon: icon,
+                title: mensaje,
+            })
+
+        } catch (error) {
+            console.log(error);
+        }
+
+    } else {
+        Toast.fire({
+            icon: 'warning',
+            title: 'Debe llenar todos los campos'
+        });
+    }
+
+}
 
 map.on('click', abreModal)
 formInformacion.departamento.addEventListener('change', buscarMunicipio)
 formInformacion.addEventListener('submit', guardarEvento)
 inicioInput.addEventListener('change', buscarEventos)
 finInput.addEventListener('change', buscarEventos)
+btnModificarCaptura.addEventListener('click', modificarCaptura)
+btnBorrarCaptura.addEventListener('click', eliminarCaptura );
 buttonAgregarInputsCaptura.addEventListener('click', agregarInputsCaptura)
 buttonQuitarInputsCaptura.addEventListener('click', quitarInputsCaptura)
 formCaptura.addEventListener('submit', guardarCaptura)
