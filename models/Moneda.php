@@ -2,22 +2,21 @@
 
 namespace Model;
 
-class Nacionalidad extends ActiveRecord{
+class Moneda extends ActiveRecord{
 
-    protected static $tabla = 'amc_nacionalidad'; //nombre de la tablaX
-
-    protected static $columnasDB = ['ID','DESC','PAIS', 'SITUACION'];
+    protected static $tabla = ' amc_moneda'; //nombre de la tablaX
+    protected static $columnasDB = ['ID','DESC','CAMBIO','SITUACION'];
 
     public $id;
     public $desc;
-    public $pais;
+    public $cambio;
     public $situacion;
 
 
     public function __construct($args = []){
         $this->id = $args['id'] ?? null;
         $this->desc = $args['desc'] ?? '';
-        $this->pais = $args['pais'] ?? '';
+        $this->cambio = $args['cambio'] ?? '';
         $this->situacion = $args['situacion'] ?? '1';
     }
 
