@@ -347,12 +347,17 @@ const recargarModalCaptura = async (id) => {
         // if(captura){
         tinymce.get('info').setContent(captura.info)
         // }
-        if (captura && capturados) {
+        if (capturados) {
             // console.log(data);
             capturados.forEach(c => {
                 agregarInputsCaptura(null, c.id, c.nombre, c.edad, c.nacionalidad, c.sexo, c.delito, c.vinculo, true)
             })
 
+        } 
+
+        if (capturados || captura) {
+        
+           
             btnGuardarCaptura.disabled = true
             btnModificarCaptura.disabled = false
 
