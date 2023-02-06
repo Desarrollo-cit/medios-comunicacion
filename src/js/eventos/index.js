@@ -335,6 +335,21 @@ const modal1 = async (e, punto) => {
 
 }
 
+const divAsesinados = document.getElementById('divAsesinados');
+let inputsasesinados = 0;
+const modal2 = async (e, punto) => {
+    L.DomEvent.stopPropagation(e);
+
+
+    recargarModalAsesinatos(punto.id)
+
+
+    modalAsesinato.show();
+
+
+
+}
+
 const recargarModalCaptura = async (id) => {
     formCaptura.reset()
     formCaptura.topico.value = id
@@ -389,14 +404,9 @@ const recargarModalCaptura = async (id) => {
 
 
 }
-
-// MODAL 2
-const divAsesinados = document.getElementById('divAsesinados');
-let inputsasesinatos = 0;
-const modal2 = async (e, punto) => {
-    L.DomEvent.stopPropagation(e);
+const recargarModalAsesinatos = async (id) => {
     formAsesinatos.reset()
-    formAsesinatos.topico.value = punto.id
+    formAsesinatos.topico.value = id
 
 
     while (inputscapturas > 0) {
@@ -404,7 +414,7 @@ const modal2 = async (e, punto) => {
     }
 
     try {
-        const url = `/medios-comunicacion/API/asesinatos/buscar?topico=${punto.id}`
+        const url = `/medios-comunicacion/API/asesinatos/buscar?topico=${id}`
         const headers = new Headers();
         headers.append("X-Requested-With", "fetch");
 
@@ -419,13 +429,13 @@ const modal2 = async (e, punto) => {
       
         console.log(data);
 
-      
+        tinymce.get('info').setContent(asesinatos.info)
         
         if(asesinatos && asesinados){
             tinymce.get('info').setContent(asesinatos.info)
            
             asesinados.forEach(a => {
-                agregarInputsCaptura(a.id, c.nombre, c.edad, c.nacionalidad, c.sexo, c.delito, c.vinculo )
+                agregarInputsAsesinatos(null,a.id, a.nombre, a.edad, a.sexo,true)
             })
 
             btnGuardarCaptura.disabled = true
@@ -452,8 +462,10 @@ const modal2 = async (e, punto) => {
     modalAsesinato.show();
 
 
-
 }
+
+
+
 
 const agregarInputsCaptura = async (e, id = '', nombre = '', edad = '', nacionalidad = '', sexo = '', delito = '', vinculo = "", boton = false) => {
     inputscapturas++;
@@ -659,7 +671,210 @@ const agregarInputsCaptura = async (e, id = '', nombre = '', edad = '', nacional
 
     divCapturados.appendChild(fragment)
 }
+const agregarInputsAsesinatos = async (e, id = '', nombre = '', edad = '',  sexo = '',boton = false) => {
+    inputscapturas++;
+    // console.log(inputscapturas);
+    const fragment = document.createDocumentFragment();
+    const divCuadro = document.createElement('div');
+    const divRow = document.createElement('div');
+    const divRow1 = document.createElement('div');
+    const divRow2 = document.createElement('div');
+    const divCol1 = document.createElement('div');
+    const divCol2 = document.createElement('div');
+    const divCol3 = document.createElement('div');
+    const divCol4 = document.createElement('div');
+    const divCol5 = document.createElement('div');
+    const divCol6 = document.createElement('div');
+    const inputIdRow = document.createElement('input');
+    const input1 = document.createElement('input')
+    const input2 = document.createElement('input')
+    const select3 = document.createElement('select')
+    const select4 = document.createElement('select')
+    const select5 = document.createElement('select')
+    const select = document.createElement('select')
+    const label1 = document.createElement('label')
+    const label2 = document.createElement('label')
+    const label3 = document.createElement('label')
+    const label4 = document.createElement('label')
+    const label5 = document.createElement('label')
+    const label6 = document.createElement('label')
+    const buttonEliminar = document.createElement('button')
+    const divColBoton = document.createElement('div');
 
+
+    const option = document.createElement('option')
+    option.value = ""
+    option.innerText = "SELECCIONE..."
+    select.appendChild(option)
+    const option2 = document.createElement('option')
+    option2.value = ""
+    option2.innerText = "SELECCIONE..."
+    select3.appendChild(option2)
+    const option9 = document.createElement('option')
+    option9.value = ""
+    option9.innerText = "SELECCIONE..."
+    select5.appendChild(option9)
+    const option6 = document.createElement('option')
+    option6.value = "1"
+    option6.innerText = "MARA 18"
+    const option7 = document.createElement('option')
+    option7.value = "2"
+    option7.innerText = "MARA SALVATRUCHA"
+    const option8 = document.createElement('option')
+    option8.value = "0"
+    option8.innerText = "OTRO"
+
+    select5.appendChild(option6)
+    select5.appendChild(option7)
+    select5.appendChild(option8)
+    select4.appendChild(option9)
+
+
+    divRow.classList.add("row", "justify-content-center");
+    divCuadro.classList.add("col", "border", "rounded", "mb-2", "bg-light");
+
+    divRow1.classList.add("row", "justify-content-start", "mb-2");
+    divRow2.classList.add("row", "justify-content-start", "mb-2");
+    divCol1.classList.add("col-lg-3");
+    divCol2.classList.add("col-lg-3");
+    divCol3.classList.add("col-lg-3");
+    divCol4.classList.add("col-lg-3");
+    divCol5.classList.add("col-lg-3");
+    divCol6.classList.add("col-lg-3");
+    divColBoton.classList.add("col-lg-3", 'd-flex', 'flex-column', 'justify-content-end');
+    inputIdRow.name = `id_per[]`
+    inputIdRow.id = `id_per[]`
+    inputIdRow.type = 'hidden'
+    input1.classList.add("form-control")
+    input1.name = `nombre[]`
+    input1.id = `nombre[]`
+    input1.type = 'text'
+    input1.required = true;
+    input2.classList.add("form-control")
+    input2.name = `edad[]`
+    input2.id = `edad[]`
+    input2.type = 'number'
+    input2.required = true;
+
+    select3.classList.add("form-control")
+    select3.name = `nacionalidad[]`
+    select3.id = `nacionalidad[]`
+    select3.required = true;
+    select4.classList.add("form-control")
+    select4.name = `sexo[]`
+    select4.id = `sexo[]`
+    select4.required = true;
+    select5.classList.add("form-control")
+    select5.name = `vinculo[]`
+    select5.id = `vinculo[]`
+    select5.required = true;
+    select.classList.add("form-control")
+    select.name = `delito[]`
+    select.id = `delito[]`
+    select.required = true;
+    label1.innerText = `Persona ${inputscapturas}`
+    label1.htmlFor = `nombre[]`
+    label2.innerText = `Edad `
+    label2.htmlFor = `edad[]`
+    label3.innerText = `Nacionalidad `
+    label3.htmlFor = `nacionalidad[]`
+    label4.innerText = `Delito `
+    label4.htmlFor = `delito[]`
+    label5.innerText = `Sexo `
+    label5.htmlFor = `sexo[]`
+    label6.innerText = `Relacion`
+    label6.htmlFor = `vinculo[]`
+
+    buttonEliminar.classList.add('btn', 'btn-danger', 'w-100')
+    buttonEliminar.innerHTML = "<i class='bi bi-x-circle me-2'></i>Eliminar"
+    buttonEliminar.type = 'button'
+    divColBoton.appendChild(buttonEliminar);
+
+    const headers = new Headers();
+    headers.append("X-Requested-With", "fetch");
+
+    const url3 = `/medios-comunicacion/API/nacionalidad/buscar`;
+    const config3 = { method: "GET", headers }
+    const response3 = await fetch(url3, config3);
+    const nacionalidades = await response3.json()
+
+    // console.log(nacionalidades);
+    nacionalidades.forEach(nacionalidad => {
+        const option_nacionalidad = document.createElement('option')
+        option_nacionalidad.value = nacionalidad.id
+        option_nacionalidad.innerText = `${nacionalidad.desc} `
+        select3.appendChild(option_nacionalidad)
+    })
+
+    const url1 = `/medios-comunicacion/API/delitos/buscar`
+    const config1 = { method: "GET", headers }
+    const response1 = await fetch(url1, config1);
+    const delitos = await response1.json()
+
+
+    delitos.forEach(delito => {
+        const option = document.createElement('option')
+        option.value = delito.id
+        option.innerText = `${delito.desc} `
+        select.appendChild(option)
+    })
+
+    const url2 = `/medios-comunicacion/API/eventos/sexo`
+    const config2 = { method: "GET", headers }
+    const response2 = await fetch(url2, config2);
+    const sexos = await response2.json()
+
+    sexos.forEach(sexo => {
+        const option_sexo = document.createElement('option')
+        option_sexo.value = sexo.id
+        option_sexo.innerText = `${sexo.desc} `
+        select4.appendChild(option_sexo)
+    })
+
+
+    select.value = delito;
+    input1.value = nombre;
+    inputIdRow.value = id;
+    input2.value = edad;
+    select3.value = nacionalidad;
+    select4.value = sexo;
+
+    select5.value = vinculo;
+
+    divCol1.appendChild(inputIdRow)
+    divCol1.appendChild(label1)
+    divCol1.appendChild(input1)
+    divCol2.appendChild(label5)
+    divCol2.appendChild(select4)
+    divCol3.appendChild(label3)
+    divCol3.appendChild(select3)
+    divCol4.appendChild(label2)
+    divCol4.appendChild(input2)
+    divCol5.appendChild(label4)
+    divCol5.appendChild(select)
+    divCol6.appendChild(label6)
+    divCol6.appendChild(select5)
+
+
+
+    divRow1.appendChild(divCol1)
+    divRow1.appendChild(divCol2)
+    divRow1.appendChild(divCol4)
+    if (boton) {
+        divRow1.appendChild(divColBoton)
+        buttonEliminar.addEventListener('click', (e) => eliminarCapturado(e, id))
+    }
+    divRow2.appendChild(divCol3)
+    divRow2.appendChild(divCol5)
+    divRow2.appendChild(divCol6)
+    divCuadro.appendChild(divRow1)
+    divCuadro.appendChild(divRow2)
+    divRow.appendChild(divCuadro)
+    fragment.appendChild(divRow)
+
+
+    divCapturados.appendChild(fragment)
+}
 const quitarInputsCaptura = () => {
 
     if (inputscapturas > 0) {
@@ -818,271 +1033,6 @@ const guardarAsesinatos = async e => {
 
 }
 
-const guardarAsesinatos = async e => {
-    e.preventDefault();
-
-    let info = tinymce.get('info').getContent()
-    // console.log(info);
-    if (validarFormulario(formCaptura, ['id_per[]', 'info']) && info != '') {
-
-        // console.log('hola');
-        try {
-
-            const url = '/medios-comunicacion/API/capturas/guardar'
-
-            const body = new FormData(formCaptura);
-            body.append('info', info)
-            const headers = new Headers();
-            headers.append("X-Requested-With", "fetch");
-
-            const config = {
-                method: 'POST',
-                headers,
-                body
-            }
-
-            const respuesta = await fetch(url, config);
-            const data = await respuesta.json();
-
-            // console.log(data);
-            const { mensaje, codigo, detalle } = data;
-            // const resultado = data.resultado;
-            let icon = "";
-            switch (codigo) {
-                case 1:
-                    icon = "success"
-                    formCaptura.reset();
-                    modalCaptura.hide();
-                    break;
-                case 2:
-                    icon = "warning"
-                    formCaptura.reset();
-
-                    break;
-                case 3:
-                    icon = "error"
-
-                    break;
-                case 4:
-                    icon = "error"
-                    console.log(detalle)
-
-                    break;
-
-                default:
-                    break;
-            }
-
-            Toast.fire({
-                icon: icon,
-                title: mensaje,
-            })
-
-        } catch (error) {
-            console.log(error);
-        }
-
-    } else {
-        Toast.fire({
-            icon: 'warning',
-            title: 'Debe llenar todos los campos'
-        });
-    }
-
-}
-
-const agregarInputsAsesinatos = async (id = '', nombre = '', edad = '', nacionalidad = '', sexo = '', delito = '', vinculo = "") => {
-    inputscapturas++;
-    // console.log(inputscapturas);
-    const fragment = document.createDocumentFragment();
-    const divCuadro = document.createElement('div');
-    const divRow = document.createElement('div');
-    const divRow1 = document.createElement('div');
-    const divRow2 = document.createElement('div');
-    const divCol1 = document.createElement('div');
-    const divCol2 = document.createElement('div');
-    const divCol3 = document.createElement('div');
-    const divCol4 = document.createElement('div');
-    const divCol5 = document.createElement('div');
-    const divCol6 = document.createElement('div');
-    const inputIdRow = document.createElement('input');
-    const input1 = document.createElement('input')
-    const input2 = document.createElement('input')
-    const select3 = document.createElement('select')
-    const select4 = document.createElement('select')
-    const select5 = document.createElement('select')
-    const select = document.createElement('select')
-    const label1 = document.createElement('label')
-    const label2 = document.createElement('label')
-    const label3 = document.createElement('label')
-    const label4 = document.createElement('label')
-    const label5 = document.createElement('label')
-    const label6 = document.createElement('label')
-
-    const option = document.createElement('option')
-    option.value = ""
-    option.innerText = "SELECCIONE..."
-    select.appendChild(option)
-    const option2 = document.createElement('option')
-    option2.value = ""
-    option2.innerText = "SELECCIONE..."
-    select3.appendChild(option2)
-    const option9 = document.createElement('option')
-    option9.value = ""
-    option9.innerText = "SELECCIONE..."
-    select5.appendChild(option9)
-    const option6 = document.createElement('option')
-    option6.value = "1"
-    option6.innerText = "MARA 18"
-    const option7 = document.createElement('option')
-    option7.value = "2"
-    option7.innerText = "MARA SALVATRUCHA"
-    const option8 = document.createElement('option')
-    option8.value = "0"
-    option8.innerText = "OTRO"
-
-    select5.appendChild(option6)
-    select5.appendChild(option7)
-    select5.appendChild(option8)
-    select4.appendChild(option9)
-
-
-    divRow.classList.add("row", "justify-content-center");
-    divCuadro.classList.add("col", "border", "rounded", "mb-2", "bg-light");
-
-    divRow1.classList.add("row", "justify-content-start", "mb-2");
-    divRow2.classList.add("row", "justify-content-start", "mb-2");
-    divCol1.classList.add("col-lg-3");
-    divCol2.classList.add("col-lg-3");
-    divCol3.classList.add("col-lg-3");
-    divCol4.classList.add("col-lg-3");
-    divCol5.classList.add("col-lg-3");
-    divCol6.classList.add("col-lg-3");
-    inputIdRow.name = `id_per[]`
-    inputIdRow.id = `id_per[]`
-    inputIdRow.type = 'hidden'
-    input1.classList.add("form-control")
-    input1.name = `nombre[]`
-    input1.id = `nombre[]`
-    input1.type = 'text'
-    input1.required = true;
-    input2.classList.add("form-control")
-    input2.name = `edad[]`
-    input2.id = `edad[]`
-    input2.type = 'number'
-    input2.required = true;
-
-    select3.classList.add("form-control")
-    select3.name = `nacionalidad[]`
-    select3.id = `nacionalidad[]`
-    select3.required = true;
-    select4.classList.add("form-control")
-    select4.name = `sexo[]`
-    select4.id = `sexo[]`
-    select4.required = true;
-    select5.classList.add("form-control")
-    select5.name = `vinculo[]`
-    select5.id = `vinculo[]`
-    select5.required = true;
-    select.classList.add("form-control")
-    select.name = `delito[]`
-    select.id = `delito[]`
-    select.required = true;
-    label1.innerText = `Persona ${inputscapturas}`
-    label1.htmlFor = `nombre[]`
-    label2.innerText = `Edad `
-    label2.htmlFor = `edad[]`
-    label3.innerText = `Nacionalidad `
-    label3.htmlFor = `nacionalidad[]`
-    label4.innerText = `Delito `
-    label4.htmlFor = `delito[]`
-    label5.innerText = `Sexo `
-    label5.htmlFor = `sexo[]`
-    label6.innerText = `Relacion`
-    label6.htmlFor = `vinculo[]`
-
-    const headers = new Headers();
-    headers.append("X-Requested-With", "fetch");
-
-    const url3 = `/medios-comunicacion/API/nacionalidad/buscar`;
-    const config3 = { method: "GET", headers }
-    const response3 = await fetch(url3, config3);
-    const nacionalidades = await response3.json()
-
-    // console.log(nacionalidades);
-    nacionalidades.forEach(nacionalidad => {
-        const option_nacionalidad = document.createElement('option')
-        option_nacionalidad.value = nacionalidad.id
-        option_nacionalidad.innerText = `${nacionalidad.desc} `
-        select3.appendChild(option_nacionalidad)
-    })
-
-    const url1 = `/medios-comunicacion/API/delitos/buscar`
-    const config1 = { method: "GET", headers }
-    const response1 = await fetch(url1, config1);
-    const delitos = await response1.json()
-
-
-    delitos.forEach(delito => {
-        const option = document.createElement('option')
-        option.value = delito.id
-        option.innerText = `${delito.desc} `
-        select.appendChild(option)
-    })
-
-    const url2 = `/medios-comunicacion/API/eventos/sexo`
-    const config2 = { method: "GET", headers }
-    const response2 = await fetch(url2, config2);
-    const sexos = await response2.json()
-
-    sexos.forEach(sexo => {
-        const option_sexo = document.createElement('option')
-        option_sexo.value = sexo.id
-        option_sexo.innerText = `${sexo.desc} `
-        select4.appendChild(option_sexo)
-    })
-
-
-    select.value = delito;
-    input1.value = nombre;
-    inputIdRow.value = id;
-    input2.value = edad;
-    select3.value = nacionalidad;
-    select4.value = sexo;
-
-    select5.value = vinculo;
-
-    divCol1.appendChild(inputIdRow)
-    divCol1.appendChild(label1)
-    divCol1.appendChild(input1)
-    divCol2.appendChild(label5)
-    divCol2.appendChild(select4)
-    divCol3.appendChild(label3)
-    divCol3.appendChild(select3)
-    divCol4.appendChild(label2)
-    divCol4.appendChild(input2)
-    divCol5.appendChild(label4)
-    divCol5.appendChild(select)
-    divCol6.appendChild(label6)
-    divCol6.appendChild(select5)
-
-
-
-    divRow1.appendChild(divCol1)
-    divRow1.appendChild(divCol2)
-    divRow1.appendChild(divCol4)
-    divRow2.appendChild(divCol3)
-    divRow2.appendChild(divCol5)
-    divRow2.appendChild(divCol6)
-    divCuadro.appendChild(divRow1)
-    divCuadro.appendChild(divRow2)
-    divRow.appendChild(divCuadro)
-    fragment.appendChild(divRow)
-
-
-    divCapturados.appendChild(fragment)
-}
-
 const quitarInputsAsesinatos = () => {
 
     if (inputscapturas > 0) {
@@ -1097,211 +1047,7 @@ const quitarInputsAsesinatos = () => {
     }
 }
 
-const agregarInputsAsesinatos = async (id = '', nombre = '', edad = '', nacionalidad = '', sexo = '', delito = '', vinculo = "") => {
-    inputscapturas++;
-    // console.log(inputscapturas);
-    const fragment = document.createDocumentFragment();
-    const divCuadro = document.createElement('div');
-    const divRow = document.createElement('div');
-    const divRow1 = document.createElement('div');
-    const divRow2 = document.createElement('div');
-    const divCol1 = document.createElement('div');
-    const divCol2 = document.createElement('div');
-    const divCol3 = document.createElement('div');
-    const divCol4 = document.createElement('div');
-    const divCol5 = document.createElement('div');
-    const divCol6 = document.createElement('div');
-    const inputIdRow = document.createElement('input');
-    const input1 = document.createElement('input')
-    const input2 = document.createElement('input')
-    const select3 = document.createElement('select')
-    const select4 = document.createElement('select')
-    const select5 = document.createElement('select')
-    const select = document.createElement('select')
-    const label1 = document.createElement('label')
-    const label2 = document.createElement('label')
-    const label3 = document.createElement('label')
-    const label4 = document.createElement('label')
-    const label5 = document.createElement('label')
-    const label6 = document.createElement('label')
 
-    const option = document.createElement('option')
-    option.value = ""
-    option.innerText = "SELECCIONE..."
-    select.appendChild(option)
-    const option2 = document.createElement('option')
-    option2.value = ""
-    option2.innerText = "SELECCIONE..."
-    select3.appendChild(option2)
-    const option9 = document.createElement('option')
-    option9.value = ""
-    option9.innerText = "SELECCIONE..."
-    select5.appendChild(option9)
-    const option6 = document.createElement('option')
-    option6.value = "1"
-    option6.innerText = "MARA 18"
-    const option7 = document.createElement('option')
-    option7.value = "2"
-    option7.innerText = "MARA SALVATRUCHA"
-    const option8 = document.createElement('option')
-    option8.value = "0"
-    option8.innerText = "OTRO"
-
-    select5.appendChild(option6)
-    select5.appendChild(option7)
-    select5.appendChild(option8)
-    select4.appendChild(option9)
-
-
-    divRow.classList.add("row", "justify-content-center");
-    divCuadro.classList.add("col", "border", "rounded", "mb-2", "bg-light");
-
-    divRow1.classList.add("row", "justify-content-start", "mb-2");
-    divRow2.classList.add("row", "justify-content-start", "mb-2");
-    divCol1.classList.add("col-lg-3");
-    divCol2.classList.add("col-lg-3");
-    divCol3.classList.add("col-lg-3");
-    divCol4.classList.add("col-lg-3");
-    divCol5.classList.add("col-lg-3");
-    divCol6.classList.add("col-lg-3");
-    inputIdRow.name = `id_per[]`
-    inputIdRow.id = `id_per[]`
-    inputIdRow.type = 'hidden'
-    input1.classList.add("form-control")
-    input1.name = `nombre[]`
-    input1.id = `nombre[]`
-    input1.type = 'text'
-    input1.required = true;
-    input2.classList.add("form-control")
-    input2.name = `edad[]`
-    input2.id = `edad[]`
-    input2.type = 'number'
-    input2.required = true;
-
-    select3.classList.add("form-control")
-    select3.name = `nacionalidad[]`
-    select3.id = `nacionalidad[]`
-    select3.required = true;
-    select4.classList.add("form-control")
-    select4.name = `sexo[]`
-    select4.id = `sexo[]`
-    select4.required = true;
-    select5.classList.add("form-control")
-    select5.name = `vinculo[]`
-    select5.id = `vinculo[]`
-    select5.required = true;
-    select.classList.add("form-control")
-    select.name = `delito[]`
-    select.id = `delito[]`
-    select.required = true;
-    label1.innerText = `Persona ${inputscapturas}`
-    label1.htmlFor = `nombre[]`
-    label2.innerText = `Edad `
-    label2.htmlFor = `edad[]`
-    label3.innerText = `Nacionalidad `
-    label3.htmlFor = `nacionalidad[]`
-    label4.innerText = `Delito `
-    label4.htmlFor = `delito[]`
-    label5.innerText = `Sexo `
-    label5.htmlFor = `sexo[]`
-    label6.innerText = `Relacion`
-    label6.htmlFor = `vinculo[]`
-
-    const headers = new Headers();
-    headers.append("X-Requested-With", "fetch");
-
-    const url3 = `/medios-comunicacion/API/nacionalidad/buscar`;
-    const config3 = { method: "GET", headers }
-    const response3 = await fetch(url3, config3);
-    const nacionalidades = await response3.json()
-
-    // console.log(nacionalidades);
-    nacionalidades.forEach(nacionalidad => {
-        const option_nacionalidad = document.createElement('option')
-        option_nacionalidad.value = nacionalidad.id
-        option_nacionalidad.innerText = `${nacionalidad.desc} `
-        select3.appendChild(option_nacionalidad)
-    })
-
-    const url1 = `/medios-comunicacion/API/delitos/buscar`
-    const config1 = { method: "GET", headers }
-    const response1 = await fetch(url1, config1);
-    const delitos = await response1.json()
-
-
-    delitos.forEach(delito => {
-        const option = document.createElement('option')
-        option.value = delito.id
-        option.innerText = `${delito.desc} `
-        select.appendChild(option)
-    })
-
-    const url2 = `/medios-comunicacion/API/eventos/sexo`
-    const config2 = { method: "GET", headers }
-    const response2 = await fetch(url2, config2);
-    const sexos = await response2.json()
-
-    sexos.forEach(sexo => {
-        const option_sexo = document.createElement('option')
-        option_sexo.value = sexo.id
-        option_sexo.innerText = `${sexo.desc} `
-        select4.appendChild(option_sexo)
-    })
-
-
-    select.value = delito;
-    input1.value = nombre;
-    inputIdRow.value = id;
-    input2.value = edad;
-    select3.value = nacionalidad;
-    select4.value = sexo;
-
-    select5.value = vinculo;
-
-    divCol1.appendChild(inputIdRow)
-    divCol1.appendChild(label1)
-    divCol1.appendChild(input1)
-    divCol2.appendChild(label5)
-    divCol2.appendChild(select4)
-    divCol3.appendChild(label3)
-    divCol3.appendChild(select3)
-    divCol4.appendChild(label2)
-    divCol4.appendChild(input2)
-    divCol5.appendChild(label4)
-    divCol5.appendChild(select)
-    divCol6.appendChild(label6)
-    divCol6.appendChild(select5)
-
-
-
-    divRow1.appendChild(divCol1)
-    divRow1.appendChild(divCol2)
-    divRow1.appendChild(divCol4)
-    divRow2.appendChild(divCol3)
-    divRow2.appendChild(divCol5)
-    divRow2.appendChild(divCol6)
-    divCuadro.appendChild(divRow1)
-    divCuadro.appendChild(divRow2)
-    divRow.appendChild(divCuadro)
-    fragment.appendChild(divRow)
-
-
-    divCapturados.appendChild(fragment)
-}
-
-const quitarInputsAsesinatos = () => {
-
-    if (inputscapturas > 0) {
-        divCapturados.removeChild(divCapturados.lastElementChild);
-        inputscapturas--;
-
-    } else {
-        Toast.fire({
-            icon: 'warning',
-            title: 'No puede realizar esta acción'
-        });
-    }
-}
 
 const eliminarCapturado = async (e, id) => {
     Swal.fire({
