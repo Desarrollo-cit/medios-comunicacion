@@ -56,7 +56,6 @@ class EventoController {
     public static function guardar(){
         getHeadersApi();
         $_POST['fecha'] = str_replace('T', ' ', $_POST['fecha']);
-        $_POST['lugar'] = strtoupper($_POST['lugar']);
 
         try {
             $evento = new Evento($_POST);

@@ -21,7 +21,7 @@ class Evento extends ActiveRecord{
     public function __construct($args = []){
         $this->id = $args['id'] ?? null;
         $this->fecha = $args['fecha'] ?? '';
-        $this->lugar = $args['lugar'] ?? '';
+        $this->lugar = utf8_decode( mb_strtoupper($args['lugar'])) ?? '';
         $this->departamento = $args['departamento'] ?? '';
         $this->municipio = $args['municipio'] ?? '';
         $this->tipo = $args['tipo'] ?? '';
