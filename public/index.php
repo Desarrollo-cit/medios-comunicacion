@@ -21,6 +21,7 @@ use Controllers\ColoresController;
 use Controllers\Desastre_naturalController;
 use Controllers\Fenomeno_naturalController;
 use Controllers\MonedaController;
+use Controllers\AsesinatosController;
 
 
 $router = new Router();
@@ -109,6 +110,9 @@ $router->get('/API/eventos/sexo', [EventoController::class, 'sexos']);
 
 $router->post('/API/capturas/guardar', [CapturaController::class, 'guardar']);
 $router->get('/API/capturas/buscar', [CapturaController::class, 'buscarCapturaAPI']);
+
+$router->post('/API/asesinatos/guardar', [AsesinatosController::class, 'guardar']);
+$router->get('/API/asesinatos/buscar', [AsesinatosController::class, 'buscarAsesinatosAPI']);
 
 
 // Comprueba y valida las rutas, que existan y les asigna las funciones del Controlador
