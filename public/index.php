@@ -8,6 +8,7 @@ require_once __DIR__ . '/../includes/app.php';
 use MVC\Router;
 use Controllers\AppController;
 use Controllers\infoCapturaController;
+use Controllers\infoDrogaController;
 $router = new Router();
 $router->setBaseURL('/medios-comunicacion');
 
@@ -28,10 +29,10 @@ $router->post('/API/mapas/infoCapturas/DelitosDepartamentoGrafica', [infoCaptura
 $router->post('/API/mapas/infoCapturas/CapturasPorDiaGrafica', [infoCapturaController::class , 'CapturasPorDiaGraficaAPI'] );
 $router->post('/API/mapas/infoCapturas/GraficaTrimestral', [infoCapturaController::class , 'GraficaTrimestralAPI'] );
 $router->post('/API/mapas/infoCapturas/GraficaTrimestralGeneral', [infoCapturaController::class , 'GraficaTrimestralGeneralAPI'] );
-// $router->get('/API/productos/buscar', [ProductoController::class, 'buscarAPI'] );
-// $router->post('/API/productos/modificar', [ProductoController::class, 'modificarAPI'] );
-// $router->post('/API/productos/eliminar', [ProductoController::class, 'eliminarAPI'] );
 
+
+
+$router->get('/mapas/droga', [infoDrogaController::class , 'index']);
 
 // Comprueba y valida las rutas, que existan y les asigna las funciones del Controlador
 $router->comprobarRutas();

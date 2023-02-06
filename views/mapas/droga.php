@@ -1,190 +1,351 @@
-
-
 <?php
 
-// ini_set('display_errors', 1);
-// ini_set('display_startup_errors', 1);
-// error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 date_default_timezone_set('America/Guatemala');
+// require_once 'final.php';
 setlocale(LC_TIME, "es_ES");
 
 $fechaLarga = strftime(" %B ");
-$capturas = $capturas[0]['cantidad'];
-$delito = $delito[0]['desc'];
-$mujeres = $mujeres[0]['cantidad'];
-$hombres = $hombres[0]['cantidad1'];
-$depto = $depto[0]['desc'];
 
 
 
+// $droga = $clase->droga();
+// $droga = $droga[0]['CANTIDAD'];
+// $pista = $clase->pista();
+// $pista = $pista[0]['CANTIDAD'];
+// $incidencia_droga = $clase->incidencia_droga();
+// // var_dump( $incidencia_droga);
+// $incidencia_droga = $incidencia_droga[0]['DESC'];
 
+// $incidencia_droga1 = $clase->incidencia_droga1();
+// $incidencia_droga1 = $incidencia_droga1[0]['DESC'];
+// $captura = $clase->captura();
+// $captura = $captura[0]['CANTIDAD'];
+// $total_droga = $clase->total_droga();
+// $total_droga = $total_droga[0]['CANTIDAD'];
+// $total_matas = $clase->total_matas();
+// // var_dump( $total_matas);
+// $total_matas = $total_matas[0]['CANTIDAD'];
+// $drogas_tipo = $clase->drogas_tipo();
+// $mujeres = $clase->mujeres();
+// $mujeres = $mujeres[0]['CANTIDAD'];
+// $hombres = $clase->hombres();
+// $hombres = $hombres[0]['CANTIDAD1'];
+// $depto = $clase->departamento_capturas();
+// $depto = $depto[0]['DESC'];
+// $depto1 = $clase->departamento_pistas();
+// $depto1 = $depto1[0]['DESC'];
+// $departamento = $clase->get_departamentos_mysql();
+// $topics = $clase->tipo_topic();
+// $actividad_vinculada = $clase->actividad_vinculada();
+// $colores = $clase->colores(4);
+//         foreach($colores as $color){
+//             $primer_desc = $color['PRIMER_DESC'];
+//             $primer_cantidad = $color['PRIMER_CANTIDAD'];
+//             $primer_color = $color['PRIMER_COLOR'];
+//             $segundo_desc = $color['SEGUNDO_DESC'];
+//             $segundo_cantidad = $color['SEGUNDA_CANTIDAD'];
+//             $segundo_color = $color['SEGUNDO_COLOR'];
+//             $tercer_desc = $color['TERCER_DESC'];
+//             $tercera_cantidad = $color['TERCERA_CANTIDAD'];
+//             $tercer_color = $color['TERCER_COLOR'];
+
+//         }
+// include('../includes/navbar.php');
 ?>
-
 <div class="row justify-content-center">
     <div class=" ms-1 col border border-2 border-dark  pt-3 bg-light rounded">
 
+        <div class="row col-lg-12 justify-content-center">
 
-        <div class=" col-lg-12  justify-content-center">
             <div class="row mb-2 ">
                 <div class="justify-content-center d-flex ">
-                    <h1> Resumen de las capturas de <?php echo     $fechaLarga; ?>
+                    <h1> Resumen de las incautaciones de <?php echo     $fechaLarga; ?>
                         <a type="button" id="buscarresumen"> <img src="<?= asset('./images/iconos/lupa.png') ?>" style="width:40px; height:40px;" alt="capturas"></a>
-                        <a type="button" id="buscarcapturas"> <img src="<?= asset('./images/iconos/reporte.png') ?>" style="width:40px; height:40px;" alt="capturas"></a>
+                        <a type="button" id="buscarincautaciones"> <img src="<?= asset('./images/iconos/reporte.png') ?>" style="width:40px; height:40px;" alt="capturas"></a>
                         <a type="button" id="ver_mapa"> <img src="<?= asset('./images/iconos/mapa_calor.png ') ?>" style="width:40px; height:40px;" alt="capturas"></a>
                         <a type="button" id="ver_grafica"> <img src="<?= asset('./images/iconos/btn_graficas.png') ?>" style="width:40px; height:40px;" alt="capturas"></a>
                     </h1>
                 </div>
             </div>
-        </div>
-        <div id="cuadro_busquedad_resumen" class="row mb-3 " style="display:none">
-            <div class="col-lg-12 text-center ">
+            <div id="cuadro_busquedad_resumen" class="row mb-3 " style="display:none">
+                <div class="col-lg-12 text-center ">
 
-                <form class=" ms-5  col-lg-11 justify-content-center border border-2 border-dark rounded bg-dark pt-3  " id="formBusqueda_resumen">
-                    <div class="row mb-3">
+                    <form class=" ms-5  col-lg-11 justify-content-center border border-2 border-dark rounded bg-dark pt-3  " id="formBusqueda_resumen">
+                        <div class="row mb-3">
+                            <div class="col">
+                                <h2 style="color: white;">Ingrese los criterios de busqueda</h2>
+                            </div>
+                        </div>
+                        <div class="row mb-3 justify-content-center">
+                            <div class="col-lg-3">
+                                <label for="fecha_resumen" style="color: white;">DE</label>
+                                <input type="datetime-local" id="fecha_resumen" name="fecha_resumen" class="form-control" required>
+                            </div>
+                            <div class="col-lg-3">
+                                <label for="fecha_resumen2" style="color: white;">HASTA</label>
+                                <input type="datetime-local" id="fecha_resumen2" name="fecha_resumen2" class="form-control" required>
+                            </div>
+                            <div class="col-lg-2 pt-4">
+                                <button type="submit" class="btn btn-info w-100"><i class="bi bi-search me-2"></i>Buscar</button>
+                            </div>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+
+            <div class="row mb-3">
+
+                <div class="col-lg-2 text-center">
+                    <div class="row">
                         <div class="col">
-                            <h2 style="color: white;">Ingrese los criterios de busqueda</h2>
-                        </div>
-                    </div>
-                    <div class="row mb-3 justify-content-center">
-                        <div class="col-lg-3">
-                            <label for="fecha_resumen" style="color: white;">DE</label>
-                            <input type="datetime-local" id="fecha_resumen" name="fecha_resumen" class="form-control" required>
-                        </div>
-                        <div class="col-lg-3">
-                            <label for="fecha_resumen2" style="color: white;">HASTA</label>
-                            <input type="datetime-local" id="fecha_resumen2" name="fecha_resumen2" class="form-control" required>
-                        </div>
-                        <div class="col-lg-2 pt-4">
-                            <button type="submit" class="btn btn-info w-100"><i class="bi bi-search me-2"></i>Buscar</button>
+                            <p class="h5">Operaciones </p>
                         </div>
                     </div>
 
+                    <div class="row justify-content-center">
+                        <div class="col-2 col-sm-4">
+                            <img src="<?= asset('./images/iconos/capturas/delito.png') ?>" class="w-100" alt="operaciones">
 
-                </form>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <p class="h3" id="cantidad_Incautaciones"><?= $droga ?></p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-lg-2 text-center">
+                    <div class="row">
+                        <div class="col">
+                            <p class="h5">Total de kilos incautado </p>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-center">
+                        <div class="col-2 col-sm-4">
+                            <img src="<?= asset('./images/iconos/droga/evidence.png') ?>" class="w-100" alt="operaciones">
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <p class="h3" id="kilos_incautados"><?= $total_droga ?></p>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="col-lg-2 text-center">
+                    <div class="row">
+                        <div class="col">
+                            <p class="h5">Incidencia</p>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-center">
+                        <div class="col-2 col-sm-4">
+                            <img src="<?= asset('./images/iconos/droga/evidence.png') ?>" class="w-100" alt="operaciones">
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <p class="h3" id="kilos_incautados1"><?= $incidencia_droga ?></p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-lg-2 text-center">
+                    <div class="row">
+                        <div class="col">
+                            <p class="h5">Matas incautadas</p>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-center">
+                        <div class="col-2 col-sm-4">
+                            <img src="<?= asset('./images/iconos/droga/incautacion.png') ?>" class="w-100" alt="operaciones">
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <p class="h3" id="matas_incautados"><?= $total_matas ?></p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-lg-2 text-center">
+                    <div class="row">
+                        <div class="col">
+                            <p class="h5">Incidencia</p>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-center">
+                        <div class="col-2 col-sm-4">
+                            <img src="<?= asset('./images/iconos/droga/marihuana.png') ?>" class="w-100" alt="operaciones">
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <p class="h3" id="matas_incautados1"><?= $incidencia_droga1 ?></p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div id="mes_elegido" class="col-lg-2 text-center">
+                    <div class="row">
+                        <div class="col">
+                            <p class="h5">Mes</p>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-center">
+                        <div class="col-2 col-sm-4">
+                            <img src="<?= asset('./images/iconos/calendario.png') ?>" class="w-100" alt="operaciones">
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <p class="h3" id="mes_selecionado"><?php echo strtoupper($fechaLarga); ?></p>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="row mb-3">
+
+                <div class="col-lg-2 text-center">
+                    <div class="row">
+                        <div class="col">
+                            <p class="h5">Capturas</p>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-center">
+                        <div class="col-2 col-sm-4">
+                            <img src="<?= asset('./images/iconos/capturas/handcuffs.png') ?>" class="w-100" alt="operaciones">
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <p class="h3" id="cantidad_capturas"><?= $captura ?></p>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="col-lg-2 text-center">
+                    <div class="row">
+                        <div class="col">
+                            <p class="h5">Hombres</p>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-center">
+                        <div class="col-2 col-sm-4">
+                            <img src="<?= asset('./images/iconos/capturas/hombre.png') ?>" class="w-100" alt="operaciones">
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <p class="h3" id="cantidad_hombres"><?= $hombres ?></p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-lg-2 text-center">
+                    <div class="row">
+                        <div class="col">
+                            <p class="h5">Pistas Inhabilitadas</p>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-center">
+                        <div class="col-2 col-sm-4">
+                            <img src="<?= asset('./images/iconos/droga/explosion.png') ?>" class="w-100" alt="operaciones">
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <p class="h3" id="cantidad_pista"><?= $pista ?></p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-lg-2 text-center">
+                    <div class="row">
+                        <div class="col">
+                            <p class="h5">Departamento con mas Operaciones</p>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-center">
+                        <div class="col-2 col-sm-4">
+                            <img src="<?= asset('./images/iconos/ubicacion.png') ?>" class="w-100" alt="operaciones">
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <p class="h3" id="depto_mayor"><?= $depto ?></p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-lg-2 text-center">
+                    <div class="row">
+                        <div class="col">
+                            <p class="h5">Departamento con mas Pistas Inhabilitadas</p>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-center">
+                        <div class="col-2 col-sm-4">
+                            <img src="<?= asset('./images/iconos/ubicacion.png') ?>" class="w-100" alt="operaciones">
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <p class="h3" id="depto_mayor1"><?= $depto1 ?></p>
+                        </div>
+                    </div>
+
+                </div>
+
 
             </div>
         </div>
 
-        <div class="row mb-3">
-            <div class="col-lg-2 text-center">
-                <div class="row">
-                    <div class="col">
-                        <p class="h5">Capturas </p>
-                    </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-2 col-sm-4">
-                        <img src="<?= asset('./images/iconos/capturas/handcuffs.png') ?>" class="w-100" alt="capturas">
-
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <p class="h3" id="cantidad_capturas"><?= $capturas ?></p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-2 text-center">
-                <div class="row">
-                    <div class="col">
-                        <p class="h5"> Delito Incurrente</p>
-                    </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-2 col-sm-4">
-                        <img src="<?= asset('./images/iconos/capturas/delito.png') ?>" class="w-100" alt="capturas">
-
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <p class="h3" id="delito_concurrente"><?= $delito ?></p>
-                    </div>
-                </div>
-            </div>
-            <div id="mes_elegido" class="col-lg-2 text-center">
-                <div class="row">
-                    <div class="col">
-                        <p class="h5"> Mes</p>
-                    </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-2 col-sm-4">
-                        <img src="<?= asset('./images/iconos/calendario.png') ?>" class="w-100" alt="capturas">
-
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <p class="h3" id="delito_concurrente"><?php echo strtoupper($fechaLarga) ?></p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-2 text-center">
-                <div class="row">
-                    <div class="col">
-                        <p class="h5"> Mujeres</p>
-                    </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-2 col-sm-4">
-                        <img src="<?= asset('./images/iconos/capturas/mujer.png') ?>" class="w-100" alt="capturas">
-
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <p class="h3" id="cantidad_mujeres"><?= $mujeres ?></p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-2 text-center">
-                <div class="row">
-                    <div class="col">
-                        <p class="h5"> Hombres</p>
-                    </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-2 col-sm-4">
-                        <img src="<?= asset('./images/iconos/capturas/hombre.png') ?>" class="w-100" alt="capturas">
-
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <p class="h3" id="cantidad_hombres"><?= $hombres ?></p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-2 text-center">
-                <div class="row">
-                    <div class="col">
-                        <p class="h5">Departamento </p>
-                    </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-2 col-sm-4">
-                        <img src="<?= asset('./images/iconos/ubicacion.png') ?>" class="w-100" alt="capturas">
-
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <p id="depto_mayor" class="h3"><?= $depto ?></p>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
-
 <div class="container-fluid text-center pt-4">
     <div class="justify-content-center">
         <div id="tabla" class="mb-5 ms-5 justify-content-center pt-5" style="border:solid; background-color: #707B7C; display:none;">
-            <h1 style="color:aliceblue;">INFORMACIÓN DE LAS CAPTURAS REALIZADAS</h1>
+            <h1 style="color:aliceblue;">INFORMACIÓN DE LAS INCAUTACIONES REALIZADAS</h1>
             <hr style="color: #9A7D0A; height:10px">
             <div class="row col-lg-12 justify-content-center ms-2 mb-3 " style="color:aliceblue;">
 
@@ -196,10 +357,9 @@ $depto = $depto[0]['desc'];
                             <tr>
                                 <th>NO</th>
                                 <th>FECHA</th>
-                                <th>DEPARTAMENTO</th>
+                                <th>MUNICIPIO</th>
                                 <th>LUGAR</th>
                                 <th>TOPICO</th>
-                                <th>DELITO</th>
                                 <th>ACTIVIDAD VINCULADA</th>
                                 <th>DETALLE</th>
                                 <th>REPORTE</th>
@@ -223,7 +383,7 @@ $depto = $depto[0]['desc'];
     <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header ">
-                <h5 class="modal-title " id="infoModalLabel">Informacion de las captura</h5>
+                <h5 class="modal-title " id="infoModalLabel">Informacion de la Incautacion</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body container">
@@ -244,72 +404,67 @@ $depto = $depto[0]['desc'];
                                 <label>
                                     Topico
                                 </label>
-
-                                <input type="text" name="topico" id="topico" class="form-control" readonly novalidate>
-
+                                <select class="form-control" name="topico1" id="topico1" disabled value="" selected readonly>
+                                    <option value="">Seleccione...</option>
+                                    <?php foreach ($topics as $ca3) { ?>
+                                        <option value="<?= $ca3['ID']  ?>"><?= $ca3['DESC']  ?></option>
+                                    <?php  }  ?>
+                                </select>
 
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col">
                                 <label for="latitud">Latitud</label>
-                                <input type="text" name="latitud" id="latitud" class="form-control" readonly novalidate>
+                                <input type="text" name="latitud1" id="latitud1" class="form-control" readonly novalidate>
                             </div>
                             <div class="col">
                                 <label for="longitud">Longitud</label>
-                                <input type="text" name="longitud" id="longitud" class="form-control" readonly novalidate>
+                                <input type="text" name="longitud1" id="longitud1" class="form-control" readonly novalidate>
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col">
-                                <label for="departamentoBusqueda">Departamento</label>
-                                <input type="text" name="departamentoBusqueda" id="departamentoBusqueda" class="form-control" readonly novalidate>
-
+                                <label for="departamento">Departamento</label>
+                                <select name="departamentoBusqueda1" disabled id="departamentoBusqueda1" value="" class="form-control">
+                                    <option value="">Seleccione...</option>
+                                    <?php foreach ($departamento as $ca2) { ?>
+                                        <option value="<?= $ca2['DM_CODIGO']  ?>"><?= $ca2['DM_DESC_LG']  ?></option>
+                                    <?php  }  ?>
+                                </select>
                             </div>
                             <div class="col">
                                 <label for="municipio">Municipio</label>
-                                <input type="text" id="municipio" name="municipio" class="form-control" required readonly>
+                                <input type="text" id="municipio1" name="municipio1" class="form-control" required readonly>
                             </div>
                         </div>
 
                         <div class="col">
-                            <label> direccion </label>
-                            <input type="text" id="lugar" name="lugar" class="form-control" required readonly>
+                            <label>Direccion </label>
+                            <input type="text" id="lugar1" name="lugar1" class="form-control" required readonly>
                         </div>
                         <div>
                             <label for="actvidad_vinculada"> Actividad vinculada</label>
-                            <input type="text" id="actvidad_vinculada" name="actvidad_vinculada" class="form-control" required readonly>
-
+                            <select class=" form-control " disabled style="width:400px" name="actvidad_vinculada1" id="actvidad_vinculada1" required>
+                                <option value="">Seleccione</option>
+                                <?php foreach ($actividad_vinculada as $ca1) { ?>
+                                    <option value="<?= $ca1['ID']  ?>"><?= $ca1['DESC']  ?></option>
+                                <?php  }  ?>
+                            </select>
                         </div>
 
-                    </form>
+
                 </div>
                 <hr>
-                <h2>Personas capturadas</h2>
-                <div class="row mb-2 justify-content-center text-center" id="tabla1">
-                    <div class="col-sm-12 col-lg-12 table-responsive ">
-                        <table id='dataTable3' class='table table-hover table-condensed table-bordered w-100'>
-                            <thead class='table-dark'>
-                                <tr>
-                                    <th>NO.</th>
-                                    <th>NOMBRE</th>
-                                    <th>SEXO</th>
-                                    <th>EDAD</th>
-                                    <th>NACIONALIDAD</th>
-                                    <th>DELITO</th>
-
-
-                                </tr>
-                            </thead>
-                            <tbody>
-
-                            </tbody>
-                        </table>
-
-
+                <h2>Información de la Pista Clandestina</h2>
+                <div class="row mb-3">
+                    <div class="col">
+                        <label for="longitud_pista">Longitud de la Pista</label>
+                        <input type="text" name="longitud_pista" id="longitud_pista" class="form-control" readonly novalidate>
                     </div>
                 </div>
             </div>
+            </form>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                 <!-- <button type="submit" form="formIngreso" class="btn btn-primary" id="buttonGuardar">Guardar información</button> -->
@@ -325,7 +480,7 @@ $depto = $depto[0]['desc'];
     <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header ">
-                <h5 class="modal-title " id="infoModalLabel">Informacion de las captura</h5>
+                <h5 class="modal-title " id="infoModalLabel">Informacion de la Incautacion</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body container">
@@ -346,41 +501,53 @@ $depto = $depto[0]['desc'];
                                 <label>
                                     Topico
                                 </label>
-                                <input type="text" name="topico1" id="topico1" class="form-control" readonly novalidate>
-
+                                <select class="form-control" name="topico" id="topico" disabled value="" selected readonly>
+                                    <option value="">Seleccione...</option>
+                                    <?php foreach ($topics as $ca3) { ?>
+                                        <option value="<?= $ca3['ID']  ?>"><?= $ca3['DESC']  ?></option>
+                                    <?php  }  ?>
+                                </select>
 
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col">
                                 <label for="latitud">Latitud</label>
-                                <input type="text" name="latitud1" id="latitud1" class="form-control" readonly novalidate>
+                                <input type="text" name="latitud" id="latitud" class="form-control" readonly novalidate>
                             </div>
                             <div class="col">
                                 <label for="longitud">Longitud</label>
-                                <input type="text" name="longitud1" id="longitud1" class="form-control" readonly novalidate>
+                                <input type="text" name="longitud" id="longitud" class="form-control" readonly novalidate>
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col">
                                 <label for="departamento">Departamento</label>
-                                <input type="text" id="departamentoBusqueda1" name="departamentoBusqueda1" class="form-control" required readonly>
-
+                                <select name="departamentoBusqueda" disabled id="departamentoBusqueda" value="" class="form-control">
+                                    <option value="">Seleccione...</option>
+                                    <?php foreach ($departamento as $ca2) { ?>
+                                        <option value="<?= $ca2['DM_CODIGO']  ?>"><?= $ca2['DM_DESC_LG']  ?></option>
+                                    <?php  }  ?>
+                                </select>
                             </div>
                             <div class="col">
                                 <label for="municipio">Municipio</label>
-                                <input type="text" id="municipio1" name="municipio1" class="form-control" required readonly>
+                                <input type="text" id="municipio" name="municipio" class="form-control" required readonly>
                             </div>
                         </div>
 
                         <div class="col">
-                            <label>Ingrese la direccion </label>
-                            <input type="text" id="lugar1" name="lugar1" class="form-control" required readonly>
+                            <label>Direccion </label>
+                            <input type="text" id="lugar" name="lugar" class="form-control" required readonly>
                         </div>
                         <div>
                             <label for="actvidad_vinculada"> Actividad vinculada</label>
-                            <input type="text" id="actvidad_vinculada1" name="actvidad_vinculada1" class="form-control" required readonly>
-
+                            <select class=" form-control " disabled style="width:400px" name="actvidad_vinculada" id="actvidad_vinculada" required>
+                                <option value="">Seleccione</option>
+                                <?php foreach ($actividad_vinculada as $ca1) { ?>
+                                    <option value="<?= $ca1['ID']  ?>"><?= $ca1['DESC']  ?></option>
+                                <?php  }  ?>
+                            </select>
                         </div>
 
                         <hr>
@@ -414,6 +581,20 @@ $depto = $depto[0]['desc'];
                             </div>
 
                         </div>
+                        <div class="row mb-3">
+
+                            <div class="col-lg-4 text-center">
+                                <label for="matas_incautadas">Matas Incautadas</label>
+                                <input type="text" name="matas_incautadas" id="matas_incautadas" class="form-control" readonly required>
+
+                            </div>
+                            <div class="col-lg-4 text-center">
+                                <label for="tipo_matas">Tipos de Matas</label>
+                                <input type="text" name="tipo_matas" id="tipo_matas" class="form-control" readonly required>
+                            </div>
+
+
+                        </div>
 
                     </form>
                 </div>
@@ -445,23 +626,24 @@ $depto = $depto[0]['desc'];
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <!-- <button type="submit" form="formIngreso" class="btn btn-primary" id="buttonGuardar">Guardar información</button> -->
+
             </div>
         </div>
     </div>
 </div>
 <div class="  container-fluid text-center pt-2 rounded bg-secondary" id="mapa_calor">
-
-
     <div class="row mb-1 justify-content-center">
 
-        <div class="  col-lg-12 ">
-            <h1 class="ms-5" style="color:white;"> DEPARTAMENTOS CON MAS CAPTURAS EN EL MES DE <?= strtoupper($fechaLarga) ?><a type="button" id="buscaravanzada"> <img src="<?= asset('./images/iconos/lupa.png') ?>" style="width:40px; height:40px;" alt="capturas"></a></h1>
+
+
+
+        <div class=" col-lg-12">
+            <h1 class="ms-5" style="color:white;"> INCAUTACIONES DE DROGA EN EL MES DE <?= strtoupper($fechaLarga) ?><a type="button" id="buscaravanzada"> <img src="<?= asset('./images/iconos/lupa.png') ?>" style="width:40px; height:40px;" alt="capturas"></a></h1>
             <hr style="width:100%; height:5px; color:#9A7D0A;">
             <div id="mapa_de_calor">
 
-                
-                <div class="row mb-3 ">
+
+                <div class="row mb-3">
                     <div id="cuadro_busquedad_mapa" style="display:none;">
                         <form class=" col-lg-12 border border-2 border-dark bg-dark rounded " id="formBusqueda_mapa">
                             <div class="row mb-3">
@@ -471,14 +653,20 @@ $depto = $depto[0]['desc'];
                             </div>
                             <div class="row mb-3 justify-content-center">
                                 <div class="col-lg-3">
-                                    <label for="delitos_mapa_calor" style="color: white;">Delito</label>
-                                    <select class="form-control" name="delitos_mapa_calor" id="delitos_mapa_calor">
+                                    <a onclick="pistas_clandestinas()">
+                                        <<img src="<?= asset('./images/iconos/droga/explosion.png') ?>" class="w-100" alt="operaciones">
+                                    </a>
+                                </div>
+                                <div class="col-lg-3">
+                                    <label for="incautaciondroga_mapa_calor" style="color: white;">Tipo de droga</label>
+                                    <select class="form-control" name="incautaciondroga_mapa_calor" id="incautaciondroga_mapa_calor">
                                         <option value="">Seleccione...</option>
-                                        <?php foreach ($delitos as $ca3) { ?>
-                                            <option value="<?= $ca3['id']  ?>"><?= $ca3['desc']  ?></option>
+                                        <?php foreach ($drogas_tipo as $ca3) { ?>
+                                            <option value="<?= $ca3['ID']  ?>"><?= $ca3['DESC']  ?></option>
                                         <?php  }  ?>
                                     </select>
                                 </div>
+
 
                                 <div class="col-lg-2">
                                     <label for="fecha_mapa" style="color: white;">DE</label>
@@ -499,16 +687,13 @@ $depto = $depto[0]['desc'];
                 </div>
             </div>
         </div>
-    </div>
-    <div class=" row pt-1  ">
-      
-        <div class="col-lg-7">
 
-                                    
+    </div>
+    <div class="row pt-1">
+        <div class="col-lg-7">
 
             <svg baseprofile="tiny" fill="#7c7c7c" height="100%" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" version="1.2" viewbox="0 0 1000 1056" width="100%" xmlns="http://www.w3.org/2000/svg">
 
-               
                 <g transform="rotate(328)"><text x="-280" y="570" stroke-width="2" stroke="black" fill="black" style="font-size: 25px">HUEHUETENANGO</text></g>
                 <g transform="rotate(320)"><text x="-480" y="620" stroke-width="2" stroke="black" fill="black" style="font-size: 20px">SAN MARCOS</text></g>
                 <text x="490" y="250" stroke-width="2" stroke="black" fill="black" style="font-size: 40px">PETEN</text>
@@ -659,9 +844,7 @@ $depto = $depto[0]['desc'];
                 <circle cx="855.4" cy="532.1" id="2">
                 </circle>
             </svg>
-
-        </div>      
-     
+        </div>
         <div class="  col-lg-4 bg-dark rounded  pt-3 h-50" >
             <div class="row mb-2 justify-content-between">
                 <div class="col-7 ">
@@ -717,12 +900,8 @@ $depto = $depto[0]['desc'];
             </div>
 
         </div>
-
     </div>
-
-
-
-
+</div>
 
 <div class="modal fade" id="modaldepto" name="modaldepto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
@@ -744,24 +923,52 @@ $depto = $depto[0]['desc'];
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col-lg-4 justify-content-start">
+                        <div class="col-lg-8 justify-content-start">
                             <label for="depto">
-                                <h3> Cantidad de capturas:</h3>
+                                <h3> Cantidad de matas incautadas:</h3>
                             </label>
-                        </div>
-                        <div id="cantidad_capturas_depto" class="col-lg-2 justify-content-start">
+                            <!-- </div> -->
+                            <!-- <div id="cantidad_matas_depto" class="col-lg-2 justify-content-start"> -->
                             <h4 name="deptoinfo" id="deptoinfo" style="color:#116189"></h4>
                         </div>
-                    </div>
-                    <div class="row mb-1">
-                        <div class="col-lg-2 ms-3 ">
+
+                        <div class="col-lg-3 ms-3 ">
                             <label for="depto">
                                 <h3 id="label_delito"><span> Incidencia: </span></h3>
                             </label>
-                        </div>
-                        <div id="incidencia_capturas_depto" class="col-lg-6 justify-content-start">
+                            <!-- </div> -->
+                            <!-- <div id="incidencia_matas_depto" class="col-lg-6 justify-content-start"> -->
                             <h4 name="deptoincidencia" id="deptoincidencia" style="color:#116189"></h4>
                         </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-lg-8 justify-content-start">
+                            <label for="depto">
+                                <h3> Cantidad de droga incautada:</h3>
+                            </label>
+
+
+                            <h4 name="deptoinfo1" id="deptoinfo1" style="color:#116189"></h4>
+                        </div>
+
+                        <div class="col-lg-3 ms-3 ">
+                            <label for="depto">
+                                <h3 id="label_delito1"><span> Incidencia: </span></h3>
+                            </label>
+
+                            <h4 name="deptoincidencia1" id="deptoincidencia1" style="color:#116189"></h4>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-lg-8 justify-content-start">
+                            <label for="depto">
+                                <h3> Cantidad de pistas Inhabilitadas:</h3>
+                            </label>
+
+
+                            <h4 name="deptoinfo2" id="deptoinfo2" style="color:#116189"></h4>
+                        </div>
+
                     </div>
                     <div class="row mb-1">
                         <div id="texto_no" style="display:none;">
@@ -773,13 +980,16 @@ $depto = $depto[0]['desc'];
                                             <canvas id="depto_cant" width="50" height="50"></canvas>
                                         </div>
                                     </div> -->
-                        <div id="grafica_depto1" class="row ">
+                        <div id="grafica_depto1" class="col-lg-12 pt-5 ">
 
-                            <div class="col-lg-12" >
-                                <h2 style="color:black">Delitos cometidos</h2>
-                                <canvas id="delitos_cant" ></canvas>
+                            <div class="col-lg-12 ">
+                                <h2 style="color:black">Droga Incautada</h2>
+                                <canvas id="delitos_cant"></canvas>
                             </div>
-                        
+                            <!-- <div class="col-lg-6  "style="width: 600px; height:400px; ">
+                              
+                                    <canvas id="delitos_cant2" width="50" height="50"></canvas>
+                                </div> -->
                         </div>
 
                     </div>
@@ -797,13 +1007,11 @@ $depto = $depto[0]['desc'];
         </div>
     </div>
 </div>
-</div>
 
 <div class=" ms-2 container-fluid text-center pt-4" id="div_graficas" style="display:none; ">
     <div class="justify-content-center">
         <div class="  row col-lg-12 justify-content-end " style="border:solid; border-radius:10px; background-color:white;">
-            <h1 style="color:black">ESTADISTICAS DEL MES DE <?= strtoupper($fechaLarga) ?> <a type="button" id="buscarGrafica"> <img src="<?= asset('./images/iconos/lupa.png') ?>" style="width:40px; height:40px;" alt="capturas"></a>
-</h1>
+            <h1 style="color:black">ESTADISTICAS DEL MES DE <?= strtoupper($fechaLarga) ?> </h1>
             <div id="cuadro_busquedad_grafica" class="row mb-3 " style="display:none">
             <div class="col-lg-12 text-center ">
 
@@ -834,28 +1042,27 @@ $depto = $depto[0]['desc'];
         </div>
 
 
+
+
             <hr style="color:#0B3254; height:10px;">
             <div class="row mb-1">
                 <div class="col-lg-6 ">
-
-                <h2 style="color:black">Delitos cometidos</h2>
-                <div id="texto_no1" style="display:none;">
-                            <h3> No se encontraron delitos</h3>
+                    <h2 style="color:black">Droga Incautada</h2>
+                    <div id="texto_no1" style="display:none;">
+                            <h3> No se encontraron incautaciones</h3>
                         </div>
-                    <div id="graficaDelitos" style="width: 800px; height:900px; ">
-                        
-                        <canvas id="myChart1" width="50" height="50"></canvas>
+                    <div id="graficaDroga" style="width: 800px; height:900px; ">
+
+                        <canvas id="myChart9" width="50" height="50"></canvas>
                     </div>
-                    
                 </div>
                 <div class="col-lg-6 ">
-                <h2 style="color:black">Delitos cometidos por departamentos</h2>
-                <div id="texto_no2" style="display:none;">
-                            <h3> No se encontraron delitos</h3>
+                    <h2 style="color:black">Operaciones relacionadas al narcotrafico por departamentos</h2>
+                    <div id="texto_no2" style="display:none;">
+                            <h3> No se encontraron Incautaciones</h3>
                         </div>
-                    <div id="graficaDelitosDepartamento" style="width: 800px; height:900px; ">
-                       
-                        <canvas id="myChart2" width="50" height="50"></canvas>
+                    <div id="graficaDrogaDepartamento" style="width: 800px; height:900px; ">
+                        <canvas id="myChart2"></canvas>
                     </div>
                 </div>
 
@@ -868,8 +1075,8 @@ $depto = $depto[0]['desc'];
                 <div class="col-lg-12 ">
 
                     <div class="col-lg-12 " style="height:800px;">
-                        <h2 style="color:black">Capturas realizadas en el mes de <?= strtoupper($fechaLarga) ?></h2>
-                        <canvas id="myChart3" height="100" width="300"></canvas>
+                        <h2 style="color:black">Incautaciones realizadas en el mes de <?= strtoupper($fechaLarga) ?></h2>
+                        <canvas id="myChart3" height="100"></canvas>
                     </div>
                 </div>
 
@@ -883,13 +1090,27 @@ $depto = $depto[0]['desc'];
                 <div class="col-lg-12 ">
 
                     <div class="col-lg-12 " style="height:800px;">
-                        <h2 style="color:black">ESTADISTICAS TRIMESTRALES </h2>
+                        <h2 style="color:black">ESTADISTICAS TRIMESTRALES DE KILOS INCAUTADOS</h2>
                         <canvas id="myChart4" height="100"></canvas>
                     </div>
                 </div>
 
 
             </div>
+            <div class="row mb-1">
+
+
+
+                <div class="col-lg-12 ">
+
+                    <div class="col-lg-12 " style="height:800px;">
+                        <h2 style="color:black">ESTADISTICAS TRIMESTRALES DE MATAS INCAUTADOS</h2>
+                        <canvas id="myChart11" height="100"></canvas>
+                    </div>
+                </div>
+
+
+            </div>
             <hr style="color:#0B3254; height:10px;">
             <div class="row mb-1">
 
@@ -898,7 +1119,22 @@ $depto = $depto[0]['desc'];
                 <div class="col-lg-12 ">
 
                     <div class="col-lg-12 " style="height:800px;">
-                        <h2 style="color:black">ESTADISTICAS TRIMESTRALES </h2>
+                        <h2 style="color:black">ESTADISTICAS TRIMESTRALES DE PISTAS CLANDESTINAS <img src="../assets/img/destruccion_pista/pista.png" style="width:60px; height:60px;" alt="capturas"></h2>
+                        <canvas id="pista_clandestina" height="100"></canvas>
+                    </div>
+                </div>
+
+
+            </div>
+            <hr style="color:#0B3254; height:10px;">
+            <div class="row mb-1">
+
+
+
+                <div class="col-lg-12 ">
+
+                    <div class="col-lg-12 " style="height:800px;">
+                        <h2 style="color:black">ESTADISTICAS TRIMESTRALES <img src="../assets/img/incautacion_droga/kilo.png" style="width:60px; height:60px;" alt="capturas"> </h2>
                         <canvas id="myChart5" height="100"></canvas>
                     </div>
                 </div>
@@ -909,9 +1145,4 @@ $depto = $depto[0]['desc'];
     </div>
 </div>
 
-
-
-
-
-
-<script src="../public/build/js/mapas/infoCapturas.js"></script>
+<script src="../public/build/js/mapas/infoDroga.js"></script>
