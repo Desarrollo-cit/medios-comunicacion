@@ -108,7 +108,10 @@ $router->post('/API/eventos/guardar', [EventoController::class, 'guardar']);
 $router->get('/API/eventos/sexo', [EventoController::class, 'sexos']);
 
 $router->post('/API/capturas/guardar', [CapturaController::class, 'guardar']);
+$router->post('/API/capturas/modificar', [CapturaController::class, 'modificar']);
 $router->get('/API/capturas/buscar', [CapturaController::class, 'buscarCapturaAPI']);
+$router->post('/API/capturas/capturado/eliminar', [CapturaController::class, 'eliminarCapturado']);
+$router->post('/API/capturas/eliminar', [CapturaController::class, 'eliminarCaptura']);
 
 
 // Comprueba y valida las rutas, que existan y les asigna las funciones del Controlador
