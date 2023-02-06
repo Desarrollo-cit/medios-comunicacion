@@ -17,7 +17,8 @@ module.exports = {
     'js/fenomeno_natural/index' : './src/js/fenomeno_natural/index.js',
     'js/moneda/index' : './src/js/moneda/index.js',
     'js/eventos/index' : './src/js/eventos/index.js',
-
+    'js/mapas/infoCapturas' : './src/js/mapas/infoCapturas.js',
+    'js/mapas/infoDroga' : './src/js/mapas/infoDroga.js',
   },
   output: {
     filename: '[name].js',
