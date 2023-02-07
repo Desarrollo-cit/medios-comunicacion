@@ -14,7 +14,6 @@ class Desastre_naturalController{
         getHeadersApi();
 
         try {
-            // $_POST["desc"] = strtoupper($_POST["desc"]);
             $desastre = new Desastre_natural($_POST);
             $valor = $_POST["desc"];
             $existe = Desastre_natural::SQL("select * from amc_tipo_desastre_natural where situacion =1 AND desc = '$valor'
