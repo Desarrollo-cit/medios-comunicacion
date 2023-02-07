@@ -21,7 +21,6 @@ class NacionalidadController{
         getHeadersApi();
 
         try {
-            $_POST["desc"] = strtoupper($_POST["desc"]);
             $tipo = new Nacionalidad($_POST);
             $dato = $_POST["desc"];
             $existe = Nacionalidad::SQL("SELECT * FROM amc_nacionalidad where desc = '$dato' and situacion = 1 ");

@@ -37,7 +37,7 @@ public function buscarApi(){
 public function modificarAPI(){
     try {
         getHeadersApi();
-        $_POST["descripcion"] = strtoupper($_POST["descripcion"]);
+        // $_POST["descripcion"] = strtoupper($_POST["descripcion"]);
         $colores = new Colores($_POST);
 
         // echo json_encode($_POST);
