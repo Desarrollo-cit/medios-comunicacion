@@ -115,7 +115,11 @@ $router->post('/API/capturas/capturado/eliminar', [CapturaController::class, 'el
 $router->post('/API/capturas/eliminar', [CapturaController::class, 'eliminarCaptura']);
 
 $router->post('/API/asesinatos/guardar', [AsesinatosController::class, 'guardar']);
+$router->post('/API/asesinatos/modificar', [AsesinatosController::class, 'modificar']);
 $router->get('/API/asesinatos/buscar', [AsesinatosController::class, 'buscarAsesinatosAPI']);
+$router->post('/API/asesinatos/asesinado/eliminar', [AsesinatosController::class, 'eliminarAsesinado']);
+$router->post('/API/asesinatos/eliminar', [AsesinatosController::class, 'eliminarAsesinato']);
+
 
 
 // Comprueba y valida las rutas, que existan y les asigna las funciones del Controlador

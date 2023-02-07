@@ -328,12 +328,12 @@
                 <div class="row justify-content-center mb-3">
                     <form id="formAsesinatos" novalidate >
                         <div class="col p-1">
-                            <input type="text" name="topico" id="topico">
+                            <input type="hidden" name="topico" id="topico">
                             <div class="row justify-content-center mb-5">
                                 <h4>Información del Asesinato</h4>
                                 <div class="col-12 text-center">
                                     <label class="h3 " for="info">Noticia</label>
-                                    <textarea name="info" id="info" class="form-control"></textarea>
+                                    <textarea name="info2" id="info2" class="form-control"></textarea>
                                     
                                 </div>
                             </div>  
@@ -364,13 +364,80 @@
             <div class="modal-footer row justify-content-end">
             
                 <div class="col-lg-3">
-                    <button type="submit" form="formCaptura" id="btnGuardarCaptura" class="btn btn-primary w-100"><i class="bi bi-save me-2"></i>Guardar</button>
+                    <button type="submit" form="formAsesinatos" id="btnGuardarAsesinados" class="btn btn-primary w-100"><i class="bi bi-save me-2"></i>Guardar</button>
                 </div>
                 <div class="col-lg-3">
-                    <button type="button" class="btn btn-warning w-100" id="btnModificarCaptura"><i class="bi bi-save me-2"></i>Modificar</button>
+                    <button type="button" class="btn btn-warning w-100" id="btnModificarAsesinados"><i class="bi bi-save me-2"></i>Modificar</button>
                 </div>
                 <div class="col-lg-3">
-                    <button type="button" class="btn btn-danger w-100" id="btnBorrarCaptura"><i class="bi bi-trash  me-2"> </i> Borrar</button>
+                    <button type="button" class="btn btn-danger w-100" id="btnBorrarAsesinados"><i class="bi bi-trash  me-2"> </i> Borrar</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
+
+<!-- MODAL 3 -->
+<div class="modal fade" id="modalMigrantes" tabindex="-1" role="dialog" aria-labelledby="modalasesinatoLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl"  role="document">
+        <div class="modal-content">
+            <div class="modal-header ">
+                <h5 class="modal-title " id="modalcapturaLabel">DETALLE DE MIGRANTES</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body container ">
+                <!-- <form>
+
+                </form> -->
+                <div class="row justify-content-center mb-3">
+                    <form id="formMigrantes" novalidate >
+                        <div class="col p-1">
+                            <input type="hidden" name="topico" id="topico">
+                            <div class="row justify-content-center mb-5">
+                                <h4>Información de los Migrantes</h4>
+                                <div class="col-12 text-center">
+                                    <label class="h3 " for="info3">Noticia</label>
+                                    <textarea name="info3" id="info3" class="form-control"></textarea>
+                                    
+                                </div>
+                            </div>  
+                        </div>
+                        <div class="row justify-content-center">
+
+                            <div class="col">
+
+                                <h2>Personas Migrantes</h2>
+                            </div>
+                            <div class="col-lg-1">
+                                <button type="button" id="agregarInputsMigrantes" class="btn btn-success w-100"><i class="bi bi-plus-circle "></i></button>                     
+                            </div>
+                            <div class="col-lg-1">
+                                <button type="button" id="quitarInputsMigrantes" class="btn btn-secondary w-100"><i class="bi bi-dash-circle"></i></button>
+                            </div>
+
+
+                        </div>
+
+
+                        <div id='divMigrantes' class="row">
+                            
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer row justify-content-end">
+            
+                <div class="col-lg-3">
+                    <button type="submit" form="formMigrantes" id="btnGuardarMigrantes" class="btn btn-primary w-100"><i class="bi bi-save me-2"></i>Guardar</button>
+                </div>
+                <div class="col-lg-3">
+                    <button type="button" class="btn btn-warning w-100" id="btnModificarMigrantes"><i class="bi bi-save me-2"></i>Modificar</button>
+                </div>
+                <div class="col-lg-3">
+                    <button type="button" class="btn btn-danger w-100" id="btnBorrarMigrantes"><i class="bi bi-trash  me-2"> </i> Borrar</button>
                 </div>
 
             </div>

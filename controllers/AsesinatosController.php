@@ -4,6 +4,7 @@ namespace Controllers;
 
 use Model\Asesinatos;
 use Model\Asesinados;
+use Model\Evento;
 use MVC\Router;
 use Exception;
 
@@ -11,29 +12,30 @@ class AsesinatosController
 {
     public static function guardar(){
         getHeadersApi();
-        
+                    
+        $cantidadasesinados = count($_POST['nombre']);
         
         try {
-            $Asesinatos = new Asesinatos([
+            $asesinatos = new Asesinatos([
                 'topico' => $_POST['topico'],
                 'info' => $_POST['info'],
+                'cant_per_asesinadas' => $cantidadasesinados,
+
             ]);
 
-            if(!$Asesinatos->validarExisteTopico()){
-                $guardado = $Asesinatos->guardar();
+            if(!$asesinatos->validarExisteTopico()){
+                $guardado = $asesinatos->guardar();
             }
-            
-            $cantidadAsesinados = count($_POST['nombre']);
+
             $resultados = [];
-            for ($i=0; $i < $cantidadAsesinados ; $i++) { 
+            for ($i=0; $i < $cantidadasesinados ; $i++) { 
                 $asesinados = new Asesinados([
+                    'id' =>  $_POST['id_per'][$i] != '' ? $_POST['id_per'][$i] : null ,
                     'topico' => $_POST['topico'],
-                    'nacionalidad' => $_POST['nacionalidad'][$i],
-                    'sexo' => $_POST['sexo'][$i],
                     'nombre' => $_POST['nombre'][$i],
+                    'sexo' => $_POST['sexo'][$i],
                     'edad' => $_POST['edad'][$i],
-                    'delito' => $_POST['delito'][$i],
-                    'vinculo' => $_POST['vinculo'][$i],
+                 
                 ]);
                 
 
@@ -94,4 +96,145 @@ class AsesinatosController
             ]);
         }
     }
+    public static function modificar(){
+        getHeadersApi();
+        
+        
+        try {
+
+            $busquedaAsesinato = Asesinatos::where( 'topico' , $_POST['topico']);
+            $asesinato = array_shift($busquedaAsesinato);
+ 
+
+            $asesinato->info = $_POST['info'];
+            $asesinato->guardar();
+
+            // echo json_encode($resultado);
+            // exit;
+
+            $cantidadasesinados = count($_POST['nombre']);
+            $resultados = [];
+            for ($i=0; $i < $cantidadasesinados ; $i++) { 
+                $asesinados = new Asesinados([
+                    'id' =>  $_POST['id_per'][$i] != '' ? $_POST['id_per'][$i] : null ,
+                    'topico' => $_POST['topico'],
+                    'nombre' => $_POST['nombre'][$i],
+                    'sexo' => $_POST['sexo'][$i],
+                    'edad' => $_POST['edad'][$i],
+                 
+                ]);
+                
+
+                $guardado = $asesinados->guardar();
+                $resultados[] = $guardado['resultado'];
+            }
+
+
+
+            if(!array_search(0, $resultados)){
+                echo json_encode([
+                    "mensaje" => "El registro se modificó.",
+                    "codigo" => 1,
+                ]);
+                
+            }else{
+                echo json_encode([
+                    "mensaje" => "Ocurrió  un error.",
+                    "codigo" => 0,
+                ]);
+    
+            }
+        } catch (Exception $e) {
+            echo json_encode([
+                "detalle" => $e->getMessage(),       
+                "mensaje" => "Ocurrió  un error en base de datos.",
+
+                "codigo" => 4,
+            ]);
+        }
+    }
+
+    public static function eliminarAsesinado(){
+        getHeadersApi();
+        
+        
+        try {
+            $asesinado = asesinados::find($_POST['id']);
+            $asesinado->situacion = 0;
+            $resultado = $asesinado->guardar();
+    
+            if($resultado['resultado'] == 1){
+                echo json_encode([
+                    "mensaje" => "El registro del asesinado se eliminó.",
+                    "codigo" => 1,
+                ]);
+                
+            }else{
+                echo json_encode([
+                    "mensaje" => "Ocurrió  un error.",
+                    "codigo" => 0,
+                ]);
+    
+            }
+        } catch (Exception $e) {
+            echo json_encode([
+                "detalle" => $e->getMessage(),       
+                "mensaje" => "Ocurrió  un error en base de datos.",
+
+                "codigo" => 4,
+            ]);
+        }
+    } 
+
+    public static function eliminarAsesinato(){
+        getHeadersApi();
+        
+        
+        try {
+
+            $topico = $_POST['topico'];
+            // ELIMINA EL TOPICO
+            $evento = Evento::find($topico);
+            $evento->situacion = 0;
+            $evento->guardar();
+            // ELIMINA LA CAPTURA
+            $asesinatos = array_shift(asesinatos::where('topico', $topico));
+
+            if($asesinatos){
+                $asesinatos->situacion = 0;
+                $asesinatos->guardar();
+
+            }
+            // ELIMINA LOS asesinados
+            $asesinados = asesinados::where('topico', $topico);
+            $resultados = [];
+            foreach($asesinados as $asesinado){
+                $asesinado->situacion = 0;
+                $resultados[] = $asesinado->guardar();
+            }
+
+    
+            if(!array_search(0, $resultados)){
+                echo json_encode([
+                    "mensaje" => "La captura se eliminó.",
+                    "codigo" => 1,
+                ]);
+                
+            }else{
+                echo json_encode([
+                    "mensaje" => "Ocurrió  un error.",
+                    "codigo" => 0,
+                ]);
+    
+            }
+        } catch (Exception $e) {
+            echo json_encode([
+                "detalle" => $e->getMessage(),       
+                "mensaje" => "Ocurrió  un error en base de datos.",
+
+                "codigo" => 4,
+            ]);
+        }
+    } 
+
 }
