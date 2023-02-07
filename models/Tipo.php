@@ -14,9 +14,12 @@ class Tipo extends ActiveRecord{
 
     public function __construct($args = []){
         $this->id = $args['id'] ?? null;
-       // $this->desc = utf8_decode(mb_strtoupper($args['desc'])) ?? '';
-       $this->desc = utf8_decode(mb_strtoupper(trim($args['desc']))) ??'';
+        $this->desc = utf8_decode(mb_strtoupper(trim($args['desc']))) ?? '';
         $this->situacion = $args['situacion'] ?? '1';
     }
+
+
+
+    
 
 }

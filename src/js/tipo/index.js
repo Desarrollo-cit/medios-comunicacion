@@ -101,7 +101,7 @@ const buscarTipo = async (evento) => {
 
         const respuesta = await fetch(url, config);
         const data = await respuesta.json();
-        // console.log(data);
+        console.log(data);
 
 
         
@@ -279,7 +279,7 @@ window.eliminarRegistro = (id) => {
 function NumText(string){//solo letras y numeros
     var out = '';
     //Se añaden las letras validas
-    var filtro = 'áéíóúabcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZÁÉÍÓÚ ';//Caracteres validos
+    var filtro = 'abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZÁÉÍÓÚáéíóú  ';//Caracteres validos
   
     for (var i=0; i<string.length; i++)
        if (filtro.indexOf(string.charAt(i)) != -1) 

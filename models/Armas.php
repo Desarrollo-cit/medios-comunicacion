@@ -14,7 +14,7 @@ class Armas extends ActiveRecord{
 
     public function __construct($args = []){
         $this->id = $args['id'] ?? null;
-        $this->desc = mb_strtoupper(trim($args['desc']),'charset=utf-8') ??'';
+        $this->desc = utf8_decode(mb_strtoupper(trim($args['desc']))) ??'';
         $this->situacion = $args['situacion'] ?? '1';
     }
 

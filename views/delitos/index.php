@@ -9,7 +9,7 @@
         <div class="row mb-3">
             <div class="col-lg-12">
                 <label for="nombre">Descripcion del Delito</label>
-                <input type="text" name="desc" id="desc" class="form-control">
+                <input type="text" name="desc" id="desc" class="form-control" style="text-transform:uppercase" placeholder="Ingrese Delito">
             </div>
         </div>
         <div class="row mb-3">
