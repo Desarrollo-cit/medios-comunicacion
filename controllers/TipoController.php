@@ -17,7 +17,7 @@ class TipoController{
         getHeadersApi();
 
         try {
-            $_POST["desc"] = strtoupper($_POST["desc"]);
+           // $_POST["desc"] = strtoupper($_POST["desc"]);
             $tipo = new Tipo($_POST);
             $dato = $_POST["desc"];
             $existe = Tipo::SQL("SELECT * FROM amc_tipo_movimiento_social where desc = '$dato' and situacion = 1 ");
