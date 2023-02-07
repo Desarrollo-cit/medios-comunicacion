@@ -569,24 +569,10 @@ class InfoCapturaController
             $sql .= " group by desc ";
             $info = Capturadas::fetchArray($sql);
 
-            if ($info) {
+            
 
-
-                $info[1] = [
-
-                    "codigo" => 1,
-                ];
-                echo json_encode($info);
-            } else {
-
-                $info[1] = [
-                    "descripcion" => "",
-                    "cantidad" => 0,
-                    "codigo" => 2,
-                ];
-
-                echo json_encode($info);
-            }
+                echo json_encode($info ? $info:[]);
+               
         } catch (Exception $e) {
             echo json_encode([
                 "detalle" => $e->getMessage(),

@@ -139,6 +139,19 @@ $router->post('/API/mapas/infoCapturas/GraficaTrimestralGeneral', [infoCapturaCo
 
 
 $router->get('/mapas/droga', [infoDrogaController::class , 'index']);
+$router->post('/API/mapas/infoDroga/resumen', [infoDrogaController::class , 'resumenAPI'] );
+$router->get('/API/mapas/infoDroga/listado', [infoDrogaController::class , 'listadoAPI'] );
+$router->post('/API/mapas/infoDroga/modal', [infoDrogaController::class , 'modalAPI'] );
+$router->post('/API/mapas/infoDroga/informacion', [infoDrogaController::class , 'informacionModalAPI'] );
+$router->post('/API/mapas/infoDroga/informacion1', [infoDrogaController::class , 'informacionModalAPI1'] );
+$router->post('/API/mapas/infoDroga/informacionPersonas', [infoDrogaController::class , 'informacionPersonasAPI'] );
+$router->post('/API/mapas/infoDroga/distanciaPista', [infoDrogaController::class , 'distanciaPistaAPI'] );
+$router->post('/API/mapas/infoDroga/mapaCalor', [infoDrogaController::class , 'mapaCalorAPI'] );
+$router->post('/API/mapas/infoDroga/colores', [infoDrogaController::class , 'coloresAPI'] );
+$router->post('/API/mapas/infoDroga/mapaCalorPorDepto', [infoDrogaController::class , 'mapaCalorDeptoAPI'] );
+$router->post('/API/mapas/infoDroga/mapaCalorPorDeptoGrafica', [infoDrogaController::class , 'mapaCalorPorDeptoGraficaAPI'] );
+$router->post('/API/mapas/infoDroga/mapaCalorPorDeptoPistas', [infoDrogaController::class , 'mapaCalorPorDeptoPistasAPI'] );
+$router->post('/API/mapas/infoDroga/DrogasCantGrafica', [infoDrogaController::class , 'DrogasCantGraficaAPI'] );
 
 
 // Comprueba y valida las rutas, que existan y les asigna las funciones del Controlador

@@ -524,7 +524,7 @@ window.detalle = async (valor) => {
         const datos = await response.json()
 
         // console.log(datos);
-        if (datos[1]['codigo'] == 1) {
+        if (datos.length > 0) {
             document.getElementById('grafica_depto1').style.display = "block"
             document.getElementById('texto_no').style.display = "none"
 
