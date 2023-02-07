@@ -15,7 +15,7 @@ class OrganizacionController{
     public function guardarAPI(){
         getHeadersApi();
         try {
-            $_POST["desc"] = strtoupper($_POST["desc"]);
+            // $_POST["desc"] = strtoupper($_POST["desc"]);
             $tipo = new Organizacion($_POST);
             $dato = $_POST["desc"];
             $existe = Organizacion::SQL("SELECT * FROM amc_organizacion_mov_social where desc = '$dato' and situacion = 1 ");

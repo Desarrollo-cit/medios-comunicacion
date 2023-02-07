@@ -15,8 +15,8 @@ class Nacionalidad extends ActiveRecord{
 
     public function __construct($args = []){
         $this->id = $args['id'] ?? null;
-        $this->desc = $args['desc'] ?? '';
-        $this->pais = $args['pais'] ?? '';
+        $this->desc = utf8_decode(mb_strtoupper(trim($args['desc']))) ?? '';
+        $this->pais = utf8_decode(mb_strtoupper(trim($args['pais']))) ?? '';
         $this->situacion = $args['situacion'] ?? '1';
     }
 

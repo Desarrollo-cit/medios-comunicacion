@@ -14,7 +14,7 @@ class MonedaController{
         getHeadersApi();
 
         try {
-            $_POST["desc"] = strtoupper($_POST["desc"]);
+            // $_POST["desc"] = strtoupper($_POST["desc"]);
             $moneda = new Moneda($_POST);
             $valor = $_POST["desc"];
             $existe = Moneda::SQL("select * from amc_moneda where situacion =1 AND desc = '$valor'
