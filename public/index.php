@@ -7,12 +7,14 @@ require_once __DIR__ . '/../includes/app.php';
 
 use Controllers\ArmasController;
 use Controllers\CalibresController;
+use Controllers\CapturaController;
 use Controllers\DelitosController;
 
 
 use Controllers\EventoController;
 use MVC\Router;
 use Controllers\AppController;
+
 use Controllers\OrganizacionController;
 use Controllers\TipoController;
 use Controllers\NacionalidadController;
@@ -22,10 +24,15 @@ use Controllers\Fenomeno_naturalController;
 use Controllers\MonedaController;
 
 
+
+use Controllers\infoCapturaController;
+use Controllers\infoDrogaController;
+
 $router = new Router();
 $router->setBaseURL('/medios-comunicacion');
 
 $router->get('/', [AppController::class,'index']);
+
 
 $router->get('/colores',[ColoresController::class,'index']);
 $router->post('/API/colores/guardar', [ColoresController::class, 'guardarAPI'] );
@@ -104,6 +111,34 @@ $router->get('/eventos', [EventoController::class,'index']);
 $router->get('/API/eventos', [EventoController::class,'eventos']);
 $router->get('/API/eventos/municipios', [EventoController::class, 'municipios']);
 $router->post('/API/eventos/guardar', [EventoController::class, 'guardar']);
+$router->get('/API/eventos/sexo', [EventoController::class, 'sexos']);
+
+$router->post('/API/capturas/guardar', [CapturaController::class, 'guardar']);
+$router->post('/API/capturas/modificar', [CapturaController::class, 'modificar']);
+$router->get('/API/capturas/buscar', [CapturaController::class, 'buscarCapturaAPI']);
+$router->post('/API/capturas/capturado/eliminar', [CapturaController::class, 'eliminarCapturado']);
+$router->post('/API/capturas/eliminar', [CapturaController::class, 'eliminarCaptura']);
+
+
+$router->get('/mapas/capturas', [infoCapturaController::class , 'index']);
+$router->post('/API/mapas/infoCapturas/resumen', [infoCapturaController::class , 'resumenAPI'] );
+$router->get('/API/mapas/infoCapturas/listado', [infoCapturaController::class , 'listadoAPI'] );
+$router->post('/API/mapas/infoCapturas/modal', [infoCapturaController::class , 'modalAPI'] );
+$router->post('/API/mapas/infoCapturas/informacion', [infoCapturaController::class , 'informacionModalAPI'] );
+$router->post('/API/mapas/infoCapturas/informacion1', [infoCapturaController::class , 'informacionModalAPI1'] );
+$router->post('/API/mapas/infoCapturas/mapaCalor', [infoCapturaController::class , 'mapaCalorAPI'] );
+$router->post('/API/mapas/infoCapturas/mapaCalorPorDepto', [infoCapturaController::class , 'mapaCalorDeptoAPI'] );
+$router->post('/API/mapas/infoCapturas/mapaCalorPorDeptoGrafica', [infoCapturaController::class , 'mapaCalorPorDeptoGraficaAPI'] );
+$router->post('/API/mapas/infoCapturas/colores', [infoCapturaController::class , 'coloresAPI'] );
+$router->post('/API/mapas/infoCapturas/DelitosCantGrafica', [infoCapturaController::class , 'DelitosCantGraficaAPI'] );
+$router->post('/API/mapas/infoCapturas/DelitosDepartamentoGrafica', [infoCapturaController::class , 'DelitosDepartamentoGraficaAPI'] );
+$router->post('/API/mapas/infoCapturas/CapturasPorDiaGrafica', [infoCapturaController::class , 'CapturasPorDiaGraficaAPI'] );
+$router->post('/API/mapas/infoCapturas/GraficaTrimestral', [infoCapturaController::class , 'GraficaTrimestralAPI'] );
+$router->post('/API/mapas/infoCapturas/GraficaTrimestralGeneral', [infoCapturaController::class , 'GraficaTrimestralGeneralAPI'] );
+
+
+
+$router->get('/mapas/droga', [infoDrogaController::class , 'index']);
 
 
 // Comprueba y valida las rutas, que existan y les asigna las funciones del Controlador

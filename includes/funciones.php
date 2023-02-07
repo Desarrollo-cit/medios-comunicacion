@@ -38,3 +38,7 @@ function isNotAuth(){
 function getHeadersApi(){
     return header("Content-type:application/json; charset=utf-8");
 }
+
+function asset($ruta){
+    return "/". $_ENV['APP_NAME']."/public/" . $ruta;
+}

@@ -2,7 +2,9 @@
 
 namespace Controllers;
 
+use Model\Delitos;
 use Model\Evento;
+use Model\Nacionalidad;
 use MVC\Router;
 // use PDOException;
 use Exception;
@@ -20,6 +22,7 @@ class EventoController {
     }
 
     public static function municipios(){
+        getHeadersApi();
         try {
             $departamento = substr($_GET['departamento'], 0,2);
             $municipios = Evento::fetchArray("SELECT dm_codigo as codigo, trim(dm_desc_lg) as descripcion from depmun WHERE dm_codigo[1,2] = $departamento AND dm_codigo[3,4] > 00");
@@ -33,8 +36,25 @@ class EventoController {
             ]);
         }
     }
+    
+    public static function sexos(){
+        getHeadersApi();
+        try {
+
+            $sexos = Evento::fetchArray("SELECT * from amc_sexo where situacion = 1");
+            echo json_encode($sexos);
+        } catch (Exception $e) {
+            echo json_encode([
+                "detalle" => $e->getMessage(),       
+                "mensaje" => "Ocurrió  un error en base de datos.",
+
+                "codigo" => 4,
+            ]);
+        }
+    }
 
     public static function guardar(){
+        getHeadersApi();
         $_POST['fecha'] = str_replace('T', ' ', $_POST['fecha']);
         $_POST['lugar'] = strtoupper($_POST['lugar']);
 
@@ -67,6 +87,7 @@ class EventoController {
     }
 
     public static function eventos(){
+        getHeadersApi();
         try {
             $topicos = $_GET['topicos'];
             $inicio = str_replace('T',' ',$_GET['inicio']);
@@ -78,7 +99,7 @@ class EventoController {
             $eventos = null;
             if(strlen($topicos) > 0){
                 
-                $sql = "SELECT amc_topico.latitud as latitud, amc_topico.longitud as longitud, amc_actividad_vinculada.desc as actividad, amc_tipo_topics.desc as tipo, amc_tipo_topics.id as tipo_id  from amc_topico inner join amc_actividad_vinculada on amc_topico.actividad = amc_actividad_vinculada.id inner join amc_tipo_topics on amc_topico.tipo = amc_tipo_topics.id where amc_topico.situacion = 1 and amc_tipo_topics.id in ($topicos) " ; 
+                $sql = "SELECT amc_topico.latitud as latitud, amc_topico.longitud as longitud, amc_actividad_vinculada.desc as actividad, amc_tipo_topics.desc as tipo, amc_tipo_topics.id as tipo_id, amc_topico.id as id  from amc_topico inner join amc_actividad_vinculada on amc_topico.actividad = amc_actividad_vinculada.id inner join amc_tipo_topics on amc_topico.tipo = amc_tipo_topics.id where amc_topico.situacion = 1 and amc_tipo_topics.id in ($topicos) " ; 
                 
                 if($inicio != ''){
                     $sql .= " and amc_topico.fecha >= '$inicio'";

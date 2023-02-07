@@ -5,7 +5,8 @@ namespace Model;
 class Nacionalidad extends ActiveRecord{
 
     protected static $tabla = 'amc_nacionalidad'; //nombre de la tablaX
-    protected static $columnasDB = ['ID','DESC','PAIS','SITUACION'];
+
+    protected static $columnasDB = ['ID','DESC','PAIS', 'SITUACION'];
 
     public $id;
     public $desc;
