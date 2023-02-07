@@ -10,7 +10,8 @@ import { Toast } from '../funciones';
 import { validarFormulario } from "../funciones";
 import Swal from "sweetalert2";
 
-const L = require('leaflet')
+import L from "leaflet"
+import 'leaflet-easyprint'
 const modalInformacion = new Modal(document.getElementById('modalIngreso'), {})
 const modalCaptura = new Modal(document.getElementById('modalCaptura'), {})
 const formInformacion = document.querySelector('#formInformacion')
@@ -45,7 +46,6 @@ const grayScale = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{
 }).addTo(map);
 
 
-
 document.addEventListener('DOMContentLoaded', () => {
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
     const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new Tooltip(tooltipTriggerEl))
@@ -70,7 +70,11 @@ tinymce.init({
     content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
 });
 
-
+L.easyPrint({
+	title: 'Imprimir vista actual',
+	position: 'topright',
+	sizeModes: ['A4Portrait', 'A4Landscape']
+}).addTo(map);
 const abreModal = e => {
     const punto = e.latlng;
     formInformacion.reset();

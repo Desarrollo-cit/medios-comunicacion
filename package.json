@@ -33,6 +33,7 @@
     "fullcalendar": "^5.11.3",
     "jquery": "^3.6.1",
     "leaflet": "^1.9.2",
+    "leaflet-easyprint": "^2.1.9",
     "sweetalert2": "^11.4.38",
     "tinymce": "^6.3.1"
   }
