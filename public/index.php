@@ -22,6 +22,7 @@ use Controllers\ColoresController;
 use Controllers\Desastre_naturalController;
 use Controllers\Fenomeno_naturalController;
 use Controllers\MonedaController;
+use Controllers\AsesinatosController;
 
 
 
@@ -118,6 +119,13 @@ $router->post('/API/capturas/modificar', [CapturaController::class, 'modificar']
 $router->get('/API/capturas/buscar', [CapturaController::class, 'buscarCapturaAPI']);
 $router->post('/API/capturas/capturado/eliminar', [CapturaController::class, 'eliminarCapturado']);
 $router->post('/API/capturas/eliminar', [CapturaController::class, 'eliminarCaptura']);
+
+$router->post('/API/asesinatos/guardar', [AsesinatosController::class, 'guardar']);
+$router->post('/API/asesinatos/modificar', [AsesinatosController::class, 'modificar']);
+$router->get('/API/asesinatos/buscar', [AsesinatosController::class, 'buscarAsesinatosAPI']);
+$router->post('/API/asesinatos/asesinado/eliminar', [AsesinatosController::class, 'eliminarAsesinado']);
+$router->post('/API/asesinatos/eliminar', [AsesinatosController::class, 'eliminarAsesinato']);
+
 
 
 $router->get('/mapas/capturas', [infoCapturaController::class , 'index']);
