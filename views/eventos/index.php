@@ -395,7 +395,7 @@
                 <div class="row justify-content-center mb-3">
                     <form id="formMigrantes" novalidate >
                         <div class="col p-1">
-                            <input type="hidden" name="topico" id="topico">
+                            <input type="text" name="topic" id="topic">
                             <div class="row justify-content-center mb-5">
                                 <h4>Información de los Migrantes</h4>
                                 <div class="col-12 text-center">
