@@ -380,7 +380,70 @@
 
 <!-- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
 
-<!-- MODAL 3 -->
+<!-- MODAL 4 -->
+<div class="modal fade" id="modalDinero" tabindex="-1" role="dialog" aria-labelledby="modalDineroLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl"  role="document">
+        <div class="modal-content">
+            <div class="modal-header ">
+                <h5 class="modal-title " id="modalcapturaLabel">DETALLE DEL DINERO INCAUTADO</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body container ">
+                <!-- <form>
+
+                </form> -->
+                <div class="row justify-content-center mb-3">
+                    <form id="formDinero" novalidate >
+                        <div class="col p-1">
+                            <input type="text" name="topic" id="topic">
+                            <div class="row justify-content-center mb-5">
+                                <h4>Información del Dinero Incautado</h4>
+                                <div class="col-12 text-center">
+                                    <label class="h3 " for="info3">Noticia</label>
+                                    <textarea name="info4" id="info4" class="form-control"></textarea>
+                                    
+                                </div>
+                            </div>  
+                        </div>
+                        <div class="row justify-content-center">
+
+                            <div class="col">
+
+                                <h2>Dinero Incautado</h2>
+                            </div>
+                            <div class="col-lg-1">
+                                <button type="button" id="agregarInputsdinero" class="btn btn-success w-100"><i class="bi bi-plus-circle "></i></button>                     
+                            </div>
+                            <div class="col-lg-1">
+                                <button type="button" id="quitarInputsdinero" class="btn btn-secondary w-100"><i class="bi bi-dash-circle"></i></button>
+                            </div>
+
+
+                        </div>
+
+
+                        <div id='divMigrantes' class="row">
+                            
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer row justify-content-end">
+            
+                <div class="col-lg-3">
+                    <button type="submit" form="formDinero" id="btnGuardarDinero" class="btn btn-primary w-100"><i class="bi bi-save me-2"></i>Guardar</button>
+                </div>
+                <div class="col-lg-3">
+                    <button type="button" class="btn btn-warning w-100" id="btnModificarDinero"><i class="bi bi-save me-2"></i>Modificar</button>
+                </div>
+                <div class="col-lg-3">
+                    <button type="button" class="btn btn-danger w-100" id="btnBorrarDinero"><i class="bi bi-trash  me-2"> </i> Borrar</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
 <div class="modal fade" id="modalMigrantes" tabindex="-1" role="dialog" aria-labelledby="modalasesinatoLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl"  role="document">
         <div class="modal-content">
