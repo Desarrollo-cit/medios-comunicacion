@@ -2,10 +2,10 @@
 
 namespace Model;
 
-class Capturados extends ActiveRecord{
+class Capturadas extends ActiveRecord{
 
     protected static $tabla = 'amc_per_capturadas'; //nombre de la tablaX
-    protected static $columnasDB = ['ID','TOPICO','NACIONALIDAD','SEXO','NOMBRE','EDAD','DELITO','VINCULO','SITUACION'];
+    protected static $columnasDB = ['ID','TOPICO','NACIONALIDAD','SEXO','NOMBRE', 'EDAD', 'DELITO', 'VINCULO', 'SITUACION'];
 
     public $id;
     public $topico;
@@ -23,7 +23,7 @@ class Capturados extends ActiveRecord{
         $this->topico = $args['topico'] ?? '';
         $this->nacionalidad = $args['nacionalidad'] ?? '';
         $this->sexo = $args['sexo'] ?? '';
-        $this->nombre = utf8_decode($args['nombre']) ?? '';
+        $this->nombre = $args['nombre'] ?? '';
         $this->edad = $args['edad'] ?? '';
         $this->delito = $args['delito'] ?? '';
         $this->vinculo = $args['vinculo'] ?? '';
