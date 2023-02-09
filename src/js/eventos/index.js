@@ -347,9 +347,9 @@ const recargarModalCaptura = async (id) => {
         const respuesta = await fetch(url, config);
         const data = await respuesta.json();
         const { captura, capturados } = data;
-        // console.log(captura.info);
+        console.log(data);
         // if(captura){
-        tinymce.get('info').setContent(captura.info)
+        captura && tinymce.get('info').setContent(captura.info)
         // }
         if (capturados) {
             // console.log(data);
@@ -359,7 +359,7 @@ const recargarModalCaptura = async (id) => {
 
         } 
 
-        if (capturados || captura) {
+        if (capturados.length > 0 || captura) {
         
            
             btnGuardarCaptura.disabled = true
@@ -368,11 +368,11 @@ const recargarModalCaptura = async (id) => {
 
             btnGuardarCaptura.parentElement.style.display = 'none'
             btnModificarCaptura.parentElement.style.display = ''
-
+            
         } else {
             btnGuardarCaptura.disabled = false
             btnModificarCaptura.disabled = true
-
+            
             btnGuardarCaptura.parentElement.style.display = ''
             btnModificarCaptura.parentElement.style.display = 'none'
 
