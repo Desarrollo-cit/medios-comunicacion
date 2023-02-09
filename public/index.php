@@ -131,6 +131,13 @@ $router->post('/API/mapas/infoCapturas/mapaCalor', [infoCapturaController::class
 $router->post('/API/mapas/infoCapturas/mapaCalorPorDepto', [infoCapturaController::class , 'mapaCalorDeptoAPI'] );
 $router->post('/API/mapas/infoCapturas/mapaCalorPorDeptoGrafica', [infoCapturaController::class , 'mapaCalorPorDeptoGraficaAPI'] );
 $router->post('/API/mapas/infoCapturas/colores', [infoCapturaController::class , 'coloresAPI'] );
+$router->post('/API/mapas/infoCapturas/DelitosCantGrafica', [infoCapturaController::class , 'DelitosCantGraficaAPI'] );
+$router->post('/API/mapas/infoCapturas/DelitosDepartamentoGrafica', [infoCapturaController::class , 'DelitosDepartamentoGraficaAPI'] );
+$router->post('/API/mapas/infoCapturas/CapturasPorDiaGrafica', [infoCapturaController::class , 'CapturasPorDiaGraficaAPI'] );
+$router->post('/API/mapas/infoCapturas/GraficaTrimestral', [infoCapturaController::class , 'GraficaTrimestralAPI'] );
+$router->post('/API/mapas/infoCapturas/GraficaTrimestralGeneral', [infoCapturaController::class , 'GraficaTrimestralGeneralAPI'] );
+
+
 
 $router->get('/mapas/muertes', [infoMuertesController::class , 'index']);
 $router->post('/API/mapas/IndexMuertes/resumen', [infoMuertesController::class , 'resumenAPI'] );
@@ -141,16 +148,6 @@ $router->post('/API/mapas/IndexMuertes/informacion1', [infoMuertesController::cl
 $router->post('/API/mapas/IndexMuertes/mapaCalor', [infoMuertesController::class , 'mapaCalorAPI'] );
 $router->post('/API/mapas/IndexMuertes/mapaCalorPorDepto', [infoMuertesController::class , 'mapaCalorDeptoAPI'] );
 $router->post('/API/mapas/IndexMuertes/colores', [infoMuertesController::class , 'coloresAPI'] );
-
-
-
-
-
-$router->post('/API/mapas/infoCapturas/DelitosCantGrafica', [infoCapturaController::class , 'DelitosCantGraficaAPI'] );
-$router->post('/API/mapas/infoCapturas/DelitosDepartamentoGrafica', [infoCapturaController::class , 'DelitosDepartamentoGraficaAPI'] );
-$router->post('/API/mapas/infoCapturas/CapturasPorDiaGrafica', [infoCapturaController::class , 'CapturasPorDiaGraficaAPI'] );
-$router->post('/API/mapas/infoCapturas/GraficaTrimestral', [infoCapturaController::class , 'GraficaTrimestralAPI'] );
-$router->post('/API/mapas/infoCapturas/GraficaTrimestralGeneral', [infoCapturaController::class , 'GraficaTrimestralGeneralAPI'] );
 
 
 

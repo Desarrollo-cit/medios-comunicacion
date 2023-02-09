@@ -68,6 +68,18 @@
                             <li>
                                 <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/tipo"><i class="ms-lg-0 ms-2 bi bi-arrows-move me-2"></i>Tipos de Movimientos Sociales</a>
                             </li>
+                          
+                    
+                        
+                        </ul>
+                    </div> 
+                    <div class="nav-item dropdown " >
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                            <i class="bi bi-bar-chart me-2"></i>Estadisticas
+                        </a>
+                        <ul class="dropdown-menu  dropdown-menu-dark "id="dropwdownRevision" style="margin: 0;">
+                            <!-- <h6 class="dropdown-header">Información</h6> -->
+                           
                             <li>
                                 <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/mapas/capturas"><i class="ms-lg-0 ms-2 bi bi-plus-circle me-2"></i>Capturas</a>
                             </li>
