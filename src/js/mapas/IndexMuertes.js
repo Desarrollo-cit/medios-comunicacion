@@ -46,8 +46,8 @@ const cambiarmes = async (evento) => {
 
 
     if (f1 < f2) {
-
-        const url = '/medios-comunicacion/API/mapas/infoCapturas/resumen'
+//alert (f1)
+        const url = '/medios-comunicacion/API/mapas/IndexMuertes/resumen'
         const body = new FormData(formBusqueda_resumen);
         const headers = new Headers();
         headers.append("X-Requested-With", "fetch");

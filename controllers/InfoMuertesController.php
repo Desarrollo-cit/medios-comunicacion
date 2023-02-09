@@ -4,12 +4,13 @@ namespace Controllers;
 
 use Exception;
 use Model\Capturadas;
+use Model\Muertes;
 use Model\Delito;
 use Model\DepMun;
 // use Model\Delito;
 use MVC\Router;
 
-class InfoCapturaController
+class InfoMuertesController
 {
 
     public function index(Router $router)
@@ -21,7 +22,7 @@ class InfoCapturaController
         $delito = static::delitoIncurrente();
         $colores = static::coloresAPI1();
         $delitos = static::delitosApi();
-        $router->render('mapas/capturas', [
+        $router->render('mapas/muertes', [
             'capturas' => $capturas,
             'delito' => $delito,
             'delitos' => $delitos,
@@ -37,7 +38,7 @@ class InfoCapturaController
     {
 
 
-        $sql = "SELECT  count (*) as cantidad from amc_per_capturadas inner join amc_topico on amc_per_capturadas.topico = amc_topico.id  where  amc_topico.situacion = 1 and amc_per_capturadas.situacion = 1";
+        $sql = " SELECT  count (*) as cantidad from amc_per_asesinadas inner join amc_topico on amc_per_asesinadas.topico = amc_topico.id  where   amc_topico.situacion = 1 and amc_per_asesinadas.situacion >0";
 
         if($fecha1 != '' && $fecha2 != ''){
 
@@ -46,7 +47,7 @@ class InfoCapturaController
       
             $sql.=" AND year(amc_topico.fecha) = year(current)  and  month(amc_topico.fecha) = month(current) ";
          }
-        $result = Capturadas::fetchArray($sql);
+        $result = Muertes::fetchArray($sql);
         if ($result) {
             return $result;
         } else {
@@ -63,7 +64,9 @@ class InfoCapturaController
     {
 
 
-        $sql = "SELECT FIRST 1 amc_delito.desc, count(*) as cantidad FROM amc_per_capturadas inner join amc_topico on amc_per_capturadas.topico = amc_topico.id inner join amc_delito on amc_per_capturadas.delito = amc_delito.id   where     amc_topico.situacion = 1 and amc_per_capturadas.situacion = 1";
+        $sql = "SELECT first 1  amc_per_asesinadas.situacion as delito, count(*) as cantidad from amc_per_asesinadas 
+        inner join amc_topico on amc_per_asesinadas.topico = amc_topico.id   
+        where     amc_topico.situacion = 1 and amc_per_asesinadas.situacion > 0  ";
 
         if($fecha1 != '' && $fecha2 != ''){
 
@@ -73,13 +76,45 @@ class InfoCapturaController
             $sql.=" AND year(amc_topico.fecha) = year(current)  and  month(amc_topico.fecha) = month(current) ";
          }
 
-        $sql .= " group by desc ORDER by cantidad desc";
-        $result = Capturadas::fetchArray($sql);
+        $sql .= " group by delito order by cantidad desc";
+        $result = Muertes::fetchArray($sql);
 
         if ($result) {
 
+            if($result[0]['delito'] == 1){
+                $result=[[
+                    'desc' => "ASESINATO"]];
+                    return $result;
+                    exit;
+            }
+            if($result[0]['delito'] == 2){
+                $result=[[
+                    'desc' => "HOMICIDIO"]];
+                    return $result;
+                    exit;
+            }
+            if($result[0]['delito'] == 3){
+                $result=[[
+                    'desc' => "SICARIATO"]];
+                    return $result;
+                    exit;
+            }
+            if($result[0]['delito'] == 4){
+                $result=[[
+                    'desc' => "FEMICIDIO"]];
+                    return $result;
+                    exit;
+            }
+            if($result[0]['delito'] == 5){
+                $result=[[
+                    'desc' => "SUICIDIO"]];
+                    return $result;
+                    exit;
+            }
+           
 
-            return $result;
+
+            //return $result;
         } else {
             $delito = [[
                 'desc' => "Sin datos"
@@ -92,7 +127,9 @@ class InfoCapturaController
     {
 
 
-        $sql = "SELECT  count(*) as cantidad from amc_per_capturadas inner join amc_topico on amc_per_capturadas.topico = amc_topico.id   where   amc_topico.situacion = 1 and amc_per_capturadas.sexo = 2 and amc_per_capturadas.situacion = 1";
+        $sql = "SELECT  count(*) as cantidad from amc_per_asesinadas inner join amc_topico on amc_per_asesinadas.topico = amc_topico.id 
+        where   amc_topico.situacion = 1 and amc_per_asesinadas.sexo = 2 
+        and amc_per_asesinadas.situacion > 0 ";
 
 
         if($fecha1 != '' && $fecha2 != ''){
@@ -102,7 +139,7 @@ class InfoCapturaController
       
             $sql.=" AND year(amc_topico.fecha) = year(current)  and  month(amc_topico.fecha) = month(current) ";
          }
-        $result = Capturadas::fetchArray($sql);
+        $result = Muertes::fetchArray($sql);
         if ($result) {
             return $result;
         } else {
@@ -114,7 +151,7 @@ class InfoCapturaController
 
     protected static function hombres($fecha1 = "", $fecha2 = "")
     {
-        $sql = "SELECT count(*) as cantidad1 from amc_per_capturadas inner join amc_topico on amc_per_capturadas.topico = amc_topico.id   where  amc_topico.situacion = 1 and sexo = 1 and amc_per_capturadas.situacion = 1";
+        $sql = "SELECT count(*) as cantidad1 from amc_per_asesinadas inner join amc_topico on amc_per_asesinadas.topico = amc_topico.id   where   amc_topico.situacion = 1 and sexo = 1 and amc_per_asesinadas.situacion > 0";
 
 
 
@@ -125,7 +162,7 @@ class InfoCapturaController
       
             $sql.=" AND year(amc_topico.fecha) = year(current)  and  month(amc_topico.fecha) = month(current) ";
          }
-        $result = Capturadas::fetchArray($sql);
+        $result = Muertes::fetchArray($sql);
         if ($result) {
             return $result;
         } else {
@@ -205,13 +242,7 @@ class InfoCapturaController
 
         try {
 
-            $sql = "SELECT DISTINCT amc_topico.id as id, amc_topico.lugar as lugar, amc_per_asesinadas.situacion as
-            tipo, amc_tipo_topics.desc as topico,  amc_topico.fecha as fecha, dm_desc_lg
-             as departamento,  amc_actividad_vinculada.desc as actividad from amc_topico 
-             inner join amc_per_asesinadas on amc_per_asesinadas.topico = amc_topico.id 
-              inner join amc_tipo_topics on amc_topico.tipo = amc_tipo_topics.id inner join depmun on amc_topico.departamento = depmun.dm_codigo 
-               inner join amc_actividad_vinculada on amc_topico.actividad = amc_actividad_vinculada.id and amc_per_asesinadas.situacion > 0 
-               and amc_topico.situacion = 1";
+            $sql = "SELECT DISTINCT amc_topico.id as id, amc_topico.lugar as lugar, amc_topico.tipo as tipo, amc_tipo_topics.desc as topico,  amc_topico.fecha as fecha, dm_desc_lg as departamento,  amc_delito.desc as delito,  amc_actividad_vinculada.desc as actividad from amc_topico inner join amc_per_capturadas on topico = amc_topico.id inner join amc_delito on amc_per_capturadas.delito = amc_delito.id inner join amc_tipo_topics on amc_topico.tipo = amc_tipo_topics.id inner join depmun on amc_topico.departamento = depmun.dm_codigo  inner join amc_actividad_vinculada on amc_topico.actividad = amc_actividad_vinculada.id and amc_per_capturadas.situacion = 1 and amc_topico.situacion = 1";
             $info =  Capturadas::fetchArray($sql);
 
             $data = [];
@@ -224,32 +255,8 @@ class InfoCapturaController
                 $departamento = $key['departamento'];
                 $topico = $key['topico'];
                 $tipo = $key['tipo'];
-                $situacion = $key['tipo'];
+                $delito = $key['delito'];
                 $actividad = $key['actividad'];
-
-                switch($tipo){
-
-                    case "1":
-              
-              $tipo = "ASESINATO";
-                       break;
-                    case "2":
-              
-              $tipo = "HOMICIDIO";
-                       break;
-                    case "3":
-              
-              $tipo = "SICARIATO";
-                       break;
-                    case "4":
-              
-              $tipo = "FEMICIDIO";
-                       break;
-                    case "5":
-              
-              $tipo = "SUICIDIO";
-                       break;
-                    }
 
                 $arrayInterno = [[
                     "contador" => $i,
@@ -259,7 +266,7 @@ class InfoCapturaController
                     "departamento" => $departamento,
                     "topico" => $topico,
                     "tipo" => $tipo,
-                    "delito" => $situacion,
+                    "delito" => $delito,
                     "actividad" => $actividad,
 
 

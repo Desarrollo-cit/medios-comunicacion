@@ -8,6 +8,7 @@ require_once __DIR__ . '/../includes/app.php';
 use MVC\Router;
 use Controllers\AppController;
 use Controllers\infoCapturaController;
+use Controllers\infoMuertesController;
 $router = new Router();
 $router->setBaseURL('/medios-comunicacion');
 
@@ -22,9 +23,23 @@ $router->post('/API/mapas/infoCapturas/informacion1', [infoCapturaController::cl
 $router->post('/API/mapas/infoCapturas/mapaCalor', [infoCapturaController::class , 'mapaCalorAPI'] );
 $router->post('/API/mapas/infoCapturas/mapaCalorPorDepto', [infoCapturaController::class , 'mapaCalorDeptoAPI'] );
 $router->post('/API/mapas/infoCapturas/colores', [infoCapturaController::class , 'coloresAPI'] );
-// $router->get('/API/productos/buscar', [ProductoController::class, 'buscarAPI'] );
-// $router->post('/API/productos/modificar', [ProductoController::class, 'modificarAPI'] );
-// $router->post('/API/productos/eliminar', [ProductoController::class, 'eliminarAPI'] );
+
+
+
+$router->get('/mapas/muertes', [infoMuertesController::class , 'index']);
+$router->post('/API/mapas/IndexMuertes/resumen', [infoMuertesController::class , 'resumenAPI'] );
+$router->get('/API/mapas/IndexMuertes/listado', [infoMuertesController::class , 'listadoAPI'] );
+$router->post('/API/mapas/IndexMuertes/modal', [infoMuertesController::class , 'modalAPI'] );
+$router->post('/API/mapas/IndexMuertes/informacion', [infoMuertesController::class , 'informacionModalAPI'] );
+$router->post('/API/mapas/IndexMuertes/informacion1', [infoMuertesController::class , 'informacionModalAPI1'] );
+$router->post('/API/mapas/IndexMuertes/mapaCalor', [infoMuertesController::class , 'mapaCalorAPI'] );
+$router->post('/API/mapas/IndexMuertes/mapaCalorPorDepto', [infoMuertesController::class , 'mapaCalorDeptoAPI'] );
+$router->post('/API/mapas/IndexMuertes/colores', [infoMuertesController::class , 'coloresAPI'] );
+
+
+
+
+
 
 
 // Comprueba y valida las rutas, que existan y les asigna las funciones del Controlador
