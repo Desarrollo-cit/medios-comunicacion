@@ -65,7 +65,7 @@ const cambiarmes = async (evento) => {
         const respuesta = await fetch(url, config);
         const data = await respuesta.json();
 
-         console.log(data)
+        
         if (data) {
             infocapturas.innerText = data[0].cantidad
             infodelito.innerText = data[1].desc
@@ -778,7 +778,7 @@ const deptos_estadistica = async (e) => {
         const datos2 = await response2.json()
 
 
-        if (datos2[1]['codigo'] == 1) {
+        if (datos2.length > 0) {
             document.getElementById('graficaDelitosDepartamento').style.display = "block"
             document.getElementById('texto_no2').style.display = "none"
 
@@ -796,10 +796,7 @@ const deptos_estadistica = async (e) => {
                 window.delitosDepartamento_grafica.destroy();
             }
 
-            if (window.delitosDepartamento_grafica) {
-                window.delitosDepartamento_grafica.clear();
-                window.delitosDepartamento_grafica.destroy();
-            }
+         
             window.delitosDepartamento_grafica = new Chart(ctx, {
                 type: 'doughnut',
                 data: {
