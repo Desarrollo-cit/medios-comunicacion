@@ -22,6 +22,8 @@ use Controllers\Desastre_naturalController;
 use Controllers\Fenomeno_naturalController;
 use Controllers\MonedaController;
 use Controllers\AsesinatosController;
+use Controllers\MigrantesController;
+
 
 
 $router = new Router();
@@ -119,6 +121,15 @@ $router->post('/API/asesinatos/modificar', [AsesinatosController::class, 'modifi
 $router->get('/API/asesinatos/buscar', [AsesinatosController::class, 'buscarAsesinatosAPI']);
 $router->post('/API/asesinatos/asesinado/eliminar', [AsesinatosController::class, 'eliminarAsesinado']);
 $router->post('/API/asesinatos/eliminar', [AsesinatosController::class, 'eliminarAsesinato']);
+
+
+$router->post('/API/migrantes/guardar', [MigrantesController::class, 'guardar']);
+// $router->post('/API/migrantes/modificar', [MigrantesController::class, 'modificar']);
+$router->get('/API/migrantes/buscar', [MigrantesController::class, 'buscarMigrantesAPI']);
+$router->get('/API/migrantes/buscarEdad', [MigrantesController::class, 'buscarEdadAPI']);
+$router->get('/API/migrantes/buscarPais', [MigrantesController::class, 'buscarPaisAPI']);
+
+$router->post('/API/migrantes/eliminar', [MigrantesController::class, 'eliminarMigrante']);
 
 
 

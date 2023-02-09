@@ -22,14 +22,21 @@ const formAsesinatos = document.querySelector('#formAsesinatos')
 const formMigrantes = document.querySelector('#formMigrantes')
 const buttonAgregarInputsCaptura = document.getElementById('agregarInputscaptura');
 const buttonQuitarInputsCaptura = document.getElementById('quitarInputscaptura');
+const buttonAgregarInputsAsesinatos = document.getElementById('agregarInputsAsesinatos');
+const buttonQuitarInputsAsesinatos = document.getElementById('quitarInputsAsesinatos');
+const buttonAgregarInputsMigrantes = document.getElementById('agregarInputsMigrantes');
+const buttonQuitarInputsMigrantes = document.getElementById('quitarInputsMigrantes');
 const btnGuardarCaptura = document.getElementById('btnGuardarCaptura');
 const btnModificarCaptura = document.getElementById('btnModificarCaptura');
 const btnBorrarCaptura = document.getElementById('btnBorrarCaptura');
-const buttonAgregarInputsAsesinatos = document.getElementById('agregarInputsAsesinatos');
-const buttonQuitarInputsAsesinatos = document.getElementById('quitarInputsAsesinatos');
+
 const btnGuardarAsesinatos = document.getElementById('btnGuardarAsesinados');
 const btnModificarAsesinatos = document.getElementById('btnModificarAsesinados');
 const btnBorrarAsesinatos = document.getElementById('btnBorrarAsesinados');
+
+const btnGuardarMigrantes = document.getElementById('btnGuardarMigrantes');
+const btnModificarMigrantes = document.getElementById('btnModificarMigrantes');
+const btnBorrarMigrantes = document.getElementById('btnBorrarMigrantes');
 
 const inicioInput = document.getElementById('inicio');
 const finInput = document.getElementById('fin');
@@ -293,6 +300,36 @@ const buscarEventos = async e => {
                             modal2(e, p)
                             break;
 
+                            case '9':
+                                modal3(e, p)
+                                break;
+
+                                 case '4':
+                                modal4(e, p)
+                                break;
+
+                                case '5':
+                                    modal5(e, p)
+                                    break;
+
+                                    case '6':
+                                        modal6(e, p)
+                                        break;
+                                        
+                                        case '7':
+                                            modal7(e, p)
+                                            break;
+
+                                            case '8':
+                                                modal8(e, p)
+                                                break;
+
+                                                case '10':
+                                                    modal9(e, p)
+                                                    break;
+
+                                             
+
                     }
                 })
                 markers.addTo(map)
@@ -354,6 +391,21 @@ const modal2 = async (e, punto) => {
 
 }
 
+//MODAL 3
+const divMigrantes = document.getElementById('divMigrantes');
+let inputsMigrantes = 0;
+const modal3 = async (e, punto) => {
+    L.DomEvent.stopPropagation(e);
+
+
+    recargarModalMigrantes(punto.id)
+
+
+    modalMigrantes.show();
+
+
+
+}
 const recargarModalCaptura = async (id) => {
     formCaptura.reset()
     formCaptura.topico.value = id
@@ -434,38 +486,39 @@ const recargarModalAsesinatos = async (id) => {
 
         const respuesta = await fetch(url, config);
         const data = await respuesta.json();
-        const { asesinatos , asesinados } = data;
-              
-        console.log(asesinatos.info);
+        console.log(data);
+        const { asesinatos, asesinados } = data;
+        // if(captura){
         tinymce.get('info2').setContent(asesinatos.info)
-
-     
-        
-        if(asesinatos || asesinados){
-      
-
+        // }
+        if (asesinados) {
+            // console.log(data);
             asesinados.forEach(a => {
-                agregarInputsAsesinatos(null,a.id, a.nombre, a.edad, a.sexo,true)
+                agregarInputsAsesinatos(null, a.id , a.nombre , a.edad ,  a.sexo,true)
             })
 
+        } 
+
+        if (asesinatos || asesinados) {
+        
+           
             btnGuardarAsesinatos.disabled = true
             btnModificarAsesinatos.disabled = false
-            btnBorrarAsesinatos.disabled = false
+
 
             btnGuardarAsesinatos.parentElement.style.display = 'none'
             btnModificarAsesinatos.parentElement.style.display = ''
-            btnBorrarAsesinatos.parentElement.style.display = ''
-        }else{
+
+        } else {
             btnGuardarAsesinatos.disabled = false
             btnModificarAsesinatos.disabled = true
-            btnBorrarAsesinatos.disabled = true
 
             btnGuardarAsesinatos.parentElement.style.display = ''
             btnModificarAsesinatos.parentElement.style.display = 'none'
-            btnBorrarAsesinatos.parentElement.style.display = 'none'
+
         }
 
-    }catch(e){
+    } catch (e) {
         console.log(e);
     }
 
@@ -473,6 +526,72 @@ const recargarModalAsesinatos = async (id) => {
 
 
 }
+
+const recargarModalMigrantes = async (id) => {
+    formMigrantes.reset()
+    formMigrantes.topic.value = id
+
+  
+
+
+    while (inputsMigrantes > 0) {
+        quitarInputsMigrantes();
+    }
+
+    try {
+        const url = `/medios-comunicacion/API/migrantes/buscar?topic=${id}`
+        const headers = new Headers();
+        headers.append("X-Requested-With", "fetch");
+
+        const config = {
+            method: 'GET',
+            headers
+        }
+
+        const respuesta = await fetch(url, config);
+        const data = await respuesta.json();
+        console.log(data);
+        const { migrantes, migrante } = data;
+       console.log(migrantes.info);
+
+        migrantes&&tinymce.get('info3').setContent(migrantes.info)
+        // }
+        if (migrante) {
+            // console.log(data);
+            migrante.forEach( m => {
+                agregarInputsMigrantes(null, m.id , m.pais_migrante , m.edad ,  m.cantidad , m.sexo, m.lugar_ingreso, m.destino , true)
+            })
+
+        } 
+
+        if (migrantes) {
+        
+           
+            btnGuardarMigrantes.disabled = true
+            btnModificarMigrantes.disabled = false
+
+            btnGuardarMigrantes.parentElement.style.display = 'none'
+            btnModificarMigrantes.parentElement.style.display = ''
+
+        } else {
+            btnGuardarMigrantes.disabled = false
+            btnModificarMigrantes.disabled = true
+
+            btnGuardarMigrantes.parentElement.style.display = ''
+            btnModificarMigrantes.parentElement.style.display = 'none'
+
+        }
+
+    } catch (e) {
+        console.log(e);
+    }
+
+    modalMigrantes.show();
+
+
+}
+
+
 
 
 
@@ -790,6 +909,224 @@ const agregarInputsAsesinatos = async (e, id = '', nombre = '', edad = '',  sexo
     divAsesinados.appendChild(fragment)
 }
 
+const agregarInputsMigrantes = async (e, id = '', pais_migrante = '', edad = '',  cantidad = '', sexo ='', lugar_ingreso='',  destino ='', boton = false) => {
+    inputsMigrantes++;
+    console.log(destino);
+    const fragment = document.createDocumentFragment();
+    const divCuadro = document.createElement('div');
+    const divRow = document.createElement('div');
+    const divRow1 = document.createElement('div');
+    const divRow2 = document.createElement('div');
+    const divCol1 = document.createElement('div');
+    const divCol2 = document.createElement('div');
+    const divCol3 = document.createElement('div');
+    const divCol4 = document.createElement('div');
+    const divCol5 = document.createElement('div');
+    const divCol6 = document.createElement('div');
+    const inputIdRow = document.createElement('input');
+    const select1 = document.createElement('select')
+    const select2= document.createElement('select')
+    const input1 = document.createElement('input')
+    const select3 = document.createElement('select')
+    const input2 = document.createElement('input')
+    const select4 = document.createElement('select')
+    const label1 = document.createElement('label')
+    const label2 = document.createElement('label')
+    const label3 = document.createElement('label')
+    const label4 = document.createElement('label')
+    const label5 = document.createElement('label')
+    const label6 = document.createElement('label')
+    const h1 = document.createElement('h1')
+    const buttonEliminar = document.createElement('button')
+    const divColBoton = document.createElement('div');
+
+
+
+    const option1 = document.createElement('option')
+    option1.value = ""
+    option1.innerText ="SELECCIONE"
+
+    const option2 = document.createElement('option')
+    option2.value = ""
+    option2.innerText ="SELECCIONE"
+
+    const option3 = document.createElement('option')
+    option3.value = ""
+    option3.innerText ="SELECCIONE"
+
+    const option4 = document.createElement('option')
+    option4.value = ""
+    option4.innerText ="SELECCIONE"
+
+    select1.appendChild(option1)
+    select2.appendChild(option2)
+    select3.appendChild(option3)
+    select4.appendChild(option4)
+
+
+
+    divRow.classList.add("row", "justify-content-center");
+    divCuadro.classList.add("col", "border", "rounded", "mb-2", "bg-light");
+
+    divRow1.classList.add("row", "justify-content-start", "mb-2");
+    divRow2.classList.add("row", "justify-content-start", "mb-2");
+    divCol1.classList.add("col-lg-3");
+    divCol2.classList.add("col-lg-3");
+    divCol3.classList.add("col-lg-3");
+    divCol4.classList.add("col-lg-3");
+    divCol5.classList.add("col-lg-3");
+    divCol6.classList.add("col-lg-3");
+    divColBoton.classList.add("col-lg-3", 'd-flex', 'flex-column', 'justify-content-end');
+    inputIdRow.name = `id_mig[]`
+    inputIdRow.id = `id_mig[]`
+    inputIdRow.type = 'hidden'
+    select1.classList.add("form-control")
+    select1.name = `pais_migrante[]`
+    select1.id = `pais_migrante[]`
+    select1.required = true;
+    select2.classList.add("form-control")
+    select2.name = `edad[]`
+    select2.id = `edad[]`
+    select2.required = true;
+    input1.classList.add("form-control")
+    input1.name = `cantidad[]`
+    input1.id = `cantidad[]`
+    input1.type= `number`
+    input1.required = true;
+    select3.classList.add("form-control")
+    select3.name = `sexo[]`
+    select3.id = `sexo[]`
+    select3.required = true;
+    input2.classList.add("form-control")
+    input2.name = `lugar_ingreso[]`
+    input2.id = `lugar_ingreso[]`
+    input2.type= `text`
+    input2.required = true;
+    select4.classList.add("form-control")
+    select4.name = `destino[]`
+    select4.id = `destino[]`
+    select4.required = true;
+    h1.innerText= `CANTIDAD ${inputsMigrantes}`
+    label1.innerText = `PAIS DEL MIGRANTE`
+    label1.htmlFor = `pais_migrante[]`
+    label2.innerText = `EDAD`
+    label2.htmlFor = `edad[]`
+    label3.innerText = `CANTIDAD `
+    label3.htmlFor = `cantidad[]`
+    label4.innerText = `SEXO `
+    label4.htmlFor = `sexo[]`
+    label5.innerText = `LUGAR DE INGRESO `
+    label5.htmlFor = `lugar_ingeso[]`
+    label6.innerText = `DESTINO`
+    label6.htmlFor = `destino[]`
+
+    buttonEliminar.classList.add('btn', 'btn-danger', 'w-100')
+    buttonEliminar.innerHTML = "<i class='bi bi-x-circle me-2'></i>Eliminar"
+    buttonEliminar.type = 'button'
+    divColBoton.appendChild(buttonEliminar);
+
+    const headers = new Headers();
+    headers.append("X-Requested-With", "fetch");
+
+    const url3 = `/medios-comunicacion/API/nacionalidad/buscar`;
+    const config3 = { method: "GET", headers }
+    const response3 = await fetch(url3, config3);
+    const nacionalidades = await response3.json()
+
+    // console.log(nacionalidades);
+    nacionalidades.forEach(nacionalidad => {
+        const option_nacionalidad = document.createElement('option')
+        option_nacionalidad.value = nacionalidad.id
+        option_nacionalidad.innerText = `${nacionalidad.desc} `
+        select1.appendChild(option_nacionalidad)
+    })
+
+    const url1 = `/medios-comunicacion/API/migrantes/buscarEdad`
+    const config1 = { method: "GET", headers }
+    const response1 = await fetch(url1, config1);
+    const edades1 = await response1.json()
+
+
+    edades1.forEach(edad => {
+        const option = document.createElement('option')
+        option.value = edad.id
+        option.innerText = `${edad.edades} `
+        select2.appendChild(option)
+    })
+
+    const url2 = `/medios-comunicacion/API/eventos/sexo`
+    const config2 = { method: "GET", headers }
+    const response2 = await fetch(url2, config2);
+    const sexos = await response2.json()
+
+    sexos.forEach(sexo => {
+        const option_sexo = document.createElement('option')
+        option_sexo.value = sexo.id
+        option_sexo.innerText = `${sexo.desc} `
+        select3.appendChild(option_sexo)
+    })
+
+    const url4 = `/medios-comunicacion/API/migrantes/buscarPais`
+    const config4 = { method: "GET", headers }
+    const response4 = await fetch(url4, config4);
+    const destinos = await response4.json()
+
+    destinos.forEach(destino1 => {
+        const option_destino = document.createElement('option')
+        option_destino.value = destino1.pai_codigo
+        option_destino.innerText = `${destino1.pai_desc_lg} `
+        select4.appendChild(option_destino)
+    })
+
+
+
+    select1.value = pais_migrante;
+    input1.value = cantidad;
+    inputIdRow.value = id;
+    input2.value = lugar_ingreso;
+    select2.value = edad;
+    select3.value = sexo;
+    select4.value= destino
+  
+
+
+    divCuadro.appendChild(h1)
+
+    divCol1.appendChild(inputIdRow)
+    divCol1.appendChild(label1)
+    divCol1.appendChild(select1)
+    divCol2.appendChild(label2)
+    divCol2.appendChild(select2)
+    divCol3.appendChild(label3)
+    divCol3.appendChild(input1)
+    divCol4.appendChild(label4)
+    divCol4.appendChild(select3)
+    divCol5.appendChild(label5)
+    divCol5.appendChild(input2)
+    divCol6.appendChild(label6)
+    divCol6.appendChild(select4)
+
+
+
+    divRow1.appendChild(divCol1)
+    divRow1.appendChild(divCol2)
+    divRow1.appendChild(divCol4)
+    if (boton) {
+        divRow1.appendChild(divColBoton)
+        buttonEliminar.addEventListener('click', (e) => eliminarCapturado(e, id))
+    }
+    divRow2.appendChild(divCol3)
+    divRow2.appendChild(divCol5)
+    divRow2.appendChild(divCol6)
+    divCuadro.appendChild(divRow1)
+    divCuadro.appendChild(divRow2)
+    divRow.appendChild(divCuadro)
+    fragment.appendChild(divRow)
+
+
+    divMigrantes.appendChild(fragment)
+}
+
 
 const quitarInputsCaptura = () => {
 
@@ -819,10 +1156,25 @@ const quitarInputsAsesinatos = () => {
     }
 }
 
+
+const quitarInputsMigrantes = () => {
+
+    if (inputsMigrantes > 0) {
+        divMigrantes.removeChild(divMigrantes.lastElementChild);
+        inputsMigrantes--;
+
+    } else {
+        Toast.fire({
+            icon: 'warning',
+            title: 'No puede realizar esta acción'
+        });
+    }
+}
+
 const guardarCaptura = async e => {
     e.preventDefault();
 
-    let info = tinymce.get('info2').getContent()
+    let info = tinymce.get('info').getContent()
     // console.log(info);
     if (validarFormulario(formCaptura, ['id_per[]', 'info']) && info != '') {
 
@@ -965,6 +1317,85 @@ const guardarAsesinatos = async e => {
 
 }
 
+const guardarMigrantes = async e => {
+    e.preventDefault();
+
+    let info = tinymce.get('info3').getContent()
+    console.log(info);
+    if (validarFormulario(formMigrantes, ['id_mig[]']) && info != '') {
+
+        // console.log('hola');
+        try {
+
+            const url = '/medios-comunicacion/API/migrantes/guardar'
+
+            const body = new FormData(formMigrantes);
+
+      
+            body.append('info3', info)
+            const headers = new Headers();
+            headers.append("X-Requested-With", "fetch");
+
+            const config = {
+                method: 'POST',
+                headers,
+                body
+            }
+
+            const respuesta = await fetch(url, config);
+            const data = await respuesta.json();
+
+            console.log(data);
+            const { mensaje, codigo, detalle } = data;
+            // const resultado = data.resultado;
+            let icon = "";
+            switch (codigo) {
+                case 1:
+                    icon = "success"
+                    recargarModalMigrantes(formMigrantes.topic.value)
+                    break;
+                case 2:
+                    icon = "warning"
+                    formMigrantes.reset();
+
+                    break;
+                case 3:
+                    icon = "error"
+
+                    break;
+                case 4:
+                    icon = "error"
+                    console.log(detalle)
+
+                    break;
+
+                    case 5:
+                        icon = "warning"
+                        break;
+    
+
+                default:
+                    break;
+            }
+
+            Toast.fire({
+                icon: icon,
+                title: mensaje,
+            })
+
+        } catch (error) {
+            console.log(error);
+        }
+
+    } else {
+        Toast.fire({
+            icon: 'warning',
+            title: 'Debe llenar todos los campos'
+        });
+    }
+
+}
+
 const eliminarCapturado = async (e, id) => {
     Swal.fire({
         title: 'Confirmación',
@@ -1049,6 +1480,76 @@ const eliminarAsesinado = async (e, id) => {
             try {
 
                 const url = '/medios-comunicacion/API/asesinatos/asesinado/eliminar'
+    
+                const body = new FormData();
+                body.append('id', id)
+                const headers = new Headers();
+                headers.append("X-Requested-With", "fetch");
+    
+                const config = {
+                    method: 'POST',
+                    headers,
+                    body
+                }
+    
+                const respuesta = await fetch(url, config);
+                const data = await respuesta.json();
+    
+                // console.log(data);
+                // return 
+                const { mensaje, codigo, detalle } = data;
+                // const resultado = data.resultado;
+                let icon = "";
+                switch (codigo) {
+                    case 1:
+                        icon = "success"
+                        recargarModalAsesinatos(formAsesinatos.topico.value)
+                        break;
+                    case 2:
+                        icon = "warning"
+                        formAsesinatos.reset();
+    
+                        break;
+                    case 3:
+                        icon = "error"
+    
+                        break;
+                    case 4:
+                        icon = "error"
+                        console.log(detalle)
+    
+                        break;
+    
+                    default:
+                        break;
+                }
+    
+                Toast.fire({
+                    icon: icon,
+                    title: mensaje,
+                })
+    
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    })
+}
+
+const eliminarMigrante = async (e, id) => {
+    Swal.fire({
+        title: 'Confirmación',
+        text: "¿Esta seguro que desea eliminar este registro?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, Eliminar'
+    }).then( async(result) => {
+        if (result.isConfirmed) {
+            try {
+
+                const url = '/medios-comunicacion/API/migrantes/eliminar'
     
                 const body = new FormData();
                 body.append('id', id)
@@ -1405,5 +1906,8 @@ buttonAgregarInputsCaptura.addEventListener('click', agregarInputsCaptura)
 buttonQuitarInputsCaptura.addEventListener('click', quitarInputsCaptura)
 buttonAgregarInputsAsesinatos.addEventListener('click', agregarInputsAsesinatos)
 buttonQuitarInputsAsesinatos.addEventListener('click', quitarInputsAsesinatos)
+buttonAgregarInputsMigrantes.addEventListener('click', agregarInputsMigrantes)
+buttonQuitarInputsMigrantes.addEventListener('click', quitarInputsMigrantes)
 formCaptura.addEventListener('submit', guardarCaptura)
 formAsesinatos.addEventListener('submit',guardarAsesinatos)
+formMigrantes.addEventListener('submit',guardarMigrantes)
