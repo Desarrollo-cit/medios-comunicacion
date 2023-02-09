@@ -596,7 +596,7 @@ window.detalle = async (valor) => {
 
        
 
-        console.log(datos);
+        
         if (datos) {
             document.getElementById('grafica_depto1').style.display = "block"
             document.getElementById('texto_no').style.display = "none"
@@ -608,7 +608,7 @@ window.detalle = async (valor) => {
             }
 
             let { labels, cantidades } = datos;
-            console.log(datos)
+            
             let dataSetsLabels = Object.keys(cantidades);
             let dataSetsValues = Object.values(cantidades)
             let datasets = []
@@ -948,7 +948,7 @@ const IncautacionesPorDia = async () => {
     }
     const response = await fetch(url_grafica, configGrafica)
     const datos = await response.json()
-    console.log(datos);
+   
 
 
     const url_grafica1 = `/medios-comunicacion/API/mapas/infoDroga/MatasPorDiaGrafica`
@@ -1425,7 +1425,7 @@ const trimestral_incautaciones_general = async () => {
 
       
         const { meses, cantidades } = info;
-        console.log(info);
+    
         const canvas1 = document.getElementById('myChart5');
         const ctx1 = canvas1.getContext('2d');
         if (window.trimestralIncautacionesGeneral) {
