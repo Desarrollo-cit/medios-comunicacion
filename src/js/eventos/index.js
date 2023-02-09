@@ -1,4 +1,4 @@
-import { Dropdown, Tooltip, Modal } from "bootstrap";
+import { Dropdown, Tooltip, Modal, Alert } from "bootstrap";
 import tinymce, { TinyMCE } from "tinymce";
 import 'tinymce/themes/silver'
 import 'tinymce/icons/default'
@@ -14,14 +14,23 @@ import L from "leaflet"
 import 'leaflet-easyprint'
 const modalInformacion = new Modal(document.getElementById('modalIngreso'), {})
 const modalCaptura = new Modal(document.getElementById('modalCaptura'), {})
+const modalAsesinato = new Modal(document.getElementById('modalAsesinato'), {})
+const modalMigrantes = new Modal(document.getElementById('modalMigrantes'), {})
 const formInformacion = document.querySelector('#formInformacion')
 const divPills = document.getElementById('divPills')
 const formCaptura = document.querySelector('#formCaptura')
+const formAsesinatos = document.querySelector('#formAsesinatos')
+const formMigrantes = document.querySelector('#formMigrantes')
 const buttonAgregarInputsCaptura = document.getElementById('agregarInputscaptura');
 const buttonQuitarInputsCaptura = document.getElementById('quitarInputscaptura');
 const btnGuardarCaptura = document.getElementById('btnGuardarCaptura');
 const btnModificarCaptura = document.getElementById('btnModificarCaptura');
 const btnBorrarCaptura = document.getElementById('btnBorrarCaptura');
+const buttonAgregarInputsAsesinatos = document.getElementById('agregarInputsAsesinatos');
+const buttonQuitarInputsAsesinatos = document.getElementById('quitarInputsAsesinatos');
+const btnGuardarAsesinatos = document.getElementById('btnGuardarAsesinados');
+const btnModificarAsesinatos = document.getElementById('btnModificarAsesinados');
+const btnBorrarAsesinatos = document.getElementById('btnBorrarAsesinados');
 
 const inicioInput = document.getElementById('inicio');
 const finInput = document.getElementById('fin');
@@ -284,6 +293,10 @@ const buscarEventos = async e => {
                             modal1(e, p)
                             break;
 
+                            case '2':
+                            modal2(e, p)
+                            break;
+
                     }
                 })
                 markers.addTo(map)
@@ -328,6 +341,23 @@ const modal1 = async (e, punto) => {
 
 }
 
+const divAsesinados = document.getElementById('divAsesinados');
+let inputsasesinados = 0;
+
+//MODAL 2
+const modal2 = async (e, punto) => {
+    L.DomEvent.stopPropagation(e);
+
+
+    recargarModalAsesinatos(punto.id)
+
+
+    modalAsesinato.show();
+
+
+
+}
+
 const recargarModalCaptura = async (id) => {
     formCaptura.reset()
     formCaptura.topico.value = id
@@ -346,8 +376,9 @@ const recargarModalCaptura = async (id) => {
 
         const respuesta = await fetch(url, config);
         const data = await respuesta.json();
-        const { captura, capturados } = data;
         console.log(data);
+        const { captura, capturados } = data;
+
         // if(captura){
         captura && tinymce.get('info').setContent(captura.info)
         // }
@@ -381,7 +412,75 @@ const recargarModalCaptura = async (id) => {
     } catch (e) {
         console.log(e);
     }
+
+    modalCaptura.show();
+
+
+
 }
+const recargarModalAsesinatos = async (id) => {
+    formAsesinatos.reset()
+    formAsesinatos.topico.value = id
+
+
+    while (inputsasesinados > 0) {
+        quitarInputsAsesinatos();
+    }
+
+    try {
+        const url = `/medios-comunicacion/API/asesinatos/buscar?topico=${id}`
+        const headers = new Headers();
+        headers.append("X-Requested-With", "fetch");
+
+        const config = {
+            method: 'GET',
+            headers
+        }
+
+        const respuesta = await fetch(url, config);
+        const data = await respuesta.json();
+        const { asesinatos , asesinados } = data;
+              
+        console.log(asesinatos.info);
+        tinymce.get('info2').setContent(asesinatos.info)
+
+     
+        
+        if(asesinatos || asesinados){
+      
+
+            asesinados.forEach(a => {
+                agregarInputsAsesinatos(null,a.id, a.nombre, a.edad, a.sexo,true)
+            })
+
+            btnGuardarAsesinatos.disabled = true
+            btnModificarAsesinatos.disabled = false
+            btnBorrarAsesinatos.disabled = false
+
+            btnGuardarAsesinatos.parentElement.style.display = 'none'
+            btnModificarAsesinatos.parentElement.style.display = ''
+            btnBorrarAsesinatos.parentElement.style.display = ''
+        }else{
+            btnGuardarAsesinatos.disabled = false
+            btnModificarAsesinatos.disabled = true
+            btnBorrarAsesinatos.disabled = true
+
+            btnGuardarAsesinatos.parentElement.style.display = ''
+            btnModificarAsesinatos.parentElement.style.display = 'none'
+            btnBorrarAsesinatos.parentElement.style.display = 'none'
+        }
+
+    }catch(e){
+        console.log(e);
+    }
+
+    modalAsesinato.show();
+
+
+}
+
+
+
 
 const agregarInputsCaptura = async (e, id = '', nombre = '', edad = '', nacionalidad = '', sexo = '', delito = '', vinculo = "", boton = false) => {
     inputscapturas++;
@@ -587,6 +686,115 @@ const agregarInputsCaptura = async (e, id = '', nombre = '', edad = '', nacional
 
     divCapturados.appendChild(fragment)
 }
+const agregarInputsAsesinatos = async (e, id = '', nombre = '', edad = '',  sexo = '',boton = false) => {
+    inputsasesinados++;
+    // console.log(inputscapturas);
+    const fragment = document.createDocumentFragment();
+    const divCuadro = document.createElement('div');
+    const divRow = document.createElement('div');
+    const divRow1 = document.createElement('div');
+   
+    const divCol1 = document.createElement('div');
+    const divCol2 = document.createElement('div');
+    const divCol3 = document.createElement('div');
+    
+    const inputIdRow = document.createElement('input');
+    const input1 = document.createElement('input')
+    const input2 = document.createElement('input')
+    const select3 = document.createElement('select')
+    const select = document.createElement('select')
+    const label1 = document.createElement('label')
+    const label2 = document.createElement('label')
+    const label3 = document.createElement('label')
+    const buttonEliminar = document.createElement('button')
+    const divColBoton = document.createElement('div');
+
+    divRow.classList.add("row", "justify-content-center");
+    divCuadro.classList.add("col", "border", "rounded", "mb-2", "bg-light");
+    divRow1.classList.add("row", "justify-content-start", "mb-2");
+    divCol1.classList.add("col-lg-3");
+    divCol2.classList.add("col-lg-3");
+    divCol3.classList.add("col-lg-3");
+    divColBoton.classList.add("col-lg-3", 'd-flex', 'flex-column', 'justify-content-end');
+    inputIdRow.name = `id_per[]`
+    inputIdRow.id = `id_per[]`
+    inputIdRow.type = 'hidden'
+    input1.classList.add("form-control")
+    input1.name = `nombre[]`
+    input1.id = `nombre[]`
+    input1.type = 'text'
+    input1.required = true;
+    input2.classList.add("form-control")
+    input2.name = `edad[]`
+    input2.id = `edad[]`
+    input2.type = 'number'
+    input2.required = true;
+
+    
+    select3.classList.add("form-control")
+    select3.name = `sexo[]`
+    select3.id = `sexo[]`
+    select3.required = true;
+    select.required = true;
+    label1.innerText = `Persona ${inputsasesinados}`
+    label1.htmlFor = `nombre[]`
+    label2.innerText = `Edad `
+    label2.htmlFor = `edad[]`
+    label3.innerText = `Sexo `
+    label3.htmlFor = `sexo[]`
+
+    buttonEliminar.classList.add('btn', 'btn-danger', 'w-100')
+    buttonEliminar.innerHTML = "<i class='bi bi-x-circle me-2'></i>Eliminar"
+    buttonEliminar.type = 'button'
+    divColBoton.appendChild(buttonEliminar);
+
+    const headers = new Headers();
+    headers.append("X-Requested-With", "fetch");
+
+
+    const url2 = `/medios-comunicacion/API/eventos/sexo`
+    const config2 = { method: "GET", headers }
+    const response2 = await fetch(url2, config2);
+    const sexos = await response2.json()
+
+    sexos.forEach(sexo => {
+        const option_sexo = document.createElement('option')
+        option_sexo.value = sexo.id
+        option_sexo.innerText = `${sexo.desc} `
+        select3.appendChild(option_sexo)
+    })
+
+
+    input1.value = nombre;
+    inputIdRow.value = id;
+    input2.value = edad;
+    select3.value = sexo;
+
+
+    divCol1.appendChild(inputIdRow)
+    divCol1.appendChild(label1)
+    divCol1.appendChild(input1)
+    divCol2.appendChild(label2)
+    divCol2.appendChild(input2)
+    divCol3.appendChild(label3)
+    divCol3.appendChild(select3)
+
+    divRow1.appendChild(divCol1)
+    divRow1.appendChild(divCol2)
+    divRow1.appendChild(divCol3)
+    if (boton) {
+        divRow1.appendChild(divColBoton)
+        buttonEliminar.addEventListener('click', (e) => eliminarAsesinado(e, id))
+    }
+
+    divCuadro.appendChild(divRow1)
+    divRow.appendChild(divCuadro)
+    fragment.appendChild(divRow)
+
+
+    divAsesinados.appendChild(fragment)
+}
+
 
 const quitarInputsCaptura = () => {
 
@@ -602,10 +810,24 @@ const quitarInputsCaptura = () => {
     }
 }
 
+const quitarInputsAsesinatos = () => {
+
+    if (inputsasesinados > 0) {
+        divAsesinados.removeChild(divAsesinados.lastElementChild);
+        inputsasesinados--;
+
+    } else {
+        Toast.fire({
+            icon: 'warning',
+            title: 'No puede realizar esta acción'
+        });
+    }
+}
+
 const guardarCaptura = async e => {
     e.preventDefault();
 
-    let info = tinymce.get('info').getContent()
+    let info = tinymce.get('info2').getContent()
     // console.log(info);
     if (validarFormulario(formCaptura, ['id_per[]', 'info']) && info != '') {
 
@@ -640,6 +862,80 @@ const guardarCaptura = async e => {
                 case 2:
                     icon = "warning"
                     formCaptura.reset();
+
+                    break;
+                case 3:
+                    icon = "error"
+
+                    break;
+                case 4:
+                    icon = "error"
+                    console.log(detalle)
+
+                    break;
+
+                default:
+                    break;
+            }
+
+            Toast.fire({
+                icon: icon,
+                title: mensaje,
+            })
+
+        } catch (error) {
+            console.log(error);
+        }
+
+    } else {
+        Toast.fire({
+            icon: 'warning',
+            title: 'Debe llenar todos los campos'
+        });
+    }
+
+}
+
+const guardarAsesinatos = async e => {
+    e.preventDefault();
+
+    let info = tinymce.get('info2').getContent()
+    console.log(info);
+
+ 
+    if (validarFormulario(formAsesinatos, ['id_per[]', 'info2']) && info != '') {
+
+        // console.log('hola');
+        try {
+
+            const url = '/medios-comunicacion/API/asesinatos/guardar'
+
+            const body = new FormData(formAsesinatos);
+            body.append('info', info)
+            const headers = new Headers();
+            headers.append("X-Requested-With", "fetch");
+
+            const config = {
+                method: 'POST',
+                headers,
+                body
+            }
+
+            const respuesta = await fetch(url, config);
+            const data = await respuesta.json();
+
+            // console.log(data);
+            const { mensaje, codigo, detalle } = data;
+            // const resultado = data.resultado;
+            let icon = "";
+            switch (codigo) {
+                case 1:
+                    icon = "success"
+                    recargarModalAsesinatos(formAsesinatos.topico.value)
+                    break;
+                case 2:
+                    icon = "warning"
+                    formAsesinatos.reset();
 
                     break;
                 case 3:
@@ -744,6 +1040,75 @@ const eliminarCapturado = async (e, id) => {
     })
 }
 
+const eliminarAsesinado = async (e, id) => {
+    Swal.fire({
+        title: 'Confirmación',
+        text: "¿Esta seguro que desea eliminar este registro?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, Eliminar'
+    }).then( async(result) => {
+        if (result.isConfirmed) {
+            try {
+
+                const url = '/medios-comunicacion/API/asesinatos/asesinado/eliminar'
+    
+                const body = new FormData();
+                body.append('id', id)
+                const headers = new Headers();
+                headers.append("X-Requested-With", "fetch");
+    
+                const config = {
+                    method: 'POST',
+                    headers,
+                    body
+                }
+    
+                const respuesta = await fetch(url, config);
+                const data = await respuesta.json();
+    
+                // console.log(data);
+                // return 
+                const { mensaje, codigo, detalle } = data;
+                // const resultado = data.resultado;
+                let icon = "";
+                switch (codigo) {
+                    case 1:
+                        icon = "success"
+                        recargarModalAsesinatos(formAsesinatos.topico.value)
+                        break;
+                    case 2:
+                        icon = "warning"
+                        formAsesinatos.reset();
+    
+                        break;
+                    case 3:
+                        icon = "error"
+    
+                        break;
+                    case 4:
+                        icon = "error"
+                        console.log(detalle)
+    
+                        break;
+    
+                    default:
+                        break;
+                }
+    
+                Toast.fire({
+                    icon: icon,
+                    title: mensaje,
+                })
+    
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    })
+}
 const eliminarCaptura = async (e) => {
     Swal.fire({
         title: 'Confirmación',
@@ -787,6 +1152,77 @@ const eliminarCaptura = async (e) => {
                     case 2:
                         icon = "warning"
                         formCaptura.reset();
+    
+                        break;
+                    case 3:
+                        icon = "error"
+    
+                        break;
+                    case 4:
+                        icon = "error"
+                        console.log(detalle)
+    
+                        break;
+    
+                    default:
+                        break;
+                }
+    
+                Toast.fire({
+                    icon: icon,
+                    title: mensaje,
+                })
+    
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    })
+}
+
+const eliminarAsesinato = async (e) => {
+    Swal.fire({
+        title: 'Confirmación',
+        text: "¿Esta seguro que desea eliminar este Asesinato?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, Eliminar'
+    }).then( async(result) => {
+        if (result.isConfirmed) {
+            try {
+
+                const url = '/medios-comunicacion/API/asesinatos/eliminar'
+    
+                const body = new FormData();
+                body.append('topico', formAsesinatos.topico.value)
+                const headers = new Headers();
+                headers.append("X-Requested-With", "fetch");
+    
+                const config = {
+                    method: 'POST',
+                    headers,
+                    body
+                }
+    
+                const respuesta = await fetch(url, config);
+                const data = await respuesta.json();
+    
+                console.log(data);
+                // return 
+                const { mensaje, codigo, detalle } = data;
+                // const resultado = data.resultado;
+                let icon = "";
+                switch (codigo) {
+                    case 1:
+                        icon = "success"
+                        modalAsesinato.hide()
+                        buscarEventos()
+                        break;
+                    case 2:
+                        icon = "warning"
+                        formAsesinatos.reset();
     
                         break;
                     case 3:
@@ -889,13 +1325,90 @@ const modificarCaptura = async e => {
 
 }
 
+const modificarAsesinato = async e => {
+    e.preventDefault();
+
+    let info = tinymce.get('info2').getContent()
+    if (validarFormulario(formAsesinatos, ['id_per[]', 'info2']) && info != '') {
+
+        // console.log('hola');
+        try {
+
+            const url = '/medios-comunicacion/API/asesinatos/modificar'
+
+            const body = new FormData(formAsesinatos);
+            body.append('info', info)
+            const headers = new Headers();
+            headers.append("X-Requested-With", "fetch");
+
+            const config = {
+                method: 'POST',
+                headers,
+                body
+            }
+
+            const respuesta = await fetch(url, config);
+            const data = await respuesta.json();
+
+            console.log(data);
+            // return 
+            const { mensaje, codigo, detalle } = data;
+            // const resultado = data.resultado;
+            let icon = "";
+            switch (codigo) {
+                case 1:
+                    icon = "success"
+                    recargarModalAsesinatos(formAsesinatos.topico.value)
+                    break;
+                case 2:
+                    icon = "warning"
+                    formAsesinatos.reset();
+
+                    break;
+                case 3:
+                    icon = "error"
+
+                    break;
+                case 4:
+                    icon = "error"
+                    console.log(detalle)
+
+                    break;
+
+                default:
+                    break;
+            }
+
+            Toast.fire({
+                icon: icon,
+                title: mensaje,
+            })
+
+        } catch (error) {
+            console.log(error);
+        }
+
+    } else {
+        Toast.fire({
+            icon: 'warning',
+            title: 'Debe llenar todos los campos'
+        });
+    }
+
+}
+
 map.on('click', abreModal)
 formInformacion.departamento.addEventListener('change', buscarMunicipio)
 formInformacion.addEventListener('submit', guardarEvento)
 inicioInput.addEventListener('change', buscarEventos)
 finInput.addEventListener('change', buscarEventos)
 btnModificarCaptura.addEventListener('click', modificarCaptura)
+btnModificarAsesinatos.addEventListener('click', modificarAsesinato)
 btnBorrarCaptura.addEventListener('click', eliminarCaptura );
+btnBorrarAsesinatos.addEventListener('click', eliminarAsesinato );
 buttonAgregarInputsCaptura.addEventListener('click', agregarInputsCaptura)
 buttonQuitarInputsCaptura.addEventListener('click', quitarInputsCaptura)
+buttonAgregarInputsAsesinatos.addEventListener('click', agregarInputsAsesinatos)
+buttonQuitarInputsAsesinatos.addEventListener('click', quitarInputsAsesinatos)
 formCaptura.addEventListener('submit', guardarCaptura)
+formAsesinatos.addEventListener('submit',guardarAsesinatos)
