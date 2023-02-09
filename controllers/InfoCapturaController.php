@@ -651,24 +651,9 @@ class InfoCapturaController
             $sql .= " group by desc ";
             $info = Capturadas::fetchArray($sql);
 
-            if ($info) {
-
-
-                $info[1]["codigo"] = [
-
-                    1,
-                ];
                 echo json_encode($info);
-            } else {
-
-                $info[1] = [
-                    "descripcion" => "",
-                    "cantidad" => 0,
-                    "codigo" => 2,
-                ];
-
-                echo json_encode($info);
-            }
+            
+     
         } catch (Exception $e) {
             echo json_encode([
                 "detalle" => $e->getMessage(),
@@ -693,11 +678,11 @@ class InfoCapturaController
                 $sql = "SELECT count(*) as  cantidad  From amc_per_capturadas inner join amc_topico on amc_per_capturadas.topico = amc_topico.id where year(amc_topico.fecha) = year(current) and month(amc_topico.fecha) = month(current) and day(amc_topico.fecha) = day($i) and amc_topico.situacion = 1 and amc_per_capturadas.situacion = 1";
                 $info = Capturadas::fetchArray($sql);
                 $data['dias'][] = $i;
-                if ($info['cantidad'] == null) {
+                if ($info[0]['cantidad'] == null) {
 
                     $valor = 0;
                 } else {
-                    $valor = $info['cantidad'];
+                    $valor = $info[0]['cantidad'];
                 }
                 $data['cantidades'][] = $valor;
             }

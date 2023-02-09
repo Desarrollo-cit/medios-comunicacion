@@ -652,8 +652,8 @@ const delitos_estadistica = async (e) => {
         const response1 = await fetch(url_grafica1, configGrafica1)
         const datos1 = await response1.json()
 
-        // console.log(datos1);
-        if (datos1[1]['codigo'] == 1) {
+        
+        if(datos1.length > 0){
             document.getElementById('graficaDelitos').style.display = "block"
             document.getElementById('texto_no1').style.display = "none"
 
@@ -746,12 +746,12 @@ const delitos_estadistica = async (e) => {
                 }
             });
 
-        } else {
+        }else{
 
             document.getElementById('texto_no1').style.display = "block";
             document.getElementById('graficaDelitos').style.display = "none";
-
         }
+        
     } catch (error) {
         console.log(error);
     }
@@ -875,7 +875,7 @@ const CapturasPorDia = async () => {
         const response2 = await fetch(url_grafica2, configGrafica2)
         const datos2 = await response2.json()
 
-
+// console.log(datos2);
 
         const { dias, cantidades } = datos2;
 
