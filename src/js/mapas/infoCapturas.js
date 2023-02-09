@@ -794,15 +794,15 @@ const deptos_estadistica = async (e) => {
             //  $("#delitos_cant").destroy();
             const ctx = document.getElementById('myChart2');
             if (window.delitosDepartamento_grafica) {
-                window.delitosdelitosDepartamento_grafica_grafica.clear();
-                window.delitosdelitosDepartamento_grafica_grafica.destroy();
+                window.delitosDepartamento_grafica.clear();
+                window.delitosDepartamento_grafica.destroy();
             }
 
-            if (window.delitosdelitosDepartamento_grafica_grafica) {
-                window.delitosdelitosDepartamento_grafica_grafica.clear();
-                window.delitosdelitosDepartamento_grafica_grafica.destroy();
+            if (window.delitosDepartamento_grafica) {
+                window.delitosDepartamento_grafica.clear();
+                window.delitosDepartamento_grafica.destroy();
             }
-            window.delitosdelitosDepartamento_grafica_grafica = new Chart(ctx, {
+            window.delitosDepartamento_grafica = new Chart(ctx, {
                 type: 'doughnut',
                 data: {
                     labels,

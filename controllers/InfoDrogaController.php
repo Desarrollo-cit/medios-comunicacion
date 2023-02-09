@@ -129,7 +129,7 @@ class InfoDrogaController
             $sql .= " AND amc_topico.fecha   BETWEEN '$fecha1' AND  '$fecha2' ";
         }
         $result = Droga::fetchArray($sql);
-        if ($result[0]['cantidad'] != NULL) {
+        if ($result[0]['cantidad'] != null) {
             return $result;
         } else {
 
@@ -208,7 +208,7 @@ class InfoDrogaController
             $sql .= " AND amc_topico.fecha   BETWEEN '$fecha1' AND  '$fecha2' ";
         }
         $result = Droga::fetchArray($sql);
-        if ($result[0]['cantidad'] != NULL) {
+        if ($result[0]['cantidad'] != null) {
             return $result;
         } else {
 
@@ -855,13 +855,14 @@ class InfoDrogaController
             $drogas = [];
             $cantidades = [];
             $i = 0;
-            if ($droga == '') {
+          
+           
 
                 for ($i = 13; $i <= 14; $i++) {
 
                     foreach ($tipos as $key => $tipo) {
 
-                        $droga = $tipo['id'];
+                        $droga = (int)$tipo['id'];
 
                         $labels[] = $tipo['desc'];
 
@@ -874,12 +875,16 @@ class InfoDrogaController
                                 $dataset = 'MATAS';
                             }
                         }
+                       
+                      
                         $cantidades[$dataset][] = (int) $operaciones[0]['cantidad'];
                     }
-                    //   echo json_encode($operaciones);
-                    //   exit();
+                   
+                    
+                     
                 }
-
+               
+               
                 foreach ($tipos as $key => $tipo) {
 
                     $droga = $tipo['id'];
@@ -889,11 +894,15 @@ class InfoDrogaController
 
                 $data = [
                     'labels' => $drogas,
-                    'cantidades' => $cantidades
+                    'cantidades' => $cantidades,
+                   
                 ];
 
+   
                 echo json_encode($data);
-            }
+                exit;
+            
+            
         } catch (Exception $e) {
             echo json_encode([
                 "detalle" => $e->getMessage(),
@@ -932,6 +941,487 @@ class InfoDrogaController
     function DrogasCantGraficaAPI(){
         
 
+        $fecha1 = str_replace('T', ' ', $_POST['fecha_grafica']);
+            $fecha2 = str_replace('T', ' ', $_POST['fecha_grafica2']);
+   
 
+      $tipos = static::drogas_tipo();
+     
+      $data = [];
+      $labels = [];
+      $drogas = [];
+      $cantidades = [];
+      $i = 0;
+      $datos= 0;
+  
+     
+        for($i = 13; $i <=14 ; $i++  ){
+     $a = 0;
+     $b = 0;
+           foreach ($tipos as $key => $tipo ) {
+     
+              $droga = $tipo['id'];
+              
+              $labels[]= $tipo['desc'];
+     
+              $operaciones = static::departamental_grafica($i ,  $fecha1 , $fecha2, $depto="", $droga );
+         
+      if($i == 13){
+     $dataset = 'KILOS';
+
+     if((int) $operaciones[0]['cantidad'] > 0){
+        $b = $b +1;
+
+      }
+        
+      }else{
+        if($i == 14){
+        $dataset = 'MATAS';
+        if((int) $operaciones[0]['cantidad'] > 0){
+            $a = $a +1;
+    
+          }
+       
+        }
+      }
+      $cantidades[$dataset][]= (int) $operaciones[0]['cantidad'];
+      
+
+      
+     }
+     if($a > 0 || $b > 0){
+        $datos = $datos +1;
+
+     }
+    
+     }
+     
+     foreach ($tipos as $key => $tipo ) {
+     
+     $droga = $tipo['id'];
+     
+     $drogas[]= $tipo['desc'];
+     }
+     
+     $data = [
+     'labels' => $drogas,
+     'cantidades' => $cantidades,
+     'informacion' => $datos,
+     ];
+     
+     echo json_encode($data);
+     
+     
+     
+
+    }
+
+
+    
+    function DrogasDepartamentoGraficaAPI(){
+        
+
+        $fecha1 = str_replace('T', ' ', $_POST['fecha_grafica']);
+            $fecha2 = str_replace('T', ' ', $_POST['fecha_grafica2']);
+   
+            $sql ="SELECT depmun.dm_desc_lg as descripcion, count(*) as cantidad FROM amc_topico  inner join depmun on amc_topico.departamento = depmun.dm_codigo where  amc_topico.situacion = 1 and amc_topico.tipo in (4,8) ";
+            
+            if ($fecha1 != '' && $fecha2 != '') {
+                $sql .= " AND amc_topico.fecha   BETWEEN '$fecha1' AND  '$fecha2' ";
+            }
+            if ($fecha1 == '' && $fecha2 == '') {
+                $sql .= " AND year(fecha) = year(current) AND month(fecha) = month(current)";
+            }
+                $sql .= " group by dm_desc_lg";
+
+
+            $info = Droga::fetchArray($sql);
+         echo json_encode($info);
+     
+     
+
+    }
+
+
+    public function IncautacionesPorDiaGraficaAPI()
+    {
+        try {
+
+
+            $diasMes =  date('t');
+            $data = [];
+            for ($i = 0; $i <=  $diasMes; $i++) {
+                // $main = new Main();
+                $sql ="SELECT count(*) as  cantidad  From amc_topico  where year(amc_topico.fecha) = year(current) and month(amc_topico.fecha) = month(current) and day(amc_topico.fecha) = day($i) and amc_topico.situacion = 1 and amc_topico.tipo = 4";
+                $info = Droga::fetchArray($sql);
+                $data['dias'][] = $i;
+                if ($info[0]['cantidad'] == null) {
+
+                    $valor = 0;
+                } else {
+                    $valor = $info[0]['cantidad'];
+                }
+                $data['cantidades'][] = $valor;
+            }
+            echo json_encode($data);
+            exit;
+        } catch (Exception $e) {
+            echo json_encode([
+                "detalle" => $e->getMessage(),
+                "mensaje" => "ocurrio un error en base de datos",
+
+                "codigo" => 4,
+            ]);
+        }
+    }
+
+
+    public function KilosPorDiaGraficaAPI(){
+        try {
+
+  $diasMes =  date('t');
+   $data = [];
+        for ($i=0; $i <=  $diasMes ; $i++) { 
+            // $main = new Main();
+            $sql ="SELECT sum(cantidad) as  cantidad  From amc_incautacion_droga inner join amc_topico on amc_incautacion_droga.topico = amc_topico.id  where year(amc_topico.fecha) = year(current) and month(amc_topico.fecha) = month(current) and day(amc_topico.fecha) = day($i) and amc_topico.situacion = 1 ";
+            $info = Droga::fetchArray($sql);
+            if ($info[0]['cantidad'] == null) {
+
+                $info = 0;
+            } else {
+                $info = $info[0]['cantidad'];
+            }
+            $data['kilos'][] = $info;
+           
+        }
+
+        echo json_encode($data);
+
+            exit;
+        } catch (Exception $e) {
+            echo json_encode([
+                "detalle" => $e->getMessage(),
+                "mensaje" => "ocurrio un error en base de datos",
+
+                "codigo" => 4,
+            ]);
+        }
+    }
+
+
+    public function MatasPorDiaGraficaAPI(){
+        try {
+
+  $diasMes =  date('t');
+   $data = [];
+        for ($i=0; $i <=  $diasMes ; $i++) { 
+            // $main = new Main();
+            $sql ="SELECT sum(cantidad_plantacion) as  cantidad  From amc_incautacion_droga inner join amc_topico on amc_incautacion_droga.topico = amc_topico.id  where year(amc_topico.fecha) = year(current) and month(amc_topico.fecha) = month(current) and day(amc_topico.fecha) = day($i) and amc_topico.situacion = 1 ";
+            $info = Droga::fetchArray($sql);
+            if ($info[0]['cantidad'] == null) {
+
+                $info = 0;
+            } else {
+                $info = $info[0]['cantidad'];
+            }
+            $data['matas'][] = $info;
+           
+        }
+
+        echo json_encode($data);
+
+            exit;
+        } catch (Exception $e) {
+            echo json_encode([
+                "detalle" => $e->getMessage(),
+                "mensaje" => "ocurrio un error en base de datos",
+
+                "codigo" => 4,
+            ]);
+        }
+    }
+
+    
+    function incautaciones_por_mes_y_droga($mes, $droga, $años)
+    {
+
+        $sentencia = "SELECT sum(cantidad) as  cantidad  from amc_incautacion_droga inner join amc_topico on amc_incautacion_droga.topico = amc_topico.id where year(amc_topico.fecha) = $años and month(amc_topico.fecha) = $mes  and amc_topico.situacion = 1 and amc_incautacion_droga.situacion = 1 and amc_incautacion_droga.tipo_droga = $droga";
+        $result = Droga::fetchArray($sentencia);
+        if ($result[0]['cantidad'] == null) {
+
+            $valor[0]['cantidad'] = 0;
+        } else {
+            $valor = $result[0]['cantidad'];
+        }
+       
+       
+       
+        return $valor;
+    }
+   
+    function incautacionesmatas_por_mes_y_droga($mes, $droga, $años)
+    {
+       
+       
+        $sentencia = "SELECT sum(cantidad) as  cantidad  from amc_incautacion_droga inner join amc_topico on amc_incautacion_droga.topico = amc_topico.id where year(amc_topico.fecha) = $años and  month(amc_topico.fecha) = $mes  and amc_topico.situacion = 1 and amc_incautacion_droga.situacion = 1 and amc_incautacion_droga.tip_droga_plantacion = $droga";
+        $result = Droga::fetchArray($sentencia);
+        if ($result[0]['cantidad'] == null) {
+
+            $valor[0]['cantidad'] = 0;
+        } else {
+            $valor = $result[0]['cantidad'];
+        }
+       
+       
+       
+        return $valor;
+    }
+   
+   
+    public function GraficatrimestralKilosAPI(){
+        try {
+
+            $mes = date("n");
+            // $mes = 1;
+            $año = date("Y");
+
+            $meses = [];
+
+            switch ($mes) {
+                case '1':
+                    $meses = [11, 12, 1];
+                    $años = [$año - 1, $año - 1 , $año];
+                    break;
+                    case '2':
+                    $meses = [12, 1, 2];
+                    $años = [$año - 1, $año, $año];
+                    
+                    break;
+                    default:
+                    
+                    $meses = [$mes - 2, $mes - 1, $mes];
+                    $años = [$año, $año, $año];
+                    break;
+            }
+
+            $tipos = static::drogas_tipo();
+
+            $data = [];
+            $labels = [];
+            $cantidades = [];
+            $i = 0;
+
+            foreach($tipos as $tipo){
+                $tipo_id = (int)$tipo['id'];
+                $labels[] = $tipo['desc'];
+
+                for($i = 0 ; $i < 3 ; $i++){
+                    $dateObj = DateTime::createFromFormat('!m', $meses[$i]);
+                    $mes = strftime("%B", $dateObj->getTimestamp());
+                    $operaciones = static::incautaciones_por_mes_y_droga($meses[$i], $tipo_id, $años[$i]);
+                    $cantidades[$mes][] = $operaciones[0]['cantidad'];
+                }
+
+
+
+            }
+            $data = [
+                'labels' => $labels,
+                'cantidades' => $cantidades
+            ];
+
+            echo json_encode($data);
+        } catch (Exception $e) {
+            echo json_encode([
+                "detalle" => $e->getMessage(),
+                "mensaje" => "ocurrio un error en base de datos",
+
+                "codigo" => 4,
+            ]);
+        }
+    }
+   
+    public function GraficatrimestralMatasAPI(){
+        try {
+
+            $mes = date("n");
+            // $mes = 1;
+            $año = date("Y");
+
+            $meses = [];
+
+            switch ($mes) {
+                case '1':
+                    $meses = [11, 12, 1];
+                    $años = [$año - 1, $año - 1 , $año];
+                    break;
+                    case '2':
+                    $meses = [12, 1, 2];
+                    $años = [$año - 1, $año, $año];
+                    
+                    break;
+                    default:
+                    
+                    $meses = [$mes - 2, $mes - 1, $mes];
+                    $años = [$año, $año, $año];
+                    break;
+            }
+
+            $tipos = static::drogas_tipo();
+
+            $data = [];
+            $labels = [];
+            $cantidades = [];
+            $i = 0;
+
+            foreach($tipos as $tipo){
+                $tipo_id = (int)$tipo['id'];
+                $labels[] = $tipo['desc'];
+
+                for($i = 0 ; $i < 3 ; $i++){
+                    $dateObj = DateTime::createFromFormat('!m', $meses[$i]);
+                    $mes = strftime("%B", $dateObj->getTimestamp());
+                    $operaciones = static::incautacionesmatas_por_mes_y_droga($meses[$i], $tipo_id, $años[$i]);
+                    $cantidades[$mes][] = $operaciones[0]['cantidad'];
+                }
+
+
+
+            }
+            $data = [
+                'labels' => $labels,
+                'cantidades' => $cantidades
+            ];
+
+            echo json_encode($data);
+        } catch (Exception $e) {
+            echo json_encode([
+                "detalle" => $e->getMessage(),
+                "mensaje" => "ocurrio un error en base de datos",
+
+                "codigo" => 4,
+            ]);
+        }
+    }
+   
+
+
+    public function GraficatrimestralPistasAPI(){
+        try {
+
+            $mes = date("n");
+            // $mes = 1;
+            $año = date("Y");
+
+            $meses = [];
+
+            switch ($mes) {
+                case '1':
+                    $meses = [11, 12, 1];
+                    $años = [$año - 1, $año - 1 , $año];
+                    break;
+                    case '2':
+                    $meses = [12, 1, 2];
+                    $años = [$año - 1, $año, $año];
+                    
+                    break;
+                    default:
+                    
+                    $meses = [$mes - 2, $mes - 1, $mes];
+                    $años = [$año, $año, $año];
+                    break;
+            }
+
+            $data = [];
+            $cantidades = [];
+            $i = 0;
+            $meses1 =[];
+           
+
+                for($i = 0 ; $i < 3 ; $i++){
+                    $dateObj = DateTime::createFromFormat('!m', $meses[$i]);
+                    $mes1 = strftime("%B", $dateObj->getTimestamp());
+                    $sql=" SELECT  count (*) as cantidad from amc_topico  where  year(amc_topico.fecha) = $años[$i] and month(amc_topico.fecha) = $meses[$i] and amc_topico.situacion = 1 and amc_topico.tipo = 8";
+                    $info = Droga::fetchArray($sql);
+                    $meses1[]= $mes1;
+                    $cantidades[$mes1][]= (int) $info[0]['cantidad'];
+                }
+                
+                $data = [
+                    'meses' => $meses1,
+                    'cantidades' => $cantidades
+                ];
+                
+                echo json_encode($data);
+        
+           
+        } catch (Exception $e) {
+            echo json_encode([
+                "detalle" => $e->getMessage(),
+                "mensaje" => "ocurrio un error en base de datos",
+
+                "codigo" => 4,
+            ]);
+        }
+    }
+
+
+    public function GraficaTrimestralIncautacionesGeneralAPI(){
+        try {
+
+            $mes = date("n");
+            // $mes = 1;
+            $año = date("Y");
+
+            $meses = [];
+
+            switch ($mes) {
+                case '1':
+                    $meses = [11, 12, 1];
+                    $años = [$año - 1, $año - 1 , $año];
+                    break;
+                    case '2':
+                    $meses = [12, 1, 2];
+                    $años = [$año - 1, $año, $año];
+                    
+                    break;
+                    default:
+                    
+                    $meses = [$mes - 2, $mes - 1, $mes];
+                    $años = [$año, $año, $año];
+                    break;
+            }
+
+            $data = [];
+            $cantidades = [];
+            $i = 0;
+            $meses1 =[];
+           
+
+                for($i = 0 ; $i < 3 ; $i++){
+                    $dateObj = DateTime::createFromFormat('!m', $meses[$i]);
+                    $mes1 = strftime("%B", $dateObj->getTimestamp());
+                    $sql=" SELECT  sum (cantidad) as cantidad from amc_incautacion_droga inner join amc_topico on amc_incautacion_droga.topico = amc_topico.id  where  year(amc_topico.fecha) = $años[$i] and month(amc_topico.fecha) = $meses[$i] and amc_topico.situacion = 1 and amc_incautacion_droga.situacion = 1";
+                    $info = Droga::fetchArray($sql);
+                    $meses1[]= $mes1;
+                    $cantidades[$mes1][]= (int) $info[0]['cantidad'];
+                }
+                
+                $data = [
+                    'meses' => $meses1,
+                    'cantidades' => $cantidades
+                ];
+                
+                echo json_encode($data);
+                
+           
+        } catch (Exception $e) {
+            echo json_encode([
+                "detalle" => $e->getMessage(),
+                "mensaje" => "ocurrio un error en base de datos",
+
+                "codigo" => 4,
+            ]);
+        }
     }
 }
