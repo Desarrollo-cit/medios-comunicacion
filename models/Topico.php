@@ -2,35 +2,34 @@
 
 namespace Model;
 
-class Evento extends ActiveRecord{
+class Topico extends ActiveRecord{
+
     protected static $tabla = 'amc_topico'; //nombre de la tablaX
-    protected static $columnasDB = ['ID','FECHA','LUGAR', 'DEPARTAMENTO','MUNICIPIO','TIPO','LATITUD','LONGITUD','ACTIVIDAD','INFO', 'INFO'];
+    protected static $columnasDB = ['ID','FECHA','LUGAR','DEPTO','MUNICIPIO', 'TIPO', 'LATITUD', 'LONGITUD', 'ACTIVIDAD', 'SITUACION'];
 
     public $id;
     public $fecha;
     public $lugar;
-    public $departamento;
+    public $depto;
     public $municipio;
     public $tipo;
     public $latitud;
     public $longitud;
     public $actividad;
     public $situacion;
-    public $info;
 
 
     public function __construct($args = []){
         $this->id = $args['id'] ?? null;
         $this->fecha = $args['fecha'] ?? '';
-        $this->lugar = utf8_decode( mb_strtoupper($args['lugar'])) ?? '';
-        $this->departamento = $args['departamento'] ?? '';
+        $this->lugar = $args['lugar'] ?? '';
+        $this->depto = $args['depto'] ?? '';
         $this->municipio = $args['municipio'] ?? '';
         $this->tipo = $args['tipo'] ?? '';
         $this->latitud = $args['latitud'] ?? '';
         $this->longitud = $args['longitud'] ?? '';
         $this->actividad = $args['actividad'] ?? '';
         $this->situacion = $args['situacion'] ?? '1';
-        $this->info = utf8_decode($args['info']) ?? '';
-        $this->info = $args['info'] ?? '';
     }
+
 }
