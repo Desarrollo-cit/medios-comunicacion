@@ -1,17 +1,4 @@
-<!-- 
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/bootstrap5/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../assets/bootstrapIcons/bootstrap-icons.css">
 
-
-
-    <script src="../assets/js/sweetalert2.all.min.js"></script>
-    <script src="../assets/jquery/jquery.js"> </script>
-
-    <link rel="stylesheet" href="../assets/leaflet/leaflet.css">
--->
 
 <?php
 
@@ -87,7 +74,7 @@ $depto = $depto[0]['desc'];
                 </div>
                 <div class="row justify-content-center">
                     <div class="col-2 col-sm-4">
-                        <img src="<?= asset('./images/iconos//capturas/handcuffs.png') ?>" class="w-100" alt="capturas">
+                        <img src="<?= asset('./images/iconos/capturas/handcuffs.png') ?>" class="w-100" alt="capturas">
 
                     </div>
                 </div>
@@ -473,7 +460,7 @@ $depto = $depto[0]['desc'];
             <hr style="width:100%; height:5px; color:#9A7D0A;">
             <div id="mapa_de_calor">
 
-                <!-- <div class="  col-lg-12 justify-content-center align-items-center"> -->
+                
                 <div class="row mb-3 ">
                     <div id="cuadro_busquedad_mapa" style="display:none;">
                         <form class=" col-lg-12 border border-2 border-dark bg-dark rounded " id="formBusqueda_mapa">
@@ -521,7 +508,7 @@ $depto = $depto[0]['desc'];
 
             <svg baseprofile="tiny" fill="#7c7c7c" height="100%" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" version="1.2" viewbox="0 0 1000 1056" width="100%" xmlns="http://www.w3.org/2000/svg">
 
-                <!-- <g transform="rotate(270)"><text c x="-650" y="330"   stroke-width = "2"  stroke = "black" fill="black" style="font-size: 25px">QUICHE</text></g> -->
+               
                 <g transform="rotate(328)"><text x="-280" y="570" stroke-width="2" stroke="black" fill="black" style="font-size: 25px">HUEHUETENANGO</text></g>
                 <g transform="rotate(320)"><text x="-480" y="620" stroke-width="2" stroke="black" fill="black" style="font-size: 20px">SAN MARCOS</text></g>
                 <text x="490" y="250" stroke-width="2" stroke="black" fill="black" style="font-size: 40px">PETEN</text>
@@ -674,9 +661,7 @@ $depto = $depto[0]['desc'];
             </svg>
 
         </div>      
-        <!-- </div>
-
-        <div class="  row justify-content-end   "> -->
+     
         <div class="  col-lg-4 bg-dark rounded  pt-3 h-50" >
             <div class="row mb-2 justify-content-between">
                 <div class="col-7 ">
@@ -788,16 +773,13 @@ $depto = $depto[0]['desc'];
                                             <canvas id="depto_cant" width="50" height="50"></canvas>
                                         </div>
                                     </div> -->
-                        <div id="grafica_depto1" class="col-lg-12 pt-5 ">
+                        <div id="grafica_depto1" class="row ">
 
-                            <div class="col-lg-6 " style="width: 600px; height:400px; ">
+                            <div class="col-lg-12" >
                                 <h2 style="color:black">Delitos cometidos</h2>
-                                <canvas id="delitos_cant" width="50" height="50"></canvas>
+                                <canvas id="delitos_cant" ></canvas>
                             </div>
-                            <div class="col-lg-6  " style="width: 600px; height:400px; ">
-
-                                <canvas id="delitos_cant2" width="50" height="50"></canvas>
-                            </div>
+                        
                         </div>
 
                     </div>
@@ -815,25 +797,64 @@ $depto = $depto[0]['desc'];
         </div>
     </div>
 </div>
+</div>
 
 <div class=" ms-2 container-fluid text-center pt-4" id="div_graficas" style="display:none; ">
     <div class="justify-content-center">
         <div class="  row col-lg-12 justify-content-end " style="border:solid; border-radius:10px; background-color:white;">
-            <h1 style="color:black">ESTADISTICAS DEL MES DE <?= strtoupper($fechaLarga) ?> </h1>
+            <h1 style="color:black">ESTADISTICAS DEL MES DE <?= strtoupper($fechaLarga) ?> <a type="button" id="buscarGrafica"> <img src="<?= asset('./images/iconos/lupa.png') ?>" style="width:40px; height:40px;" alt="capturas"></a>
+</h1>
+            <div id="cuadro_busquedad_grafica" class="row mb-3 " style="display:none">
+            <div class="col-lg-12 text-center ">
+
+                <form class=" ms-5  col-lg-11 justify-content-center border border-2 border-dark rounded bg-dark pt-3  " id="formBusqueda_grafica">
+                    <div class="row mb-3">
+                        <div class="col">
+                            <h2 style="color: white;">Ingrese los criterios de busqueda</h2>
+                        </div>
+                    </div>
+                    <div class="row mb-3 justify-content-center">
+                        <div class="col-lg-3">
+                            <label for="fecha_grafica" style="color: white;">DE</label>
+                            <input type="datetime-local" id="fecha_grafica" name="fecha_grafica" class="form-control" required>
+                        </div>
+                        <div class="col-lg-3">
+                            <label for="fecha_grafica2" style="color: white;">HASTA</label>
+                            <input type="datetime-local" id="fecha_grafica2" name="fecha_grafica2" class="form-control" required>
+                        </div>
+                        <div class="col-lg-2 pt-4">
+                            <button type="submit" class="btn btn-info w-100"><i class="bi bi-search me-2"></i>Buscar</button>
+                        </div>
+                    </div>
+
+
+                </form>
+
+            </div>
+        </div>
+
 
             <hr style="color:#0B3254; height:10px;">
             <div class="row mb-1">
                 <div class="col-lg-6 ">
 
-                    <div style="width: 800px; height:900px; ">
-                        <h2 style="color:black">Delitos cometidos</h2>
+                <h2 style="color:black">Delitos cometidos</h2>
+                <div id="texto_no1" style="display:none;">
+                            <h3> No se encontraron delitos</h3>
+                        </div>
+                    <div id="graficaDelitos" style="width: 800px; height:900px; ">
+                        
                         <canvas id="myChart1" width="50" height="50"></canvas>
                     </div>
+                    
                 </div>
                 <div class="col-lg-6 ">
-
-                    <div style="width: 800px; height:900px; ">
-                        <h2 style="color:black">Delitos cometidos por departamentos</h2>
+                <h2 style="color:black">Delitos cometidos por departamentos</h2>
+                <div id="texto_no2" style="display:none;">
+                            <h3> No se encontraron delitos</h3>
+                        </div>
+                    <div id="graficaDelitosDepartamento" style="width: 800px; height:900px; ">
+                       
                         <canvas id="myChart2" width="50" height="50"></canvas>
                     </div>
                 </div>
@@ -848,7 +869,7 @@ $depto = $depto[0]['desc'];
 
                     <div class="col-lg-12 " style="height:800px;">
                         <h2 style="color:black">Capturas realizadas en el mes de <?= strtoupper($fechaLarga) ?></h2>
-                        <canvas id="myChart3" height="100"></canvas>
+                        <canvas id="myChart3" height="100" width="300"></canvas>
                     </div>
                 </div>
 
@@ -891,21 +912,6 @@ $depto = $depto[0]['desc'];
 
 
 
-<!-- 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script type="text/javascript" src="../assets/jquery/jqueryTabla.min.js"></script>
-    <script type="text/javascript" src="../assets/dataTables/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" src="../assets/dataTables/js/dataTables.bootstrap4.min.js"></script>
-    <script type="text/javascript" src="../assets/dataTables/js/datatables-demo.js"></script>
-    <script src="../assets/leaflet/leaflet.js"></script>
 
-    <script src="../assets/leaflet/leafletPrint/leaflet-print.js"></script>
-    <script src="../assets/bootstrap5/js/bootstrap.min.js"></script>
-    <script src="../assets/tinymce/js/tinymce/tinymce.min.js"></script>
-    <script src="../assets/js/scriptsgenerales.js"></script>
-    <script src="../assets/js/lenguaje.js"></script>
-    <script src="../assets/js/capturas_info.js"></script> -->
-
-<!-- <script src="../assets/js/scriptscarga.js"></script> -->
 
 <script src="../public/build/js/mapas/infoCapturas.js"></script>

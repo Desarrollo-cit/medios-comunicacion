@@ -13,6 +13,13 @@ try {
    
     
 } catch (PDOException $e) {
-    echo "ERROR DE CONEXION BD";
+
+    echo json_encode([
+        "detalle" => $e->getMessage(),       
+        "mensaje" => "Error de conexión bd",
+
+        "codigo" => 5,
+    ]);
+
     exit;
 }

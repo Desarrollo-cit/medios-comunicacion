@@ -2,10 +2,12 @@
 
 namespace Model;
 
+
 class Colores extends ActiveRecord{
 
     protected static $tabla = 'amc_colores'; //nombre de la tablaX
     protected static $columnasDB = ['ID','DESCRIPCION','CANTIDAD','COLOR','NIVEL','TOPICO','SITUACION'];
+
 
     public $id;
     public $descripcion;
@@ -16,9 +18,11 @@ class Colores extends ActiveRecord{
     public $situacion;
 
 
+
     public function __construct($args = []){
+
         $this->id = $args['id'] ?? null;
-        $this->descripcion = $args['descripcion'] ?? '';
+        $this->descripcion = utf8_decode(mb_strtoupper(trim($args['descripcion']))) ??'';
         $this->cantidad = $args['cantidad'] ?? '';
         $this->color = $args['color'] ?? '';
         $this->nivel = $args['nivel'] ?? '';
@@ -26,4 +30,6 @@ class Colores extends ActiveRecord{
         $this->situacion = $args['situacion'] ?? '1';
     }
 
+
 }
+

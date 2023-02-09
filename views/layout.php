@@ -17,7 +17,9 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <a class="navbar-brand" href="/medios-comunicacion/">
+
                 <img src="<?= asset('./images/cit.png') ?>" width="35px'" alt="cit" >
+
                 Medios
             </a>
             <div class="collapse navbar-collapse" id="navbarToggler">
@@ -27,17 +29,50 @@
                         <a class="nav-link" aria-current="page" href="/medios-comunicacion/"><i class="bi bi-house-fill me-2"></i>Inicio</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="/ejemplo/"><i class="bi bi-house-fill me-2"></i>Nuevo evento</a>
+                        <a class="nav-link" aria-current="page" href="/medios-comunicacion/eventos"><i class="bi bi-plus-circle me-2"></i>Nuevo evento</a>
                     </li>
   
                     <div class="nav-item dropdown " >
                         <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
-                            <i class="bi bi-gear me-2"></i>Informacion
+                            <i class="bi bi-tools me-2"></i>Mantenimientos
                         </a>
                         <ul class="dropdown-menu  dropdown-menu-dark "id="dropwdownRevision" style="margin: 0;">
                             <!-- <h6 class="dropdown-header">Información</h6> -->
                             <li>
+                                <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/armas"><i class="ms-lg-0 ms-2 bi bi-hammer me-2"></i>Armas</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/calibres"><i class="ms-lg-0 ms-2 bi bi-hash me-2"></i>Calibres</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/colores"><i class="ms-lg-0 ms-2 bi bi-palette me-2"></i>Colores</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/delitos"><i class="ms-lg-0 ms-2 bi bi-clipboard-x me-2"></i>Delitos</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/desastre_natural"><i class="ms-lg-0 ms-2 bi bi-cloud-lightning-rain me-2"></i>Desastres Naturales</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/fenomeno_natural"><i class="ms-lg-0 ms-2 bi bi-cloudy me-2"></i>Fenomenos Naturales</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/moneda"><i class="ms-lg-0 ms-2 bi bi-coin me-2"></i>Moneda</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/nacionalidad"><i class="ms-lg-0 ms-2 bi bi-person-rolodex me-2"></i>Nacionalidades</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/organizacion"><i class="ms-lg-0 ms-2 bi bi-building me-2"></i>Organizaciones</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/tipo"><i class="ms-lg-0 ms-2 bi bi-arrows-move me-2"></i>Tipos de Movimientos Sociales</a>
+                            </li>
+                            <li>
                                 <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/mapas/capturas"><i class="ms-lg-0 ms-2 bi bi-plus-circle me-2"></i>Capturas</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/mapas/droga"><i class="ms-lg-0 ms-2 bi bi-plus-circle me-2"></i>Drogas</a>
                             </li>
                             <li>
                                 <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/mapas/muertes"><i class="ms-lg-0 ms-2 bi bi-plus-circle me-2"></i>Muertes</a>
