@@ -5,7 +5,7 @@ namespace Model;
 class Migrantes extends ActiveRecord{
 
     protected static $tabla = 'amc_migrantes'; //nombre de la tablaX
-    protected static $columnasDB = ['ID','TOPIC','PAIS_MIGRANTE','EDAD','CANTIDAD','SEXO','LUGAR_INGRESO','DESTINO','INFO','SITUACION'];
+    protected static $columnasDB = ['ID','TOPIC','PAIS_MIGRANTE','EDAD','CANTIDAD','SEXO','LUGAR_INGRESO','DESTINO','SITUACION'];
 
     public $id;
     public $topic;
@@ -15,7 +15,7 @@ class Migrantes extends ActiveRecord{
     public $sexo;
     public $lugar_ingreso;
     public $destino;
-    public $info;
+ 
     public $situacion;
 
     public function __construct($args = []){
@@ -27,7 +27,7 @@ class Migrantes extends ActiveRecord{
         $this->sexo = $args['sexo'] ?? '';
         $this->lugar_ingreso = utf8_decode($args['lugar_ingreso']) ?? '';
         $this->destino = $args['destino'] ?? '';
-        $this->info = $args['info'] ?? '';
+     
         $this->situacion = $args['situacion'] ?? '1';
     }
 

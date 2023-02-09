@@ -16,9 +16,13 @@ class AsesinatosController
         $cantidadasesinados = count($_POST['nombre']);
         
         try {
+
+            $evento = Evento::find($_POST['topico']);
+            $evento->info = $_POST['info'];
+            $evento->guardar();
+ 
             $asesinatos = new Asesinatos([
                 'topico' => $_POST['topico'],
-                'info' => $_POST['info'],
                 'cant_per_asesinadas' => $cantidadasesinados,
 
             ]);
@@ -71,19 +75,21 @@ class AsesinatosController
 
     public static function buscarAsesinatosAPI(){
 
+     
+
    
         getHeadersApi();
      
         $topico = $_GET['topico'];
 
+ 
         try{
-            $asesinatos = Asesinatos::fetchArray("SELECT * FROM amc_asesinato where topico = $topico and situacion = 1;");
-
+            $evento = Evento::find($topico);
 
             $asesinados = Asesinados::fetchArray("SELECT * FROM amc_per_asesinadas where topico = $topico and situacion = 1;");
 
             echo json_encode([
-                "asesinatos" => array_shift($asesinatos),
+                "asesinatos" => $evento,
                 "asesinados" => $asesinados,
             ]);
 

@@ -28,11 +28,11 @@ class MigrantesController{
 
     
         try {
-     
 
-            // if(!$asesinatos->validarExisteTopico()){
-            //     $guardado = $asesinatos->guardar();
-            // }
+            $evento = Evento::find($_POST['topic']);
+            $evento->info = $_POST['info3'];
+            $evento->guardar();
+     
 
             $resultados = [];
             for ($i=0; $i < $cantidadmigrantes ; $i++) { 
@@ -45,7 +45,7 @@ class MigrantesController{
                     'sexo' => $_POST['sexo'][$i],
                     'lugar_ingreso' => $_POST['lugar_ingreso'][$i],
                     'destino' => $_POST['destino'][$i],
-                    'info' => $_POST['info3'],
+                    
                  
                 ]);
                 // break;
@@ -95,13 +95,13 @@ class MigrantesController{
 
                
      
-            $migrantes = Migrantes::fetchArray("SELECT * FROM amc_migrantes where topic = $topico and situacion = 1;");
+            $evento = Evento::find($topico);
 
             $migrante = Migrantes::fetchArray("SELECT * FROM amc_migrantes where topic = $topico and situacion = 1;");
 
 
             echo json_encode(  
-                ['migrantes' =>array_shift($migrantes),
+                ['migrantes' =>$evento,
                 'migrante' => $migrante,
 
             
@@ -167,66 +167,70 @@ class MigrantesController{
             ]);
         }
     }
-    // public static function modificar(){
-    //     getHeadersApi();
-        
-        
-    //     try {
+    public static function modificar(){
+        getHeadersApi();
 
-    //         $busquedaAsesinato = Migrantes::where( 'topico' , $_POST['topico']);
-    //         $asesinato = array_shift($busquedaAsesinato);
  
-
-    //         $asesinato->info = $_POST['info'];
-    //         $asesinato->guardar();
-
-    //         // echo json_encode($resultado);
-    //         // exit;
-
-    //         $cantidadasesinados = count($_POST['nombre']);
-    //         $resultados = [];
-    //         for ($i=0; $i < $cantidadasesinados ; $i++) { 
-    //             $asesinados = new Asesinados([
-    //                 'id' =>  $_POST['id_per'][$i] != '' ? $_POST['id_per'][$i] : null ,
-    //                 'topico' => $_POST['topico'],
-    //                 'nombre' => $_POST['nombre'][$i],
-    //                 'sexo' => $_POST['sexo'][$i],
-    //                 'edad' => $_POST['edad'][$i],
-                 
-    //             ]);
-                
-
-    //             $guardado = $asesinados->guardar();
-    //             $resultados[] = $guardado['resultado'];
-    //         }
-
-
-
-    //         if(!array_search(0, $resultados)){
-    //             echo json_encode([
-    //                 "mensaje" => "El registro se modificó.",
-    //                 "codigo" => 1,
-    //             ]);
-                
-    //         }else{
-    //             echo json_encode([
-    //                 "mensaje" => "Ocurrió  un error.",
-    //                 "codigo" => 0,
-    //             ]);
     
-    //         }
-    //     } catch (Exception $e) {
-    //         echo json_encode([
-    //             "detalle" => $e->getMessage(),       
-    //             "mensaje" => "Ocurrió  un error en base de datos.",
+        $cantidadmigrantes = count($_POST['edad']);
+        
+        try {
 
-    //             "codigo" => 4,
-    //         ]);
-    //     }
-    // }
+            $evento = Evento::find($_POST['topic']);
+            $evento->info = $_POST['info3'];
+            $evento->guardar();
+     
+
+            $resultados = [];
+            for ($i=0; $i < $cantidadmigrantes ; $i++) { 
+                $migrantes = new Migrantes([
+                    'id' =>  $_POST['id_mig'][$i] != '' ? $_POST['id_mig'][$i] : null ,
+                    'topic' => $_POST['topic'],
+                    'pais_migrante' => $_POST['pais_migrante'][$i],
+                    'edad' => $_POST['edad'][$i],
+                    'cantidad' => $_POST['cantidad'][$i],
+                    'sexo' => $_POST['sexo'][$i],
+                    'lugar_ingreso' => $_POST['lugar_ingreso'][$i],
+                    'destino' => $_POST['destino'][$i],
+                    
+                 
+                ]);
+                // break;
+                
+                $guardado = $migrantes->guardar();
+                
+                $resultados[] = $guardado['resultado'];
+            }
+
+
+            if(!array_search(0, $resultados)){
+                echo json_encode([
+                    "mensaje" => "El registro se modificó.",
+                    "codigo" => 1,
+                ]);
+                
+            }else{
+                echo json_encode([
+                    "mensaje" => "Ocurrió  un error.",
+                    "codigo" => 0,
+                ]);
+    
+            }
+        } catch (Exception $e) {
+            echo json_encode([
+                "detalle" => $e->getMessage(),       
+                "mensaje" => "Ocurrió  un error en base de datos.",
+
+                "codigo" => 4,
+            ]);
+        }
+    }
 
     public static function eliminarMigrante(){
         getHeadersApi();
+
+
+        
         
         
         try {
@@ -236,7 +240,7 @@ class MigrantesController{
     
             if($resultado['resultado'] == 1){
                 echo json_encode([
-                    "mensaje" => "El registro del asesinado se eliminó.",
+                    "mensaje" => "El registro del migrante se eliminó.",
                     "codigo" => 1,
                 ]);
                 
@@ -257,55 +261,47 @@ class MigrantesController{
         }
     } 
 
-    // public static function eliminarAsesinato(){
-    //     getHeadersApi();
+    public static function eliminarMigrantes(){
+        getHeadersApi();
         
         
-    //     try {
+        try {
 
-    //         $topico = $_POST['topico'];
-    //         // ELIMINA EL TOPICO
-    //         $evento = Evento::find($topico);
-    //         $evento->situacion = 0;
-    //         $evento->guardar();
-    //         // ELIMINA LA CAPTURA
-    //         $Migrantes = array_shift(Migrantes::where('topico', $topico));
+            $topico = $_POST['topic'];
+            // ELIMINA EL TOPICO
+            $evento = Evento::find($topico);
+            $evento->situacion = 0;
+            $evento->guardar();
 
-    //         if($Migrantes){
-    //             $Migrantes->situacion = 0;
-    //             $Migrantes->guardar();
-
-    //         }
-    //         // ELIMINA LOS asesinados
-    //         $asesinados = asesinados::where('topico', $topico);
-    //         $resultados = [];
-    //         foreach($asesinados as $asesinado){
-    //             $asesinado->situacion = 0;
-    //             $resultados[] = $asesinado->guardar();
-    //         }
+            $migrante = Migrantes::where('topic', $topico);
+            $resultados = [];
+            foreach($migrante as $migran){
+                $migran->situacion = 0;
+                $resultados[] = $migran->guardar();
+            }
 
     
-    //         if(!array_search(0, $resultados)){
-    //             echo json_encode([
-    //                 "mensaje" => "La captura se eliminó.",
-    //                 "codigo" => 1,
-    //             ]);
+            if(!array_search(0, $resultados)){
+                echo json_encode([
+                    "mensaje" => "Los Migrantes se eliminaron.",
+                    "codigo" => 1,
+                ]);
                 
-    //         }else{
-    //             echo json_encode([
-    //                 "mensaje" => "Ocurrió  un error.",
-    //                 "codigo" => 0,
-    //             ]);
+            }else{
+                echo json_encode([
+                    "mensaje" => "Ocurrió  un error.",
+                    "codigo" => 0,
+                ]);
     
-    //         }
-    //     } catch (Exception $e) {
-    //         echo json_encode([
-    //             "detalle" => $e->getMessage(),       
-    //             "mensaje" => "Ocurrió  un error en base de datos.",
+            }
+        } catch (Exception $e) {
+            echo json_encode([
+                "detalle" => $e->getMessage(),       
+                "mensaje" => "Ocurrió  un error en base de datos.",
 
-    //             "codigo" => 4,
-    //         ]);
-    //     }
-    // } 
+                "codigo" => 4,
+            ]);
+        }
+    } 
 
 }

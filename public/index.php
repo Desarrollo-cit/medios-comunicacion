@@ -130,12 +130,14 @@ $router->post('/API/asesinatos/eliminar', [AsesinatosController::class, 'elimina
 
 
 $router->post('/API/migrantes/guardar', [MigrantesController::class, 'guardar']);
-// $router->post('/API/migrantes/modificar', [MigrantesController::class, 'modificar']);
+$router->post('/API/migrantes/modificar', [MigrantesController::class, 'modificar']);
 $router->get('/API/migrantes/buscar', [MigrantesController::class, 'buscarMigrantesAPI']);
 $router->get('/API/migrantes/buscarEdad', [MigrantesController::class, 'buscarEdadAPI']);
 $router->get('/API/migrantes/buscarPais', [MigrantesController::class, 'buscarPaisAPI']);
 
 $router->post('/API/migrantes/eliminar', [MigrantesController::class, 'eliminarMigrante']);
+
+$router->post('/API/migrantes/migrantes/eliminar', [MigrantesController::class, 'eliminarMigrantes']);
 
 
 

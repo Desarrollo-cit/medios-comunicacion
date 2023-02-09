@@ -328,7 +328,7 @@
                 <div class="row justify-content-center mb-3">
                     <form id="formAsesinatos" novalidate >
                         <div class="col p-1">
-                            <input type="hidden" name="topico" id="topico">
+                            <input type="text" name="topico" id="topico">
                             <div class="row justify-content-center mb-5">
                                 <h4>Información del Asesinato</h4>
                                 <div class="col-12 text-center">
