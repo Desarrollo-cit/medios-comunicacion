@@ -359,7 +359,7 @@ const recargarModalCaptura = async (id) => {
 
         } 
 
-        if (capturados.length > 0 || captura) {
+        if (capturados.length > 0 && captura) {
         
            
             btnGuardarCaptura.disabled = true

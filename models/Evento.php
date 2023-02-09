@@ -4,7 +4,7 @@ namespace Model;
 
 class Evento extends ActiveRecord{
     protected static $tabla = 'amc_topico'; //nombre de la tablaX
-    protected static $columnasDB = ['ID','FECHA','LUGAR', 'DEPARTAMENTO','MUNICIPIO','TIPO','LATITUD','LONGITUD','ACTIVIDAD','INFO'];
+    protected static $columnasDB = ['ID','FECHA','LUGAR', 'DEPARTAMENTO','MUNICIPIO','TIPO','LATITUD','LONGITUD','ACTIVIDAD','SITUACION','INFO'];
 
     public $id;
     public $fecha;
