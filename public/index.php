@@ -146,7 +146,9 @@ $router->post('/API/mapas/infoCapturas/GraficaTrimestral', [infoCapturaControlle
 $router->post('/API/mapas/infoCapturas/GraficaTrimestralGeneral', [infoCapturaController::class , 'GraficaTrimestralGeneralAPI'] );
 
 $router->post('/API/incautacion/guardar', [IncautacionController::class, 'guardar']);
+$router->post('/API/incautacion/modificar', [IncautacionController::class, 'modificar']);
 $router->get('/API/incautacion/buscar', [IncautacionController::class, 'buscarIncautacionAPI']);
+$router->post('/API/incautacion/eliminar', [IncautacionController::class, 'eliminarIncautacion']);
 
 $router->get('/mapas/droga', [infoDrogaController::class , 'index']);
 

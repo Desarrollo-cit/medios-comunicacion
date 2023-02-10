@@ -776,7 +776,7 @@ const agregarInputsCaptura = async (e, id = '', nombre = '', edad = '', nacional
     divRow1.appendChild(divCol4)
     if (boton) {
         divRow1.appendChild(divColBoton)
-        buttonEliminar.addEventListener('click', (e) => eliminarCapturado(e, id))
+        buttonEliminar.addEventListener('click', (e) => eliminarCapturado(e, id, contador))
     }
     divRow2.appendChild(divCol3)
     divRow2.appendChild(divCol5)
@@ -1155,7 +1155,7 @@ const guardarAsesinatos = async e => {
 
 }
 
-const eliminarCapturado = async (e, id) => {
+const eliminarCapturado = async (e, id, contador) => {
     Swal.fire({
         title: 'Confirmación',
         text: "¿Esta seguro que desea eliminar este registro?",
@@ -1192,11 +1192,33 @@ const eliminarCapturado = async (e, id) => {
                 switch (codigo) {
                     case 1:
                         icon = "success"
-                        recargarModalCaptura(formCaptura.topico.value)
+                        switch (contador) {
+                            case 0:
+                                recargarModalCaptura(formCaptura.topico.value)
+                                
+                                break;
+                            case 1 :
+                                recargarModalDroga(formDroga.topico.value)
+                                break;
+                            default:
+                                break;
+                        }
                         break;
                     case 2:
                         icon = "warning"
-                        formCaptura.reset();
+                        switch (contador) {
+                            case 0:
+                                    recargarModalCaptura(formCaptura.topico.value)
+                                    formCaptura.reset();
+                                
+                                break;
+                                case 1 :
+                                    recargarModalDroga(formDroga.topico.value)
+                                    formDroga.reset();
+                                break;
+                            default:
+                                break;
+                        }
     
                         break;
                     case 3:
@@ -1436,7 +1458,76 @@ const eliminarAsesinato = async (e) => {
     })
 }
 
+const eliminarIncautacion = async (e) => {
+    Swal.fire({
+        title: 'Confirmación',
+        text: "¿Esta seguro que desea eliminar esta incautación?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, Eliminar'
+    }).then( async(result) => {
+        if (result.isConfirmed) {
+            try {
 
+                const url = '/medios-comunicacion/API/incautacion/eliminar'
+    
+                const body = new FormData();
+                body.append('topico', formDroga.topico.value)
+                const headers = new Headers();
+                headers.append("X-Requested-With", "fetch");
+    
+                const config = {
+                    method: 'POST',
+                    headers,
+                    body
+                }
+    
+                const respuesta = await fetch(url, config);
+                const data = await respuesta.json();
+    
+                console.log(data);
+                // return 
+                const { mensaje, codigo, detalle } = data;
+                // const resultado = data.resultado;
+                let icon = "";
+                switch (codigo) {
+                    case 1:
+                        icon = "success"
+                        modalDroga.hide()
+                        buscarEventos()
+                        break;
+                    case 2:
+                        icon = "warning"
+                        formDroga.reset();
+    
+                        break;
+                    case 3:
+                        icon = "error"
+    
+                        break;
+                    case 4:
+                        icon = "error"
+                        console.log(detalle)
+    
+                        break;
+    
+                    default:
+                        break;
+                }
+    
+                Toast.fire({
+                    icon: icon,
+                    title: mensaje,
+                })
+    
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    })
+}
 
 const modificarCaptura = async e => {
     e.preventDefault();
@@ -1472,6 +1563,82 @@ const modificarCaptura = async e => {
                 case 1:
                     icon = "success"
                     recargarModalCaptura(formCaptura.topico.value)
+                    break;
+                case 2:
+                    icon = "warning"
+                    formCaptura.reset();
+
+                    break;
+                case 3:
+                    icon = "error"
+
+                    break;
+                case 4:
+                    icon = "error"
+                    console.log(detalle)
+
+                    break;
+
+                default:
+                    break;
+            }
+
+            Toast.fire({
+                icon: icon,
+                title: mensaje,
+            })
+
+        } catch (error) {
+            console.log(error);
+        }
+
+    } else {
+        Toast.fire({
+            icon: 'warning',
+            title: 'Debe llenar todos los campos'
+        });
+    }
+
+}
+const modificarIncautacion = async e => {
+    e.preventDefault();
+
+    // alert("hola")
+    // return
+
+    let info = tinymce.get('info_incautacion').getContent()
+        
+    // console.log(info);
+    if (validarFormulario(formDroga, ['id_per[]', 'info_incautacion']) && info != '') {
+
+        // console.log('hola');
+        try {
+
+            const url = '/medios-comunicacion/API/incautacion/modificar'
+
+            const body = new FormData(formDroga);
+            body.append('info', info)
+            const headers = new Headers();
+            headers.append("X-Requested-With", "fetch");
+
+            const config = {
+                method: 'POST',
+                headers,
+                body
+            }
+
+            const respuesta = await fetch(url, config);
+            const data = await respuesta.json();
+
+            console.log(data);
+            // return 
+            const { mensaje, codigo, detalle } = data;
+            // const resultado = data.resultado;
+            let icon = "";
+            switch (codigo) {
+                case 1:
+                    icon = "success"
+                    recargarModalDroga(formDroga.topico.value)
                     break;
                 case 2:
                     icon = "warning"
@@ -1588,8 +1755,10 @@ formInformacion.addEventListener('submit', guardarEvento)
 inicioInput.addEventListener('change', buscarEventos)
 finInput.addEventListener('change', buscarEventos)
 btnModificarCaptura.addEventListener('click', modificarCaptura)
+btnModificarCapturaDroga.addEventListener('click', modificarIncautacion)
 btnModificarAsesinatos.addEventListener('click', modificarAsesinato)
 btnBorrarCaptura.addEventListener('click', eliminarCaptura );
+btnBorrarCapturaDroga.addEventListener('click', eliminarIncautacion );
 btnBorrarAsesinatos.addEventListener('click', eliminarAsesinato );
 buttonAgregarInputsCaptura.addEventListener('click',e => agregarInputsCaptura(e,'','','','','','','',false, 0, divCapturados))
 buttonQuitarInputsCaptura.addEventListener('click', e => quitarInputsCaptura(0, divCapturados))

@@ -30,6 +30,6 @@ class Evento extends ActiveRecord{
         $this->longitud = $args['longitud'] ?? '';
         $this->actividad = $args['actividad'] ?? '';
         $this->situacion = $args['situacion'] ?? '1';
-        $this->info = utf8_decode($args['info']) ?? '';
+        $this->info = utf8_decode( preg_replace("[\n|\r|\n\r]", "", $args['info'])) ?? '';
     }
 }
