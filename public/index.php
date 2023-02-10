@@ -28,6 +28,7 @@ use Controllers\MonedaController;
 use Controllers\infoCapturaController;
 use Controllers\infoMuertesController;
 use Controllers\infoDrogaController;
+use Controllers\infoMarasController;
 
 $router = new Router();
 $router->setBaseURL('/medios-comunicacion');
@@ -173,6 +174,29 @@ $router->post('/API/mapas/infoDroga/GraficatrimestralKilos', [infoDrogaControlle
 $router->post('/API/mapas/infoDroga/GraficatrimestralMatas', [infoDrogaController::class , 'GraficatrimestralMatasAPI'] );
 $router->post('/API/mapas/infoDroga/GraficatrimestralPistas', [infoDrogaController::class , 'GraficatrimestralPistasAPI'] );
 $router->post('/API/mapas/infoDroga/GraficaTrimestralIncautacionesGeneral', [infoDrogaController::class , 'GraficaTrimestralIncautacionesGeneralAPI'] );
+
+
+
+$router->get('/mapas/maras', [infoMarasController::class , 'index']);
+$router->post('/API/mapas/infoMaras/resumen', [infoMarasController::class , 'resumenAPI'] );
+$router->get('/API/mapas/infoMaras/listado', [infoMarasController::class , 'listadoAPI'] );
+$router->post('/API/mapas/infoMaras/modal', [infoMarasController::class , 'modalAPI'] );
+$router->post('/API/mapas/infoMaras/informacionCapturas', [infoMarasController::class , 'informacionCapturasModalAPI'] );
+$router->post('/API/mapas/infoMaras/informacionDroga', [infoMarasController::class , 'informacionDrogaModalAPI'] );
+$router->post('/API/mapas/infoMaras/informacionMuerte', [infoMarasController::class , 'informacionMuerteModalAPI'] );
+$router->post('/API/mapas/infoMaras/informacionDinero', [infoMarasController::class , 'informacionDineroModalAPI'] );
+$router->post('/API/mapas/infoMaras/informacionArmas', [infoMarasController::class , 'informacionArmasModalAPI'] );
+$router->post('/API/mapas/infoMaras/informacionMunicion', [infoMarasController::class , 'informacionMunicionModalAPI'] );
+$router->post('/API/mapas/infoMaras/mapaCalor', [infoMarasController::class , 'mapaCalorAPI'] );
+$router->post('/API/mapas/infoMaras/mapaCalorPorDepto', [infoMarasController::class , 'mapaCalorDeptoAPI'] );
+$router->post('/API/mapas/infoMaras/mapaCalorPorDeptoGrafica', [infoMarasController::class , 'mapaCalorPorDeptoGraficaAPI'] );
+$router->post('/API/mapas/infoMaras/colores', [infoMarasController::class , 'coloresAPI'] );
+$router->post('/API/mapas/infoMaras/DelitosCantGrafica', [infoMarasController::class , 'DelitosCantGraficaAPI'] );
+$router->post('/API/mapas/infoMaras/DelitosDepartamentoGrafica', [infoMarasController::class , 'DelitosDepartamentoGraficaAPI'] );
+$router->post('/API/mapas/infoMaras/MarasPorDiaGrafica', [infoMarasController::class , 'MarasPorDiaGraficaAPI'] );
+$router->post('/API/mapas/infoMaras/GraficaTrimestral', [infoMarasController::class , 'GraficaTrimestralAPI'] );
+$router->post('/API/mapas/infoMaras/GraficaTrimestralGeneral', [infoMarasController::class , 'GraficaTrimestralGeneralAPI'] );
+
 
 
 // Comprueba y valida las rutas, que existan y les asigna las funciones del Controlador

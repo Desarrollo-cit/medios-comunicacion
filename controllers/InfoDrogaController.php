@@ -58,7 +58,7 @@ class InfoDrogaController
     {
         getHeadersApi();
         try {
-            $sql = "SELECT * from amc_colores where topico = 1 and situacion = 1 order by nivel asc ";
+            $sql = "SELECT * from amc_colores where topico = 4 and situacion = 1 order by nivel asc ";
             $info = Droga::fetchArray($sql);
             echo json_encode($info);
         } catch (Exception $e) {
