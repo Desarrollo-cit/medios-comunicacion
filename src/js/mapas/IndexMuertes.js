@@ -23,9 +23,7 @@ const formdroga = document.querySelector('#formInformacion2')
 const capturas = new Modal(document.getElementById('modalPersonal12'), {
     keyboard: false
 })
-const modaldroga1 = new Modal(document.getElementById('modalPersonal13'), {
-    keyboard: false
-})
+
 const modaldeptos = new Modal(document.getElementById('modaldepto'), {
     keyboard: false
 })
@@ -61,7 +59,7 @@ const cambiarmes = async (evento) => {
         const respuesta = await fetch(url, config);
         const data = await respuesta.json();
 
-         console.log(data)
+        // console.log(data)
         if (data) {
             infocapturas.innerText = data[0].cantidad
             infodelito.innerText = data[1].desc
@@ -130,7 +128,7 @@ const Buscar_capturas = async (e) => {
     try {
 
 
-        const url = `/medios-comunicacion/API/mapas/infoCapturas/listado`
+        const url = `/medios-comunicacion/API/mapas/IndexMuertes/listado`
         const headers = new Headers();
         headers.append("X-Requested-With", "fetch");
 
@@ -141,7 +139,7 @@ const Buscar_capturas = async (e) => {
 
         const respuesta = await fetch(url, config);
         const info = await respuesta.json();
-        // console.log(info)
+     //    console.log(info)
 
         tablaregistro.destroy();
         tablaregistro = new Datatable('#dataTable2', {
@@ -152,8 +150,8 @@ const Buscar_capturas = async (e) => {
                 { data: "fecha", "width": "11%" },
                 { data: "departamento", "width": "11%" },
                 { data: "lugar", "width": "11%" },
-                { data: "topico", "width": "15%" },
-                { data: "delito", "width": "11%" },
+                { data: "tipo", "width": "15%" },
+            
                 { data: "actividad", "width": "15%" },
 
                 {
@@ -161,7 +159,7 @@ const Buscar_capturas = async (e) => {
 
                     "render": (data, type, row, meta) =>
 
-                        ` <button class='btn btn-success'     onclick='ModalPersonal(${row.id}, ${row.tipo})'><i class="bi bi-info-circle"></i></button>`,
+                        ` <button class='btn btn-success'     onclick='ModalPersonal(${row.id})'><i class="bi bi-info-circle"></i></button>`,
                     "searchable": false,
                     "width": "10%"
                 },
@@ -187,11 +185,11 @@ const Buscar_capturas = async (e) => {
 
 
 
-window.ModalPersonal = async (id, tipo) => {
+window.ModalPersonal = async (id) => {
 
 
 
-    const url = `/medios-comunicacion/API/mapas/infoCapturas/modal`
+    const url = `/medios-comunicacion/API/mapas/IndexMuertes/modal`
     const body = new FormData();
     body.append('id', id);
     const headers = new Headers();
@@ -205,8 +203,9 @@ window.ModalPersonal = async (id, tipo) => {
 
     const respuesta = await fetch(url, config);
     const info = await respuesta.json();
+   // console.log(info[0].fecha);
 
-    const url1 = `/medios-comunicacion/API/mapas/infoCapturas/informacion`
+    const url1 = `/medios-comunicacion/API/mapas/IndexMuertes/informacion`
     const body1 = new FormData();
     body1.append('id', id);
     const headers2 = new Headers();
@@ -221,13 +220,13 @@ window.ModalPersonal = async (id, tipo) => {
     const respuesta1 = await fetch(url1, config1);
     const info1 = await respuesta1.json();
 
-
-    switch (tipo) {
-
-        case 1:
+console.log(info);
+   
             capturas.show();
             info.forEach(info1 => {
-                formcaptura.fecha1.value = info1.fecha
+                
+
+               formcaptura.fecha1.value = info1.fecha
                 formcaptura.topico.value = info1.topico
                 formcaptura.latitud.value = info1.latitud
                 formcaptura.longitud.value = info1.longitud
@@ -249,68 +248,20 @@ window.ModalPersonal = async (id, tipo) => {
                     { data: "nombre", "width": "20%" },
                     { data: "sexo", "width": "15%" },
                     { data: "edad", "width": "15%" },
-                    { data: "nacionalidad", "width": "25%" },
-                    { data: "delito", "width": "15%" }
+          
                 ]
             })
 
-            break;
-        case 4:
-            modaldroga1.show();
-            const url2 = `/medios-comunicacion/API/mapas/infoCapturas/informacion1`
-            const body2 = new FormData();
-            body2.append('id', id);
-            const headers1 = new Headers();
-            headers1.append("X-Requested-With", "fetch");
 
-            const config2 = {
-                method: 'POST',
-                body,
-
-            }
-
-            const respuesta2 = await fetch(url2, config2);
-            const droga = await respuesta2.json();
-
-            info.forEach(info1 => {
-                formdroga.fecha1.value = info1.fecha
-                formdroga.topico1.value = info1.topico
-                formdroga.latitud1.value = info1.latitud
-                formdroga.longitud1.value = info1.longitud
-                formdroga.departamentoBusqueda1.value = info1.depto
-                formdroga.municipio1.value = info1.municipio[0]['dm_desc_lg']
-                formdroga.actvidad_vinculada1.value = info1.actividad
-                formdroga.lugar1.value = info1.lugar
-
-            });
-            droga.forEach(droga1 => {
-                formdroga.cantidad_droga.value = droga1.cantidad
-                formdroga.tipo_droga.value = droga1.droga
-                formdroga.transporte.value = droga1.transporte
-                formdroga.placa.value = droga1.matricula
-                formdroga.tipo_transporte.value = droga1.tipo_t
-
-            });
+          
+    
 
 
-            TablaInfoPer1.destroy();
-            TablaInfoPer1 = new Datatable('#dataTable4', {
-                language: lenguaje,
-                data: info1,
-                columns: [
-                    { data: "contador", "width": "10%" },
-                    { data: "nombre", "width": "20%" },
-                    { data: "sexo", "width": "15%" },
-                    { data: "edad", "width": "15%" },
-                    { data: "nacionalidad", "width": "25%" },
-                    { data: "delito", "width": "15%" }
-                ]
-            })
-            break;
+         
     }
 
 
-}
+
 
 
 
@@ -325,9 +276,9 @@ const busquedad_mapa_Calor = async(e) => {
     // const fecha1 = formMapa.fecha_mapa.value
     // const fecha2 = formMapa.fecha2.value
    
-    
 
-    const url = `/medios-comunicacion/API/mapas/infoCapturas/mapaCalor`
+
+    const url = `/medios-comunicacion/API/mapas/IndexMuertes/mapaCalor`
     const body = new FormData(formMapa);
     
     const headers = new Headers();
@@ -349,7 +300,7 @@ const busquedad_mapa_Calor = async(e) => {
         element.setAttribute('fill', '#145A32 ')
 
     })
-    const url1 = `/medios-comunicacion/API/mapas/infoCapturas/colores`
+    const url1 = `/medios-comunicacion/API/mapas/IndexMuertes/colores`
     const headers1 = new Headers();
     headers1.append("X-Requested-With", "fetch");
 
@@ -361,7 +312,7 @@ const busquedad_mapa_Calor = async(e) => {
     const respuesta1 = await fetch(url1, config1);
     const info1 = await respuesta1.json();
    
-        // console.log(info1)
+        console.log(info1)
 
     info1.forEach(data1 => {
         
@@ -411,8 +362,8 @@ window.detalle = async(valor) => {
 
         valor = '0' + valor
     }
-    const delito = formMapa.delitos_mapa_calor.value 
-    const url = `/medios-comunicacion/API/mapas/infoCapturas/mapaCalorPorDepto`
+    const delito = formMapa.tipos_muerte_mapa_calor.value 
+    const url = `/medios-comunicacion/API/mapas/IndexMuertes/mapaCalorPorDepto`
     const body = new FormData(formMapa);
     body.append('departamento', valor);
     const headers = new Headers();
@@ -428,7 +379,7 @@ window.detalle = async(valor) => {
     const respuesta = await fetch(url, config);
     const info_depto1 = await respuesta.json();
    
-        console.log(info_depto1)
+     //   console.log(info_depto1)
     if (info_depto1) {
         deptoinfo.innerText = info_depto1[0].cantidad_delito
         deptoincidencia.innerText = info_depto1[1].desc

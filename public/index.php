@@ -138,7 +138,7 @@ $router->post('/API/mapas/infoCapturas/GraficaTrimestral', [infoCapturaControlle
 $router->post('/API/mapas/infoCapturas/GraficaTrimestralGeneral', [infoCapturaController::class , 'GraficaTrimestralGeneralAPI'] );
 
 
-
+// MAPA CALOR MUERTES 
 $router->get('/mapas/muertes', [infoMuertesController::class , 'index']);
 $router->post('/API/mapas/IndexMuertes/resumen', [infoMuertesController::class , 'resumenAPI'] );
 $router->get('/API/mapas/IndexMuertes/listado', [infoMuertesController::class , 'listadoAPI'] );

@@ -211,8 +211,7 @@ $depto = $depto[0]['desc'];
                                 <th>FECHA</th>
                                 <th>DEPARTAMENTO</th>
                                 <th>LUGAR</th>
-                                <th>TOPICO</th>
-                                <th>DELITO</th>
+                                <th>TIPO DE MUERTE</th>
                                 <th>ACTIVIDAD VINCULADA</th>
                                 <th>DETALLE</th>
                                 <th>REPORTE</th>
@@ -308,141 +307,7 @@ $depto = $depto[0]['desc'];
                                     <th>NOMBRE</th>
                                     <th>SEXO</th>
                                     <th>EDAD</th>
-                                    <th>NACIONALIDAD</th>
-                                    <th>DELITO</th>
 
-
-                                </tr>
-                            </thead>
-                            <tbody>
-
-                            </tbody>
-                        </table>
-
-
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <!-- <button type="submit" form="formIngreso" class="btn btn-primary" id="buttonGuardar">Guardar información</button> -->
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- ____________________________________________________________________________________________________________________________ -->
-<!-- ____________________________________________________________________________________________________________________________ -->
-<!-- ____________________________________________________________________________________________________________________________ -->
-<div class="modal fade" id="modalPersonal13" name="modalPersonal" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
-        <div class="modal-content">
-            <div class="modal-header ">
-                <h5 class="modal-title " id="infoModalLabel">Informacion de las captura</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body container">
-
-                <div class="modal-body container ">
-                    <form id="formInformacion2" class="badge-light p-1 was-validated">
-                        <!-- <input type="hidden" name="codigo" id="codigo"> -->
-
-                        <div class="row mb-3">
-                            <div class='col-lg-6'>
-                                <label for="fecha">
-                                    Fecha
-                                </label>
-                                <input type="datetime-local" id="fecha1" name="fech1a" class="form-control" required readonly>
-
-                            </div>
-                            <div class='col-lg-6'>
-                                <label>
-                                    Topico
-                                </label>
-                                <input type="text" name="topico1" id="topico1" class="form-control" readonly novalidate>
-
-
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col">
-                                <label for="latitud">Latitud</label>
-                                <input type="text" name="latitud1" id="latitud1" class="form-control" readonly novalidate>
-                            </div>
-                            <div class="col">
-                                <label for="longitud">Longitud</label>
-                                <input type="text" name="longitud1" id="longitud1" class="form-control" readonly novalidate>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col">
-                                <label for="departamento">Departamento</label>
-                                <input type="text" id="departamentoBusqueda1" name="departamentoBusqueda1" class="form-control" required readonly>
-
-                            </div>
-                            <div class="col">
-                                <label for="municipio">Municipio</label>
-                                <input type="text" id="municipio1" name="municipio1" class="form-control" required readonly>
-                            </div>
-                        </div>
-
-                        <div class="col">
-                            <label>Ingrese la direccion </label>
-                            <input type="text" id="lugar1" name="lugar1" class="form-control" required readonly>
-                        </div>
-                        <div>
-                            <label for="actvidad_vinculada"> Actividad vinculada</label>
-                            <input type="text" id="actvidad_vinculada1" name="actvidad_vinculada1" class="form-control" required readonly>
-
-                        </div>
-
-                        <hr>
-                        <h1>Detalle de la Incautacion</h1>
-                        <div class="row mb-3">
-                            <div class="col">
-                                <label for="latitud">Cantidad incautada en kilos</label>
-                                <input type="number" name="cantidad_droga" id="cantidad_droga" class="form-control" readonly required>
-                            </div>
-                            <div class="col-lg-6 text-center">
-                                <label for="tipo_droga">Tipo de droga</label>
-                                <input type="text" name="tipo_droga" id="tipo_droga" class="form-control" readonly required>
-
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-
-                            <div class="col-lg-6 text-center">
-                                <label for="transporte">Transporte en que se trasladaba la droga</label>
-                                <input type="text" name="transporte" id="transporte" class="form-control" readonly required>
-
-                            </div>
-                            <div class="col-lg-3 text-center">
-                                <label for="placa">Placa o Matricula</label>
-                                <input type="text" name="placa" id="placa" placeholder="P-465FSD" class="form-control" readonly required>
-                            </div>
-                            <div class="col-lg-3 text-center">
-                                <label for="tipo_transporte">Tipo de transporte</label>
-                                <input type="text" name="tipo_transporte" id="tipo_transporte" readonly placeholder="JET, BIMOTOR, MONOMOTOR" class="form-control" required>
-                            </div>
-
-                        </div>
-
-                    </form>
-                </div>
-                <hr>
-                <!-- <h1>Personas captuSradas</h1> -->
-                <div class="row mb-2 justify-content-center text-center" id="tabla1">
-                    <div class="col-sm-12 col-lg-12 table-responsive ">
-                        <table id='dataTable4' class='table table-hover table-condensed table-bordered w-100'>
-                            <thead class='table-dark'>
-                                <tr>
-                                    <th>NO.</th>
-                                    <th>NOMBRE</th>
-                                    <th>SEXO</th>
-                                    <th>EDAD</th>
-                                    <th>NACIONALIDAD</th>
-                                    <th>DELITO</th>
 
 
                                 </tr>
@@ -463,6 +328,12 @@ $depto = $depto[0]['desc'];
         </div>
     </div>
 </div>
+
+<!-- ____________________________________________________________________________________________________________________________ -->
+<!-- ____________________________________________________________________________________________________________________________ -->
+<!-- ____________________________________________________________________________________________________________________________ -->
+
+
 <div class="  container-fluid text-center pt-2 rounded bg-secondary" id="mapa_calor">
 
 
@@ -485,11 +356,17 @@ $depto = $depto[0]['desc'];
                             <div class="row mb-3 justify-content-center">
                                 <div class="col-lg-3">
                                     <label for="delitos_mapa_calor" style="color: white;">Delito</label>
-                                    <select class="form-control" name="delitos_mapa_calor" id="delitos_mapa_calor">
+                                    <!--  <select class="form-control" name="delitos_mapa_calor" id="delitos_mapa_calor"> -->
+                                    <select class="form-control" name="tipos_muerte_mapa_calor" id="tipos_muerte_mapa_calor">
                                         <option value="">Seleccione...</option>
-                                        <?php foreach ($delitos as $ca3) { ?>
-                                            <option value="<?= $ca3['id']  ?>"><?= $ca3['desc']  ?></option>
-                                        <?php  }  ?>
+                                        <option value="1">ASESINATO</option>
+                                        <option value="2">HOMICIDIO</option>
+                                        <option value="3">SICARIATO</option>
+                                        <option value="4">FEMICIDIO</option>
+                                        <option value="5">SUICIDIO</option>
+
+
+                                 
                                     </select>
                                 </div>
 
@@ -514,10 +391,10 @@ $depto = $depto[0]['desc'];
         </div>
     </div>
     <div class=" row pt-1  ">
-      
+
         <div class="col-lg-7">
 
-                                    
+
 
             <svg baseprofile="tiny" fill="#7c7c7c" height="100%" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" version="1.2" viewbox="0 0 1000 1056" width="100%" xmlns="http://www.w3.org/2000/svg">
 
@@ -673,11 +550,11 @@ $depto = $depto[0]['desc'];
                 </circle>
             </svg>
 
-        </div>      
+        </div>
         <!-- </div>
 
         <div class="  row justify-content-end   "> -->
-        <div class="  col-lg-4 bg-dark rounded  pt-3 h-50" >
+        <div class="  col-lg-4 bg-dark rounded  pt-3 h-50">
             <div class="row mb-2 justify-content-between">
                 <div class="col-7 ">
                     <label for="">
@@ -713,7 +590,7 @@ $depto = $depto[0]['desc'];
                 </div>
                 <div class="col-2  justify-content-end ms-2">
 
-                    <div  class="border w-100 h-100" style=" background-color:<?= $colores[2]['color'] ?>"></div>
+                    <div class="border w-100 h-100" style=" background-color:<?= $colores[2]['color'] ?>"></div>
 
                 </div>
             </div>
@@ -739,159 +616,159 @@ $depto = $depto[0]['desc'];
 
 
 
-<div class="modal fade" id="modaldepto" name="modaldepto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
-        <div class="modal-content  justify-content-start">
-            <div class="modal-header " style="background-color: black;">
+    <div class="modal fade" id="modaldepto" name="modaldepto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+            <div class="modal-content  justify-content-start">
+                <div class="modal-header " style="background-color: black;">
 
-                <h5 class="modal-title " style=" color:white" id="infoModalLabel">Informacion del departamento</h5>
-                <button type="button" style="background-color:red;" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title " style=" color:white" id="infoModalLabel">Informacion del departamento</h5>
+                    <button type="button" style="background-color:red;" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 
-            </div>
+                </div>
 
 
-            <div class="modal-body  container-fluid text-center pt-4 ">
-                <form id="formdeptoinfo" class="  badge-light p-1 was-validated">
-                    <div class="row mb-3">
-                        <!-- <input type="hidden" name="codigo" id="codigo"> -->
-                        <div class="col-lg-12 ">
-                            <h1 id="depto_name" for="depto"></h1>
+                <div class="modal-body  container-fluid text-center pt-4 ">
+                    <form id="formdeptoinfo" class="  badge-light p-1 was-validated">
+                        <div class="row mb-3">
+                            <!-- <input type="hidden" name="codigo" id="codigo"> -->
+                            <div class="col-lg-12 ">
+                                <h1 id="depto_name" for="depto"></h1>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-lg-4 justify-content-start">
-                            <label for="depto">
-                                <h3> Cantidad de capturas:</h3>
-                            </label>
+                        <div class="row mb-3">
+                            <div class="col-lg-4 justify-content-start">
+                                <label for="depto">
+                                    <h3> Cantidad de capturas:</h3>
+                                </label>
+                            </div>
+                            <div id="cantidad_capturas_depto" class="col-lg-2 justify-content-start">
+                                <h4 name="deptoinfo" id="deptoinfo" style="color:#116189"></h4>
+                            </div>
                         </div>
-                        <div id="cantidad_capturas_depto" class="col-lg-2 justify-content-start">
-                            <h4 name="deptoinfo" id="deptoinfo" style="color:#116189"></h4>
+                        <div class="row mb-1">
+                            <div class="col-lg-2 ms-3 ">
+                                <label for="depto">
+                                    <h3 id="label_delito"><span> Incidencia: </span></h3>
+                                </label>
+                            </div>
+                            <div id="incidencia_capturas_depto" class="col-lg-6 justify-content-start">
+                                <h4 name="deptoincidencia" id="deptoincidencia" style="color:#116189"></h4>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row mb-1">
-                        <div class="col-lg-2 ms-3 ">
-                            <label for="depto">
-                                <h3 id="label_delito"><span> Incidencia: </span></h3>
-                            </label>
-                        </div>
-                        <div id="incidencia_capturas_depto" class="col-lg-6 justify-content-start">
-                            <h4 name="deptoincidencia" id="deptoincidencia" style="color:#116189"></h4>
-                        </div>
-                    </div>
-                    <div class="row mb-1">
-                        <div id="texto_no" style="display:none;">
-                            <h3> No se encontraron delitos</h3>
-                        </div>
-                        <!-- <div class="col-lg-6 ">
+                        <div class="row mb-1">
+                            <div id="texto_no" style="display:none;">
+                                <h3> No se encontraron delitos</h3>
+                            </div>
+                            <!-- <div class="col-lg-6 ">
 
                                         <div style="width: 800px; height:800px; ">
                                             <canvas id="depto_cant" width="50" height="50"></canvas>
                                         </div>
                                     </div> -->
-                        <div id="grafica_depto1" class="col-lg-12 pt-5 ">
+                            <div id="grafica_depto1" class="col-lg-12 pt-5 ">
 
-                            <div class="col-lg-6 " style="width: 600px; height:400px; ">
-                                <h2 style="color:black">Delitos cometidos</h2>
-                                <canvas id="delitos_cant" width="50" height="50"></canvas>
-                            </div>
-                            <div class="col-lg-6  " style="width: 600px; height:400px; ">
+                                <div class="col-lg-6 " style="width: 600px; height:400px; ">
+                                    <h2 style="color:black">Delitos cometidos</h2>
+                                    <canvas id="delitos_cant" width="50" height="50"></canvas>
+                                </div>
+                                <div class="col-lg-6  " style="width: 600px; height:400px; ">
 
-                                <canvas id="delitos_cant2" width="50" height="50"></canvas>
+                                    <canvas id="delitos_cant2" width="50" height="50"></canvas>
+                                </div>
                             </div>
+
                         </div>
 
-                    </div>
+
+                    </form>
+                </div>
+                <hr>
 
 
-                </form>
-            </div>
-            <hr>
-
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <!-- <button type="submit" form="formIngreso" class="btn btn-primary" id="buttonGuardar">Guardar información</button> -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <!-- <button type="submit" form="formIngreso" class="btn btn-primary" id="buttonGuardar">Guardar información</button> -->
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<div class=" ms-2 container-fluid text-center pt-4" id="div_graficas" style="display:none; ">
-    <div class="justify-content-center">
-        <div class="  row col-lg-12 justify-content-end " style="border:solid; border-radius:10px; background-color:white;">
-            <h1 style="color:black">ESTADISTICAS DEL MES DE <?= strtoupper($fechaLarga) ?> </h1>
+    <div class=" ms-2 container-fluid text-center pt-4" id="div_graficas" style="display:none; ">
+        <div class="justify-content-center">
+            <div class="  row col-lg-12 justify-content-end " style="border:solid; border-radius:10px; background-color:white;">
+                <h1 style="color:black">ESTADISTICAS DEL MES DE <?= strtoupper($fechaLarga) ?> </h1>
 
-            <hr style="color:#0B3254; height:10px;">
-            <div class="row mb-1">
-                <div class="col-lg-6 ">
+                <hr style="color:#0B3254; height:10px;">
+                <div class="row mb-1">
+                    <div class="col-lg-6 ">
 
-                    <div style="width: 800px; height:900px; ">
-                        <h2 style="color:black">Delitos cometidos</h2>
-                        <canvas id="myChart1" width="50" height="50"></canvas>
+                        <div style="width: 800px; height:900px; ">
+                            <h2 style="color:black">Delitos cometidos</h2>
+                            <canvas id="myChart1" width="50" height="50"></canvas>
+                        </div>
                     </div>
-                </div>
-                <div class="col-lg-6 ">
+                    <div class="col-lg-6 ">
 
-                    <div style="width: 800px; height:900px; ">
-                        <h2 style="color:black">Delitos cometidos por departamentos</h2>
-                        <canvas id="myChart2" width="50" height="50"></canvas>
+                        <div style="width: 800px; height:900px; ">
+                            <h2 style="color:black">Delitos cometidos por departamentos</h2>
+                            <canvas id="myChart2" width="50" height="50"></canvas>
+                        </div>
                     </div>
+
                 </div>
-
-            </div>
-            <hr style="color:#0B3254; height:10px;">
-            <div class="row mb-1">
+                <hr style="color:#0B3254; height:10px;">
+                <div class="row mb-1">
 
 
 
-                <div class="col-lg-12 ">
+                    <div class="col-lg-12 ">
 
-                    <div class="col-lg-12 " style="height:800px;">
-                        <h2 style="color:black">Capturas realizadas en el mes de <?= strtoupper($fechaLarga) ?></h2>
-                        <canvas id="myChart3" height="100"></canvas>
+                        <div class="col-lg-12 " style="height:800px;">
+                            <h2 style="color:black">Capturas realizadas en el mes de <?= strtoupper($fechaLarga) ?></h2>
+                            <canvas id="myChart3" height="100"></canvas>
+                        </div>
                     </div>
+
+
                 </div>
-
-
-            </div>
-            <hr style="color:#0B3254; height:10px;">
-            <div class="row mb-1">
+                <hr style="color:#0B3254; height:10px;">
+                <div class="row mb-1">
 
 
 
-                <div class="col-lg-12 ">
+                    <div class="col-lg-12 ">
 
-                    <div class="col-lg-12 " style="height:800px;">
-                        <h2 style="color:black">ESTADISTICAS TRIMESTRALES </h2>
-                        <canvas id="myChart4" height="100"></canvas>
+                        <div class="col-lg-12 " style="height:800px;">
+                            <h2 style="color:black">ESTADISTICAS TRIMESTRALES </h2>
+                            <canvas id="myChart4" height="100"></canvas>
+                        </div>
                     </div>
+
+
                 </div>
-
-
-            </div>
-            <hr style="color:#0B3254; height:10px;">
-            <div class="row mb-1">
+                <hr style="color:#0B3254; height:10px;">
+                <div class="row mb-1">
 
 
 
-                <div class="col-lg-12 ">
+                    <div class="col-lg-12 ">
 
-                    <div class="col-lg-12 " style="height:800px;">
-                        <h2 style="color:black">ESTADISTICAS TRIMESTRALES </h2>
-                        <canvas id="myChart5" height="100"></canvas>
+                        <div class="col-lg-12 " style="height:800px;">
+                            <h2 style="color:black">ESTADISTICAS TRIMESTRALES </h2>
+                            <canvas id="myChart5" height="100"></canvas>
+                        </div>
                     </div>
+
+
                 </div>
-
-
             </div>
         </div>
     </div>
-</div>
 
 
 
 
-<!-- 
+    <!-- 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script type="text/javascript" src="../assets/jquery/jqueryTabla.min.js"></script>
     <script type="text/javascript" src="../assets/dataTables/js/jquery.dataTables.min.js"></script>
@@ -906,6 +783,6 @@ $depto = $depto[0]['desc'];
     <script src="../assets/js/lenguaje.js"></script>
     <script src="../assets/js/capturas_info.js"></script> -->
 
-<!-- <script src="../assets/js/scriptscarga.js"></script> -->
+    <!-- <script src="../assets/js/scriptscarga.js"></script> -->
 
-<script src="../public/build/js/mapas/IndexMuertes.js"></script>
+    <script src="../public/build/js/mapas/IndexMuertes.js"></script>

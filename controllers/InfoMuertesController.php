@@ -175,7 +175,10 @@ class InfoMuertesController
 
     protected static function departamento_capturas($fecha1 = "", $fecha2 = "")
     {
-        $sql = "SELECT FIRST 1 amc_topico.departamento as departamento, count(*) as cantidad FROM amc_topico inner join amc_per_capturadas on amc_topico.id = amc_per_capturadas.topico where  amc_topico.situacion = 1 ";
+        $sql = "  SELECT FIRST 1 amc_topico.departamento as departamento, count(*) as cantidad FROM amc_topico 
+        inner join amc_per_asesinadas on amc_topico.id = amc_per_asesinadas.topico 
+        where year(amc_topico.fecha) = year(current) and amc_topico.situacion = 1
+         and amc_per_asesinadas.situacion > 0  ";
         if($fecha1 != '' && $fecha2 != ''){
 
             $sql.= " AND amc_topico.fecha   BETWEEN '$fecha1' AND  '$fecha2' ";
@@ -242,7 +245,12 @@ class InfoMuertesController
 
         try {
 
-            $sql = "SELECT DISTINCT amc_topico.id as id, amc_topico.lugar as lugar, amc_topico.tipo as tipo, amc_tipo_topics.desc as topico,  amc_topico.fecha as fecha, dm_desc_lg as departamento,  amc_delito.desc as delito,  amc_actividad_vinculada.desc as actividad from amc_topico inner join amc_per_capturadas on topico = amc_topico.id inner join amc_delito on amc_per_capturadas.delito = amc_delito.id inner join amc_tipo_topics on amc_topico.tipo = amc_tipo_topics.id inner join depmun on amc_topico.departamento = depmun.dm_codigo  inner join amc_actividad_vinculada on amc_topico.actividad = amc_actividad_vinculada.id and amc_per_capturadas.situacion = 1 and amc_topico.situacion = 1";
+            $sql = "   SELECT DISTINCT amc_topico.id as id, amc_topico.lugar as lugar, amc_per_asesinadas.situacion as tipo, amc_tipo_topics.desc as topico,
+            amc_topico.fecha as fecha, dm_desc_lg as departamento,  
+            amc_actividad_vinculada.desc as actividad from amc_topico inner join amc_per_asesinadas 
+            on amc_per_asesinadas.topico = amc_topico.id  inner join amc_tipo_topics on amc_topico.tipo = amc_tipo_topics.id inner join depmun on amc_topico.departamento = depmun.dm_codigo 
+             inner join amc_actividad_vinculada on amc_topico.actividad = amc_actividad_vinculada.id and amc_per_asesinadas.situacion > 0 and amc_topico.situacion = 1
+        ";
             $info =  Capturadas::fetchArray($sql);
 
             $data = [];
@@ -255,8 +263,35 @@ class InfoMuertesController
                 $departamento = $key['departamento'];
                 $topico = $key['topico'];
                 $tipo = $key['tipo'];
-                $delito = $key['delito'];
+                $situacion = $key['tipo'];
                 $actividad = $key['actividad'];
+
+                switch($tipo){
+
+                    case "1":
+              
+              $tipo = "ASESINATO";
+                       break;
+                    case "2":
+              
+              $tipo = "HOMICIDIO";
+                       break;
+                    case "3":
+              
+              $tipo = "SICARIATO";
+                       break;
+                    case "4":
+              
+              $tipo = "FEMICIDIO";
+                       break;
+                    case "5":
+              
+              $tipo = "SUICIDIO";
+                       break;
+              
+                 }
+
+
 
                 $arrayInterno = [[
                     "contador" => $i,
@@ -266,7 +301,7 @@ class InfoMuertesController
                     "departamento" => $departamento,
                     "topico" => $topico,
                     "tipo" => $tipo,
-                    "delito" => $delito,
+                    "situacion" => $situacion,
                     "actividad" => $actividad,
 
 
@@ -314,7 +349,7 @@ class InfoMuertesController
                $latitud = $key['latitud'];
                $longitud = $key['longitud'];
                $tipo = $key['topico'];
-               $delito = $key['delito'];
+             //  $delito = $key['delito'];
                $actividad = $key['act'];
             
             
@@ -342,7 +377,7 @@ class InfoMuertesController
                    "topico" => $tipo,
                    "latitud" => $latitud,
                    "longitud" => $longitud,
-                   "delito" => $delito,
+                   //"delito" => $delito,
                    "actividad" => $actividad,
                  
                ]];
@@ -376,7 +411,7 @@ class InfoMuertesController
 
             $id = $_POST['id'];
 
-            $sql = "SELECT amc_per_capturadas.id, amc_per_capturadas.topico, amc_nacionalidad.desc as nacionalidad, amc_sexo.desc as sexo, amc_per_capturadas.nombre, amc_per_capturadas.edad, amc_delito.desc as delito  from amc_per_capturadas inner join amc_nacionalidad on amc_per_capturadas.nacionalidad = amc_nacionalidad.id inner join amc_sexo on amc_sexo.id = amc_per_capturadas.sexo inner join amc_delito on amc_per_capturadas.delito = amc_delito.id where topico = $id and amc_per_capturadas.situacion = 1";
+            $sql = "SELECT amc_per_asesinadas.id, amc_per_asesinadas.topico,  amc_sexo.desc as sexo, amc_per_asesinadas.nombre, amc_per_asesinadas.situacion, amc_per_asesinadas.edad  from amc_per_asesinadas inner join amc_sexo on amc_sexo.id = amc_per_asesinadas.sexo  where topico = $id and amc_per_asesinadas.situacion > 0";
             $info = Capturadas::fetchArray($sql);
             $data=[];
             
@@ -384,10 +419,10 @@ class InfoMuertesController
             foreach($info as $key){ 
                $id = $key['id'];
                $sexo = $key['sexo'];
-               $nacionalidad = utf8_encode($key['nacionalidad']);
+               //$nacionalidad = utf8_encode($key['nacionalidad']);
                $nombre = utf8_encode($key['nombre']);
                $topico = $key['topico'];
-               $delito = utf8_encode($key['delito']);
+              // $delito = utf8_encode($key['delito']);
                $edad = $key['edad'];
                
             
@@ -398,10 +433,10 @@ class InfoMuertesController
                    "contador" => $i,
                    "id" => $id,
                    "sexo" => $sexo,
-                   "nacionalidad" => $nacionalidad,
+                   //"nacionalidad" => $nacionalidad,
                    "nombre" => $nombre,
                    "topico" => $topico,
-                   "delito" => $delito,
+                  // "delito" => $delito,
                    "edad" => $edad,
                 
                  
@@ -460,18 +495,18 @@ class InfoMuertesController
         // echo json_encode($sql);
 
         try {
-            $delito = $_POST['delitos_mapa_calor'];
+            $muerte = $_POST['tipos_muerte_mapa_calor'];
             $fecha1 = str_replace('T', ' ', $_POST['fecha_mapa']);
             $fecha2 = str_replace('T', ' ', $_POST['fecha2']);
          
          
-            $sql ="SELECT distinct dm_desc_lg as descripcion, dm_codigo as codigo, count (*) as cantidad FROM amc_topico 
-            inner join depmun on amc_topico.departamento = dm_codigo 
-            inner join amc_per_capturadas on amc_per_capturadas.topico = amc_topico.id  
-            where 1 = 1  and amc_topico.situacion = 1 and amc_per_capturadas.situacion = 1";
-            if($delito != ''){
+            $sql ="       SELECT distinct dm_desc_lg as descripcion, dm_codigo as codigo, count (*) as cantidad FROM amc_topico 
+            inner join depmun on departamento = dm_codigo 
+            inner join amc_per_asesinadas on topico = amc_topico.id  
+            where 1 = 1  and amc_topico.situacion = 1 and amc_per_asesinadas.situacion > 0 ";
+            if($muerte != ''){
          
-               $sql.= "AND amc_per_capturadas.delito = $delito";
+               $sql.= "AND amc_per_asesinadas.situacion = $muerte";
             }
             if($fecha1 != '' && $fecha2 == ''){
          
@@ -521,16 +556,16 @@ class InfoMuertesController
         try {
 
             $depto = $_POST['departamento'];
-            $delito = $_POST['delitos_mapa_calor'];
+            $muerte = $_POST['tipos_muerte_mapa_calor'];
             $fecha1 = str_replace('T', ' ', $_POST['fecha_mapa']);
             $fecha2 = str_replace('T', ' ', $_POST['fecha2']);
 
 
-            $sql ="  SELECT  count (*) as cantidad_delito from amc_per_capturadas inner join amc_topico on amc_per_capturadas.topico = amc_topico.id  where amc_topico.situacion = 1 and amc_per_capturadas.situacion = 1 AND amc_topico.departamento = $depto  ";
+            $sql ="  SELECT  count (*) as cantidad_delito from amc_per_asesinadas inner join amc_topico on amc_per_asesinadas.topico = amc_topico.id  where  amc_topico.situacion = 1 and amc_per_asesinadas.situacion > 0 AND amc_topico.depto = $depto  ";
          
-            if($delito != ''){
+            if($muerte != ''){
          
-               $sql.= " AND amc_per_capturadas.delito = $delito";
+               $sql.= " AND amc_per_asesinadas.situacion = $muerte";
             }
          
             if($fecha1 != '' && $fecha2 != ''){
@@ -544,11 +579,11 @@ class InfoMuertesController
             $info = Capturadas::fetchArray($sql);
             
          
-            $consulta="    SELECT FIRST 1 amc_delito.desc, count(*) as cantidad_max FROM amc_per_capturadas inner join amc_topico on amc_per_capturadas.topico = amc_topico.id inner join amc_delito on amc_per_capturadas.delito = amc_delito.id    where  amc_topico.situacion = 1 and amc_per_capturadas.situacion = 1 AND amc_topico.departamento = $depto ";
+            $consulta="  SELECT FIRST 1 amc_per_asesinadas.situacion, count(*) as cantidad_max FROM amc_per_asesinadas inner join amc_topico on amc_per_asesinadas.topico = amc_topico.id    where   amc_topico.situacion = 1 and amc_per_asesinadas.situacion > 0 AND amc_topico.depto = $depto ";
          
-            if($delito != ''){
+            if($muerte != ''){
          
-               $consulta.="AND amc_per_capturadas.delito = $delito";
+               $consulta.="AND amc_per_asesinadas.situacion = $muerte";
             }
          
             if($fecha1 != '' && $fecha2 != ''){
