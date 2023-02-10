@@ -16,17 +16,21 @@ const modalInformacion = new Modal(document.getElementById('modalIngreso'), {})
 const modalCaptura = new Modal(document.getElementById('modalCaptura'), {})
 const modalAsesinato = new Modal(document.getElementById('modalAsesinato'), {})
 const modalMigrantes = new Modal(document.getElementById('modalMigrantes'), {})
+const modalDinero = new Modal(document.getElementById('modalDinero'), {})
 const formInformacion = document.querySelector('#formInformacion')
 const divPills = document.getElementById('divPills')
 const formCaptura = document.querySelector('#formCaptura')
 const formAsesinatos = document.querySelector('#formAsesinatos')
 const formMigrantes = document.querySelector('#formMigrantes')
+const formDinero = document.querySelector('#formDinero')
 const buttonAgregarInputsCaptura = document.getElementById('agregarInputscaptura');
 const buttonQuitarInputsCaptura = document.getElementById('quitarInputscaptura');
 const buttonAgregarInputsAsesinatos = document.getElementById('agregarInputsAsesinatos');
 const buttonQuitarInputsAsesinatos = document.getElementById('quitarInputsAsesinatos');
 const buttonAgregarInputsMigrantes = document.getElementById('agregarInputsMigrantes');
 const buttonQuitarInputsMigrantes = document.getElementById('quitarInputsMigrantes');
+const buttonAgregarInputsDinero = document.getElementById('agregarInputsDinero');
+const buttonQuitarInputsDinero = document.getElementById('quitarInputsDinero');
 const btnGuardarCaptura = document.getElementById('btnGuardarCaptura');
 const btnModificarCaptura = document.getElementById('btnModificarCaptura');
 const btnBorrarCaptura = document.getElementById('btnBorrarCaptura');
@@ -38,6 +42,12 @@ const btnBorrarAsesinatos = document.getElementById('btnBorrarAsesinados');
 const btnGuardarMigrantes = document.getElementById('btnGuardarMigrantes');
 const btnModificarMigrantes = document.getElementById('btnModificarMigrantes');
 const btnBorrarMigrantes = document.getElementById('btnBorrarMigrantes');
+
+const btnGuardarDinero = document.getElementById('btnGuardarDinero');
+const btnModificarDinero = document.getElementById('btnModificarDinero');
+const btnBorrarDinero = document.getElementById('btnBorrarDinero');
+const selectMoneda= document.getElementById('moneda[]');
+
 
 const inicioInput = document.getElementById('inicio');
 const finInput = document.getElementById('fin');
@@ -410,6 +420,22 @@ const modal3 = async (e, punto) => {
 
 
 }
+
+//MODAL 4
+const divDinero = document.getElementById('divDinero');
+let inputsDinero = 0;
+const modal5 = async (e, punto) => {
+    L.DomEvent.stopPropagation(e);
+
+
+    recargarModalDinero(punto.id)
+
+
+    modalDinero.show();
+
+
+
+}
 const recargarModalCaptura = async (id) => {
     formCaptura.reset()
     formCaptura.topico.value = id
@@ -595,6 +621,71 @@ const recargarModalMigrantes = async (id) => {
     }
 
     modalMigrantes.show();
+
+
+}
+
+const recargarModalDinero = async (id) => {
+    formDinero.reset()
+    formDinero.topico.value = id
+
+ 
+  
+
+
+    while (inputsDinero > 0) {
+        quitarInputsDinero();
+    }
+
+    try {
+        const url = `/medios-comunicacion/API/dinero/buscar?topico=${id}`
+        const headers = new Headers();
+        headers.append("X-Requested-With", "fetch");
+
+        const config = {
+            method: 'GET',
+            headers
+        }
+
+        const respuesta = await fetch(url, config);
+        const data = await respuesta.json();
+        console.log(data);
+        const {info, dinero } = data;
+  
+
+       info && tinymce.get('info5').setContent(info.info)
+        // }
+        if (dinero) {
+            // console.log(data);
+            dinero.forEach( d => {
+                agregarInputsDinero(null, d.id , d.cantidad, d.moneda ,  d.conversion, true)
+            })
+
+        } 
+
+        if (dinero.length > 0 && info) {
+        
+           
+            btnGuardarDinero.disabled = true
+            btnModificarDinero.disabled = false
+
+
+            btnGuardarDinero.parentElement.style.display = 'none'
+            btnModificarDinero.parentElement.style.display = ''
+
+        } else {
+            btnGuardarDinero.disabled = false
+            btnModificarDinero.disabled = true
+
+            btnGuardarDinero.parentElement.style.display = ''
+            btnModificarDinero.parentElement.style.display = 'none'
+
+        }
+    } catch (e) {
+        console.log(e);
+    }
+
+    modalDinero.show();
 
 
 }
@@ -1017,7 +1108,7 @@ const agregarInputsMigrantes = async (e, id = '', pais_migrante = '', edad = '',
     h1.innerText= `CANTIDAD ${inputsMigrantes}`
     label1.innerText = `PAIS DEL MIGRANTE`
     label1.htmlFor = `pais_migrante[]`
-    label2.innerText = `EDAD`
+    label2.innerText = ``
     label2.htmlFor = `edad[]`
     label3.innerText = `CANTIDAD `
     label3.htmlFor = `cantidad[]`
@@ -1134,6 +1225,128 @@ const agregarInputsMigrantes = async (e, id = '', pais_migrante = '', edad = '',
 
     divMigrantes.appendChild(fragment)
 }
+const agregarInputsDinero = async (e, id = '', cantidad = '', moneda = '',  conversion = '', boton = false) => {
+    inputsDinero++;
+    const fragment = document.createDocumentFragment();
+    const divCuadro = document.createElement('div');
+    const divRow = document.createElement('div');
+    const divRow1 = document.createElement('div');
+    const divCol1 = document.createElement('div');
+    const divCol2 = document.createElement('div');
+    const divCol3 = document.createElement('div');
+    const inputIdRow = document.createElement('input');
+    const input1 = document.createElement('input')
+    const select1= document.createElement('select')
+    const input2 = document.createElement('input')
+    const label1 = document.createElement('label')
+    const label2 = document.createElement('label')
+    const label3 = document.createElement('label')
+    const buttonEliminar = document.createElement('button')
+    const divColBoton = document.createElement('div');
+
+
+
+    const option1 = document.createElement('option')
+    option1.value = ""
+    option1.innerText ="SELECCIONE"
+
+
+
+    select1.appendChild(option1)
+
+
+
+    divRow.classList.add("row", "justify-content-center");
+    divCuadro.classList.add("col", "border", "rounded", "mb-2", "bg-light");
+    divRow1.classList.add("row", "justify-content-start", "mb-2");
+    divCol1.classList.add("col-lg-3");
+    divCol2.classList.add("col-lg-3");
+    divCol3.classList.add("col-lg-3");
+    divColBoton.classList.add("col-lg-3", 'd-flex', 'flex-column', 'justify-content-end');
+    inputIdRow.name = `id_din[]`
+    inputIdRow.id = `id_din[]`
+    inputIdRow.type = 'hidden'
+    input1.classList.add("form-control")
+    input1.name = `cantidad[]`
+    input1.id = `cantidad[]`
+    input1.type= `number`
+    input1.required = true;
+    select1.classList.add("form-control")
+    select1.name = `moneda[]`
+    select1.id = `moneda[]`
+    select1.required = true;
+    select1.addEventListener('change', (e) => multiplicarMoneda(e))
+    input2.classList.add("form-control")
+    input2.name = `conversion[]`
+    input2.id = `conversion[]`
+    input2.type= `number`
+    input2.readOnly= true
+    input2.required = true;
+    label1.innerText = `CANTIDAD ${inputsDinero}` 
+    label1.htmlFor = `cantidad[]`
+    label2.innerText = `MONEDA`
+    label2.htmlFor = `moneda[]`
+    label3.innerText = `CONVERSION a Q. `
+    label3.htmlFor = `conversion[]`
+
+    buttonEliminar.classList.add('btn', 'btn-danger', 'w-100')
+    buttonEliminar.innerHTML = "<i class='bi bi-x-circle me-2'></i>Eliminar"
+    buttonEliminar.type = 'button'
+    divColBoton.appendChild(buttonEliminar);
+
+    const headers = new Headers();
+    headers.append("X-Requested-With", "fetch");
+
+    const url3 = `/medios-comunicacion/API/moneda/buscar`;
+    const config3 = { method: "GET", headers }
+    const response3 = await fetch(url3, config3);
+    const monedas = await response3.json()
+
+    // console.log(monedas);
+    monedas.forEach(moneda => {
+        const option_moneda = document.createElement('option')
+        option_moneda.value = moneda.id
+        option_moneda.dataset.cambio = moneda.cambio
+        option_moneda.innerText = `${moneda.desc} `
+        select1.appendChild(option_moneda)
+    })
+
+
+    select1.value = moneda;
+    input1.value = cantidad;
+    inputIdRow.value = id;
+    input2.value = conversion;
+
+
+
+
+    divCol1.appendChild(inputIdRow)
+    divCol1.appendChild(label1)
+    divCol1.appendChild(input1)
+    divCol2.appendChild(label2)
+    divCol2.appendChild(select1)
+    divCol3.appendChild(label3)
+    divCol3.appendChild(input2)
+
+
+
+
+    divRow1.appendChild(divCol1)
+    divRow1.appendChild(divCol2)
+    divRow1.appendChild(divCol3)
+    if (boton) {
+        divRow1.appendChild(divColBoton)
+        buttonEliminar.addEventListener('click', (e) => eliminarMigrante(e, id))
+    }
+   
+    divCuadro.appendChild(divRow1)
+
+    divRow.appendChild(divCuadro)
+    fragment.appendChild(divRow)
+
+
+    divDinero.appendChild(fragment)
+}
 
 
 const quitarInputsCaptura = () => {
@@ -1178,7 +1391,19 @@ const quitarInputsMigrantes = () => {
         });
     }
 }
+const quitarInputsDinero = () => {
 
+    if (inputsDinero > 0) {
+        divDinero.removeChild(divDinero.lastElementChild);
+        inputsDinero--;
+
+    } else {
+        Toast.fire({
+            icon: 'warning',
+            title: 'No puede realizar esta acción'
+        });
+    }
+}
 const guardarCaptura = async e => {
     e.preventDefault();
 
@@ -1330,7 +1555,7 @@ const guardarMigrantes = async e => {
 
     let info = tinymce.get('info3').getContent()
     console.log(info);
-    if (validarFormulario(formMigrantes, ['id_mig[]']) && info != '') {
+    if (validarFormulario(formMigrantes, ['id_mig[]' , 'info3']) && info != '') {
 
         // console.log('hola');
         try {
@@ -1404,6 +1629,84 @@ const guardarMigrantes = async e => {
 
 }
 
+const guardarDinero = async e => {
+    e.preventDefault();
+
+    let info = tinymce.get('info5').getContent()
+    console.log(info);
+    if (validarFormulario(formDinero, ['id_din[]','info5']) && info != '') {
+
+        // console.log('hola');
+        try {
+
+            const url = '/medios-comunicacion/API/dinero/guardar'
+
+            const body = new FormData(formDinero);
+
+      
+            body.append('info5', info)
+            const headers = new Headers();
+            headers.append("X-Requested-With", "fetch");
+
+            const config = {
+                method: 'POST',
+                headers,
+                body
+            }
+
+            const respuesta = await fetch(url, config);
+            const data = await respuesta.json();
+
+            console.log(data);
+            const { mensaje, codigo, detalle } = data;
+            // const resultado = data.resultado;
+            let icon = "";
+            switch (codigo) {
+                case 1:
+                    icon = "success"
+                    recargarModalDinero(formDinero.topico.value)
+                    break;
+                case 2:
+                    icon = "warning"
+                    formDinero.reset();
+
+                    break;
+                case 3:
+                    icon = "error"
+
+                    break;
+                case 4:
+                    icon = "error"
+                    console.log(detalle)
+
+                    break;
+
+                    case 5:
+                        icon = "warning"
+                        break;
+    
+
+                default:
+                    break;
+            }
+
+            Toast.fire({
+                icon: icon,
+                title: mensaje,
+            })
+
+        } catch (error) {
+            console.log(error);
+        }
+
+    } else {
+        Toast.fire({
+            icon: 'warning',
+            title: 'Debe llenar todos los campos'
+        });
+    }
+
+}
 const eliminarCapturado = async (e, id) => {
     Swal.fire({
         title: 'Confirmación',
@@ -2041,6 +2344,24 @@ const modificarMigrantes = async e => {
     }
 
 }
+
+const multiplicarMoneda = async e => {
+    e.preventDefault();
+    let inputCantidad = e.target.parentElement.previousElementSibling.lastElementChild.value,
+        inputConversion = e.target.parentElement.nextElementSibling.lastElementChild
+    // console.log(e.target.parentElement.previousElementSibling.lastElementChild)
+//     console.log(inputCantidad, inputConversion);
+// return
+    let cambio = e.target.selectedOptions[0].dataset.cambio
+
+
+    let conversion = cambio * inputCantidad
+
+
+    inputConversion.value = conversion
+
+
+}
 map.on('click', abreModal)
 formInformacion.departamento.addEventListener('change', buscarMunicipio)
 formInformacion.addEventListener('submit', guardarEvento)
@@ -2058,6 +2379,9 @@ buttonAgregarInputsAsesinatos.addEventListener('click', agregarInputsAsesinatos)
 buttonQuitarInputsAsesinatos.addEventListener('click', quitarInputsAsesinatos)
 buttonAgregarInputsMigrantes.addEventListener('click', agregarInputsMigrantes)
 buttonQuitarInputsMigrantes.addEventListener('click', quitarInputsMigrantes)
+buttonAgregarInputsDinero.addEventListener('click', agregarInputsDinero)
+buttonQuitarInputsDinero.addEventListener('click', quitarInputsDinero)
 formCaptura.addEventListener('submit', guardarCaptura)
 formAsesinatos.addEventListener('submit',guardarAsesinatos)
 formMigrantes.addEventListener('submit',guardarMigrantes)
+formDinero.addEventListener('submit',guardarDinero)
