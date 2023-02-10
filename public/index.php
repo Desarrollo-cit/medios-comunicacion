@@ -142,14 +142,12 @@ $router->post('/API/migrantes/migrantes/eliminar', [MigrantesController::class, 
 
 
 $router->post('/API/dinero/guardar', [DineroController::class, 'guardar']);
-$router->post('/API/migrantes/modificar', [MigrantesController::class, 'modificar']);
+$router->post('/API/dinero/modificar', [DineroController::class, 'modificar']);
 $router->get('/API/dinero/buscar', [DineroController::class, 'buscarDineroAPI']);
-$router->get('/API/migrantes/buscarEdad', [MigrantesController::class, 'buscarEdadAPI']);
-$router->get('/API/migrantes/buscarPais', [MigrantesController::class, 'buscarPaisAPI']);
 
-$router->post('/API/migrantes/eliminar', [MigrantesController::class, 'eliminarMigrante']);
+$router->post('/API/dinero/eliminar', [DineroController::class, 'eliminarDinero']);
 
-$router->post('/API/migrantes/migrantes/eliminar', [MigrantesController::class, 'eliminarMigrantes']);
+$router->post('/API/dinero/dinero/eliminar', [DineroController::class, 'eliminarDineros']);
 
 
 

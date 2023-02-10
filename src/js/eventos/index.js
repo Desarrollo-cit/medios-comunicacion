@@ -1336,7 +1336,7 @@ const agregarInputsDinero = async (e, id = '', cantidad = '', moneda = '',  conv
     divRow1.appendChild(divCol3)
     if (boton) {
         divRow1.appendChild(divColBoton)
-        buttonEliminar.addEventListener('click', (e) => eliminarMigrante(e, id))
+        buttonEliminar.addEventListener('click', (e) => eliminarDinero(e, id))
     }
    
     divCuadro.appendChild(divRow1)
@@ -1916,6 +1916,76 @@ const eliminarMigrante = async (e, id) => {
         }
     })
 }
+
+const eliminarDinero = async (e, id) => {
+    Swal.fire({
+        title: 'Confirmación',
+        text: "¿Esta seguro que desea eliminar este registro?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, Eliminar'
+    }).then( async(result) => {
+        if (result.isConfirmed) {
+            try {
+
+                const url = '/medios-comunicacion/API/dinero/eliminar'
+    
+                const body = new FormData();
+                body.append('id', id)
+                const headers = new Headers();
+                headers.append("X-Requested-With", "fetch");
+    
+                const config = {
+                    method: 'POST',
+                    headers,
+                    body
+                }
+    
+                const respuesta = await fetch(url, config);
+                const data = await respuesta.json();
+    
+                // console.log(data);
+                // return 
+                const { mensaje, codigo, detalle } = data;
+                // const resultado = data.resultado;
+                let icon = "";
+                switch (codigo) {
+                    case 1:
+                        icon = "success"
+                        recargarModalDinero(formDinero.topico.value)
+                        break;
+                    case 2:
+                        icon = "warning"
+                        formDinero.reset();
+    
+                        break;
+                    case 3:
+                        icon = "error"
+    
+                        break;
+                    case 4:
+                        icon = "error"
+                        console.log(detalle)
+    
+                        break;
+    
+                    default:
+                        break;
+                }
+    
+                Toast.fire({
+                    icon: icon,
+                    title: mensaje,
+                })
+    
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    })
+}
 const eliminarCaptura = async (e) => {
     Swal.fire({
         title: 'Confirmación',
@@ -2100,6 +2170,77 @@ const eliminarMigrantes = async (e) => {
                     case 2:
                         icon = "warning"
                         formMigrantes.reset();
+    
+                        break;
+                    case 3:
+                        icon = "error"
+    
+                        break;
+                    case 4:
+                        icon = "error"
+                        console.log(detalle)
+    
+                        break;
+    
+                    default:
+                        break;
+                }
+    
+                Toast.fire({
+                    icon: icon,
+                    title: mensaje,
+                })
+    
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    })
+}
+
+const eliminarDineros = async (e) => {
+    Swal.fire({
+        title: 'Confirmación',
+        text: "¿Esta seguro que desea eliminar este Incidente?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, Eliminar'
+    }).then( async(result) => {
+        if (result.isConfirmed) {
+            try {
+
+                const url = '/medios-comunicacion/API/dinero/dinero/eliminar'
+    
+                const body = new FormData();
+                body.append('topico', formDinero.topico.value)
+                const headers = new Headers();
+                headers.append("X-Requested-With", "fetch");
+    
+                const config = {
+                    method: 'POST',
+                    headers,
+                    body
+                }
+    
+                const respuesta = await fetch(url, config);
+                const data = await respuesta.json();
+    
+                console.log(data);
+                // return 
+                const { mensaje, codigo, detalle } = data;
+                // const resultado = data.resultado;
+                let icon = "";
+                switch (codigo) {
+                    case 1:
+                        icon = "success"
+                        modalDinero.hide()
+                        buscarEventos()
+                        break;
+                    case 2:
+                        icon = "warning"
+                        formDinero.reset();
     
                         break;
                     case 3:
@@ -2344,14 +2485,83 @@ const modificarMigrantes = async e => {
     }
 
 }
+const modificarDinero = async e => {
+    e.preventDefault();
+
+    let info = tinymce.get('info5').getContent()
+    if (validarFormulario(formDinero, ['id_din[]', 'info5']) && info != '') {
+
+        // console.log('hola');
+        try {
+
+            const url = '/medios-comunicacion/API/dinero/modificar'
+
+            const body = new FormData(formDinero);
+            body.append('info5', info)
+            const headers = new Headers();
+            headers.append("X-Requested-With", "fetch");
+
+            const config = {
+                method: 'POST',
+                headers,
+                body
+            }
+
+            const respuesta = await fetch(url, config);
+            const data = await respuesta.json();
+
+            console.log(data);
+            // return 
+            const { mensaje, codigo, detalle } = data;
+            // const resultado = data.resultado;
+            let icon = "";
+            switch (codigo) {
+                case 1:
+                    icon = "success"
+                    recargarModalDinero(formDinero.topico.value)
+                    break;
+                case 2:
+                    icon = "warning"
+                    formMigrantes.reset();
+
+                    break;
+                case 3:
+                    icon = "error"
+
+                    break;
+                case 4:
+                    icon = "error"
+                    console.log(detalle)
+
+                    break;
+
+                default:
+                    break;
+            }
+
+            Toast.fire({
+                icon: icon,
+                title: mensaje,
+            })
+
+        } catch (error) {
+            console.log(error);
+        }
+
+    } else {
+        Toast.fire({
+            icon: 'warning',
+            title: 'Debe llenar todos los campos'
+        });
+    }
+
+}
 
 const multiplicarMoneda = async e => {
     e.preventDefault();
     let inputCantidad = e.target.parentElement.previousElementSibling.lastElementChild.value,
         inputConversion = e.target.parentElement.nextElementSibling.lastElementChild
-    // console.log(e.target.parentElement.previousElementSibling.lastElementChild)
-//     console.log(inputCantidad, inputConversion);
-// return
+
     let cambio = e.target.selectedOptions[0].dataset.cambio
 
 
@@ -2370,9 +2580,11 @@ finInput.addEventListener('change', buscarEventos)
 btnModificarCaptura.addEventListener('click', modificarCaptura)
 btnModificarAsesinatos.addEventListener('click', modificarAsesinato)
 btnModificarMigrantes.addEventListener('click', modificarMigrantes)
+btnModificarDinero.addEventListener('click', modificarDinero)
 btnBorrarCaptura.addEventListener('click', eliminarCaptura );
 btnBorrarAsesinatos.addEventListener('click', eliminarAsesinato );
 btnBorrarMigrantes.addEventListener('click', eliminarMigrantes );
+btnBorrarDinero.addEventListener('click', eliminarDineros );
 buttonAgregarInputsCaptura.addEventListener('click', agregarInputsCaptura)
 buttonQuitarInputsCaptura.addEventListener('click', quitarInputsCaptura)
 buttonAgregarInputsAsesinatos.addEventListener('click', agregarInputsAsesinatos)

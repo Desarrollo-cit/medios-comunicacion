@@ -123,28 +123,37 @@ public static function buscarDineroAPI(){
         getHeadersApi();
 
  
+        $cantidaddinero = count($_POST['cantidad']);
+
+        if ($cantidaddinero == 0){
+
+            echo json_encode([
+                "mensaje" => "Debe llenar todos los campos de dinero",
+                "codigo" => 5,
+            ]);
+
+            exit;
+
+
+        }
+
     
-        $cantidadmigrantes = count($_POST['edad']);
-        
         try {
 
-            $evento = Evento::find($_POST['topic']);
-            $evento->info = $_POST['info3'];
+            $evento = Evento::find($_POST['topico']);
+            $evento->info = $_POST['info5'];
             $evento->guardar();
      
 
             $resultados = [];
-            for ($i=0; $i < $cantidadmigrantes ; $i++) { 
+            for ($i=0; $i < $cantidaddinero ; $i++) { 
                 $migrantes = new Dinero([
-                    'id' =>  $_POST['id_mig'][$i] != '' ? $_POST['id_mig'][$i] : null ,
-                    'topic' => $_POST['topic'],
-                    'pais_migrante' => $_POST['pais_migrante'][$i],
-                    'edad' => $_POST['edad'][$i],
+                    'id' =>  $_POST['id_din'][$i] != '' ? $_POST['id_din'][$i] : null ,
+                    'topic' => $_POST['topico'],
                     'cantidad' => $_POST['cantidad'][$i],
-                    'sexo' => $_POST['sexo'][$i],
-                    'lugar_ingreso' => $_POST['lugar_ingreso'][$i],
-                    'destino' => $_POST['destino'][$i],
-                    
+                    'moneda' => $_POST['moneda'][$i],
+                    'conversion' => $_POST['conversion'][$i],
+                  
                  
                 ]);
                 // break;
@@ -153,11 +162,16 @@ public static function buscarDineroAPI(){
                 
                 $resultados[] = $guardado['resultado'];
             }
+//             echo json_encode($migrantes);
+
+// exit;
+            // echo json_encode($resultados);
+            // exit;
 
 
             if(!array_search(0, $resultados)){
                 echo json_encode([
-                    "mensaje" => "El registro se modificó.",
+                    "mensaje" => "El registro se modifico.",
                     "codigo" => 1,
                 ]);
                 
@@ -178,7 +192,7 @@ public static function buscarDineroAPI(){
         }
     }
 
-    public static function eliminarMigrante(){
+    public static function eliminarDinero(){
         getHeadersApi();
 
 
@@ -186,9 +200,9 @@ public static function buscarDineroAPI(){
         
         
         try {
-            $migrante = Dinero::find($_POST['id']);
-            $migrante->situacion = 0;
-            $resultado = $migrante->guardar();
+            $dinero = Dinero::find($_POST['id']);
+            $dinero->situacion = 0;
+            $resultado = $dinero->guardar();
     
             if($resultado['resultado'] == 1){
                 echo json_encode([
@@ -213,29 +227,29 @@ public static function buscarDineroAPI(){
         }
     } 
 
-    public static function eliminarMigrantes(){
+    public static function eliminarDineros(){
         getHeadersApi();
         
         
         try {
 
-            $topico = $_POST['topic'];
+            $topico = $_POST['topico'];
             // ELIMINA EL TOPICO
             $evento = Evento::find($topico);
             $evento->situacion = 0;
             $evento->guardar();
 
-            $migrante = Dinero::where('topic', $topico);
+            $dinero = Dinero::where('topico', $topico);
             $resultados = [];
-            foreach($migrante as $migran){
-                $migran->situacion = 0;
-                $resultados[] = $migran->guardar();
+            foreach($dinero as $din){
+                $din->situacion = 0;
+                $resultados[] = $din->guardar();
             }
 
     
             if(!array_search(0, $resultados)){
                 echo json_encode([
-                    "mensaje" => "Los Migrantes se eliminaron.",
+                    "mensaje" => "El Incidente de Dinero se elimino",
                     "codigo" => 1,
                 ]);
                 
