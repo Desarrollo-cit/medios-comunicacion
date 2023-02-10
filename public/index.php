@@ -12,6 +12,7 @@ use Controllers\DelitosController;
 
 
 use Controllers\EventoController;
+use Controllers\IncautacionController;
 use MVC\Router;
 use Controllers\AppController;
 
@@ -144,7 +145,8 @@ $router->post('/API/mapas/infoCapturas/CapturasPorDiaGrafica', [infoCapturaContr
 $router->post('/API/mapas/infoCapturas/GraficaTrimestral', [infoCapturaController::class , 'GraficaTrimestralAPI'] );
 $router->post('/API/mapas/infoCapturas/GraficaTrimestralGeneral', [infoCapturaController::class , 'GraficaTrimestralGeneralAPI'] );
 
-
+$router->post('/API/incautacion/guardar', [IncautacionController::class, 'guardar']);
+$router->get('/API/incautacion/buscar', [IncautacionController::class, 'buscarIncautacionAPI']);
 
 $router->get('/mapas/droga', [infoDrogaController::class , 'index']);
 

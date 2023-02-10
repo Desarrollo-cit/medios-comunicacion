@@ -16,22 +16,32 @@ const modalInformacion = new Modal(document.getElementById('modalIngreso'), {})
 const modalCaptura = new Modal(document.getElementById('modalCaptura'), {})
 const modalAsesinato = new Modal(document.getElementById('modalAsesinato'), {})
 const modalMigrantes = new Modal(document.getElementById('modalMigrantes'), {})
+const modalDroga = new Modal(document.getElementById('modalDrogas'), {})
 const formInformacion = document.querySelector('#formInformacion')
 const divPills = document.getElementById('divPills')
 const formCaptura = document.querySelector('#formCaptura')
 const formAsesinatos = document.querySelector('#formAsesinatos')
+const formDroga = document.querySelector('#formDroga')
 const formMigrantes = document.querySelector('#formMigrantes')
 const buttonAgregarInputsCaptura = document.getElementById('agregarInputscaptura');
 const buttonQuitarInputsCaptura = document.getElementById('quitarInputscaptura');
+const buttonAgregarInputsCapturaDroga = document.getElementById('agregarInputscapturaDroga');
+const buttonQuitarInputsCapturaDroga = document.getElementById('quitarInputscapturaDroga');
 const btnGuardarCaptura = document.getElementById('btnGuardarCaptura');
 const btnModificarCaptura = document.getElementById('btnModificarCaptura');
 const btnBorrarCaptura = document.getElementById('btnBorrarCaptura');
+const btnGuardarCapturaDroga = document.getElementById('btnGuardarCapturaDroga');
+const btnModificarCapturaDroga = document.getElementById('btnModificarCapturaDroga');
+const btnBorrarCapturaDroga = document.getElementById('btnBorrarCapturaDroga');
 const buttonAgregarInputsAsesinatos = document.getElementById('agregarInputsAsesinatos');
 const buttonQuitarInputsAsesinatos = document.getElementById('quitarInputsAsesinatos');
 const btnGuardarAsesinatos = document.getElementById('btnGuardarAsesinados');
 const btnModificarAsesinatos = document.getElementById('btnModificarAsesinados');
 const btnBorrarAsesinatos = document.getElementById('btnBorrarAsesinados');
-
+const divCapturados = document.getElementById('divCapturados');
+let inputscapturas = 0;
+const divCapturadosDroga = document.getElementById('divCapturadosDroga');
+let inputsDrogas = 0;
 const inicioInput = document.getElementById('inicio');
 const finInput = document.getElementById('fin');
 
@@ -296,6 +306,9 @@ const buscarEventos = async e => {
                             case '2':
                             modal2(e, p)
                             break;
+                            case '4':
+                            modal4(e, p)
+                            break;
 
                     }
                 })
@@ -326,8 +339,7 @@ const crearIcono = (nombre) => {
 }
 
 // MODAL 1
-const divCapturados = document.getElementById('divCapturados');
-let inputscapturas = 0;
+
 const modal1 = async (e, punto) => {
     L.DomEvent.stopPropagation(e);
 
@@ -357,12 +369,24 @@ const modal2 = async (e, punto) => {
 
 
 }
+// MODAL 4
+const modal4 = async (e, punto) => {
+    L.DomEvent.stopPropagation(e);
 
+
+    recargarModalDroga(punto.id)
+
+
+    modalDroga.show();
+
+
+
+}
 const recargarModalCaptura = async (id) => {
     formCaptura.reset()
     formCaptura.topico.value = id
     while (inputscapturas > 0) {
-        quitarInputsCaptura();
+        quitarInputsCaptura(0, divCapturados);
     }
     try {
         const url = `/medios-comunicacion/API/capturas/buscar?topico=${id}`
@@ -385,7 +409,7 @@ const recargarModalCaptura = async (id) => {
         if (capturados) {
             // console.log(data);
             capturados.forEach(c => {
-                agregarInputsCaptura(null, c.id, c.nombre, c.edad, c.nacionalidad, c.sexo, c.delito, c.vinculo, true)
+                agregarInputsCaptura(null, c.id, c.nombre, c.edad, c.nacionalidad, c.sexo, c.delito, c.vinculo, true, 0, divCapturados)
             })
 
         } 
@@ -478,12 +502,91 @@ const recargarModalAsesinatos = async (id) => {
 
 
 }
+const recargarModalDroga = async (id) => {
+    formDroga.reset()
+    formDroga.topico.value = id
+    while (inputsDrogas > 0) {
+        console.log(inputsDrogas);
+        quitarInputsCaptura(1, divCapturadosDroga);
+    }
+    try {
+        const url = `/medios-comunicacion/API/incautacion/buscar?topico=${id}`
+        const headers = new Headers();
+        headers.append("X-Requested-With", "fetch");
+
+        const config = {
+            method: 'GET',
+            headers
+        }
+
+        const respuesta = await fetch(url, config);
+        const data = await respuesta.json();
+        console.log(data);
+        const { evento, incautacion , capturados } = data;
+
+    //     // if(captura){
+        evento && tinymce.get('info_incautacion').setContent(evento.info)
+
+        formDroga.cantidad.value = incautacion.cantidad
+        formDroga.cantidad_plantacion.value = incautacion.cantidad_plantacion
+        formDroga.matricula.value = incautacion.matricula
+        formDroga.tipo_droga_plantacion.value = incautacion.tip_droga_plantacion
+        formDroga.tipo_droga.value = incautacion.tipo_droga
+        formDroga.tipo_transporte.value = incautacion.tipo_transporte
+        formDroga.transporte.value = incautacion.transporte
+
+    //     // }
+        if (capturados) {
+            // console.log(data);
+            capturados.forEach(c => {
+                agregarInputsCaptura(null, c.id, c.nombre, c.edad, c.nacionalidad, c.sexo, c.delito, c.vinculo, true, 1, divCapturadosDroga)
+            })
+
+        } 
+
+        if (capturados.length > 0 && evento && incautacion) {
+        
+           
+            btnGuardarCapturaDroga.disabled = true
+            btnModificarCapturaDroga.disabled = false
+
+
+            btnGuardarCapturaDroga.parentElement.style.display = 'none'
+            btnModificarCapturaDroga.parentElement.style.display = ''
+            
+        } else {
+            btnGuardarCapturaDroga.disabled = false
+            btnModificarCapturaDroga.disabled = true
+            
+            btnGuardarCapturaDroga.parentElement.style.display = ''
+            btnModificarCapturaDroga.parentElement.style.display = 'none'
+
+        }
+
+    } catch (e) {
+        console.log(e);
+    }
+
+    modalDroga.show();
 
 
 
+}
 
-const agregarInputsCaptura = async (e, id = '', nombre = '', edad = '', nacionalidad = '', sexo = '', delito = '', vinculo = "", boton = false) => {
-    inputscapturas++;
+
+
+const agregarInputsCaptura = async (e, id = '', nombre = '', edad = '', nacionalidad = '', sexo = '', delito = '', vinculo = "", boton = false, contador , divInputs) => {
+    let cantidad = 0
+    switch (contador) {
+        case 0:
+            cantidad = ++inputscapturas;
+            
+            break;
+        case 1:
+            cantidad = ++inputsDrogas;
+            
+            break;
+    }
     // console.log(inputscapturas);
     const fragment = document.createDocumentFragment();
     const divCuadro = document.createElement('div');
@@ -583,7 +686,7 @@ const agregarInputsCaptura = async (e, id = '', nombre = '', edad = '', nacional
     select.name = `delito[]`
     select.id = `delito[]`
     select.required = true;
-    label1.innerText = `Persona ${inputscapturas}`
+    label1.innerText = `Persona ${cantidad}`
     label1.htmlFor = `nombre[]`
     label2.innerText = `Edad `
     label2.htmlFor = `edad[]`
@@ -684,7 +787,7 @@ const agregarInputsCaptura = async (e, id = '', nombre = '', edad = '', nacional
     fragment.appendChild(divRow)
 
 
-    divCapturados.appendChild(fragment)
+    divInputs.appendChild(fragment)
 }
 const agregarInputsAsesinatos = async (e, id = '', nombre = '', edad = '',  sexo = '',boton = false) => {
     inputsasesinados++;
@@ -796,11 +899,20 @@ const agregarInputsAsesinatos = async (e, id = '', nombre = '', edad = '',  sexo
 }
 
 
-const quitarInputsCaptura = () => {
+const quitarInputsCaptura = (contador, divInputs) => {
 
-    if (inputscapturas > 0) {
-        divCapturados.removeChild(divCapturados.lastElementChild);
-        inputscapturas--;
+    if (inputscapturas > 0 || inputsDrogas) {
+        divInputs.removeChild(divInputs.lastElementChild);
+        switch (contador) {
+            case 0:
+                inputscapturas--;
+                
+                break;
+            case 1:
+                inputsDrogas--;
+                
+                break;
+        }
 
     } else {
         Toast.fire({
@@ -862,6 +974,79 @@ const guardarCaptura = async e => {
                 case 2:
                     icon = "warning"
                     formCaptura.reset();
+
+                    break;
+                case 3:
+                    icon = "error"
+
+                    break;
+                case 4:
+                    icon = "error"
+                    console.log(detalle)
+
+                    break;
+
+                default:
+                    break;
+            }
+
+            Toast.fire({
+                icon: icon,
+                title: mensaje,
+            })
+
+        } catch (error) {
+            console.log(error);
+        }
+
+    } else {
+        Toast.fire({
+            icon: 'warning',
+            title: 'Debe llenar todos los campos'
+        });
+    }
+
+}
+
+const guardarIncautacion = async e => {
+    e.preventDefault();
+
+    let info = tinymce.get('info_incautacion').getContent()
+    // console.log(info);
+    if (validarFormulario(formDroga, ['id_per[]', 'info_incautacion']) && info != '') {
+
+        // console.log('hola');
+        try {
+
+            const url = '/medios-comunicacion/API/incautacion/guardar'
+
+            const body = new FormData(formDroga);
+            body.append('info', info)
+            const headers = new Headers();
+            headers.append("X-Requested-With", "fetch");
+
+            const config = {
+                method: 'POST',
+                headers,
+                body
+            }
+
+            const respuesta = await fetch(url, config);
+            const data = await respuesta.json();
+
+            console.log(data);
+
+            const { mensaje, codigo, detalle } = data;
+            // const resultado = data.resultado;
+            let icon = "";
+            switch (codigo) {
+                case 1:
+                    icon = "success"
+                    recargarModalDroga(formDroga.topico.value)
+                    break;
+                case 2:
+                    icon = "warning"
+                    formDroga.reset();
 
                     break;
                 case 3:
@@ -1406,9 +1591,12 @@ btnModificarCaptura.addEventListener('click', modificarCaptura)
 btnModificarAsesinatos.addEventListener('click', modificarAsesinato)
 btnBorrarCaptura.addEventListener('click', eliminarCaptura );
 btnBorrarAsesinatos.addEventListener('click', eliminarAsesinato );
-buttonAgregarInputsCaptura.addEventListener('click', agregarInputsCaptura)
-buttonQuitarInputsCaptura.addEventListener('click', quitarInputsCaptura)
+buttonAgregarInputsCaptura.addEventListener('click',e => agregarInputsCaptura(e,'','','','','','','',false, 0, divCapturados))
+buttonQuitarInputsCaptura.addEventListener('click', e => quitarInputsCaptura(0, divCapturados))
+buttonAgregarInputsCapturaDroga.addEventListener('click',e => agregarInputsCaptura(e,'','','','','','','',false, 1, divCapturadosDroga))
+buttonQuitarInputsCapturaDroga.addEventListener('click', e => quitarInputsCaptura(1, divCapturadosDroga))
 buttonAgregarInputsAsesinatos.addEventListener('click', agregarInputsAsesinatos)
 buttonQuitarInputsAsesinatos.addEventListener('click', quitarInputsAsesinatos)
 formCaptura.addEventListener('submit', guardarCaptura)
 formAsesinatos.addEventListener('submit',guardarAsesinatos)
+formDroga.addEventListener('submit', guardarIncautacion)

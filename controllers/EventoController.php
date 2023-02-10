@@ -3,6 +3,7 @@
 namespace Controllers;
 
 use Model\Delitos;
+use Model\Droga;
 use Model\Evento;
 use Model\Nacionalidad;
 use MVC\Router;
@@ -14,10 +15,14 @@ class EventoController {
         $topicos = Evento::fetchArray("SELECT * from amc_tipo_topics where situacion = 1");
         $departamentos = Evento::fetchArray("SELECT dm_codigo,dm_desc_lg FROM dep_mun WHERE dm_codigo BETWEEN 0100 AND 2200 AND substr(dm_codigo,3,4)=00 ORDER BY dm_desc_lg");
         $actividades = Evento::fetchArray("SELECT * from amc_actividad_vinculada where situacion = 1");
+        $drogas = Evento::fetchArray("SELECT * FROM amc_drogas where situacion = 1 ");
+        $transportes = Evento::fetchArray("SELECT * FROM amc_transporte where situacion = 1 ");
         $router->render('eventos/index', [
             'topicos' => $topicos,
             'departamentos' => $departamentos,
             'actividades' => $actividades,
+            'drogas' => $drogas,
+            'transportes' => $transportes,
         ]);
     }
 
