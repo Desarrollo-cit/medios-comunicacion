@@ -743,8 +743,7 @@ window.detalle = async (valor) => {
         const response = await fetch(url_grafica, configGrafica)
         const datos = await response.json()
 
-        console.log(datos);
-        // if (datos.dato > 0) {
+      
             document.getElementById('actividades_cant').style.display = "block"
             document.getElementById('texto_no').style.display = "none"
 
@@ -1430,7 +1429,6 @@ const trimestral_capturas_general = async () => {
 
         const response2 = await fetch(url_grafica2, configGrafica2)
         const info = await response2.json()
-        console.log(info);
         const { meses, cantidades } = info;
    
     let dataSetsValues = Object.values(cantidades)
@@ -1439,7 +1437,7 @@ const trimestral_capturas_general = async () => {
     const canvas1 = document.getElementById('myChart5');
     const ctx1 = canvas1.getContext('2d');
     if (window.trimestral_capturaGeneral) {
-        console.log(window.trimestral_capturaGeneral);
+        // console.log(window.trimestral_capturaGeneral);
         window.trimestral_capturaGeneral.destroy()
     }
 
