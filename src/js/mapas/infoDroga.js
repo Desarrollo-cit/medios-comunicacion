@@ -1344,14 +1344,15 @@ const trimestralPistas= async () => {
         const canvas = document.getElementById('pista_clandestina');
         const ctx = canvas.getContext('2d');
         window.trimestralGraficaPistas && window.trimestralGraficaPistas.destroy()
-
         let { meses, cantidades } = info;
-
+        let dataSetsValues = Object.values(cantidades)
+        
+     
         const data = {
             labels: meses,
             datasets: [{
                 label: 'Pistas inhabilitadas',
-                data: cantidades,
+                data: dataSetsValues,
                 fill: false,
                 borderColor: 'rgb(75, 192, 192)',
                 tension: 0.5,
@@ -1449,13 +1450,16 @@ const trimestral_incautaciones_general = async () => {
         const response2 = await fetch(url_grafica2, configGrafica2)
         const info = await response2.json()
 
-      
+    //   console.log(info);
         const { meses, cantidades } = info;
-    
+
+        let dataSetsValues1 = Object.values(cantidades)
+        // console.log(dataSetsValues1);
+
         const canvas1 = document.getElementById('myChart5');
         const ctx1 = canvas1.getContext('2d');
         if (window.trimestralIncautacionesGeneral) {
-            console.log(window.trimestralIncautacionesGeneral);
+            // console.log(window.trimestralIncautacionesGeneral);
             window.trimestralIncautacionesGeneral.destroy()
         }
 
@@ -1463,7 +1467,7 @@ const trimestral_incautaciones_general = async () => {
             labels: meses,
             datasets: [{
                 label: 'ESTADISTICA TRIMESTRAL',
-                data: cantidades,
+                data: dataSetsValues1,
                 fill: false,
                 borderColor: 'rgb(75, 192, 192)',
                 tension: 0.5,

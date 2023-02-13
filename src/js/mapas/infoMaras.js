@@ -1429,6 +1429,7 @@ const trimestral_capturas_general = async () => {
 
         const response2 = await fetch(url_grafica2, configGrafica2)
         const info = await response2.json()
+        // console.log(info);
         const { meses, cantidades } = info;
    
     let dataSetsValues = Object.values(cantidades)

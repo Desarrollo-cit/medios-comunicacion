@@ -379,7 +379,7 @@ window.detalle = async(valor) => {
     const respuesta = await fetch(url, config);
     const info_depto1 = await respuesta.json();
    
-        console.log(info_depto1)
+        // console.log(info_depto1)
     if (info_depto1) {
         deptoinfo.innerText = info_depto1[0].cantidad_delito
         deptoincidencia.innerText = info_depto1[1].desc
