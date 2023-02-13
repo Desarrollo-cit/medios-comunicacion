@@ -1290,7 +1290,7 @@ const quitarInputsMunicion = () => {
 const guardarCaptura = async e => {
     e.preventDefault();
 
-    let info = tinymce.get('info2').getContent()
+    let info = tinymce.get('info').getContent()
     // console.log(info);
     if (validarFormulario(formCaptura, ['id_per[]', 'info']) && info != '') {
 
