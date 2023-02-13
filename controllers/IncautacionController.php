@@ -15,7 +15,7 @@ class IncautacionController
         try {
 
             $evento = Evento::find($_POST['topico']);
-            $evento->info = $_POST['info'];
+            $evento->info = preg_replace("[\n|\r|\n\r]", "",$_POST['info']);
             $evento->guardar();
 
             $incautacion = new Incautacion([

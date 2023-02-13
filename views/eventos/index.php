@@ -622,7 +622,7 @@
                     <form id="formArmas" novalidate class="col">
                         <div class="row justify-content-center">
                             <div class="col p-1">
-                                <input type="hidden" name="topico" id="topico">
+                                <input type="text" name="topico" id="topico">
                                 <div class="row justify-content-center mb-5">
                                     <h4>Información de la incautación</h4>
                                     <div class="col-12 text-center">

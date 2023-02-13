@@ -44,6 +44,9 @@ const buttonQuitarInputsMunicion = document.getElementById('quitarInputsMunicion
 const btnGuardarAsesinatos = document.getElementById('btnGuardarAsesinados');
 const btnModificarAsesinatos = document.getElementById('btnModificarAsesinados');
 const btnBorrarAsesinatos = document.getElementById('btnBorrarAsesinados');
+const btnGuardarArmas = document.getElementById('btnGuardarArmas');
+const btnModificarArmas = document.getElementById('btnModificarArmas');
+const btnBorrarArmas = document.getElementById('btnBorrarArmas');
 const divCapturados = document.getElementById('divCapturados');
 let inputscapturas = 0;
 const divCapturadosDroga = document.getElementById('divCapturadosDroga');
@@ -607,63 +610,60 @@ const recargarModalArmas = async (id) => {
     while (inputsMunicion > 0) {
         quitarInputsMunicion();
     }
-    // try {
-    //     const url = `/medios-comunicacion/API/incautacion/buscar?topico=${id}`
-    //     const headers = new Headers();
-    //     headers.append("X-Requested-With", "fetch");
+    try {
+        const url = `/medios-comunicacion/API/incautacion_armas/buscar?topico=${id}`
+        const headers = new Headers();
+        headers.append("X-Requested-With", "fetch");
 
-    //     const config = {
-    //         method: 'GET',
-    //         headers
-    //     }
+        const config = {
+            method: 'GET',
+            headers
+        }
 
-    //     const respuesta = await fetch(url, config);
-    //     const data = await respuesta.json();
-    //     console.log(data);
-    //     const { evento, incautacion , capturados } = data;
+        const respuesta = await fetch(url, config);
+        const data = await respuesta.json();
+        console.log(data);
+        const { evento, armas , municion } = data;
 
-    // //     // if(captura){
-    //     evento && tinymce.get('info_incautacion').setContent(evento.info)
+        evento && tinymce.get('info_incautacion_armas').setContent(evento.info)
 
-    //     formDroga.cantidad.value = incautacion.cantidad
-    //     formDroga.cantidad_plantacion.value = incautacion.cantidad_plantacion
-    //     formDroga.matricula.value = incautacion.matricula
-    //     formDroga.tipo_droga_plantacion.value = incautacion.tip_droga_plantacion
-    //     formDroga.tipo_droga.value = incautacion.tipo_droga
-    //     formDroga.tipo_transporte.value = incautacion.tipo_transporte
-    //     formDroga.transporte.value = incautacion.transporte
+        if (armas) {
+            // console.log(data);
+            armas.forEach(arma => {
+                agregarInputsArmas(null, arma.id, arma.cantidad, arma.tipo_arma, arma.calibre, true)
+            })
 
-    // //     // }
-    //     if (capturados) {
-    //         // console.log(data);
-    //         capturados.forEach(c => {
-    //             agregarInputsCaptura(null, c.id, c.nombre, c.edad, c.nacionalidad, c.sexo, c.delito, c.vinculo, true, 1, divCapturadosDroga)
-    //         })
+        } 
+        if (municion) {
+            // console.log(data);
+            municion.forEach(municion => {
+                agregarInputsMunicion(null, municion.id, municion.cantidad,municion.calibre, true)
+            })
 
-    //     } 
+        } 
 
-    //     if (capturados.length > 0 && evento && incautacion) {
+        if (armas.length > 0 && evento && municion.length > 0) {
         
            
-    //         btnGuardarCapturaDroga.disabled = true
-    //         btnModificarCapturaDroga.disabled = false
+            btnGuardarArmas.disabled = true
+            btnModificarArmas.disabled = false
 
 
-    //         btnGuardarCapturaDroga.parentElement.style.display = 'none'
-    //         btnModificarCapturaDroga.parentElement.style.display = ''
+            btnGuardarArmas.parentElement.style.display = 'none'
+            btnModificarArmas.parentElement.style.display = ''
             
-    //     } else {
-    //         btnGuardarCapturaDroga.disabled = false
-    //         btnModificarCapturaDroga.disabled = true
+        } else {
+            btnGuardarArmas.disabled = false
+            btnModificarArmas.disabled = true
             
-    //         btnGuardarCapturaDroga.parentElement.style.display = ''
-    //         btnModificarCapturaDroga.parentElement.style.display = 'none'
+            btnGuardarArmas.parentElement.style.display = ''
+            btnModificarArmas.parentElement.style.display = 'none'
 
-    //     }
+        }
 
-    // } catch (e) {
-    //     console.log(e);
-    // }
+    } catch (e) {
+        console.log(e);
+    }
 
 
 
@@ -1200,6 +1200,7 @@ const agregarInputsMunicion = async (e, id = '', cantidad = '', calibre = '',bot
 
 
 
+    divColCalibre.appendChild(inputIdRow)
     divColCalibre.appendChild(label1)
     divColCalibre.appendChild(selectCalibre)
     divColCantidad.appendChild(label2)
@@ -1464,7 +1465,7 @@ const guardarIncautacionArmamento = async e => {
             switch (codigo) {
                 case 1:
                     icon = "success"
-                    recargarModalArmas(formDroga.topico.value)
+                    recargarModalArmas(formArmas.topico.value)
                     break;
                 case 2:
                     icon = "warning"
@@ -2060,7 +2061,7 @@ const modificarIncautacion = async e => {
             switch (codigo) {
                 case 1:
                     icon = "success"
-                    recargarModalDroga(formDroga.topico.value)
+                    recargarModalArmas(formDroga.topico.value)
                     break;
                 case 2:
                     icon = "warning"
@@ -2170,6 +2171,78 @@ const modificarAsesinato = async e => {
     }
 
 }
+const modificarIncautacionArmamento = async e => {
+    e.preventDefault();
+
+    let info = tinymce.get('info_incautacion_armas').getContent()
+    // console.log(info);
+    if (validarFormulario(formArmas, ['id_registro[]','id_registro_municion[]', 'info_incautacion_armas']) && info != '') {
+
+        // console.log('hola');
+        try {
+
+            const url = '/medios-comunicacion/API/incautacion_armas/modificar'
+
+            const body = new FormData(formArmas);
+            body.append('info', info)
+            const headers = new Headers();
+            headers.append("X-Requested-With", "fetch");
+
+            const config = {
+                method: 'POST',
+                headers,
+                body
+            }
+
+            const respuesta = await fetch(url, config);
+            const data = await respuesta.json();
+
+            console.log(data);
+
+            const { mensaje, codigo, detalle } = data;
+            // const resultado = data.resultado;
+            let icon = "";
+            switch (codigo) {
+                case 1:
+                    icon = "success"
+                    recargarModalArmas(formArmas.topico.value)
+                    break;
+                case 2:
+                    icon = "warning"
+                    formArmas.reset();
+
+                    break;
+                case 3:
+                    icon = "error"
+
+                    break;
+                case 4:
+                    icon = "error"
+                    console.log(detalle)
+
+                    break;
+
+                default:
+                    break;
+            }
+
+            Toast.fire({
+                icon: icon,
+                title: mensaje,
+            })
+
+        } catch (error) {
+            console.log(error);
+        }
+
+    } else {
+        Toast.fire({
+            icon: 'warning',
+            title: 'Debe llenar todos los campos'
+        });
+    }
+
+}
 
 map.on('click', abreModal)
 formInformacion.departamento.addEventListener('change', buscarMunicipio)
@@ -2179,6 +2252,7 @@ finInput.addEventListener('change', buscarEventos)
 btnModificarCaptura.addEventListener('click', modificarCaptura)
 btnModificarCapturaDroga.addEventListener('click', modificarIncautacion)
 btnModificarAsesinatos.addEventListener('click', modificarAsesinato)
+btnModificarArmas.addEventListener('click', modificarIncautacionArmamento)
 btnBorrarCaptura.addEventListener('click', eliminarCaptura );
 btnBorrarCapturaDroga.addEventListener('click', eliminarIncautacion );
 btnBorrarAsesinatos.addEventListener('click', eliminarAsesinato );
