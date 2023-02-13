@@ -294,7 +294,7 @@ const busquedad_mapa_Calor = async(e) => {
     const respuesta = await fetch(url, config);
     const info = await respuesta.json();
    
-        // console.log(info)
+       //  console.log(info)
    window.deptos = document.querySelectorAll('path');
     deptos.forEach(element => {
         element.setAttribute('fill', '#145A32 ')
@@ -312,7 +312,7 @@ const busquedad_mapa_Calor = async(e) => {
     const respuesta1 = await fetch(url1, config1);
     const info1 = await respuesta1.json();
    
-        console.log(info1)
+       // console.log(info1)
 
     info1.forEach(data1 => {
         
@@ -362,7 +362,7 @@ window.detalle = async(valor) => {
 
         valor = '0' + valor
     }
-    const delito = formMapa.tipos_muerte_mapa_calor.value 
+    const muerte = formMapa.tipos_muerte_mapa_calor.value 
     const url = `/medios-comunicacion/API/mapas/IndexMuertes/mapaCalorPorDepto`
     const body = new FormData(formMapa);
     body.append('departamento', valor);
@@ -379,14 +379,33 @@ window.detalle = async(valor) => {
     const respuesta = await fetch(url, config);
     const info_depto1 = await respuesta.json();
    
-     //   console.log(info_depto1)
+        console.log(info_depto1)
     if (info_depto1) {
         deptoinfo.innerText = info_depto1[0].cantidad_delito
         deptoincidencia.innerText = info_depto1[1].desc
-        if (delito != "") {
+        
+        switch (info_depto1[1].situacion) {
+            case '1':
+                deptoincidencia.innerText = 'ASESINATO'
+                break;
+
+            case '2':
+                deptoincidencia.innerText = 'HOMICIDIO'
+                break;
+            case '3':
+                deptoincidencia.innerText = 'SICARIATO'
+                break;
+            case '4':
+                deptoincidencia.innerText = 'FEMICIDIO'
+                break;
+            case '5':
+                deptoincidencia.innerText = 'SUICIDIO'
+                break;
+        }
+        if (muerte != "") {
             label_delito.innerText = 'Delito seleccionado:'
         }
-        if (delito == "") {
+        if (muerte == "") {
             label_delito.innerText = 'Incidencia:'
         }
     } else {
@@ -403,90 +422,127 @@ window.detalle = async(valor) => {
 
     modaldeptos.show();
     label.innerText = 'DEPARTAMENTO DE ' + name.toUpperCase();
-    const url_grafica = `info.php?delitos_cant=1&depto=${valor}&delito=${delito}&fecha1=${fecha1}&fecha2=${fecha2}`
 
-    fetch(url_grafica)
-        .then(response => response.json())
-        .then(datos => mostrar(datos))
+    const url_grafica = `/medios-comunicacion/API/mapas/IndexMuertes/mapaCalorPorDeptoGrafica`
+    const bodyGrafica = new FormData(formMapa);
+    bodyGrafica.append('departamento', valor);
+    const headersGrafica = new Headers();
+    headersGrafica.append("X-Requested-With", "fetch");
 
-    .catch(error => console.log(error))
-        //  $("#delitos_cant").destroy();
-    const ctx = document.getElementById('delitos_cant');
-    if (window.grafica) {
-        window.grafica.clear();
-        window.grafica.destroy();
+    const configGrafica = {
+        method: 'POST',
+        headers: headersGrafica,
+        body: bodyGrafica,
+
     }
-    window.grafica = new Chart(ctx, {
-        type: 'bar',
-        data: {
 
-            datasets: [{
-                label: 'DELITOS',
+    try {
 
-                backgroundColor: [
-                    'rgba(255, 199, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)'
-                ],
-                borderColor: [
-                    'rgba(255, 236, 0, 1)',
-                    'rgba(255, 236, 0, 1)',
-                    'rgba(255, 236, 0, 1)',
-                    'rgba(255, 236, 0, 1)',
-                    'rgba(255, 236, 0, 1)',
-                    'rgba(255, 236, 0, 1)'
-                ],
-                borderWidth: 4
-            }],
-        },
-        options: {
+        const response = await fetch(url_grafica, configGrafica)
+        const datos = await response.json()
 
-            scales: {
-                y: { // not 'yAxes: [{' anymore (not an array anymore)
-                    ticks: {
-                        color: "black", // not 'fontColor:' anymore
-                        // fontSize: 18,
-                        font: {
-                            size: 18, // 'size' now within object 'font {}'
-                        },
-                        stepSize: 1,
-                        beginAtZero: false,
-                        grid: {
-                            color: 'rgba(255, 199, 132, 1)'
-                        }
-                    }
-                },
-                x: { // not 'xAxes: [{' anymore (not an array anymore)
-                    ticks: {
-                        color: "black", // not 'fontColor:' anymore
-                        //fontSize: 14,
-                        font: {
-                            size: 14 // 'size' now within object 'font {}'
-                        },
-                        stepSize: 1,
-                        beginAtZero: true,
+       //  console.log(datos);
+        if (datos.length > 0) {
+            document.getElementById('grafica_depto1').style.display = "block"
+            document.getElementById('texto_no').style.display = "none"
 
-                    }
-                }
 
-            },
-            legend: {
-                labels: {
-                    color: "black",
-                    labels: {
-                        color: "blue", // not 'fontColor:' anymore
-                        // fontSize: 18  // not 'fontSize:' anymore
-                        font: {
-                            size: 18 // 'size' now within object 'font {}'
-                        }
-                    }
-                }
+            let labels = [], cantidades = []
+            datos.forEach(d => {
+                labels = [...labels, d.descripcion]
+                cantidades = [...cantidades, d.cantidad]
+            })
+            // mostrar(datos)
+            //  $("#delitos_cant").destroy();
+            const ctx = document.getElementById('delitos_cant');
+            if (window.grafica) {
+                window.grafica.clear();
+                window.grafica.destroy();
             }
+            window.grafica = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels,
+                    datasets: [{
+                        label: 'MUERTES',
+                        data: cantidades,
+                        backgroundColor: [
+                            'rgba(255, 199, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 236, 0, 1)',
+                            'rgba(255, 236, 0, 1)',
+                            'rgba(255, 236, 0, 1)',
+                            'rgba(255, 236, 0, 1)',
+                            'rgba(255, 236, 0, 1)',
+                            'rgba(255, 236, 0, 1)'
+                        ],
+                        borderWidth: 4
+                    }],
+                },
+                options: {
+
+                    scales: {
+                        y: { // not 'yAxes: [{' anymore (not an array anymore)
+                            ticks: {
+                                color: "black", // not 'fontColor:' anymore
+                                // fontSize: 18,
+                                font: {
+                                    size: 18, // 'size' now within object 'font {}'
+                                },
+                                stepSize: 5,
+                                beginAtZero: true,
+                                grid: {
+                                    color: 'rgba(255, 199, 132, 1)'
+                                }
+                            }
+                        },
+                        x: { // not 'xAxes: [{' anymore (not an array anymore)
+                            ticks: {
+                                color: "black", // not 'fontColor:' anymore
+                                //fontSize: 14,
+                                font: {
+                                    size: 14 // 'size' now within object 'font {}'
+                                },
+                                stepSize: 1,
+                                beginAtZero: true,
+
+                            }
+                        }
+
+                    },
+                    legend: {
+                        labels: {
+                            color: "black",
+                            labels: {
+                                color: "blue", // not 'fontColor:' anymore
+                                // fontSize: 18  // not 'fontSize:' anymore
+                                font: {
+                                    size: 18 // 'size' now within object 'font {}'
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+        } else {
+            // alert("hola")
+            document.getElementById('grafica_depto1').style.display = "none"
+            document.getElementById('texto_no').style.display = "block"
         }
-    });
+    } catch (error) {
+        console.log(error);
+    }
+
+
+
+
 }
     const mostrar = (delitos_depto) => {
         // console.log(delitos_depto)

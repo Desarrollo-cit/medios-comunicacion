@@ -638,7 +638,7 @@ $depto = $depto[0]['desc'];
                         <div class="row mb-3">
                             <div class="col-lg-4 justify-content-start">
                                 <label for="depto">
-                                    <h3> Cantidad de capturas:</h3>
+                                    <h3> Cantidad de muertes:</h3>
                                 </label>
                             </div>
                             <div id="cantidad_capturas_depto" class="col-lg-2 justify-content-start">
@@ -648,7 +648,7 @@ $depto = $depto[0]['desc'];
                         <div class="row mb-1">
                             <div class="col-lg-2 ms-3 ">
                                 <label for="depto">
-                                    <h3 id="label_delito"><span> Incidencia: </span></h3>
+                                    <h3 id="label_delito"><span> Tipo de muerte: </span></h3>
                                 </label>
                             </div>
                             <div id="incidencia_capturas_depto" class="col-lg-6 justify-content-start">
@@ -657,7 +657,7 @@ $depto = $depto[0]['desc'];
                         </div>
                         <div class="row mb-1">
                             <div id="texto_no" style="display:none;">
-                                <h3> No se encontraron delitos</h3>
+                                <h3> No se encontraron muertes</h3>
                             </div>
                             <!-- <div class="col-lg-6 ">
 
@@ -668,7 +668,7 @@ $depto = $depto[0]['desc'];
                             <div id="grafica_depto1" class="col-lg-12 pt-5 ">
 
                                 <div class="col-lg-6 " style="width: 600px; height:400px; ">
-                                    <h2 style="color:black">Delitos cometidos</h2>
+                                    <h2 style="color:black">Personas Asesinadas</h2>
                                     <canvas id="delitos_cant" width="50" height="50"></canvas>
                                 </div>
                                 <div class="col-lg-6  " style="width: 600px; height:400px; ">

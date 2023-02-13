@@ -138,7 +138,10 @@ $router->post('/API/mapas/infoCapturas/GraficaTrimestral', [infoCapturaControlle
 $router->post('/API/mapas/infoCapturas/GraficaTrimestralGeneral', [infoCapturaController::class , 'GraficaTrimestralGeneralAPI'] );
 
 
-// MAPA CALOR MUERTES 
+// MAPA CALOR MUERTES
+
+
+
 $router->get('/mapas/muertes', [infoMuertesController::class , 'index']);
 $router->post('/API/mapas/IndexMuertes/resumen', [infoMuertesController::class , 'resumenAPI'] );
 $router->get('/API/mapas/IndexMuertes/listado', [infoMuertesController::class , 'listadoAPI'] );
@@ -148,7 +151,7 @@ $router->post('/API/mapas/IndexMuertes/informacion1', [infoMuertesController::cl
 $router->post('/API/mapas/IndexMuertes/mapaCalor', [infoMuertesController::class , 'mapaCalorAPI'] );
 $router->post('/API/mapas/IndexMuertes/mapaCalorPorDepto', [infoMuertesController::class , 'mapaCalorDeptoAPI'] );
 $router->post('/API/mapas/IndexMuertes/colores', [infoMuertesController::class , 'coloresAPI'] );
-
+$router->post('/API/mapas/IndexMuertes/mapaCalorPorDeptoGrafica', [infoMuertesController::class , 'mapaCalorPorDeptoGraficaAPI'] );
 
 
 $router->get('/mapas/droga', [infoDrogaController::class , 'index']);

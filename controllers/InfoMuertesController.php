@@ -561,7 +561,7 @@ class InfoMuertesController
             $fecha2 = str_replace('T', ' ', $_POST['fecha2']);
 
 
-            $sql ="  SELECT  count (*) as cantidad_delito from amc_per_asesinadas inner join amc_topico on amc_per_asesinadas.topico = amc_topico.id  where  amc_topico.situacion = 1 and amc_per_asesinadas.situacion > 0 AND amc_topico.depto = $depto  ";
+            $sql ="  SELECT  count (*) as cantidad_delito from amc_per_asesinadas inner join amc_topico on amc_per_asesinadas.topico = amc_topico.id  where  amc_topico.situacion = 1 and amc_per_asesinadas.situacion > 0 AND amc_topico.departamento = $depto  ";
          
             if($muerte != ''){
          
@@ -579,7 +579,8 @@ class InfoMuertesController
             $info = Capturadas::fetchArray($sql);
             
          
-            $consulta="  SELECT FIRST 1 amc_per_asesinadas.situacion, count(*) as cantidad_max FROM amc_per_asesinadas inner join amc_topico on amc_per_asesinadas.topico = amc_topico.id    where   amc_topico.situacion = 1 and amc_per_asesinadas.situacion > 0 AND amc_topico.depto = $depto ";
+            $consulta="      SELECT FIRST 1 amc_per_asesinadas.situacion, count(*) as cantidad_max FROM amc_per_asesinadas inner join amc_topico on amc_per_asesinadas.topico = amc_topico.id  
+            where   amc_topico.situacion = 1 and amc_per_asesinadas.situacion > 0 AND amc_topico.departamento = $depto";
          
             if($muerte != ''){
          
@@ -594,17 +595,30 @@ class InfoMuertesController
                $consulta.= " AND year(amc_topico.fecha) = year(current) and  month(amc_topico.fecha) = month(current)";
             }
          
-            $consulta.="group by desc ORDER by cantidad_max desc";
+            $consulta.="   group by situacion ORDER by cantidad_max desc";
          
             $info1 = Capturadas::fetchArray($consulta);
-            $array_resultante= array_merge($info,$info1);
-         
-            echo json_encode($array_resultante);
-            
-            
-            
+            if ($info1) {
+             
+                $array_resultante = array_merge($info, $info1);
+                echo json_encode($array_resultante);
+            } else {
+
+                $info1[1] = [
+                    "desc" => "sin registros",
+                    "cantidad_max" => 0
+                ];
+                $array_resultante = array_merge($info, $info1);
+                echo json_encode($array_resultante);
+            }
+   
         } catch (Exception $e) {
-           return [];
+            echo json_encode([
+                "detalle" => $e->getMessage(),
+                "mensaje" => "ocurrio un error en base de datos",
+
+                "codigo" => 4,
+            ]);
         }
     }
 
@@ -637,4 +651,63 @@ class InfoMuertesController
            return [];
         }
     }
+
+    public function mapaCalorPorDeptoGraficaAPI()
+    {
+        try {
+
+
+            $depto = $_POST['departamento'];
+            $muerte = $_POST['tipos_muerte_mapa_calor'];
+            $fecha1 = str_replace('T', ' ', $_POST['fecha_mapa']);
+            $fecha2 = str_replace('T', ' ', $_POST['fecha2']);
+            // echo json_encode($_POST);
+            // exit;
+
+            $sql = "SELECT amc_per_asesinadas.situacion as descripcion, count(*) as cantidad FROM amc_per_asesinadas  inner join amc_topico on amc_per_asesinadas.topico = amc_topico.id where  amc_topico.situacion = 1 and amc_per_asesinadas.situacion > 0 ";
+
+
+            if ($depto != '') {
+
+                $sql .= "AND amc_topico.departamento = $depto ";
+            }
+            if ($muerte != '') {
+
+                $sql .= "AND amc_per_asesinadas.delito = $muerte";
+            }
+
+            if ($fecha1 != '' && $fecha2 != '') {
+
+                $sql .= " AND amc_topico.fecha   BETWEEN '$fecha1' AND  '$fecha2' ";
+            } else {
+
+                $sql .= " AND year(amc_topico.fecha) = year(current)  and  month(amc_topico.fecha) = month(current) ";
+            }
+
+            $sql .= " group by descripcion ";
+            $info = Capturadas::fetchArray($sql);
+
+            
+
+                echo json_encode($info ? $info:[]);
+               
+        } catch (Exception $e) {
+            echo json_encode([
+                "detalle" => $e->getMessage(),
+                "mensaje" => "ocurrio un error en base de datos",
+
+                "codigo" => 4,
+            ]);
+        }
+    }
+
+
+
+
+
+
 }
+
+
+
+
