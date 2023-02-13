@@ -605,5 +605,105 @@
     </div>
 </div>
 <!-- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
+<!-- MODAL 5 -->
+<div class="modal fade" id="modalArmas" tabindex="-1" role="dialog" aria-labelledby="modalArmasLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header ">
+                <h5 class="modal-title " id="modalArmasLabel">DETALLE DE LA INCAUTACIÓN DE ARMAS</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body container ">
+                <!-- <form>
+
+                </form> -->
+                <div class="row justify-content-center mb-3">
+                    <form id="formArmas" novalidate class="col">
+                        <div class="row justify-content-center">
+                            <div class="col p-1">
+                                <input type="hidden" name="topico" id="topico">
+                                <div class="row justify-content-center mb-5">
+                                    <h4>Información de la incautación</h4>
+                                    <div class="col-12 text-center">
+                                        <label class="h3 " for="info_incautacion_armas">Noticia</label>
+                                        <textarea name="info_incautacion_armas" id="info_incautacion_armas" class="form-control"></textarea>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row justify-content-center">
+
+                            <div class="col">
+
+                                <h2>Armas incautadas</h2>
+                            </div>
+                            <div class="col-lg-1">
+                                <button type="button" id="agregarInputsArmas" class="btn btn-success w-100"><i
+                                        class="bi bi-plus-circle "></i></button>
+                            </div>
+                            <div class="col-lg-1">
+                                <button type="button" id="quitarInputsArmas" class="btn btn-secondary w-100"><i
+                                        class="bi bi-dash-circle"></i></button>
+                            </div>
+
+
+                        </div>
+
+
+                        <div  class="row justify-content-center">
+                            <div class="col" id='divArmas'>
+
+                            </div>                             
+                        </div>
+                        <div class="row justify-content-center">
+
+                            <div class="col">
+
+                                <h2>Munición incautada</h2>
+                            </div>
+                            <div class="col-lg-1">
+                                <button type="button" id="agregarInputsMunicion" class="btn btn-success w-100"><i
+                                        class="bi bi-plus-circle "></i></button>
+                            </div>
+                            <div class="col-lg-1">
+                                <button type="button" id="quitarInputsMunicion" class="btn btn-secondary w-100"><i
+                                        class="bi bi-dash-circle"></i></button>
+                            </div>
+
+
+                        </div>
+
+                        <div  class="row justify-content-center">
+                            
+                            <div id='divMunicion' class="col">
+
+                            </div>                             
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer row justify-content-end">
+
+                <div class="col-lg-3">
+                    <button type="submit" form="formArmas" id="btnGuardarArmas" class="btn btn-primary w-100"><i
+                            class="bi bi-save me-2"></i>Guardar</button>
+                </div>
+                <div class="col-lg-3">
+                    <button type="button" class="btn btn-warning w-100" id="btnModificarArmas"><i
+                            class="bi bi-save me-2"></i>Modificar</button>
+                </div>
+                <div class="col-lg-3">
+                    <button type="button" class="btn btn-danger w-100" id="btnBorrarArmas"><i
+                            class="bi bi-trash  me-2"> </i> Borrar</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
 
 <script src="./build/js/eventos/index.js"></script>

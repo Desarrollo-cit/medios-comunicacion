@@ -17,11 +17,13 @@ const modalCaptura = new Modal(document.getElementById('modalCaptura'), {})
 const modalAsesinato = new Modal(document.getElementById('modalAsesinato'), {})
 const modalMigrantes = new Modal(document.getElementById('modalMigrantes'), {})
 const modalDroga = new Modal(document.getElementById('modalDrogas'), {})
+const modalArmas = new Modal(document.getElementById('modalArmas'), {})
 const formInformacion = document.querySelector('#formInformacion')
 const divPills = document.getElementById('divPills')
 const formCaptura = document.querySelector('#formCaptura')
 const formAsesinatos = document.querySelector('#formAsesinatos')
 const formDroga = document.querySelector('#formDroga')
+const formArmas = document.querySelector('#formArmas')
 const formMigrantes = document.querySelector('#formMigrantes')
 const buttonAgregarInputsCaptura = document.getElementById('agregarInputscaptura');
 const buttonQuitarInputsCaptura = document.getElementById('quitarInputscaptura');
@@ -35,6 +37,10 @@ const btnModificarCapturaDroga = document.getElementById('btnModificarCapturaDro
 const btnBorrarCapturaDroga = document.getElementById('btnBorrarCapturaDroga');
 const buttonAgregarInputsAsesinatos = document.getElementById('agregarInputsAsesinatos');
 const buttonQuitarInputsAsesinatos = document.getElementById('quitarInputsAsesinatos');
+const buttonAgregarInputsArmas = document.getElementById('agregarInputsArmas');
+const buttonQuitarInputsArmas = document.getElementById('quitarInputsArmas');
+const buttonAgregarInputsMunicion = document.getElementById('agregarInputsMunicion');
+const buttonQuitarInputsMunicion = document.getElementById('quitarInputsMunicion');
 const btnGuardarAsesinatos = document.getElementById('btnGuardarAsesinados');
 const btnModificarAsesinatos = document.getElementById('btnModificarAsesinados');
 const btnBorrarAsesinatos = document.getElementById('btnBorrarAsesinados');
@@ -42,6 +48,11 @@ const divCapturados = document.getElementById('divCapturados');
 let inputscapturas = 0;
 const divCapturadosDroga = document.getElementById('divCapturadosDroga');
 let inputsDrogas = 0;
+const divArmas = document.getElementById('divArmas');
+let inputsArmas = 0;
+const divMunicion = document.getElementById('divMunicion');
+let inputsMunicion = 0;
+
 const inicioInput = document.getElementById('inicio');
 const finInput = document.getElementById('fin');
 
@@ -309,6 +320,9 @@ const buscarEventos = async e => {
                             case '4':
                             modal4(e, p)
                             break;
+                            case '6':
+                            modal6(e, p)
+                            break;
 
                     }
                 })
@@ -378,6 +392,18 @@ const modal4 = async (e, punto) => {
 
 
     modalDroga.show();
+
+
+
+}
+const modal6 = async (e, punto) => {
+    L.DomEvent.stopPropagation(e);
+
+
+    recargarModalArmas(punto.id)
+
+
+    modalArmas.show();
 
 
 
@@ -568,6 +594,77 @@ const recargarModalDroga = async (id) => {
     }
 
     modalDroga.show();
+
+
+
+}
+const recargarModalArmas = async (id) => {
+    formArmas.reset()
+    formArmas.topico.value = id
+    while (inputsArmas > 0) {
+        quitarInputsArmas();
+    }
+    while (inputsMunicion > 0) {
+        quitarInputsMunicion();
+    }
+    // try {
+    //     const url = `/medios-comunicacion/API/incautacion/buscar?topico=${id}`
+    //     const headers = new Headers();
+    //     headers.append("X-Requested-With", "fetch");
+
+    //     const config = {
+    //         method: 'GET',
+    //         headers
+    //     }
+
+    //     const respuesta = await fetch(url, config);
+    //     const data = await respuesta.json();
+    //     console.log(data);
+    //     const { evento, incautacion , capturados } = data;
+
+    // //     // if(captura){
+    //     evento && tinymce.get('info_incautacion').setContent(evento.info)
+
+    //     formDroga.cantidad.value = incautacion.cantidad
+    //     formDroga.cantidad_plantacion.value = incautacion.cantidad_plantacion
+    //     formDroga.matricula.value = incautacion.matricula
+    //     formDroga.tipo_droga_plantacion.value = incautacion.tip_droga_plantacion
+    //     formDroga.tipo_droga.value = incautacion.tipo_droga
+    //     formDroga.tipo_transporte.value = incautacion.tipo_transporte
+    //     formDroga.transporte.value = incautacion.transporte
+
+    // //     // }
+    //     if (capturados) {
+    //         // console.log(data);
+    //         capturados.forEach(c => {
+    //             agregarInputsCaptura(null, c.id, c.nombre, c.edad, c.nacionalidad, c.sexo, c.delito, c.vinculo, true, 1, divCapturadosDroga)
+    //         })
+
+    //     } 
+
+    //     if (capturados.length > 0 && evento && incautacion) {
+        
+           
+    //         btnGuardarCapturaDroga.disabled = true
+    //         btnModificarCapturaDroga.disabled = false
+
+
+    //         btnGuardarCapturaDroga.parentElement.style.display = 'none'
+    //         btnModificarCapturaDroga.parentElement.style.display = ''
+            
+    //     } else {
+    //         btnGuardarCapturaDroga.disabled = false
+    //         btnModificarCapturaDroga.disabled = true
+            
+    //         btnGuardarCapturaDroga.parentElement.style.display = ''
+    //         btnModificarCapturaDroga.parentElement.style.display = 'none'
+
+    //     }
+
+    // } catch (e) {
+    //     console.log(e);
+    // }
+
 
 
 
@@ -897,6 +994,232 @@ const agregarInputsAsesinatos = async (e, id = '', nombre = '', edad = '',  sexo
 
     divAsesinados.appendChild(fragment)
 }
+const agregarInputsArmas = async (e, id = '', cantidad = '', tipo = '',  calibre = '',boton = false) => {
+    inputsArmas++;
+    // console.log(inputscapturas);
+    const fragment = document.createDocumentFragment();
+    const divCuadro = document.createElement('div');
+    const divExterno = document.createElement('div');
+    const divRow = document.createElement('div');
+   
+    const divColCantidad = document.createElement('div');
+    const divColTipo = document.createElement('div');
+    const divColCalibre = document.createElement('div');
+    const divColBoton = document.createElement('div');
+    
+    const inputIdRow = document.createElement('input');
+    const inputCantidad = document.createElement('input')
+    const selectTipo = document.createElement('select')
+    const selectCalibre = document.createElement('select')
+    const label1 = document.createElement('label')
+    const label2 = document.createElement('label')
+    const label3 = document.createElement('label')
+    const buttonEliminar = document.createElement('button')
+
+    divExterno.classList.add("row", "justify-content-center");
+    divRow.classList.add("row", "justify-content-start");
+    divCuadro.classList.add("col", "border", "rounded", "mb-2", "bg-light", 'p-3');
+    divColCantidad.classList.add("col-lg-3");
+    divColTipo.classList.add("col-lg-3");
+    divColCalibre.classList.add("col-lg-3");
+    divColBoton.classList.add("col-lg-3", 'd-flex', 'flex-column', 'justify-content-end');
+    inputIdRow.name = `id_registro[]`
+    inputIdRow.id = `id_registro[]`
+    inputIdRow.type = 'hidden'
+    inputCantidad.classList.add("form-control")
+    inputCantidad.name = `cantidad[]`
+    inputCantidad.id = `cantidad[]`
+    inputCantidad.type = 'number'
+    inputCantidad.required = true;
+
+    selectTipo.classList.add("form-control")
+    selectTipo.name = `tipo[]`
+    selectTipo.id = `tipo[]`
+    selectTipo.required = true;
+    
+    selectCalibre.classList.add("form-control")
+    selectCalibre.name = `calibre[]`
+    selectCalibre.id = `calibre[]`
+    selectCalibre.required = true;
+
+    label1.innerText = `Tipo arma ${inputsArmas}`
+    label2.innerText = `Calibre arma ${inputsArmas}`
+    label3.innerText = `Cantidad`
+
+    buttonEliminar.classList.add('btn', 'btn-danger', 'w-100')
+    buttonEliminar.innerHTML = "<i class='bi bi-x-circle me-2'></i>Eliminar"
+    buttonEliminar.type = 'button'
+
+    divColBoton.appendChild(buttonEliminar);
+
+    const optionVacio1 = document.createElement('option')
+    optionVacio1.value = ""
+    optionVacio1.innerText = "SELECCIONE..."
+
+    const optionVacio2 = optionVacio1.cloneNode(true)
+
+    selectTipo.appendChild(optionVacio1)
+    selectCalibre.appendChild(optionVacio2)
+
+    const headers = new Headers();
+    headers.append("X-Requested-With", "fetch");
+
+
+    const urlTipos = `/medios-comunicacion/API/armas/buscar`
+    const configTipos = { method: "GET", headers }
+    const responseTipos = await fetch(urlTipos, configTipos);
+    const tipos = await responseTipos.json()
+
+    tipos.forEach(tipo => {
+        const option = document.createElement('option')
+        option.value = tipo.id
+        option.innerText = `${tipo.desc} `
+        selectTipo.appendChild(option)
+    })
+    
+    const urlCalibres = `/medios-comunicacion/API/calibres/buscar`
+    const configCalibres = { method: "GET", headers }
+    const responseCalibres = await fetch(urlCalibres, configCalibres);
+    const calibres = await responseCalibres.json()
+
+    calibres.forEach(tipo => {
+        const option = document.createElement('option')
+        option.value = tipo.id
+        option.innerText = `${tipo.desc} `
+        selectCalibre.appendChild(option)
+    })
+
+
+    inputCantidad.value = cantidad;
+    inputIdRow.value = id;
+    selectTipo.value = tipo;
+    selectCalibre.value = calibre;
+
+
+    divColTipo.appendChild(inputIdRow)
+    divColTipo.appendChild(label1)
+    divColTipo.appendChild(selectTipo)
+    divColCalibre.appendChild(label2)
+    divColCalibre.appendChild(selectCalibre)
+    divColCantidad.appendChild(label3)
+    divColCantidad.appendChild(inputCantidad)
+
+    divRow.appendChild(divColTipo)
+    divRow.appendChild(divColCalibre)
+    divRow.appendChild(divColCantidad)
+    if (boton) {
+        divRow.appendChild(divColBoton)
+        buttonEliminar.addEventListener('click', (e) => eliminarAsesinado(e, id))
+    }
+
+    divCuadro.appendChild(divRow)
+    divExterno.appendChild(divCuadro)
+    fragment.appendChild(divExterno)
+
+
+    divArmas.appendChild(fragment)
+}
+
+const agregarInputsMunicion = async (e, id = '', cantidad = '', calibre = '',boton = false) => {
+    inputsMunicion++;
+    // console.log(inputscapturas);
+    const fragment = document.createDocumentFragment();
+    const divCuadro = document.createElement('div');
+    const divExterno = document.createElement('div');
+    const divRow = document.createElement('div');
+   
+    const divColCantidad = document.createElement('div');
+    const divColCalibre = document.createElement('div');
+    const divColBoton = document.createElement('div');
+    
+    const inputIdRow = document.createElement('input');
+    const inputCantidad = document.createElement('input')
+    const selectCalibre = document.createElement('select')
+    const label1 = document.createElement('label')
+    const label2 = document.createElement('label')
+    const buttonEliminar = document.createElement('button')
+
+    divExterno.classList.add("row", "justify-content-center");
+    divRow.classList.add("row", "justify-content-start");
+    divCuadro.classList.add("col", "border", "rounded", "mb-2", "bg-light", 'p-3');
+    divColCantidad.classList.add("col-lg-4");
+    divColCalibre.classList.add("col-lg-5");
+    divColBoton.classList.add("col-lg-3", 'd-flex', 'flex-column', 'justify-content-end');
+    inputIdRow.name = `id_registro_municion[]`
+    inputIdRow.id = `id_registro_municion[]`
+    inputIdRow.type = 'hidden'
+    inputCantidad.classList.add("form-control")
+    inputCantidad.name = `cantidad_municion[]`
+    inputCantidad.id = `cantidad_municion[]`
+    inputCantidad.type = 'number'
+    inputCantidad.required = true;
+   
+    selectCalibre.classList.add("form-control")
+    selectCalibre.name = `calibre_municion[]`
+    selectCalibre.id = `calibre_municion[]`
+    selectCalibre.required = true;
+
+    label1.innerText = `Calibre arma ${inputsMunicion}`
+    label2.innerText = `Cantidad `
+
+
+    buttonEliminar.classList.add('btn', 'btn-danger', 'w-100')
+    buttonEliminar.innerHTML = "<i class='bi bi-x-circle me-2'></i>Eliminar"
+    buttonEliminar.type = 'button'
+
+    divColBoton.appendChild(buttonEliminar);
+
+    const optionVacio2 = document.createElement('option')
+    optionVacio2.value = ""
+    optionVacio2.innerText = "SELECCIONE..."
+
+ 
+
+
+    selectCalibre.appendChild(optionVacio2)
+
+    const headers = new Headers();
+    headers.append("X-Requested-With", "fetch");
+
+    const urlCalibres = `/medios-comunicacion/API/calibres/buscar`
+    const configCalibres = { method: "GET", headers }
+    const responseCalibres = await fetch(urlCalibres, configCalibres);
+    const calibres = await responseCalibres.json()
+
+    calibres.forEach(tipo => {
+        const option = document.createElement('option')
+        option.value = tipo.id
+        option.innerText = `${tipo.desc} `
+        selectCalibre.appendChild(option)
+    })
+
+
+    inputCantidad.value = cantidad;
+    inputIdRow.value = id;
+    selectCalibre.value = calibre;
+
+
+
+    divColCalibre.appendChild(label1)
+    divColCalibre.appendChild(selectCalibre)
+    divColCantidad.appendChild(label2)
+    divColCantidad.appendChild(inputCantidad)
+
+
+    divRow.appendChild(divColCalibre)
+    divRow.appendChild(divColCantidad)
+    if (boton) {
+        divRow.appendChild(divColBoton)
+        buttonEliminar.addEventListener('click', (e) => eliminarAsesinado(e, id))
+    }
+
+    divCuadro.appendChild(divRow)
+    divExterno.appendChild(divCuadro)
+    fragment.appendChild(divExterno)
+
+
+    divMunicion.appendChild(fragment)
+}
 
 
 const quitarInputsCaptura = (contador, divInputs) => {
@@ -927,6 +1250,33 @@ const quitarInputsAsesinatos = () => {
     if (inputsasesinados > 0) {
         divAsesinados.removeChild(divAsesinados.lastElementChild);
         inputsasesinados--;
+
+    } else {
+        Toast.fire({
+            icon: 'warning',
+            title: 'No puede realizar esta acción'
+        });
+    }
+}
+
+const quitarInputsArmas = () => {
+
+    if (inputsArmas > 0) {
+        divArmas.removeChild(divArmas.lastElementChild);
+        inputsArmas--;
+
+    } else {
+        Toast.fire({
+            icon: 'warning',
+            title: 'No puede realizar esta acción'
+        });
+    }
+}
+const quitarInputsMunicion = () => {
+
+    if (inputsMunicion > 0) {
+        divMunicion.removeChild(divMunicion.lastElementChild);
+        inputsMunicion--;
 
     } else {
         Toast.fire({
@@ -1047,6 +1397,78 @@ const guardarIncautacion = async e => {
                 case 2:
                     icon = "warning"
                     formDroga.reset();
+
+                    break;
+                case 3:
+                    icon = "error"
+
+                    break;
+                case 4:
+                    icon = "error"
+                    console.log(detalle)
+
+                    break;
+
+                default:
+                    break;
+            }
+
+            Toast.fire({
+                icon: icon,
+                title: mensaje,
+            })
+
+        } catch (error) {
+            console.log(error);
+        }
+
+    } else {
+        Toast.fire({
+            icon: 'warning',
+            title: 'Debe llenar todos los campos'
+        });
+    }
+
+}
+const guardarIncautacionArmamento = async e => {
+    e.preventDefault();
+
+    let info = tinymce.get('info_incautacion_armas').getContent()
+    console.log(info);
+    if (validarFormulario(formArmas, ['id_registro[]','id_registro_municion[]', 'info_incautacion_armas']) && info != '') {
+
+        // console.log('hola');
+        try {
+
+            const url = '/medios-comunicacion/API/incautacion_armas/guardar'
+
+            const body = new FormData(formArmas);
+            body.append('info', info)
+            const headers = new Headers();
+            headers.append("X-Requested-With", "fetch");
+
+            const config = {
+                method: 'POST',
+                headers,
+                body
+            }
+
+            const respuesta = await fetch(url, config);
+            const data = await respuesta.json();
+
+            console.log(data);
+
+            const { mensaje, codigo, detalle } = data;
+            // const resultado = data.resultado;
+            let icon = "";
+            switch (codigo) {
+                case 1:
+                    icon = "success"
+                    recargarModalArmas(formDroga.topico.value)
+                    break;
+                case 2:
+                    icon = "warning"
+                    formArmas.reset();
 
                     break;
                 case 3:
@@ -1766,6 +2188,11 @@ buttonAgregarInputsCapturaDroga.addEventListener('click',e => agregarInputsCaptu
 buttonQuitarInputsCapturaDroga.addEventListener('click', e => quitarInputsCaptura(1, divCapturadosDroga))
 buttonAgregarInputsAsesinatos.addEventListener('click', agregarInputsAsesinatos)
 buttonQuitarInputsAsesinatos.addEventListener('click', quitarInputsAsesinatos)
+buttonAgregarInputsArmas.addEventListener('click', agregarInputsArmas)
+buttonQuitarInputsArmas.addEventListener('click', quitarInputsArmas)
+buttonAgregarInputsMunicion.addEventListener('click', agregarInputsMunicion)
+buttonQuitarInputsMunicion.addEventListener('click', quitarInputsMunicion)
 formCaptura.addEventListener('submit', guardarCaptura)
 formAsesinatos.addEventListener('submit',guardarAsesinatos)
 formDroga.addEventListener('submit', guardarIncautacion)
+formArmas.addEventListener('submit', guardarIncautacionArmamento)

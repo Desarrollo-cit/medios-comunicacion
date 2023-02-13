@@ -12,6 +12,7 @@ use Controllers\DelitosController;
 
 
 use Controllers\EventoController;
+use Controllers\IncautacionArmasController;
 use Controllers\IncautacionController;
 use MVC\Router;
 use Controllers\AppController;
@@ -149,6 +150,11 @@ $router->post('/API/incautacion/guardar', [IncautacionController::class, 'guarda
 $router->post('/API/incautacion/modificar', [IncautacionController::class, 'modificar']);
 $router->get('/API/incautacion/buscar', [IncautacionController::class, 'buscarIncautacionAPI']);
 $router->post('/API/incautacion/eliminar', [IncautacionController::class, 'eliminarIncautacion']);
+
+$router->post('/API/incautacion_armas/guardar', [IncautacionArmasController::class, 'guardar']);
+$router->post('/API/incautacion_armas/modificar', [IncautacionArmasController::class, 'modificar']);
+$router->get('/API/incautacion_armas/buscar', [IncautacionArmasController::class, 'buscarIncautacionAPI']);
+$router->post('/API/incautacion_armas/eliminar', [IncautacionArmasController::class, 'eliminarIncautacion']);
 
 $router->get('/mapas/droga', [infoDrogaController::class , 'index']);
 
