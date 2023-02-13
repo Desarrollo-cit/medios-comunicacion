@@ -1150,20 +1150,24 @@ $fechaLarga = strftime(" %B ");
         </div>
             <hr style="color:#0B3254; height:10px;">
             <div class="row mb-1">
-                <div class="col-lg-6 ">
-
+                <div id="graficaActividades" class="col-lg-6 ">
+               
                     <div style="width: 800px; height:900px; ">
                         <h2 style="color:black">Activida de Maras</h2>
                         <canvas id="myChart9" width="50" height="50"></canvas>
                     </div>
                 </div>
-                <div class="col-lg-6 ">
-
+                <div id="graficaActividadesDepartamento"class="col-lg-6 ">
+               
                     <div style="width: 800px; height:900px; ">
                         <h2 style="color:black">Actividad de Maras por departamentos</h2>
                         <canvas id="myChart2"></canvas>
                     </div>
                 </div>
+
+                <div id="texto_no1" style="display:none;">
+                        <h3> No se encontraron actividades</h3>
+                    </div>
 
             </div>
             <hr style="color:#0B3254; height:10px;">

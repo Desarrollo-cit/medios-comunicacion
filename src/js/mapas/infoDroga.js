@@ -739,6 +739,15 @@ window.pistas_clandestinas = async(e) => {
 const drogas_estadistica = async (e) => {
     e && e.preventDefault();
 
+
+    var f1 = new Date(formBusqueda_grafica.fecha_grafica.value)
+    var f2 = new Date(formBusqueda_grafica.fecha_grafica2.value)
+
+var fecha1 = formBusqueda_grafica.fecha_grafica.value
+var fecha2 = formBusqueda_grafica.fecha_grafica2.value
+
+    if ((f1 < f2) || (fecha1 == "" && fecha2 == "")) {
+
     const url_grafica1 = `/medios-comunicacion/API/mapas/infoDroga/DrogasCantGrafica`
     const bodyGrafica1 = new FormData(formBusqueda_grafica);
 
@@ -756,7 +765,7 @@ const drogas_estadistica = async (e) => {
         const datos1 = await response1.json()
         // console.log(datos1);
         if (window.drogas_grafica) {
-            window.drogas_grafica.clear();
+            // window.drogas_grafica.clear();
             window.drogas_grafica.destroy();
         }
         let { labels, cantidades, informacion } = datos1;
@@ -765,6 +774,12 @@ const drogas_estadistica = async (e) => {
             let dataSetsValues = Object.values(cantidades); 
            
         if (informacion > 0 ) {
+
+            if(fecha1 != "" && fecha2 != "" ){
+            Toast.fire({
+                icon: 'success',
+                title: 'Si  existen regristros'
+            })}
             document.getElementById('graficaDroga').style.display = "block"
             document.getElementById('texto_no1').style.display = "none"
 
@@ -783,7 +798,8 @@ const drogas_estadistica = async (e) => {
         
             }
 
-            const ctx = document.getElementById('myChart9');
+            const canvas = document.getElementById('myChart9');
+            const ctx = canvas.getContext('2d');
            
             let chartInfo = {
                 type: 'bar',
@@ -812,11 +828,18 @@ const drogas_estadistica = async (e) => {
                 }
             }
             window.drogas_grafica = new Chart(ctx, chartInfo);
-            window.drogas_grafica.update()
+        window.drogas_grafica.update()
         } 
-   
+        
         else {
 
+            if(fecha1 != "" && fecha2 != "" ){
+                Toast.fire({
+                    icon: 'error',
+                    title: 'No  existen regristros'
+                })
+            }
+          
             document.getElementById('texto_no1').style.display = "block";
             document.getElementById('graficaDroga').style.display = "none";
 
@@ -825,6 +848,9 @@ const drogas_estadistica = async (e) => {
         console.log(error);
     }
     deptos_estadistica();
+}else{
+
+}
 }
 
 

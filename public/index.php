@@ -193,8 +193,11 @@ $router->post('/API/mapas/infoMaras/mapaCalorPorDeptoGrafica', [infoMarasControl
 $router->post('/API/mapas/infoMaras/colores', [infoMarasController::class , 'coloresAPI'] );
 $router->post('/API/mapas/infoMaras/DelitosCantGrafica', [infoMarasController::class , 'DelitosCantGraficaAPI'] );
 $router->post('/API/mapas/infoMaras/DelitosDepartamentoGrafica', [infoMarasController::class , 'DelitosDepartamentoGraficaAPI'] );
-$router->post('/API/mapas/infoMaras/MarasPorDiaGrafica', [infoMarasController::class , 'MarasPorDiaGraficaAPI'] );
-$router->post('/API/mapas/infoMaras/GraficaTrimestral', [infoMarasController::class , 'GraficaTrimestralAPI'] );
+$router->post('/API/mapas/infoMaras/ActividadesPorDiaGrafica', [infoMarasController::class , 'ActividadesPorDiaGraficaAPI'] );
+$router->post('/API/mapas/infoMaras/Mara18PorDiaGrafica', [infoMarasController::class , 'Mara18PorDiaGraficaAPI'] );
+$router->post('/API/mapas/infoMaras/SalvatruchaPorDiaGrafica', [infoMarasController::class , 'SalvatruchaPorDiaGraficaAPI'] );
+$router->post('/API/mapas/infoMaras/GraficaTrimestralMara18', [infoMarasController::class , 'GraficaTrimestralMara18API'] );
+$router->post('/API/mapas/infoMaras/GraficaTrimestralSalvatrucha', [infoMarasController::class , 'GraficaTrimestralSalvatruchaAPI'] );
 $router->post('/API/mapas/infoMaras/GraficaTrimestralGeneral', [infoMarasController::class , 'GraficaTrimestralGeneralAPI'] );
 
 
