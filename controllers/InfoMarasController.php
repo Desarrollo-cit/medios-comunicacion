@@ -1253,8 +1253,7 @@ class InfoMarasController
                     $info = Capturadas::fetchArray($sql);
                     // $valor = $info[0]['cantidad'];
                     $meses1[]= $mes1;
-                    $cantidades[$
-                    mes1]= (int) $info[0]['cantidad'];
+                    $cantidades[$mes1]= (int) $info[0]['cantidad'];
                 }
                 $data = [
                     'meses' => $meses1,
