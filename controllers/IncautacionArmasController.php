@@ -175,4 +175,120 @@ class IncautacionArmasController
         }
     }
 
+    public static function eliminarArma(){
+        getHeadersApi();
+        
+        
+        try {
+            $arma = IncautacionArmas::find($_POST['id']);
+            $arma->situacion = 0;
+            $resultado = $arma->guardar();
+    
+            if($resultado['resultado'] == 1){
+                echo json_encode([
+                    "mensaje" => "El registro del arma se eliminó.",
+                    "codigo" => 1,
+                ]);
+                
+            }else{
+                echo json_encode([
+                    "mensaje" => "Ocurrió  un error.",
+                    "codigo" => 0,
+                ]);
+    
+            }
+        } catch (Exception $e) {
+            echo json_encode([
+                "detalle" => $e->getMessage(),       
+                "mensaje" => "Ocurrió  un error en base de datos.",
+
+                "codigo" => 4,
+            ]);
+        }
+    } 
+
+    public static function eliminarMunicion(){
+        getHeadersApi();
+        
+        
+        try {
+            $municion = IncautacionMunicion::find($_POST['id']);
+            $municion->situacion = 0;
+            $resultado = $municion->guardar();
+    
+            if($resultado['resultado'] == 1){
+                echo json_encode([
+                    "mensaje" => "El registro de la munición se eliminó.",
+                    "codigo" => 1,
+                ]);
+                
+            }else{
+                echo json_encode([
+                    "mensaje" => "Ocurrió  un error.",
+                    "codigo" => 0,
+                ]);
+    
+            }
+        } catch (Exception $e) {
+            echo json_encode([
+                "detalle" => $e->getMessage(),       
+                "mensaje" => "Ocurrió  un error en base de datos.",
+
+                "codigo" => 4,
+            ]);
+        }
+    } 
+
+    public static function eliminarIncautacion(){
+        getHeadersApi();
+        
+        
+        try {
+
+            $topico = $_POST['topico'];
+            // ELIMINA EL TOPICO
+            $evento = Evento::find($topico);
+            $evento->situacion = 0;
+            $evento->guardar();
+           
+            // ELIMINA LAS ARMAS
+            $armas = IncautacionArmas::where('topico', $topico);
+            $resultadosArmas = [];
+            foreach($armas as $arma){
+                $arma->situacion = 0;
+                $resultadosArmas[] = $arma->guardar();
+            }
+
+            // ELIMINA LA MUNICION
+            $municiones = IncautacionMunicion::where('topico', $topico);
+            $resultadosMunicion = [];
+            foreach($municiones as $municion){
+                $municion->situacion = 0;
+                $resultadosMunicion[] = $municion->guardar();
+            }
+
+    
+            if(!array_search(0, $resultadosArmas) && !array_search(0, $resultadosMunicion)){
+                echo json_encode([
+                    "mensaje" => "La incautación se eliminó.",
+                    "codigo" => 1,
+                ]);
+                
+            }else{
+                echo json_encode([
+                    "mensaje" => "Ocurrió  un error.",
+                    "codigo" => 0,
+                ]);
+    
+            }
+        } catch (Exception $e) {
+            echo json_encode([
+                "detalle" => $e->getMessage(),       
+                "mensaje" => "Ocurrió  un error en base de datos.",
+
+                "codigo" => 4,
+            ]);
+        }
+    } 
+
 }

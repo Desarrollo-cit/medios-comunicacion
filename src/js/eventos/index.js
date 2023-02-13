@@ -1109,7 +1109,7 @@ const agregarInputsArmas = async (e, id = '', cantidad = '', tipo = '',  calibre
     divRow.appendChild(divColCantidad)
     if (boton) {
         divRow.appendChild(divColBoton)
-        buttonEliminar.addEventListener('click', (e) => eliminarAsesinado(e, id))
+        buttonEliminar.addEventListener('click', (e) => eliminarArmamento(e, id))
     }
 
     divCuadro.appendChild(divRow)
@@ -1211,7 +1211,7 @@ const agregarInputsMunicion = async (e, id = '', cantidad = '', calibre = '',bot
     divRow.appendChild(divColCantidad)
     if (boton) {
         divRow.appendChild(divColBoton)
-        buttonEliminar.addEventListener('click', (e) => eliminarAsesinado(e, id))
+        buttonEliminar.addEventListener('click', (e) => eliminarMunicion(e, id))
     }
 
     divCuadro.appendChild(divRow)
@@ -2243,6 +2243,216 @@ const modificarIncautacionArmamento = async e => {
     }
 
 }
+const eliminarArmamento = async (e, id) => {
+    Swal.fire({
+        title: 'Confirmación',
+        text: "¿Esta seguro que desea eliminar este registro?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, Eliminar'
+    }).then( async(result) => {
+        if (result.isConfirmed) {
+            try {
+
+                const url = '/medios-comunicacion/API/incautacion_armas/armas/eliminar'
+    
+                const body = new FormData();
+                body.append('id', id)
+                const headers = new Headers();
+                headers.append("X-Requested-With", "fetch");
+    
+                const config = {
+                    method: 'POST',
+                    headers,
+                    body
+                }
+    
+                const respuesta = await fetch(url, config);
+                const data = await respuesta.json();
+    
+                // console.log(data);
+                // return 
+                const { mensaje, codigo, detalle } = data;
+                // const resultado = data.resultado;
+                let icon = "";
+                switch (codigo) {
+                    case 1:
+                        icon = "success"
+                        recargarModalArmas(formArmas.topico.value)
+                        break;
+                    case 2:
+                        icon = "warning"
+                        formArmas.reset();
+    
+                        break;
+                    case 3:
+                        icon = "error"
+    
+                        break;
+                    case 4:
+                        icon = "error"
+                        console.log(detalle)
+    
+                        break;
+    
+                    default:
+                        break;
+                }
+    
+                Toast.fire({
+                    icon: icon,
+                    title: mensaje,
+                })
+    
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    })
+}
+const eliminarMunicion = async (e, id) => {
+    Swal.fire({
+        title: 'Confirmación',
+        text: "¿Esta seguro que desea eliminar este registro?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, Eliminar'
+    }).then( async(result) => {
+        if (result.isConfirmed) {
+            try {
+
+                const url = '/medios-comunicacion/API/incautacion_armas/municion/eliminar'
+    
+                const body = new FormData();
+                body.append('id', id)
+                const headers = new Headers();
+                headers.append("X-Requested-With", "fetch");
+    
+                const config = {
+                    method: 'POST',
+                    headers,
+                    body
+                }
+    
+                const respuesta = await fetch(url, config);
+                const data = await respuesta.json();
+    
+                // console.log(data);
+                // return 
+                const { mensaje, codigo, detalle } = data;
+                // const resultado = data.resultado;
+                let icon = "";
+                switch (codigo) {
+                    case 1:
+                        icon = "success"
+                        recargarModalArmas(formArmas.topico.value)
+                        break;
+                    case 2:
+                        icon = "warning"
+                        formArmas.reset();
+    
+                        break;
+                    case 3:
+                        icon = "error"
+    
+                        break;
+                    case 4:
+                        icon = "error"
+                        console.log(detalle)
+    
+                        break;
+    
+                    default:
+                        break;
+                }
+    
+                Toast.fire({
+                    icon: icon,
+                    title: mensaje,
+                })
+    
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    })
+}
+
+const eliminarIncautacionArmamento = async (e) => {
+    Swal.fire({
+        title: 'Confirmación',
+        text: "¿Esta seguro que desea eliminar esta incautación?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, Eliminar'
+    }).then( async(result) => {
+        if (result.isConfirmed) {
+            try {
+
+                const url = '/medios-comunicacion/API/incautacion_armas/eliminar'
+    
+                const body = new FormData();
+                body.append('topico', formArmas.topico.value)
+                const headers = new Headers();
+                headers.append("X-Requested-With", "fetch");
+    
+                const config = {
+                    method: 'POST',
+                    headers,
+                    body
+                }
+    
+                const respuesta = await fetch(url, config);
+                const data = await respuesta.json();
+    
+                console.log(data);
+                // return 
+                const { mensaje, codigo, detalle } = data;
+                // const resultado = data.resultado;
+                let icon = "";
+                switch (codigo) {
+                    case 1:
+                        icon = "success"
+                        modalArmas.hide()
+                        buscarEventos()
+                        break;
+                    case 2:
+                        icon = "warning"
+                        formCaptura.reset();
+    
+                        break;
+                    case 3:
+                        icon = "error"
+    
+                        break;
+                    case 4:
+                        icon = "error"
+                        console.log(detalle)
+    
+                        break;
+    
+                    default:
+                        break;
+                }
+    
+                Toast.fire({
+                    icon: icon,
+                    title: mensaje,
+                })
+    
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    })
+}
+
 
 map.on('click', abreModal)
 formInformacion.departamento.addEventListener('change', buscarMunicipio)
@@ -2256,6 +2466,7 @@ btnModificarArmas.addEventListener('click', modificarIncautacionArmamento)
 btnBorrarCaptura.addEventListener('click', eliminarCaptura );
 btnBorrarCapturaDroga.addEventListener('click', eliminarIncautacion );
 btnBorrarAsesinatos.addEventListener('click', eliminarAsesinato );
+btnBorrarArmas.addEventListener('click', eliminarIncautacionArmamento )
 buttonAgregarInputsCaptura.addEventListener('click',e => agregarInputsCaptura(e,'','','','','','','',false, 0, divCapturados))
 buttonQuitarInputsCaptura.addEventListener('click', e => quitarInputsCaptura(0, divCapturados))
 buttonAgregarInputsCapturaDroga.addEventListener('click',e => agregarInputsCaptura(e,'','','','','','','',false, 1, divCapturadosDroga))

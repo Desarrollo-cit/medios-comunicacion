@@ -155,6 +155,8 @@ $router->post('/API/incautacion_armas/guardar', [IncautacionArmasController::cla
 $router->post('/API/incautacion_armas/modificar', [IncautacionArmasController::class, 'modificar']);
 $router->get('/API/incautacion_armas/buscar', [IncautacionArmasController::class, 'buscarIncautacionAPI']);
 $router->post('/API/incautacion_armas/eliminar', [IncautacionArmasController::class, 'eliminarIncautacion']);
+$router->post('/API/incautacion_armas/armas/eliminar', [IncautacionArmasController::class, 'eliminarArma']);
+$router->post('/API/incautacion_armas/municion/eliminar', [IncautacionArmasController::class, 'eliminarMunicion']);
 
 $router->get('/mapas/droga', [infoDrogaController::class , 'index']);
 
