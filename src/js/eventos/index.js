@@ -17,12 +17,14 @@ const modalCaptura = new Modal(document.getElementById('modalCaptura'), {})
 const modalAsesinato = new Modal(document.getElementById('modalAsesinato'), {})
 const modalMigrantes = new Modal(document.getElementById('modalMigrantes'), {})
 const modalDinero = new Modal(document.getElementById('modalDinero'), {})
+const modalDesastres = new Modal(document.getElementById('modalDesastres'), {})
 const formInformacion = document.querySelector('#formInformacion')
 const divPills = document.getElementById('divPills')
 const formCaptura = document.querySelector('#formCaptura')
 const formAsesinatos = document.querySelector('#formAsesinatos')
 const formMigrantes = document.querySelector('#formMigrantes')
 const formDinero = document.querySelector('#formDinero')
+const formDesastres = document.querySelector('#formDesastres')
 const buttonAgregarInputsCaptura = document.getElementById('agregarInputscaptura');
 const buttonQuitarInputsCaptura = document.getElementById('quitarInputscaptura');
 const buttonAgregarInputsAsesinatos = document.getElementById('agregarInputsAsesinatos');
@@ -31,6 +33,8 @@ const buttonAgregarInputsMigrantes = document.getElementById('agregarInputsMigra
 const buttonQuitarInputsMigrantes = document.getElementById('quitarInputsMigrantes');
 const buttonAgregarInputsDinero = document.getElementById('agregarInputsDinero');
 const buttonQuitarInputsDinero = document.getElementById('quitarInputsDinero');
+const buttonAgregarInputsDesastres = document.getElementById('agregarInputsDesastres');
+const buttonQuitarInputsDesastres = document.getElementById('quitarInputsDesastres');
 const btnGuardarCaptura = document.getElementById('btnGuardarCaptura');
 const btnModificarCaptura = document.getElementById('btnModificarCaptura');
 const btnBorrarCaptura = document.getElementById('btnBorrarCaptura');
@@ -46,7 +50,10 @@ const btnBorrarMigrantes = document.getElementById('btnBorrarMigrantes');
 const btnGuardarDinero = document.getElementById('btnGuardarDinero');
 const btnModificarDinero = document.getElementById('btnModificarDinero');
 const btnBorrarDinero = document.getElementById('btnBorrarDinero');
-const selectMoneda= document.getElementById('moneda[]');
+
+const btnGuardarDesastres = document.getElementById('btnGuardarDesastres');
+const btnModificarDesastres = document.getElementById('btnModificarDesastres');
+const btnBorrarDesastres = document.getElementById('btnBorrarDesastres');
 
 
 const inicioInput = document.getElementById('inicio');
@@ -421,7 +428,7 @@ const modal3 = async (e, punto) => {
 
 }
 
-//MODAL 4
+//MODAL 5
 const divDinero = document.getElementById('divDinero');
 let inputsDinero = 0;
 const modal5 = async (e, punto) => {
@@ -432,6 +439,22 @@ const modal5 = async (e, punto) => {
 
 
     modalDinero.show();
+
+
+
+}
+
+//MODAL 6
+const divDesastres = document.getElementById('divDesastres');
+let inputsDesastres = 0;
+const modal7 = async (e, punto) => {
+    L.DomEvent.stopPropagation(e);
+
+
+    recargarModalDesastres(punto.id)
+
+
+    modalDesastres.show();
 
 
 
@@ -686,6 +709,84 @@ const recargarModalDinero = async (id) => {
     }
 
     modalDinero.show();
+
+
+}
+const recargarModalDesastres = async (id) => {
+    formDesastres.reset()
+    formDesastres.topico.value = id
+
+ 
+
+
+    try {
+        const url = `/medios-comunicacion/API/des_natural/buscar?topico=${id}`
+        const headers = new Headers();
+        headers.append("X-Requested-With", "fetch");
+
+        const config = {
+            method: 'GET',
+            headers
+        }
+
+        const respuesta = await fetch(url, config);
+        const data = await respuesta.json();
+        console.log(data);
+
+        const {info, desastre } = data;
+          
+
+       info && tinymce.get('info6').setContent(info.info)
+        // }
+        if (desastre) {
+
+        // console.log(data);
+        desastre.forEach( d => {
+            formDesastres.id.value= d.id,
+            formDesastres.topico.value= d.topico,
+            formDesastres.tipo.value= d.tipo,
+            formDesastres.nombre_desastre.value= d.nombre_desastre,
+            formDesastres.per_fallecida.value= d.per_fallecida,
+            formDesastres.per_evacuada.value= d.per_evacuada,
+            formDesastres.per_afectada.value= d.per_afectada,
+            formDesastres.albergues.value= d.albergues,
+            formDesastres.inundaciones.value= d.inundaciones,
+            formDesastres.est_colapsadas.value= d.est_colapsadas,
+            formDesastres.derrumbes.value= d.derrumbes,
+            formDesastres.carre_colap.value=d.carre_colap,
+            formDesastres.hectareas_quemadas.value = d.hectareas_quemadas,
+            formDesastres.rios.value= d.rios
+        
+          
+        })
+
+
+  
+        } 
+
+        if (desastre.length > 0 && info) {
+        
+           
+            btnGuardarDesastres.disabled = true
+            btnModificarDesastres.disabled = false
+
+
+            btnGuardarDesastres.parentElement.style.display = 'none'
+            btnModificarDesastres.parentElement.style.display = ''
+
+        } else {
+            btnGuardarDesastres.disabled = false
+            btnModificarDesastres.disabled = true
+
+            btnGuardarDesastres.parentElement.style.display = ''
+            btnModificarDesastres.parentElement.style.display = 'none'
+
+        }
+    } catch (e) {
+        console.log(e);
+    }
+
+    modalDesastres.show();
 
 
 }
@@ -1348,6 +1449,300 @@ const agregarInputsDinero = async (e, id = '', cantidad = '', moneda = '',  conv
     divDinero.appendChild(fragment)
 }
 
+// const agregarInputsDesastres = async (e, id='' , tipo = '', nombre_desastre ='' ,  per_fallecida='', per_evacuada='', per_afectada='', albergues='', est_colapsadas='', inundaciones='', derrumbes ='', carre_colap='', hectareas_quemadas='', rios= '', boton = false) => {
+//     inputsDesastres++;
+//     const fragment = document.createDocumentFragment();
+//     const divCuadro = document.createElement('div');
+//     const divRow = document.createElement('div');
+//     const divRow1 = document.createElement('div');
+//     const divRow2 = document.createElement('div');
+//     const divRow3 = document.createElement('div');
+//     const divRow4 = document.createElement('div');
+//     const divCol1 = document.createElement('div');
+//     const divCol2 = document.createElement('div');
+//     const divCol3 = document.createElement('div');
+//     const divCol4 = document.createElement('div');
+//     const divCol5 = document.createElement('div');
+//     const divCol6 = document.createElement('div');
+//     const divCol7 = document.createElement('div');
+//     const divCol8 = document.createElement('div');
+//     const divCol9 = document.createElement('div');
+//     const divCol10 = document.createElement('div');
+//     const divCol11 = document.createElement('div');
+//     const divCol12 = document.createElement('div');
+//     const inputIdRow = document.createElement('input');
+//     const select1= document.createElement('select')
+//     const select2= document.createElement('select')
+//     const input1 = document.createElement('input')
+//     const input2 = document.createElement('input')
+//     const input3 = document.createElement('input')
+//     const input4 = document.createElement('input')
+//     const input5 = document.createElement('input')
+//     const input6 = document.createElement('input')
+//     const input7 = document.createElement('input')
+//     const input8 = document.createElement('input')
+//     const input9 = document.createElement('input')
+//     const input10 = document.createElement('input')
+//     const label1 = document.createElement('label')
+//     const label2 = document.createElement('label')
+//     const label3 = document.createElement('label')
+//     const label4 = document.createElement('label')
+//     const label5 = document.createElement('label')
+//     const label6 = document.createElement('label')
+//     const label7 = document.createElement('label')
+//     const label8 = document.createElement('label')
+//     const label9 = document.createElement('label')
+//     const label10 = document.createElement('label')
+//     const label11 = document.createElement('label')
+//     const label12 = document.createElement('label')
+
+//     const buttonEliminar = document.createElement('button')
+//     const divColBoton = document.createElement('div');
+
+
+//     const option1 = document.createElement('option')
+//     option1.value = ""
+//     option1.innerText ="SELECCIONE"
+
+
+
+//     select1.appendChild(option1)
+
+//     const option2 = document.createElement('option')
+//     option2.value = ""
+//     option2.innerText ="SELECCIONE"
+
+
+
+//     select2.appendChild(option2)
+
+
+
+//     divRow.classList.add("row", "justify-content-center");
+//     divCuadro.classList.add("col", "border", "rounded", "mb-2", "bg-light");
+//     divRow1.classList.add("row", "justify-content-start", "mb-2");
+//     divRow2.classList.add("row", "justify-content-start", "mb-2");
+//     divRow3.classList.add("row", "justify-content-start", "mb-2");
+//     divRow4.classList.add("row", "justify-content-start", "mb-2");
+//     divCol1.classList.add("col-lg-3");
+//     divCol2.classList.add("col-lg-3");
+//     divCol3.classList.add("col-lg-3");
+//     divCol4.classList.add("col-lg-3");
+//     divCol5.classList.add("col-lg-3");
+//     divCol6.classList.add("col-lg-3");
+//     divCol7.classList.add("col-lg-3");
+//     divCol8.classList.add("col-lg-3");
+//     divCol9.classList.add("col-lg-3");
+//     divCol10.classList.add("col-lg-3");
+//     divCol11.classList.add("col-lg-3");
+//     divCol12.classList.add("col-lg-3");
+//     divColBoton.classList.add("col-lg-3", 'd-flex', 'flex-column', 'justify-content-end');
+//     inputIdRow.name = `id_des[]`
+//     inputIdRow.id = `id_des[]`
+//     inputIdRow.type = 'hidden'
+//     select1.classList.add("form-control")
+//     select1.name = `tipo[]`
+//     select1.id = `tipo[]`
+//     select1.required = true;
+//     select2.classList.add("form-control")
+//     select2.name = `nombre[]`
+//     select2.id = `nombre[]`
+//     select2.required = true;
+//     input1.classList.add("form-control")
+//     input1.name = `per_fallecida[]`
+//     input1.id = `per_fallecida[]`
+//     input1.type= `number`
+//     input1.required = true;
+//     input2.classList.add("form-control")
+//     input2.name = `per_evacuada[]`
+//     input2.id = `per_evacuada[]`
+//     input2.type= `number`
+//     input2.required = true;
+//     input3.classList.add("form-control")
+//     input3.name = `per_afectada[]`
+//     input3.id = `per_afectada[]`
+//     input3.type= `number`
+//     input3.required = true;
+//     input4.classList.add("form-control")
+//     input4.name = `albergues[]`
+//     input4.id = `albergues[]`
+//     input4.type= `number`
+//     input4.required = true;
+//     input5.classList.add("form-control")
+//     input5.name = `est_colapsadas[]`
+//     input5.id = `est_colapsadas[]`
+//     input5.type= `number`
+//     input5.required = true;
+//     input6.classList.add("form-control")
+//     input6.name = `inundaciones[]`
+//     input6.id = `inundaciones[]`
+//     input6.type= `number`
+//     input6.required = true;
+//     input7.classList.add("form-control")
+//     input7.name = `derrumbes[]`
+//     input7.id = `derrumbes[]`
+//     input7.type= `number`
+//     input7.required = true;
+//     input8.classList.add("form-control")
+//     input8.name = `carre_colap[]`
+//     input8.id = `carre_colap[]`
+//     input8.type= `number`
+//     input8.required = true;
+//     input9.classList.add("form-control")
+//     input9.name = `hectareas_quemadas[]`
+//     input9.id = `hectareas_quemadas[]`
+//     input9.type= `number`
+//     input9.required = true;
+//     input10.classList.add("form-control")
+//     input10.name = `rios[]`
+//     input10.id = `rios[]`
+//     input10.type= `number`
+//     input10.required = true;
+
+    
+    
+//     label1.innerText = `Tipo ${inputsDesastres}` 
+//     label1.htmlFor = `tipo[]`
+//     label2.innerText = `Nombre`
+//     label2.htmlFor = `nombre[]`
+//     label3.innerText = `Cant. Personas Fallecidas`
+//     label3.htmlFor = `per_fallecida[]`
+//     label4.innerText = `Cant. Personas Evacuadas`
+//     label4.htmlFor = `per_evacuada[]`
+//     label5.innerText = `Cant. Personas Afectadas`
+//     label5.htmlFor = `per_afectada[]`
+//     label6.innerText = `Cant. de Albergues`
+//     label6.htmlFor = `albergues[]`
+//     label7.innerText = `Cant. Estructuras Colapsadas`
+//     label7.htmlFor = `est_colapsadas[]`
+//     label8.innerText = `Cant. de Inundaciones`
+//     label8.htmlFor = `inundaciones[]`
+//     label9.innerText = `Cant. de Derrumbes`
+//     label9.htmlFor = `derrumbes[]`
+//     label10.innerText = `Cant. de Carreteras Colapsadas`
+//     label10.htmlFor = `carre_colap[]`
+//     label11.innerText = `Cant. de Hectareas Quemadas`
+//     label11.htmlFor = `hectareas_quemadas[]`
+//     label12.innerText = `Cant. de Rios desbordados`
+//     label12.htmlFor = `rios[]`
+
+//     buttonEliminar.classList.add('btn', 'btn-danger', 'w-100')
+//     buttonEliminar.innerHTML = "<i class='bi bi-x-circle me-2'></i>Eliminar"
+//     buttonEliminar.type = 'button'
+//     divColBoton.appendChild(buttonEliminar);
+
+//     const headers = new Headers();
+//     headers.append("X-Requested-With", "fetch");
+
+//     const url3 = `/medios-comunicacion/API/desastre_natural/buscar`;
+//     const config3 = { method: "GET", headers }
+//     const response3 = await fetch(url3, config3);
+//     const desastres = await response3.json()
+
+//     // console.log(desastres);
+//     desastres.forEach(desastre => {
+//         const option_desastre = document.createElement('option')
+//         option_desastre.value = desastre.id
+//         option_desastre.innerText = `${desastre.desc} `
+//         select1.appendChild(option_desastre)
+//     })
+
+
+//     const url4 = `/medios-comunicacion/API/fenomeno_natural/buscar`;
+//     const config4 = { method: "GET", headers }
+//     const response4 = await fetch(url4, config4);
+//     const fenomenos = await response4.json()
+
+//     // console.log(fenomenos);
+//     fenomenos.forEach(fenomeno => {
+//         const option_fenomeno = document.createElement('option')
+//         option_fenomeno.value = fenomeno.id
+//         option_fenomeno.innerText = `${fenomeno.desc} `
+//         select1.appendChild(option_fenomeno)
+//     })
+
+
+
+   
+
+
+//     select1.value = tipo;
+//     select2.value= nombre_desastre,
+//     input1.value = per_fallecida;
+//     input2.value = per_evacuada;
+//     input3.value = per_afectada;
+//     input4.value = albergues;
+//     input5.value = est_colapsadas;
+//     input6.value = inundaciones;
+//     input7.value = derrumbes;
+//     input8.value = carre_colap;
+//     input9.value = hectareas_quemadas;
+//     input10.value = rios;
+//     inputIdRow.value = id;
+   
+
+
+
+
+//     divCol1.appendChild(inputIdRow)
+//     divCol1.appendChild(label1)
+//     divCol1.appendChild(select1)
+//     divCol2.appendChild(label2)
+//     divCol2.appendChild(select2)
+//     divCol3.appendChild(label3)
+//     divCol3.appendChild(input1)
+//     divCol4.appendChild(label4)
+//     divCol4.appendChild(input2)
+//     divCol5.appendChild(label5)
+//     divCol5.appendChild(input3)
+//     divCol6.appendChild(label6)
+//     divCol6.appendChild(input4)
+//     divCol7.appendChild(label7)
+//     divCol7.appendChild(input5)
+//     divCol8.appendChild(label8)
+//     divCol8.appendChild(input6)
+//     divCol9.appendChild(label9)
+//     divCol9.appendChild(input7)
+//     divCol10.appendChild(label10)
+//     divCol10.appendChild(input8)
+//     divCol11.appendChild(label11)
+//     divCol11.appendChild(input9)
+//     divCol12.appendChild(label12)
+//     divCol12.appendChild(input10)
+
+//     divRow1.appendChild(divCol1)
+//     divRow1.appendChild(divCol2)
+//     divRow1.appendChild(divCol3)
+
+//     divRow2.appendChild(divCol4)
+//     divRow2.appendChild(divCol5)
+//     divRow2.appendChild(divCol6)
+
+
+//     divRow3.appendChild(divCol7)
+//     divRow3.appendChild(divCol8)
+//     divRow3.appendChild(divCol9)
+
+//     divRow4.appendChild(divCol10)
+//     divRow4.appendChild(divCol11)
+//     divRow4.appendChild(divCol12)
+//     if (boton) {
+//         divRow1.appendChild(divColBoton)
+//         buttonEliminar.addEventListener('click', (e) => eliminarDesastre(e, id))
+//     }
+   
+//     divCuadro.appendChild(divRow1)
+//     divCuadro.appendChild(divRow2)
+//     divCuadro.appendChild(divRow3)
+//     divCuadro.appendChild(divRow4)
+
+//     divRow.appendChild(divCuadro)
+//     fragment.appendChild(divRow)
+
+
+//     divDesastres.appendChild(fragment)
+// }
+
 
 const quitarInputsCaptura = () => {
 
@@ -1707,6 +2102,84 @@ const guardarDinero = async e => {
     }
 
 }
+const guardarDesastres = async e => {
+    e.preventDefault();
+
+    let info = tinymce.get('info6').getContent()
+    console.log(info);
+    if (validarFormulario(formDesastres, ['id','info6']) && info != '') {
+
+        // console.log('hola');
+        try {
+
+            const url = '/medios-comunicacion/API/des_natural/guardar'
+
+            const body = new FormData(formDesastres);
+
+      
+            body.append('info6', info)
+            const headers = new Headers();
+            headers.append("X-Requested-With", "fetch");
+
+            const config = {
+                method: 'POST',
+                headers,
+                body
+            }
+
+            const respuesta = await fetch(url, config);
+            const data = await respuesta.json();
+
+            console.log(data);
+            const { mensaje, codigo, detalle } = data;
+            // const resultado = data.resultado;
+            let icon = "";
+            switch (codigo) {
+                case 1:
+                    icon = "success"
+                    recargarModalDesastres(formDesastres.topico.value)
+                    break;
+                case 2:
+                    icon = "warning"
+                    formDinero.reset();
+
+                    break;
+                case 3:
+                    icon = "error"
+
+                    break;
+                case 4:
+                    icon = "error"
+                    console.log(detalle)
+
+                    break;
+
+                    case 5:
+                        icon = "warning"
+                        break;
+    
+
+                default:
+                    break;
+            }
+
+            Toast.fire({
+                icon: icon,
+                title: mensaje,
+            })
+
+        } catch (error) {
+            console.log(error);
+        }
+
+    } else {
+        Toast.fire({
+            icon: 'warning',
+            title: 'Debe llenar todos los campos'
+        });
+    }
+
+}
 const eliminarCapturado = async (e, id) => {
     Swal.fire({
         title: 'Confirmación',
@@ -1986,6 +2459,9 @@ const eliminarDinero = async (e, id) => {
         }
     })
 }
+
+
+
 const eliminarCaptura = async (e) => {
     Swal.fire({
         title: 'Confirmación',
@@ -2241,6 +2717,76 @@ const eliminarDineros = async (e) => {
                     case 2:
                         icon = "warning"
                         formDinero.reset();
+    
+                        break;
+                    case 3:
+                        icon = "error"
+    
+                        break;
+                    case 4:
+                        icon = "error"
+                        console.log(detalle)
+    
+                        break;
+    
+                    default:
+                        break;
+                }
+    
+                Toast.fire({
+                    icon: icon,
+                    title: mensaje,
+                })
+    
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    })
+}
+const eliminarDesastre = async (e) => {
+    Swal.fire({
+        title: 'Confirmación',
+        text: "¿Esta seguro que desea eliminar este Desastre?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, Eliminar'
+    }).then( async(result) => {
+        if (result.isConfirmed) {
+            try {
+
+                const url = '/medios-comunicacion/API/des_natural/eliminar'
+    
+                const body = new FormData();
+                body.append('topico', formDesastres.topico.value)
+                const headers = new Headers();
+                headers.append("X-Requested-With", "fetch");
+    
+                const config = {
+                    method: 'POST',
+                    headers,
+                    body
+                }
+    
+                const respuesta = await fetch(url, config);
+                const data = await respuesta.json();
+    
+                console.log(data);
+                // return 
+                const { mensaje, codigo, detalle } = data;
+                // const resultado = data.resultado;
+                let icon = "";
+                switch (codigo) {
+                    case 1:
+                        icon = "success"
+                        modalDesastres.hide()
+                        buscarEventos()
+                        break;
+                    case 2:
+                        icon = "warning"
+                        formDesastres.reset();
     
                         break;
                     case 3:
@@ -2556,6 +3102,77 @@ const modificarDinero = async e => {
     }
 
 }
+const modificarDesastres = async e => {
+    e.preventDefault();
+
+    let info = tinymce.get('info6').getContent()
+    if (validarFormulario(formDesastres, ['id[]', 'info6']) && info != '') {
+
+        // console.log('hola');
+        try {
+
+            const url = '/medios-comunicacion/API/des_natural/modificar'
+
+            const body = new FormData(formDesastres);
+            body.append('info6', info)
+            const headers = new Headers();
+            headers.append("X-Requested-With", "fetch");
+
+            const config = {
+                method: 'POST',
+                headers,
+                body
+            }
+
+            const respuesta = await fetch(url, config);
+            const data = await respuesta.json();
+
+            console.log(data);
+            // return 
+            const { mensaje, codigo, detalle } = data;
+            // const resultado = data.resultado;
+            let icon = "";
+            switch (codigo) {
+                case 1:
+                    icon = "success"
+                    recargarModalDesastres(formDesastres.topico.value)
+                    break;
+                case 2:
+                    icon = "warning"
+                    formDesastres.reset();
+
+                    break;
+                case 3:
+                    icon = "error"
+
+                    break;
+                case 4:
+                    icon = "error"
+                    console.log(detalle)
+
+                    break;
+
+                default:
+                    break;
+            }
+
+            Toast.fire({
+                icon: icon,
+                title: mensaje,
+            })
+
+        } catch (error) {
+            console.log(error);
+        }
+
+    } else {
+        Toast.fire({
+            icon: 'warning',
+            title: 'Debe llenar todos los campos'
+        });
+    }
+
+}
 
 const multiplicarMoneda = async e => {
     e.preventDefault();
@@ -2581,10 +3198,12 @@ btnModificarCaptura.addEventListener('click', modificarCaptura)
 btnModificarAsesinatos.addEventListener('click', modificarAsesinato)
 btnModificarMigrantes.addEventListener('click', modificarMigrantes)
 btnModificarDinero.addEventListener('click', modificarDinero)
+btnModificarDesastres.addEventListener('click', modificarDesastres)
 btnBorrarCaptura.addEventListener('click', eliminarCaptura );
 btnBorrarAsesinatos.addEventListener('click', eliminarAsesinato );
 btnBorrarMigrantes.addEventListener('click', eliminarMigrantes );
 btnBorrarDinero.addEventListener('click', eliminarDineros );
+btnBorrarDesastres.addEventListener('click', eliminarDesastre );
 buttonAgregarInputsCaptura.addEventListener('click', agregarInputsCaptura)
 buttonQuitarInputsCaptura.addEventListener('click', quitarInputsCaptura)
 buttonAgregarInputsAsesinatos.addEventListener('click', agregarInputsAsesinatos)
@@ -2593,7 +3212,9 @@ buttonAgregarInputsMigrantes.addEventListener('click', agregarInputsMigrantes)
 buttonQuitarInputsMigrantes.addEventListener('click', quitarInputsMigrantes)
 buttonAgregarInputsDinero.addEventListener('click', agregarInputsDinero)
 buttonQuitarInputsDinero.addEventListener('click', quitarInputsDinero)
+
 formCaptura.addEventListener('submit', guardarCaptura)
 formAsesinatos.addEventListener('submit',guardarAsesinatos)
 formMigrantes.addEventListener('submit',guardarMigrantes)
 formDinero.addEventListener('submit',guardarDinero)
+formDesastres.addEventListener('submit',guardarDesastres)

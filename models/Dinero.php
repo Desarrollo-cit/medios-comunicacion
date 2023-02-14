@@ -26,13 +26,7 @@ class Dinero extends ActiveRecord{
         $this->situacion = $args['situacion'] ?? '1';
     }
 
-    public function validarConversion(){
-        $array = $this->fetchArray("SELECT cambio from amc_migrantes where id = $this->moneda and situacion = 1 ");
-
-        return $array;
-        // return $array;
-    }
-
+  
     public function validarExisteTopico(){
         $array = $this->fetchArray("SELECT topic from amc_migrantes where topic = $this->topico and situacion = 1 ");
 

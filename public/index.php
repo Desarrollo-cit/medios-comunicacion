@@ -23,8 +23,10 @@ use Controllers\Desastre_naturalController;
 use Controllers\Fenomeno_naturalController;
 use Controllers\MonedaController;
 use Controllers\AsesinatosController;
+use Controllers\Des_naturalController;
 use Controllers\DineroController;
 use Controllers\MigrantesController;
+use Controllers\DesastresController;
 
 
 
@@ -144,10 +146,14 @@ $router->post('/API/migrantes/migrantes/eliminar', [MigrantesController::class, 
 $router->post('/API/dinero/guardar', [DineroController::class, 'guardar']);
 $router->post('/API/dinero/modificar', [DineroController::class, 'modificar']);
 $router->get('/API/dinero/buscar', [DineroController::class, 'buscarDineroAPI']);
-
 $router->post('/API/dinero/eliminar', [DineroController::class, 'eliminarDinero']);
-
 $router->post('/API/dinero/dinero/eliminar', [DineroController::class, 'eliminarDineros']);
+
+$router->post('/API/des_natural/guardar', [Des_naturalController::class, 'guardar']);
+$router->post('/API/des_natural/modificar', [Des_naturalController::class, 'modificar']);
+$router->get('/API/des_natural/buscar', [Des_naturalController::class, 'buscarDesastresAPI']);
+$router->post('/API/des_natural/eliminar', [Des_naturalController::class, 'eliminarDesastre']);
+
 
 
 
