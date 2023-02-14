@@ -649,4 +649,74 @@
         </div>
     </div>
 </div>
+
+
+<!-- MODAL 8 -->
+<div class="modal fade" id="modalPistas" tabindex="-1" role="dialog" aria-labelledby="modalPistasLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header ">
+                <h5 class="modal-title " id="modalDesastresLabel">DETALLE DE LA DESTRUCCION DE LA PISTA</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body container ">
+                <!-- <form>
+
+                </form> -->
+                <div class="row justify-content-center mb-3">
+                    <form id="formPistas" novalidate>
+                        <div class="col p-1">
+                            <input type="hidden" name="topico" id="topico">
+                            <div class="row justify-content-center mb-5">
+                                <h4>Información de la Pista</h4>
+                                <div class="col-12 text-center">
+                                    <label class="h3 " for="info6">Noticia</label>
+                                    <textarea name="info7" id="info7" class="form-control"></textarea>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row justify-content-center">
+
+                           
+
+                        </div>
+
+
+                        <div id='divDesastres' class="row">
+                            
+                            <input type="hidden" name="id" id="id">
+
+                                
+                              
+
+                        
+                                <div class="col-lg-4 text-center align-items-center">
+                                    <label for="rios">Longitud de Pista</label>
+                                    <input type="number"  name="distancia" id="distancia" placeholder="Cantidad" class="form-control">
+                                </div>
+
+
+                            </div>
+
+             
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer row justify-content-end">
+
+                <div class="col-lg-3">
+                    <button type="submit" form="formPistas" id="btnGuardarPistas" class="btn btn-primary w-100"><i class="bi bi-save me-2"></i>Guardar</button>
+                </div>
+                <div class="col-lg-3">
+                    <button type="button" class="btn btn-warning w-100" id="btnModificarPistas"><i class="bi bi-save me-2"></i>Modificar</button>
+                </div>
+                <div class="col-lg-3">
+                    <button type="button" class="btn btn-danger w-100" id="btnBorrarPistas"><i class="bi bi-trash  me-2"> </i> Borrar</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
 <script src="./build/js/eventos/index.js"></script>

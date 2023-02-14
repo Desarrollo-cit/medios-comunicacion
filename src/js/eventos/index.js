@@ -18,6 +18,7 @@ const modalAsesinato = new Modal(document.getElementById('modalAsesinato'), {})
 const modalMigrantes = new Modal(document.getElementById('modalMigrantes'), {})
 const modalDinero = new Modal(document.getElementById('modalDinero'), {})
 const modalDesastres = new Modal(document.getElementById('modalDesastres'), {})
+const modalPistas = new Modal(document.getElementById('modalPistas'), {})
 const formInformacion = document.querySelector('#formInformacion')
 const divPills = document.getElementById('divPills')
 const formCaptura = document.querySelector('#formCaptura')
@@ -25,6 +26,7 @@ const formAsesinatos = document.querySelector('#formAsesinatos')
 const formMigrantes = document.querySelector('#formMigrantes')
 const formDinero = document.querySelector('#formDinero')
 const formDesastres = document.querySelector('#formDesastres')
+const formPistas = document.querySelector('#formPistas')
 const buttonAgregarInputsCaptura = document.getElementById('agregarInputscaptura');
 const buttonQuitarInputsCaptura = document.getElementById('quitarInputscaptura');
 const buttonAgregarInputsAsesinatos = document.getElementById('agregarInputsAsesinatos');
@@ -54,6 +56,10 @@ const btnBorrarDinero = document.getElementById('btnBorrarDinero');
 const btnGuardarDesastres = document.getElementById('btnGuardarDesastres');
 const btnModificarDesastres = document.getElementById('btnModificarDesastres');
 const btnBorrarDesastres = document.getElementById('btnBorrarDesastres');
+
+const btnGuardarPistas = document.getElementById('btnGuardarPistas');
+const btnModificarPistas = document.getElementById('btnModificarPistas');
+const btnBorrarPistas = document.getElementById('btnBorrarPistas');
 
 
 const inicioInput = document.getElementById('inicio');
@@ -459,6 +465,20 @@ const modal7 = async (e, punto) => {
 
 
 }
+
+const modal8 = async (e, punto) => {
+    L.DomEvent.stopPropagation(e);
+
+
+    recargarModalPistas(punto.id)
+
+
+    modalPistas.show();
+
+
+
+}
+
 const recargarModalCaptura = async (id) => {
     formCaptura.reset()
     formCaptura.topico.value = id
@@ -787,6 +807,74 @@ const recargarModalDesastres = async (id) => {
     }
 
     modalDesastres.show();
+
+
+}
+const recargarModalPistas = async (id) => {
+    formPistas.reset()
+    formPistas.topico.value = id
+
+ 
+
+
+    try {
+        const url = `/medios-comunicacion/API/pistas/buscar?topico=${id}`
+        const headers = new Headers();
+        headers.append("X-Requested-With", "fetch");
+
+        const config = {
+            method: 'GET',
+            headers
+        }
+
+        const respuesta = await fetch(url, config);
+        const data = await respuesta.json();
+        console.log(data);
+      
+        const {info, pista } = data;
+          
+
+       info && tinymce.get('info7').setContent(info.info)
+        // }
+        if (pista) {
+
+        // console.log(data);
+        pista.forEach( p => {
+            formPistas.id.value= p.id,
+            formPistas.topico.value= p.topico,
+            formPistas.distancia.value= p.distancia
+           
+        
+          
+        })
+
+
+  
+        } 
+
+        if (pista.length > 0 && info) {
+        
+           
+            btnGuardarPistas.disabled = true
+            btnModificarPistas.disabled = false
+
+
+            btnGuardarPistas.parentElement.style.display = 'none'
+            btnModificarPistas.parentElement.style.display = ''
+
+        } else {
+            btnGuardarPistas.disabled = false
+            btnModificarPistas.disabled = true
+
+            btnGuardarPistas.parentElement.style.display = ''
+            btnModificarPistas.parentElement.style.display = 'none'
+
+        }
+    } catch (e) {
+        console.log(e);
+    }
+
+    modalPistas.show();
 
 
 }
@@ -2180,6 +2268,88 @@ const guardarDesastres = async e => {
     }
 
 }
+
+const guardarPistas= async e => {
+    e.preventDefault();
+
+    let info = tinymce.get('info7').getContent()
+    console.log(info);
+    if (validarFormulario(formPistas, ['id','info7']) && info != '') {
+
+        // console.log('hola');
+        try {
+
+            const url = '/medios-comunicacion/API/pistas/guardar'
+
+            const body = new FormData(formPistas);
+
+      
+            body.append('info7', info)
+            const headers = new Headers();
+            headers.append("X-Requested-With", "fetch");
+
+            const config = {
+                method: 'POST',
+                headers,
+                body
+            }
+
+            const respuesta = await fetch(url, config);
+            const data = await respuesta.json();
+
+            console.log(data);
+            const { mensaje, codigo, detalle } = data;
+            // const resultado = data.resultado;
+            let icon = "";
+            switch (codigo) {
+                case 1:
+                    icon = "success"
+                    recargarModalPistas(formPistas.topico.value)
+                    break;
+                case 2:
+                    icon = "warning"
+                    formPistas.reset();
+
+                    break;
+                case 3:
+                    icon = "error"
+
+                    break;
+                case 4:
+                    icon = "error"
+                    console.log(detalle)
+
+                    break;
+
+                    case 5:
+                        icon = "warning"
+                        break;
+    
+
+                default:
+                    break;
+            }
+
+            Toast.fire({
+                icon: icon,
+                title: mensaje,
+            })
+
+        } catch (error) {
+            console.log(error);
+        }
+
+    } else {
+        Toast.fire({
+            icon: 'warning',
+            title: 'Debe llenar todos los campos'
+        });
+    }
+
+}
+
+
+
 const eliminarCapturado = async (e, id) => {
     Swal.fire({
         title: 'Confirmación',
@@ -2814,7 +2984,76 @@ const eliminarDesastre = async (e) => {
         }
     })
 }
+const eliminarPistas = async (e) => {
+    Swal.fire({
+        title: 'Confirmación',
+        text: "¿Esta seguro que desea eliminar esta Destrucción de Pista",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, Eliminar'
+    }).then( async(result) => {
+        if (result.isConfirmed) {
+            try {
 
+                const url = '/medios-comunicacion/API/pistas/eliminar'
+    
+                const body = new FormData();
+                body.append('topico', formPistas.topico.value)
+                const headers = new Headers();
+                headers.append("X-Requested-With", "fetch");
+    
+                const config = {
+                    method: 'POST',
+                    headers,
+                    body
+                }
+    
+                const respuesta = await fetch(url, config);
+                const data = await respuesta.json();
+    
+                console.log(data);
+                // return 
+                const { mensaje, codigo, detalle } = data;
+                // const resultado = data.resultado;
+                let icon = "";
+                switch (codigo) {
+                    case 1:
+                        icon = "success"
+                        modalPistas.hide()
+                        buscarEventos()
+                        break;
+                    case 2:
+                        icon = "warning"
+                        formPistas.reset();
+    
+                        break;
+                    case 3:
+                        icon = "error"
+    
+                        break;
+                    case 4:
+                        icon = "error"
+                        console.log(detalle)
+    
+                        break;
+    
+                    default:
+                        break;
+                }
+    
+                Toast.fire({
+                    icon: icon,
+                    title: mensaje,
+                })
+    
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    })
+}
 
 
 const modificarCaptura = async e => {
@@ -3174,6 +3413,78 @@ const modificarDesastres = async e => {
 
 }
 
+const modificarPistas = async e => {
+    e.preventDefault();
+
+    let info = tinymce.get('info7').getContent()
+    if (validarFormulario(formPistas, ['id[]', 'info7']) && info != '') {
+
+        // console.log('hola');
+        try {
+
+            const url = '/medios-comunicacion/API/pistas/modificar'
+
+            const body = new FormData(formPistas);
+            body.append('info7', info)
+            const headers = new Headers();
+            headers.append("X-Requested-With", "fetch");
+
+            const config = {
+                method: 'POST',
+                headers,
+                body
+            }
+
+            const respuesta = await fetch(url, config);
+            const data = await respuesta.json();
+
+            console.log(data);
+            // return 
+            const { mensaje, codigo, detalle } = data;
+            // const resultado = data.resultado;
+            let icon = "";
+            switch (codigo) {
+                case 1:
+                    icon = "success"
+                    recargarModalPistas(formPistas.topico.value)
+                    break;
+                case 2:
+                    icon = "warning"
+                    formPistas.reset();
+
+                    break;
+                case 3:
+                    icon = "error"
+
+                    break;
+                case 4:
+                    icon = "error"
+                    console.log(detalle)
+
+                    break;
+
+                default:
+                    break;
+            }
+
+            Toast.fire({
+                icon: icon,
+                title: mensaje,
+            })
+
+        } catch (error) {
+            console.log(error);
+        }
+
+    } else {
+        Toast.fire({
+            icon: 'warning',
+            title: 'Debe llenar todos los campos'
+        });
+    }
+
+}
+
 const multiplicarMoneda = async e => {
     e.preventDefault();
     let inputCantidad = e.target.parentElement.previousElementSibling.lastElementChild.value,
@@ -3199,11 +3510,13 @@ btnModificarAsesinatos.addEventListener('click', modificarAsesinato)
 btnModificarMigrantes.addEventListener('click', modificarMigrantes)
 btnModificarDinero.addEventListener('click', modificarDinero)
 btnModificarDesastres.addEventListener('click', modificarDesastres)
+btnModificarPistas.addEventListener('click', modificarPistas)
 btnBorrarCaptura.addEventListener('click', eliminarCaptura );
 btnBorrarAsesinatos.addEventListener('click', eliminarAsesinato );
 btnBorrarMigrantes.addEventListener('click', eliminarMigrantes );
 btnBorrarDinero.addEventListener('click', eliminarDineros );
 btnBorrarDesastres.addEventListener('click', eliminarDesastre );
+btnBorrarPistas.addEventListener('click', eliminarPistas );
 buttonAgregarInputsCaptura.addEventListener('click', agregarInputsCaptura)
 buttonQuitarInputsCaptura.addEventListener('click', quitarInputsCaptura)
 buttonAgregarInputsAsesinatos.addEventListener('click', agregarInputsAsesinatos)
@@ -3218,3 +3531,4 @@ formAsesinatos.addEventListener('submit',guardarAsesinatos)
 formMigrantes.addEventListener('submit',guardarMigrantes)
 formDinero.addEventListener('submit',guardarDinero)
 formDesastres.addEventListener('submit',guardarDesastres)
+formPistas.addEventListener('submit',guardarPistas)

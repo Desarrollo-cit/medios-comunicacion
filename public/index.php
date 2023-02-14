@@ -33,6 +33,7 @@ use Controllers\DesastresController;
 
 use Controllers\infoCapturaController;
 use Controllers\infoDrogaController;
+use Controllers\PistasController;
 
 $router = new Router();
 $router->setBaseURL('/medios-comunicacion');
@@ -153,6 +154,11 @@ $router->post('/API/des_natural/guardar', [Des_naturalController::class, 'guarda
 $router->post('/API/des_natural/modificar', [Des_naturalController::class, 'modificar']);
 $router->get('/API/des_natural/buscar', [Des_naturalController::class, 'buscarDesastresAPI']);
 $router->post('/API/des_natural/eliminar', [Des_naturalController::class, 'eliminarDesastre']);
+
+$router->post('/API/pistas/guardar', [PistasController::class, 'guardar']);
+$router->post('/API/pistas/modificar', [PistasController::class, 'modificar']);
+$router->get('/API/pistas/buscar', [PistasController::class, 'buscarPistasAPI']);
+$router->post('/API/pistas/eliminar', [PistasController::class, 'eliminarPistas']);
 
 
 
