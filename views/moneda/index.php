@@ -9,7 +9,7 @@
         <div class="row mb-4 mt-3">
             <div class="col-lg-12">
                 <label for="nombre">Nombre de la Moneda</label>
-                <input type="text" name="desc" id="desc" class="form-control" placeholder="Ingrese una nueva moneda">
+                <input type="text" name="desc" id="desc" class="form-control" placeholder="Ingrese una nueva moneda" style="text-transform:uppercase">
             </div>
         </div>
         <div class="row mb-4 mt-3">

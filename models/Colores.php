@@ -22,7 +22,7 @@ class Colores extends ActiveRecord{
     public function __construct($args = []){
 
         $this->id = $args['id'] ?? null;
-        $this->descripcion = $args['descripcion'] ?? '';
+        $this->descripcion = utf8_decode(mb_strtoupper(trim($args['descripcion']))) ??'';
         $this->cantidad = $args['cantidad'] ?? '';
         $this->color = $args['color'] ?? '';
         $this->nivel = $args['nivel'] ?? '';
