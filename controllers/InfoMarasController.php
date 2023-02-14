@@ -3,11 +3,11 @@
 namespace Controllers;
 
 use Exception;
-use utf8_encode;
+
 use DateTime;
 use Model\Captura;
 use Model\Capturadas;
-use Model\Delito;
+
 use Model\DepMun;
 // use Model\Delito;
 use MVC\Router;
@@ -1116,7 +1116,7 @@ class InfoMarasController
                     break;
             }
 
-            $tipos = static::delitosApi();
+            $tipos = static::tiposTopicos();
 
             $data = [];
             $labels = [];
@@ -1178,7 +1178,7 @@ class InfoMarasController
                     break;
             }
 
-            $tipos = static::delitosApi();
+            $tipos = static::tiposTopicos();
 
             $data = [];
             $labels = [];
@@ -1371,15 +1371,5 @@ class InfoMarasController
     }
 
 
-    public function delitosApi()
-    {
-
-        try {
-            $sql = "SELECT * from amc_delito where situacion = 1  ";
-            $info = Delito::fetchArray($sql);
-            return $info;
-        } catch (Exception $e) {
-            return [];
-        }
-    }
+   
 }

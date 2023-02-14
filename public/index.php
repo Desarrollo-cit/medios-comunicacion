@@ -29,6 +29,7 @@ use Controllers\infoCapturaController;
 use Controllers\infoMuertesController;
 use Controllers\infoDrogaController;
 use Controllers\infoMarasController;
+use Controllers\infoMigrantesController;
 
 $router = new Router();
 $router->setBaseURL('/medios-comunicacion');
@@ -202,6 +203,26 @@ $router->post('/API/mapas/infoMaras/SalvatruchaPorDiaGrafica', [infoMarasControl
 $router->post('/API/mapas/infoMaras/GraficaTrimestralMara18', [infoMarasController::class , 'GraficaTrimestralMara18API'] );
 $router->post('/API/mapas/infoMaras/GraficaTrimestralSalvatrucha', [infoMarasController::class , 'GraficaTrimestralSalvatruchaAPI'] );
 $router->post('/API/mapas/infoMaras/GraficaTrimestralGeneral', [infoMarasController::class , 'GraficaTrimestralGeneralAPI'] );
+
+
+
+$router->get('/mapas/migrantes', [infoMigrantesController::class , 'index']);
+$router->post('/API/mapas/infoMigrantes/resumen', [infoMigrantesController::class , 'resumenAPI'] );
+$router->get('/API/mapas/infoMigrantes/listado', [infoMigrantesController::class , 'listadoAPI'] );
+$router->post('/API/mapas/infoMigrantes/modal', [infoMigrantesController::class , 'modalAPI'] );
+$router->post('/API/mapas/infoMigrantes/informacionMigrantes', [infoMigrantesController::class , 'informacionMigrantesModalAPI'] );
+$router->post('/API/mapas/infoMigrantes/mapaCalor', [infoMigrantesController::class , 'mapaCalorAPI'] );
+$router->post('/API/mapas/infoMigrantes/mapaCalorPorDepto', [infoMigrantesController::class , 'mapaCalorDeptoAPI'] );
+$router->post('/API/mapas/infoMigrantes/mapaCalorPorDeptoGrafica', [infoMigrantesController::class , 'mapaCalorPorDeptoGraficaAPI'] );
+$router->post('/API/mapas/infoMigrantes/colores', [infoMigrantesController::class , 'coloresAPI'] );
+$router->post('/API/mapas/infoMigrantes/DelitosCantGrafica', [infoMigrantesController::class , 'DelitosCantGraficaAPI'] );
+$router->post('/API/mapas/infoMigrantes/DelitosDepartamentoGrafica', [infoMigrantesController::class , 'DelitosDepartamentoGraficaAPI'] );
+$router->post('/API/mapas/infoMigrantes/ActividadesPorDiaGrafica', [infoMigrantesController::class , 'ActividadesPorDiaGraficaAPI'] );
+$router->post('/API/mapas/infoMigrantes/Mara18PorDiaGrafica', [infoMigrantesController::class , 'Mara18PorDiaGraficaAPI'] );
+$router->post('/API/mapas/infoMigrantes/SalvatruchaPorDiaGrafica', [infoMigrantesController::class , 'SalvatruchaPorDiaGraficaAPI'] );
+$router->post('/API/mapas/infoMigrantes/GraficaTrimestralMara18', [infoMigrantesController::class , 'GraficaTrimestralMara18API'] );
+$router->post('/API/mapas/infoMigrantes/GraficaTrimestralSalvatrucha', [infoMigrantesController::class , 'GraficaTrimestralSalvatruchaAPI'] );
+$router->post('/API/mapas/infoMigrantes/GraficaTrimestralGeneral', [infoMigrantesController::class , 'GraficaTrimestralGeneralAPI'] );
 
 
 

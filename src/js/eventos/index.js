@@ -227,15 +227,15 @@ document.querySelectorAll('[id^=divTopico]').forEach(d => {
 })
 
 let iconos = {
-    "1": "handcuffs.png",
-    "2": "murder.png",
-    "9": "walk.png",
-    "4": "pills.png",
-    "5": "money-bag.png",
-    "6": "rifle.png",
-    "7": "disaster.png",
-    "8": "dynamite.png",
-    "10": "banner.png",
+    "1": "1.png",
+    "2": "2.png",
+    "9": "9.png",
+    "4": "4.png",
+    "5": "5.png",
+    "6": "6.png",
+    "7": "7.png",
+    "8": "8.png",
+    "10": "10.png",
 }
 
 const buscarEventos = async e => {

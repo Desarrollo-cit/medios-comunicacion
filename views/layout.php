@@ -81,16 +81,19 @@
                             <!-- <h6 class="dropdown-header">Información</h6> -->
                            
                             <li>
-                                <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/mapas/capturas"><i class="ms-lg-0 ms-2 bi bi-plus-circle me-2"></i>Capturas</a>
+                                <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/mapas/capturas"><i class="ms-lg-0 ms-2  fa-solid fa-handcuffs me-2"></i>Capturas</a>
                             </li>
                             <li>
-                                <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/mapas/droga"><i class="ms-lg-0 ms-2 bi bi-plus-circle me-2"></i>Drogas</a>
+                                <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/mapas/droga"><i class="ms-lg-0 ms-2 fa-solid fa-cannabis me-2"> </i>Drogas</a>
                             </li>
                             <li>
-                                <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/mapas/muertes"><i class="ms-lg-0 ms-2 bi bi-plus-circle me-2"></i>Muertes</a>
+                                <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/mapas/muertes"><i class="ms-lg-0 ms-2 fa-solid fa-skull me-2"></i>Muertes</a>
                             </li>
                             <li>
-                                <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/mapas/maras"><i class="ms-lg-0 ms-2 bi bi-plus-circle me-2"></i>Maras</a>
+                                <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/mapas/maras"><i class="ms-lg-0 ms-2 fa-solid fa-user-ninja me-2"></i>Maras</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/mapas/migrantes"><i class="ms-lg-0 ms-2 fa-solid fa-users-between-lines me-2"></i>Migrantes</a>
                             </li>
                         
                     
@@ -125,5 +128,6 @@
             </div>
         </div>
     </div>
+    <script src="https://kit.fontawesome.com/ae0feae7c7.js" crossorigin="anonymous"></script>
 </body>
 </html>

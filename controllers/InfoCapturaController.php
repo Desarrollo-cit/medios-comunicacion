@@ -401,6 +401,8 @@ class InfoCapturaController
             ]);
         }
     }
+
+    
     public function informacionModalAPI1()
     {
         getHeadersApi();
