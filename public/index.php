@@ -26,7 +26,7 @@ use Controllers\MonedaController;
 
 
 use Controllers\infoCapturaController;
-use Controllers\infoMuertesController;
+use Controllers\InfoMuertesController;
 use Controllers\infoDrogaController;
 use Controllers\infoMarasController;
 
@@ -153,6 +153,16 @@ $router->post('/API/mapas/IndexMuertes/mapaCalor', [infoMuertesController::class
 $router->post('/API/mapas/IndexMuertes/mapaCalorPorDepto', [infoMuertesController::class , 'mapaCalorDeptoAPI'] );
 $router->post('/API/mapas/IndexMuertes/colores', [infoMuertesController::class , 'coloresAPI'] );
 $router->post('/API/mapas/IndexMuertes/mapaCalorPorDeptoGrafica', [infoMuertesController::class , 'mapaCalorPorDeptoGraficaAPI'] );
+$router->post('/API/mapas/IndexMuertes/GraficaTrimestralGeneral', [infoMuertesController::class , 'GraficaTrimestralGeneralAPI'] );
+$router->post('/API/mapas/IndexMuertes/DelitosCantGrafica', [infoMuertesController::class , 'DelitosCantGraficaAPI'] );
+$router->post('/API/mapas/IndexMuertes/DelitosDepartamentoGrafica', [infoMuertesController::class , 'DelitosDepartamentoGraficaAPI'] );
+$router->post('/API/mapas/IndexMuertes/CapturasPorDiaGrafica', [infoMuertesController::class , 'CapturasPorDiaGraficaAPI'] );
+$router->post('/API/mapas/IndexMuertes/GraficaTrimestral', [infoMuertesController::class , 'GraficaTrimestralAPI'] );
+
+
+
+
+
 
 
 $router->get('/mapas/droga', [infoDrogaController::class , 'index']);

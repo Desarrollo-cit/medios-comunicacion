@@ -9,11 +9,14 @@ import 'tinymce/themes/silver/theme';
 import Chart from 'chart.js/auto';
 
 const formBusqueda_resumen = document.getElementById('formBusqueda_resumen');
+const formBusqueda_grafica = document.getElementById('formBusqueda_grafica');
+const btngraficabuscar = document.querySelector("#buscarGrafica");
 const formBusqueda_mapa = document.getElementById('formBusqueda_mapa');
 const btnBuscarmapacalor = document.querySelector("#buscaravanzada");
 const btnresumenbuscar = document.querySelector("#buscarresumen");
 const btnBuscar = document.getElementById("buscarcapturas");
 const btnmapa = document.querySelector("#ver_mapa");
+const btngrafica = document.querySelector("#ver_grafica");
 
 let tablaregistro = new Datatable('#dataTable2');
 let TablaInfoPer = new Datatable('#dataTable3');
@@ -44,7 +47,7 @@ const cambiarmes = async (evento) => {
 
 
     if (f1 < f2) {
-//alert (f1)
+
         const url = '/medios-comunicacion/API/mapas/IndexMuertes/resumen'
         const body = new FormData(formBusqueda_resumen);
         const headers = new Headers();
@@ -59,7 +62,7 @@ const cambiarmes = async (evento) => {
         const respuesta = await fetch(url, config);
         const data = await respuesta.json();
 
-        // console.log(data)
+         console.log(data)
         if (data) {
             infocapturas.innerText = data[0].cantidad
             infodelito.innerText = data[1].desc
@@ -220,7 +223,7 @@ window.ModalPersonal = async (id) => {
     const respuesta1 = await fetch(url1, config1);
     const info1 = await respuesta1.json();
 
-console.log(info);
+//console.log(info);
    
             capturas.show();
             info.forEach(info1 => {
@@ -264,6 +267,101 @@ console.log(info);
 
 
 
+
+    const deptos_estadistica = async (e) => {
+        e && e.preventDefault();
+    
+        const url_grafica2 = `/medios-comunicacion/API/mapas/IndexMuertes/DelitosDepartamentoGrafica`
+        const bodyGrafica2 = new FormData(formBusqueda_grafica);
+    
+        const headersGrafica2 = new Headers();
+        headersGrafica2.append("X-Requested-With", "fetch");
+    
+        const configGrafica2 = {
+            method: 'POST',
+            headers: headersGrafica2,
+            body: bodyGrafica2,
+        }
+        try {
+    
+            const response2 = await fetch(url_grafica2, configGrafica2)
+            const datos2 = await response2.json()
+    //console.log(datos2)
+    
+            if (datos2.length > 0) {
+                document.getElementById('graficaDelitosDepartamento').style.display = "block"
+                document.getElementById('texto_no2').style.display = "none"
+    
+    
+                let labels = [], cantidades = []
+                datos2.forEach(d => {
+                    labels = [...labels, d.descripcion]
+                    cantidades = [...cantidades, d.cantidad]
+                })
+                // mostrar(datos)
+                //  $("#delitos_cant").destroy();
+                const ctx = document.getElementById('myChart2');
+                if (window.delitosDepartamento_grafica) {
+                    window.delitosDepartamento_grafica.clear();
+                    window.delitosDepartamento_grafica.destroy();
+                }
+    
+             
+                window.delitosDepartamento_grafica = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels,
+                        datasets: [{
+                            label: 'DELITOS',
+                            data: cantidades,
+    
+                            backgroundColor: [
+                                'red',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(153, 102, 255, 1)',
+                                'blue',
+                                'rgba(255, 159, 64, 1)'
+                            ],
+                            borderColor: [
+                                'rgba(255, 236, 0, 1)',
+                                'rgba(255, 236, 0, 1)',
+                                'rgba(255, 236, 0, 1)',
+                                'rgba(255, 236, 0, 1)',
+                                'rgba(255, 236, 0, 1)',
+                                'rgba(255, 236, 0, 1)'
+                            ],
+                            borderWidth: 5
+                        }]
+                    },
+                    options: {
+                        plugins: {
+                            legend: {
+                                position: 'left',
+    
+                                font: {
+                                    size: 45, // 'size' now within object 'font {}'
+                                },
+    
+    
+                            },
+                        }
+    
+                    }
+                });
+            } else {
+    
+                document.getElementById('texto_no2').style.display = "block";
+                document.getElementById('graficaDelitosDepartamento').style.display = "none";
+    
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    
+    }
+    
 
 
 
@@ -379,7 +477,7 @@ window.detalle = async(valor) => {
     const respuesta = await fetch(url, config);
     const info_depto1 = await respuesta.json();
    
-        console.log(info_depto1)
+        //console.log(info_depto1)
     if (info_depto1) {
         deptoinfo.innerText = info_depto1[0].cantidad_delito
         deptoincidencia.innerText = info_depto1[1].desc
@@ -565,12 +663,606 @@ window.detalle = async(valor) => {
 
 
 
+
+
+//________________________________________________________GRAFICA POR DELITOS __________________________________________________________________________________________________________
+
+
+const delitos_estadistica = async (e) => {
+    e && e.preventDefault();
+
+    const url_grafica1 = `/medios-comunicacion/API/mapas/IndexMuertes/DelitosCantGrafica`
+    const bodyGrafica1 = new FormData(formBusqueda_grafica);
+
+    const headersGrafica1 = new Headers();
+    headersGrafica1.append("X-Requested-With", "fetch");
+
+    const configGrafica1 = {
+        method: 'POST',
+        headers: headersGrafica1,
+        body: bodyGrafica1,
+    }
+    try {
+
+        const response1 = await fetch(url_grafica1, configGrafica1)
+        const datos1 = await response1.json()
+       // console.log(datos1)
+
+        
+        if(datos1.length > 0){
+            document.getElementById('graficaDelitos').style.display = "block"
+            document.getElementById('texto_no1').style.display = "none"
+
+
+            let labels = [], cantidades = []
+            datos1.forEach(d => {
+//console.log(d.descripcion)
+
+ 
+switch (d.descripcion) {
+    case '1':
+        labels = [...labels, 'ASESINATO' ]
+
+        break;
+
+    case '2':
+        labels = [...labels, 'HOMICIDIO' ]
+  
+        break;
+    case '3':
+        labels = [...labels, 'SICARIATO' ]
+
+        break;
+    case '4':
+        labels = [...labels, 'FEMICIDIO' ]
+
+        break;
+    case '5':
+        labels = [...labels, 'SUICIDIO' ]
+
+        break;
+}
+
+
+
+
+     
+
+                
+          
+                cantidades = [...cantidades, d.cantidad]
+            })
+
+            const ctx = document.getElementById('myChart1');
+            if (window.delitos_grafica) {
+                window.delitos_grafica.clear();
+                window.delitos_grafica.destroy();
+            }
+            window.delitos_grafica = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels,
+                    datasets: [{
+                        label: 'MUERTES',
+                        data: cantidades,
+
+                        backgroundColor: [
+                            'rgba(252, 100, 7 , 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(46, 148, 26 , 1)',
+                            'rgba(255, 159, 64, 1)',
+                            'rgba(241, 9, 9 , 1)',
+                            'rgba(26, 50, 148,  1)',
+                            'rgba(18, 199, 29,  1)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 236, 0, 1)',
+                            'rgba(255, 236, 0, 1)',
+                            'rgba(255, 236, 0, 1)',
+                            'rgba(255, 236, 0, 1)',
+                            'rgba(255, 236, 0, 1)',
+                            'rgba(255, 236, 0, 1)'
+                        ],
+                        borderWidth: 7
+                    }],
+                },
+                options: {
+                    indexAxis: 'y',
+                    scales: {
+                        y: { // not 'yAxes: [{' anymore (not an array anymore)
+                            ticks: {
+                                color: "black", // not 'fontColor:' anymore
+                                // fontSize: 18,
+                                font: {
+                                    size: 16, // 'size' now within object 'font {}'
+                                },
+                                stepSize: 1,
+                                beginAtZero: true,
+                                grid: {
+                                    color: 'rgba(255, 199, 132, 1)'
+                                }
+                            }
+                        },
+                        x: { // not 'xAxes: [{' anymore (not an array anymore)
+                            ticks: {
+                                color: "black", // not 'fontColor:' anymore
+                                //fontSize: 14,
+                                font: {
+                                    size: 14 // 'size' now within object 'font {}'
+                                },
+                                stepSize: 1,
+                                beginAtZero: true,
+
+                            }
+                        }
+
+                    },
+                    legend: {
+                        labels: {
+                            color: "black",
+                            labels: {
+                                color: "blue", // not 'fontColor:' anymore
+                                // fontSize: 18  // not 'fontSize:' anymore
+                                font: {
+                                    size: 18 // 'size' now within object 'font {}'
+                                }
+                            }
+                        }
+                    },
+
+                }
+            });
+
+        }else{
+
+            document.getElementById('texto_no1').style.display = "block";
+            document.getElementById('graficaDelitos').style.display = "none";
+        }
+        
+    } catch (error) {
+        console.log(error);
+    }
+    deptos_estadistica()
+
+}
+
+
+
+
+const CapturasPorDia = async () => {
+
+    const url_grafica2 = `/medios-comunicacion/API/mapas/IndexMuertes/CapturasPorDiaGrafica`
+    const headersGrafica2 = new Headers();
+    headersGrafica2.append("X-Requested-With", "fetch");
+
+    const configGrafica2 = {
+        method: 'POST',
+        headers: headersGrafica2,
+
+    }
+    try {
+
+        const response2 = await fetch(url_grafica2, configGrafica2)
+        const datos2 = await response2.json()
+
+//console.log(datos2);
+
+        const { dias, cantidades } = datos2;
+
+        const canvas = document.getElementById('myChart3');
+        const ctx = canvas.getContext('2d');
+        if (window.CapturasPorDia) {
+            // console.log(window.CapturasPorDia);
+            window.CapturasPorDia.destroy()
+        }
+
+        const data = {
+            labels: dias,
+            datasets: [{
+                label: 'ASESINATOS',
+                data: cantidades,
+                fill: true,
+                borderColor: 'rgb(75, 192, 192)',
+                tension: 0.5,
+                borderColor: '#F10909',
+                backgroundColor: '#34495E',
+                pointBorderColor: 'white',
+                pointBackgroundColor: 'black',
+                pointRadius: 10,
+                pointHoverRadius: 20,
+                pointHitRadius: 30,
+                pointBorderWidth: 2,
+                pointStyle: 'rectRounded',
+            }]
+
+        };
+
+        const configChart = {
+            type: 'line',
+            data: data,
+            options: {
+                plugins: {
+                    legend: {
+                        position: "top",
+                        labels: {
+                            boxWidth: 100,
+                            usePointStyle: true,
+                            pointStyle: "line",
+                        }
+                    }
+                },
+                indexAxis: 'x',
+                scales: {
+                    x: {
+
+                        grid: {
+                            tickColor: "white",
+                            borderDash: [5, 2],
+                            tickWidth: 25,
+                            color: "black",
+                            borderColor: "black",
+                            size: 25
+                        },
+
+                        ticks: {
+                            color: "black",
+                            font: {
+                                weight: "bold",
+                                size: 30
+                            },
+
+
+                        },
+                        title: {
+                            display: true,
+                            text: "DIAS DEL MES",
+                            fullSize: true,
+                            color: 'Black',
+                            font: {
+                                weight: "bold",
+                                size: 30
+                            }
+                        }
+                    },
+                    y: {
+                        grid: {
+                            color: "black",
+                            borderDash: [5, 2,],
+                            borderColor: "black",
+                            tickColor: "yellow",
+                            tickWidth: 5,
+                            size: 10
+                        },
+                        ticks: {
+                            color: "black",
+                            font: {
+                                weight: "bold",
+                                size: 25
+                            },
+                            stepSize: 10,
+                            beginAtZero: true,
+
+                        },
+                        title: {
+                            display: true,
+                            text: "CAPTURAS",
+                            fullSize: true,
+                            color: 'black',
+                            font: {
+                                weight: "bold",
+                                size: 30
+                            }
+                        }
+
+                    }
+                }
+            }
+        };
+
+
+        window.CapturasPorDia = new Chart(ctx, configChart);
+        window.CapturasPorDia.update()
+    } catch (e) {
+        console.log(error)
+
+    }
+
+}
+
+
+
+function ocultar_graficas() {
+    if (document.querySelector("#div_graficas").style.display === "none") {
+        document.querySelector("#div_graficas").style.display = "block";
+        // document.querySelector("#info7").style.display = "block";
+    } else {
+        document.querySelector("#div_graficas").style.display = "none";
+        // document.querySelector("#info7").style.display = "none";
+    }
+
+}
+
+
+const trimestralesDelitos = async () => {
+
+    const url_grafica2 = `/medios-comunicacion/API/mapas/IndexMuertes/GraficaTrimestral`
+    const headersGrafica2 = new Headers();
+    headersGrafica2.append("X-Requested-With", "fetch");
+
+    const configGrafica2 = {
+        method: 'POST',
+        headers: headersGrafica2,
+
+    }
+    try {
+
+        const response2 = await fetch(url_grafica2, configGrafica2)
+        const info = await response2.json()
+       // console.log(info)
+
+        // info.length < 1 && Toast.fire({
+        //     icon: 'warning',
+        //     title: 'Ingreso mal las fechas'
+        // })
+
+
+        // return
+
+        const canvas = document.getElementById('myChart4');
+        const ctx = canvas.getContext('2d');
+        window.trimestralGrafica && window.trimestralGrafica.destroy()
+
+        let { labels, cantidades } = info;
+
+       //  console.log(cantidades);
+
+        let dataSetsLabels = Object.keys(cantidades);
+        let dataSetsValues = Object.values(cantidades)
+
+        // console.log(dataSetsLabels);
+        // console.log(dataSetsValues);
+
+
+
+        let datasets = []
+       // console.log(datasets);
+
+        for (let index = 0; index < dataSetsLabels.length; index++) {
+            datasets = [...datasets, {
+                label: dataSetsLabels[index],
+                data: dataSetsValues[index],
+                backgroundColor: chartColors[index],
+                borderColor: chartColors[index],
+                borderWidth: 1
+            }]
+
+        }
+
+       //  console.log(datasets);
+        let chartInfo = {
+            type: 'bar',
+            data: {
+                labels,
+                datasets
+            },
+            options: {
+                indexAxis: 'y',
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Cantidad de Muertes'
+                    },
+                    scales: {
+
+                        stepSize: 1,
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(255, 199, 132, 1)'
+                        }
+
+
+                    }
+                }
+            }
+        }
+
+
+        window.trimestralGrafica = new Chart(ctx, chartInfo);
+        window.trimestralGrafica.update()
+    } catch (error) {
+        console.log(error)
+    }
+    // console.log(info);
+}
+
+
+const chartColors = [
+    'rgba(14, 128, 255, 0.8)', //azul
+    'rgba(7, 216, 0, 0.8)', //verde
+    'rgba(255, 0, 0, 0.8)', //rojo
+    'rgba(255, 0, 231, 0.8)', //rosa
+    'rgba(0, 255, 247, 0.8)', //celeste
+    'rgba(236, 255, 0, 0.8)', //amarillo
+    'rgba(162, 255, 0, 0.8)' //verde mas claro
+];
+
+
+const trimestral_capturas_general = async () => {
+    const url_grafica2 = `/medios-comunicacion/API/mapas/IndexMuertes/GraficaTrimestralGeneral`
+     const headersGrafica2 = new Headers();
+     headersGrafica2.append("X-Requested-With", "fetch");
+ 
+     const configGrafica2 = {
+         method: 'POST',
+         headers: headersGrafica2,
+ 
+     }
+     try {
+ 
+         const response2 = await fetch(url_grafica2, configGrafica2)
+         const info = await response2.json()
+ 
+         // info.length < 1 && Toast.fire({
+         //     icon: 'warning',
+         //     title: 'Ingreso mal las fechas'
+         // })
+ 
+ 
+     const { meses, cantidades } = info;
+     // console.log(info);
+     const canvas1 = document.getElementById('myChart5');
+     const ctx1 = canvas1.getContext('2d');
+     if (window.trimestral_capturaGeneral) {
+         console.log(window.trimestral_capturaGeneral);
+         window.trimestral_capturaGeneral.destroy()
+     }
+ 
+     const data = {
+         labels: meses,
+         datasets: [{
+             label: 'ESTADISTICA TRIMESTRAL',
+             data: cantidades,
+             fill: false,
+             borderColor: 'rgb(75, 192, 192)',
+             tension: 0.5,
+             borderColor: '#F10909',
+             backgroundColor: [
+                 'rgba(236, 26, 19  , 0.5)',
+                 'rgba(8, 144, 47 , 0.4)',
+                 'rgba(8, 14, 144 , 0.6)',
+                 'rgba(253, 253, 3, 1)',
+                 'rgba(8, 129, 144 , 1)',
+                 'rgba(255, 159, 64, 1)',
+                 'rgba(241, 9, 9 , 1)',
+                 'rgba(26, 50, 148,  1)',
+                 'rgba(18, 199, 29,  1)'
+             ],
+         }]
+ 
+     };
+ 
+     const configChart = {
+         type: 'bar',
+         data: data,
+         options: {
+             plugins: {
+                 legend: {
+                   position: "top",
+                   labels: {
+                     boxWidth: 100,
+                     usePointStyle: true,
+                     pointStyle: "line",
+                   }
+                 }
+               },
+             indexAxis: 'x',
+             scales: {
+                 x: {
+ 
+                     grid: {
+                         tickColor: "white",
+                         // borderDash: [5, 2],
+                         tickWidth: 25,
+                         color: "black",
+                         borderColor: "black",
+                         size: 25
+                     },
+ 
+                     ticks: {
+                         color: "black",
+                         font: {
+                             weight: "bold",
+                             size: 30
+                         },
+ 
+                     }
+ 
+                 },
+                 y: {
+                     grid: {
+                       color: "black",
+                       borderDash: [5, 2,],
+                       borderColor: "black",
+                       tickColor: "yellow",
+                       tickWidth: 5,
+                       size:10
+                     },
+                     ticks: {
+                         color: "black",
+                         font: {
+                             weight: "bold",
+                             size: 25
+                         },
+                         stepSize: 10,
+                         beginAtZero: true,
+                     },
+                     title: {
+                         display: true,
+                         text: "CAPTURAS",
+                         fullSize: true,
+                         color: 'White',
+                         font: {
+                             weight: "bold",
+                             size: 30
+                         }
+                     }
+ 
+                 }
+             }
+         }
+     };
+     window.trimestral_capturaGeneral = new Chart(ctx1, configChart);
+     window.trimestral_capturaGeneral.update()
+     }catch(error){
+         console.log(error);
+     }
+ 
+    
+ 
+ 
+ }
+
+
+ function ocultar_busquedad_grafica() {
+    if (document.querySelector("#cuadro_busquedad_grafica").style.display === "none") {
+        document.querySelector("#cuadro_busquedad_grafica").style.display = "block";
+        // document.querySelector("#mes_elegido").style.display = "none";
+
+    } else {
+        document.querySelector("#cuadro_busquedad_grafica").style.display = "none";
+        // document.querySelector("#mes_elegido").style.display = "block";
+
+
+    }
+
+}
+
+
     
 formBusqueda_resumen.addEventListener('submit', cambiarmes)
 btnBuscar.addEventListener("click", Buscar_capturas);
 btnresumenbuscar.addEventListener("click", ocultar_select);
+btngraficabuscar.addEventListener("click", ocultar_busquedad_grafica);
 btnBuscarmapacalor.addEventListener("click", ocultar_busquedad_mapa);
 formBusqueda_mapa.addEventListener('submit', busquedad_mapa_Calor)
 btnmapa.addEventListener("click", ocultar_mapa);
+btngrafica.addEventListener("click", ocultar_graficas);
 busquedad_mapa_Calor();
+
+
+
+
+
+formBusqueda_grafica.addEventListener('submit', delitos_estadistica)
+
+btnmapa.addEventListener("click", ocultar_mapa);
+busquedad_mapa_Calor();
+delitos_estadistica();
+CapturasPorDia();
+trimestralesDelitos();
+trimestral_capturas_general();
+// deptos_estadistica();
+btngrafica.addEventListener("click", ocultar_graficas);
 
