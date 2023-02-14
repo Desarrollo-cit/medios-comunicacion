@@ -25,7 +25,7 @@ use Controllers\Desastre_naturalController;
 use Controllers\Fenomeno_naturalController;
 use Controllers\MonedaController;
 use Controllers\AsesinatosController;
-
+use Controllers\ReporteController;
 
 
 use Controllers\infoCapturaController;
@@ -157,6 +157,8 @@ $router->get('/API/incautacion_armas/buscar', [IncautacionArmasController::class
 $router->post('/API/incautacion_armas/eliminar', [IncautacionArmasController::class, 'eliminarIncautacion']);
 $router->post('/API/incautacion_armas/armas/eliminar', [IncautacionArmasController::class, 'eliminarArma']);
 $router->post('/API/incautacion_armas/municion/eliminar', [IncautacionArmasController::class, 'eliminarMunicion']);
+
+$router->get('/reportes/topico', [ReporteController::class, 'reporteTopico']);
 
 $router->get('/mapas/droga', [infoDrogaController::class , 'index']);
 
