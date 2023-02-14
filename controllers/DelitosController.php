@@ -15,7 +15,7 @@ class DelitosController{
         getHeadersApi();
 
         try {
-            $_POST["desc"] = strtoupper($_POST["desc"]);
+            // $_POST["desc"] = strtoupper($_POST["desc"]);
             $delitos = new Delitos($_POST);
             $valor = $_POST["desc"];
             $existe = Delitos::SQL("select * from amc_delito where situacion =1 AND desc = '$valor'");
