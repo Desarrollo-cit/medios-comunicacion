@@ -166,7 +166,7 @@ $router->post('/API/mapas/IndexMuertes/GraficaTrimestral', [infoMuertesControlle
 //DINERO_Y_ARMAS
 $router->get('/mapas/dinero_y_armas', [InfoDinero_y_armasController::class , 'index']);
 $router->post('/API/mapas/IndexDinero_y_armas/resumen', [InfoDinero_y_armasController::class , 'resumenAPI'] );
-
+$router->get('/API/mapas/IndexDinero_y_armas/listado', [InfoDinero_y_armasController::class , 'listadoAPI'] );
 
 
 $router->get('/mapas/droga', [infoDrogaController::class , 'index']);

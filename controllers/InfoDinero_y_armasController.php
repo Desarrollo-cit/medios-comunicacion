@@ -65,7 +65,7 @@ class InfoDinero_y_armasController
     {
 
 
-        $sql = "  SELECT sum(conversion) as cantidad from amc_incautacion_dinero inner join amc_topico on amc_incautacion_dinero.topico = amc_topico.id  where   amc_topico.situacion = 1 and amc_incautacion_dinero.situacion = 1  ";
+        $sql = "  SELECT sum(conversion) as cantidad_din from amc_incautacion_dinero inner join amc_topico on amc_incautacion_dinero.topico = amc_topico.id  where   amc_topico.situacion = 1 and amc_incautacion_dinero.situacion = 1  ";
 
         if ($fecha1 != '' && $fecha2 != '') {
 
@@ -80,7 +80,7 @@ class InfoDinero_y_armasController
         } else {
 
             $capturas = [[
-                "cantidad" =>
+                "cantidad_din" =>
                 "0"
             ]];
             return $capturas;
@@ -134,30 +134,28 @@ class InfoDinero_y_armasController
             $sql .= " AND year(amc_topico.fecha) = year(current)  and  month(amc_topico.fecha) = month(current) ";
         }
 
-        $sql.= " group by descripcion, municion, cantidad order by cantidad desc";
+        $sql .= " group by descripcion, municion, cantidad order by cantidad desc";
         $result = Muertes::fetchArray($sql);
-        if($result[0]['descripcion'] != ''){
+        if ($result[0]['descripcion'] != '') {
 
-           
+
             return $result;
-        }else{
-           
-            $incidencia_arma= [[
-                "descripcion" => 
-                "Sin datos",
-                "municion" => ""]];
-                 return $incidencia_arma;
-                }
+        } else {
 
+            $incidencia_arma = [[
+                "descripcion" =>
+                "Sin datos",
+                "municion" => ""
+            ]];
+            return $incidencia_arma;
+        }
     }
 
-   
+
 
     protected static function departamento_capturas($fecha1 = "", $fecha2 = "")
     {
-        $sql = "  SELECT FIRST 1 amc_topico.departamento as departamento, count(*) as cantidad
-        FROM amc_topico inner join amc_migrantes on amc_topico.id = amc_migrantes.topic 
-        where year(amc_topico.fecha) = year(current) and amc_topico.situacion = 1  ";
+        $sql = "SELECT FIRST 1 amc_topico.departamento as departamento, sum(cantidad) as cantidad FROM amc_detalle_arma inner join amc_topico on amc_detalle_arma.topico = amc_topico.id  where   amc_topico.situacion = 1  and amc_topico.tipo= 6 ";
         if ($fecha1 != '' && $fecha2 != '') {
 
             $sql .= " AND amc_topico.fecha   BETWEEN '$fecha1' AND  '$fecha2' ";
@@ -172,21 +170,18 @@ class InfoDinero_y_armasController
 
         $result1 = Muertes::fetchArray($sql);
 
-        if ($result1) {
-            foreach ($result1 as $row) {
-
-                $depto = trim($row['departamento']);
-            }
-
-            $sql = "SELECT dm_desc_lg as desc from depmun where dm_codigo = $depto ";
+        if($result1){
+        
+            $depto = $result1[0]['departamento'];
+    
+            $sql = "SELECT dm_desc_lg as desc from depmun where dm_codigo = $depto " ;
             $result1 = Muertes::fetchArray($sql);
             return $result1;
-        } else {
-
-            $depto = [[
-                'desc' => "Sin datos"
-            ]];
-            return $depto;
+        }else{
+    
+            $delito=[[
+                'desc' => "Sin datos"]];
+            return $delito;
         }
     }
 
@@ -223,11 +218,10 @@ class InfoDinero_y_armasController
 
         try {
 
-            $sql = "   SELECT DISTINCT amc_topico.id as id, amc_topico.lugar as lugar, amc_per_asesinadas.situacion as tipo, amc_tipo_topics.desc as topico,
-            amc_topico.fecha as fecha, dm_desc_lg as departamento,  
-            amc_actividad_vinculada.desc as actividad from amc_topico inner join amc_per_asesinadas 
-            on amc_per_asesinadas.topico = amc_topico.id  inner join amc_tipo_topics on amc_topico.tipo = amc_tipo_topics.id inner join depmun on amc_topico.departamento = depmun.dm_codigo 
-             inner join amc_actividad_vinculada on amc_topico.actividad = amc_actividad_vinculada.id and amc_per_asesinadas.situacion > 0 and amc_topico.situacion = 1
+            $sql = " SELECT DISTINCT  amc_topico.id as id, amc_topico.lugar as lugar, amc_topico.tipo as tipo, amc_tipo_topics.desc as topico,  
+            amc_topico.fecha as fecha, dm_desc_lg as departamento,   amc_actividad_vinculada.desc as actividad from amc_topico 
+            inner join amc_tipo_topics on amc_topico.tipo = amc_tipo_topics.id inner join depmun on amc_topico.departamento = depmun.dm_codigo  
+            inner join amc_actividad_vinculada on amc_topico.actividad = amc_actividad_vinculada.id and amc_topico.tipo in (5,6) and amc_topico.situacion = 1
         ";
             $info =  Capturadas::fetchArray($sql);
 

@@ -36,11 +36,11 @@ const cambiarmes = async (evento) => {
     evento.preventDefault();
 
 
-    var infocapturas = document.getElementById('cantidad_capturas');
-    var infodelito = document.getElementById('delito_concurrente');
-    var infomujeres = document.getElementById('cantidad_mujeres');
-    var infohombres = document.getElementById('cantidad_hombres');
-    var infodepto = document.getElementById('depto_mayor');
+    var cantidad_incautaciones = document.getElementById('cantidad_incautaciones');
+    var total_armas = document.getElementById('total_armas');
+
+    var incidencia = document.getElementById('delito_concurrente');
+    var depto_mayor = document.getElementById('depto_mayor');
     var f1 = new Date(formBusqueda_resumen.fecha_resumen.value)
     var f2 = new Date(formBusqueda_resumen.fecha_resumen2.value)
 
@@ -64,11 +64,11 @@ const cambiarmes = async (evento) => {
 
          console.log(data)
         if (data) {
-            infocapturas.innerText = data[0].cantidad
-            infodelito.innerText = data[1].desc
-            infomujeres.innerText = data[2].cantidad
-            infohombres.innerText = data[3].cantidad1
-            infodepto.innerText = data[4].desc.trim()
+            cantidad_incautaciones.innerText = data[0].cantidad
+            total_dinero.innerText = data[4].cantidad_din
+            total_armas.innerText = data[2].cantidad_arm
+            incidencia.innerText = data[1].descripcion
+            depto_mayor.innerText = data[3].desc.trim()
         }
 
     } else {
@@ -131,7 +131,7 @@ const Buscar_capturas = async (e) => {
     try {
 
 
-        const url = `/medios-comunicacion/API/mapas/IndexMuertes/listado`
+        const url = `/medios-comunicacion/API/mapas/IndexDinero_y_armas/listado`
         const headers = new Headers();
         headers.append("X-Requested-With", "fetch");
 
@@ -142,7 +142,7 @@ const Buscar_capturas = async (e) => {
 
         const respuesta = await fetch(url, config);
         const info = await respuesta.json();
-     //    console.log(info)
+        console.log(info)
 
         tablaregistro.destroy();
         tablaregistro = new Datatable('#dataTable2', {

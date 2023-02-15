@@ -22,16 +22,14 @@ date_default_timezone_set('America/Guatemala');
 setlocale(LC_TIME, "es_ES");
 
 $fechaLarga = strftime(" %B ");
-
 $capturas = $capturas[0]['cantidad'];
-
-
 $delito = $delito[0]['desc'];
 $mujeres = $mujeres[0]['cantidad'];
 $total_armas = $total_armas[0]['cantidad_arm'];
-
 $depto = $depto[0]['desc'];
-$total_dinero = $total_dinero[0]['cantidad'];
+/* var_dump($depto);
+exit; */
+$total_dinero = $total_dinero[0]['cantidad_din'];
 $incidencia_arma = $incidencia_arma[0]['descripcion'];
 $incidencia_arma1 = $incidencia_arma[0]['municion'];
 
@@ -99,7 +97,7 @@ $incidencia_arma1 = $incidencia_arma[0]['municion'];
                 </div>
                 <div class="row">
                     <div class="col">
-                        <p class="h3" id="cantidad_capturas"><?= $capturas ?></p>
+                        <p class="h3" id="cantidad_incautaciones"><?= $capturas ?></p>
                     </div>
                 </div>
             </div>
@@ -117,7 +115,7 @@ $incidencia_arma1 = $incidencia_arma[0]['municion'];
                 </div>
                 <div class="row">
                     <div class="col">
-                        <p class="h3" id="delito_concurrente"><?= $total_dinero ?></p>
+                        <p class="h3" id="total_dinero"><?= $total_dinero ?></p>
                     </div>
                 </div>
             </div>
@@ -135,7 +133,7 @@ $incidencia_arma1 = $incidencia_arma[0]['municion'];
                 </div>
                 <div class="row">
                     <div class="col">
-                        <p class="h3" id="delito_concurrente"><?= $total_armas ?></p>
+                        <p class="h3" id="total_armas"><?= $total_armas ?></p>
                     </div>
                 </div>
             </div>
