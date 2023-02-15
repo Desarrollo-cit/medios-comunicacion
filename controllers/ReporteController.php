@@ -121,4 +121,55 @@ class ReporteController{
 
         $pdf->Output();
     }
+
+    public static function reporteGeneral(Router $router){
+
+        
+        $inicio = str_replace('T',' ', $_GET['inicio']);
+        $fin = str_replace('T',' ', $_GET['fin']);
+        
+        try{
+            $user = $_SESSION['auth_user'];
+
+            $userInfo = array_shift(Evento::fetchArray("SELECT * from mper inner join morg on per_plaza = org_plaza inner join mdep on org_dependencia = dep_llave where per_catalogo = $user "));
+            $reporte = new Reporte($router, $userInfo);
+            $pdf = $reporte->generatePDF();
+
+            $sql = "SELECT amc_topico.tipo as tipo_id, amc_topico.info ,amc_topico.fecha as fecha, amc_topico.lugar as lugar, amc_topico.latitud, amc_topico.longitud, amc_tipo_topics.desc as tipo, amc_actividad_vinculada.desc as actividad, dm_mun_dep as municipio
+            FROM amc_topico 
+            inner join amc_tipo_topics on amc_topico.tipo = amc_tipo_topics.id 
+            inner join depmun on municipio = dm_codigo 
+            inner join amc_actividad_vinculada on amc_topico.actividad = amc_actividad_vinculada.id where amc_topico.situacion = 1 ";
+
+            if($inicio != ''){
+                $sql .= " AND amc_topico.fecha >= '$inicio' ";
+            }
+            if($fin != ''){
+                $sql .= " AND amc_topico.fecha <= '$fin' ";
+            }
+
+            $sql .= " ORDER BY amc_topico.fecha asc ";
+            $eventos = Evento::fetchArray($sql);
+
+            $contenido = $router->load('reportes/general', [
+                'eventos' => $eventos,
+                'inicio' =>  $inicio,
+                'fin' => $fin,
+            ]);
+
+
+            $pdf->WriteHTML($contenido);
+            
+
+
+            $pdf->Output();
+        } catch (Exception $e) {
+            echo json_encode([
+                "detalle" => $e->getMessage(),       
+                "mensaje" => "Ocurrió  un error en base de datos.",
+
+                "codigo" => 4,
+            ]);
+        }
+    }
 }

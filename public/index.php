@@ -3,7 +3,8 @@
 // ini_set('display_startup_errors', 1);
 // error_reporting(E_ALL);
 require_once __DIR__ . '/../includes/app.php';
-
+date_default_timezone_set('America/Guatemala');
+setlocale(LC_ALL, 'es_ES');
 
 use Controllers\ArmasController;
 use Controllers\CalibresController;
@@ -159,6 +160,7 @@ $router->post('/API/incautacion_armas/armas/eliminar', [IncautacionArmasControll
 $router->post('/API/incautacion_armas/municion/eliminar', [IncautacionArmasController::class, 'eliminarMunicion']);
 
 $router->get('/reportes/topico', [ReporteController::class, 'reporteTopico']);
+$router->get('/reportes/general', [ReporteController::class, 'reporteGeneral']);
 
 $router->get('/mapas/droga', [infoDrogaController::class , 'index']);
 
