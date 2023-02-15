@@ -18,7 +18,7 @@
 </p>
 <p>
     <b>TÓPICO:</b>
-    <?= $evento['tipo_id'] ?>
+    <?= $evento['tipo'] ?>
 </p>
 
 <p>
@@ -31,7 +31,7 @@
     <?= $evento['actividad'] ?>
 </p>
 
-<pre>
-
-    <?php print_r($detalle) ?>
-</pre>
+<p>
+    <b>UBICACIÓN GEOGRÁFICA:</b>
+    <?= "(" . $evento['latitud'] . ", " .$evento['longitud'] . ")"  ?>
+</p>
