@@ -21,6 +21,9 @@ module.exports = {
     'js/mapas/infoDroga' : './src/js/mapas/infoDroga.js',
     'js/mapas/infoMaras' : './src/js/mapas/infoMaras.js',
     'js/mapas/IndexMuertes' : './src/js/mapas/IndexMuertes.js',
+    'js/mapas/IndexDinero_y_armas' : './src/js/mapas/IndexDinero_y_armas.js',
+
+
     
   },
   output: {

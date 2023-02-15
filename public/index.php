@@ -25,10 +25,12 @@ use Controllers\MonedaController;
 
 
 
+
 use Controllers\infoCapturaController;
 use Controllers\InfoMuertesController;
 use Controllers\infoDrogaController;
 use Controllers\infoMarasController;
+use Controllers\InfoDinero_y_armasController;
 
 $router = new Router();
 $router->setBaseURL('/medios-comunicacion');
@@ -161,7 +163,9 @@ $router->post('/API/mapas/IndexMuertes/GraficaTrimestral', [infoMuertesControlle
 
 
 
-
+//DINERO_Y_ARMAS
+$router->get('/mapas/dinero_y_armas', [InfoDinero_y_armasController::class , 'index']);
+$router->post('/API/mapas/IndexDinero_y_armas/resumen', [InfoDinero_y_armasController::class , 'resumenAPI'] );
 
 
 

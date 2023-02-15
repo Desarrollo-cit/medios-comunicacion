@@ -90,7 +90,9 @@
                                 <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/mapas/muertes"><i class="ms-lg-0 ms-2 bi bi-plus-circle me-2"></i>Muertes</a>
                             </li>
                             <li>
-                                <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/mapas/maras"><i class="ms-lg-0 ms-2 bi bi-plus-circle me-2"></i>Maras</a>
+                                <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/mapas/dinero_y_armas"><i class="ms-lg-0 ms-2 bi bi-plus-circle me-2"></i>Dinero</a>
+                            </li>
+                            <li>
                             </li>
                         
                     
