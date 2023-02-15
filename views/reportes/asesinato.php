@@ -10,7 +10,7 @@
     }
 
 </style>
-<h3>PERSONAS ASESINADAS</h3>
+<h3>DETALLE DE LA CAPTURA</h3>
 <table cellspacing = 0 border="1" width="100%">
     <thead>
         <tr>
@@ -18,22 +18,20 @@
             <th>NOMBRE</th>
             <th>SEXO</th>
             <th>EDAD</th>
+            <th>NACIONALIDAD</th>
+            <th>DELITO</th>
         </tr>
     </thead>
     <tbody>
-        <?php if(count($asesinados) > 0) : ?>
-        <?php foreach ($asesinados as $key => $asesinado) : ?>
+        <?php foreach ($capturados as $key => $capturado) : ?>
             <tr>
                 <td><?= $key + 1 ?></td>
-                <td><?= $asesinado['nombre'] ?></td>
-                <td><?= $asesinado['sexo'] ?></td>
-                <td><?= $asesinado['edad'] ?></td>
+                <td><?= $capturado['nombre'] ?></td>
+                <td><?= $capturado['sexo'] ?></td>
+                <td><?= $capturado['edad'] ?></td>
+                <td><?= $capturado['nacionalidad'] ?></td>
+                <td><?= $capturado['delito'] ?></td>
             </tr>
         <?php endforeach ?>
-        <?php else : ?>
-            <tr>
-                <td align="center" colspan="6">NO HAY REGISTROS</td>
-            </tr>
-        <?php endif ?>
     </tbody>
 </table>

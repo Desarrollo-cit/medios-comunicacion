@@ -1225,7 +1225,7 @@ const agregarInputsMunicion = async (e, id = '', cantidad = '', calibre = '',bot
 
 const quitarInputsCaptura = (contador, divInputs) => {
 
-    if (inputscapturas > 0 || inputsDrogas) {
+    if (inputscapturas > 0 || inputsDrogas > 0) {
         divInputs.removeChild(divInputs.lastElementChild);
         switch (contador) {
             case 0:
