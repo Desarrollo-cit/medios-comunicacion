@@ -294,7 +294,7 @@ const buscarEventos = async e => {
 
         const respuesta = await fetch(url, config);
         const data = await respuesta.json();
-        // console.log(data);
+        console.log(data);
 
         if (data) {
             data.forEach(p => {
@@ -308,6 +308,7 @@ const buscarEventos = async e => {
                     <p><b>Longitud: </b> ${p.longitud}</p>
                     <p><b>Actividad vinculada: </b> ${p.actividad}</p>
                     <p><b>Tipo de topic: </b> ${p.tipo}</p>
+                    <p><b>Ingresado por: </b> ${p.dependencia}</p>
                 `);
 
                 marker.addEventListener('contextmenu', e => {
