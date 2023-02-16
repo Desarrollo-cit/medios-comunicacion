@@ -27,7 +27,7 @@
                                 <p class="display-6 align-middle">Capturas</p>
                             </div>
                             <div class="col col-lg-2">
-                                <img src="./images/handcuffs.png" width="100%" />
+                                <img src="./images/1.png" width="100%" />
                             </div>
                         </div>
                     </div>
@@ -39,7 +39,7 @@
                                 <p class="display-6 ">Asesinato</p>
                             </div>
                             <div class="col col-lg-2">
-                                <img src="./images/murder.png" width="100%" />
+                                <img src="./images/2.png" width="100%" />
                             </div>
                         </div>
                     </div>
@@ -51,7 +51,7 @@
                                 <p class="display-6 ">Migrantes</p>
                             </div>
                             <div class="col col-lg-2">
-                                <img src="./images/walk.png" width="100%" />
+                                <img src="./images/9.png" width="100%" />
                             </div>
                         </div>
                     </div>
@@ -63,7 +63,7 @@
                                 <p class="display-6 ">Inc. Droga</p>
                             </div>
                             <div class="col col-lg-2">
-                                <img src="./images/pills.png" width="100%" />
+                                <img src="./images/4.png" width="100%" />
                             </div>
                         </div>
                     </div>
@@ -75,7 +75,7 @@
                                 <p class="display-6 ">Inc. Dinero</p>
                             </div>
                             <div class="col col-lg-2">
-                                <img src="./images/money-bag.png" width="100%" />
+                                <img src="./images/5.png" width="100%" />
                             </div>
                         </div>
                     </div>
@@ -87,7 +87,7 @@
                                 <p class="display-6 ">Inc. Armas</p>
                             </div>
                             <div class="col col-lg-2">
-                                <img src="./images/rifle.png" width="100%" />
+                                <img src="./images/6.png" width="100%" />
                             </div>
                         </div>
                     </div>
@@ -99,7 +99,7 @@
                                 <p class="display-6 ">D. Naturales</p>
                             </div>
                             <div class="col col-lg-2">
-                                <img src="./images/disaster.png" width="100%" />
+                                <img src="./images/7.png" width="100%" />
                             </div>
                         </div>
                     </div>
@@ -111,7 +111,7 @@
                                 <p class="display-6 ">D. de pistas</p>
                             </div>
                             <div class="col col-lg-2">
-                                <img src="./images/dynamite.png" width="100%" />
+                                <img src="./images/8.png" width="100%" />
                             </div>
                         </div>
                     </div>
@@ -123,7 +123,7 @@
                                 <p class="display-6 ">Mov. Social</p>
                             </div>
                             <div class="col col-lg-2">
-                                <img src="./images/banner.png" width="100%" />
+                                <img src="./images/10.png" width="100%" />
                             </div>
                         </div>
                     </div>
