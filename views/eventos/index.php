@@ -19,10 +19,8 @@
         <div class="row justify-content-center">
             <div class="list-group col-lg-12 p-3">
                 <div class="row justify-content-around" id="divPills">
-                    <div class="col-2 col-lg-12 justify-content-center justify-content-lg-between border rounded-pill p-2 px-3"
-                        data-id="1" id="divTopico1" aria-current="true" style="cursor: pointer;">
-                        <div class="row h-100 align-items-center" data-bs-toggle="tooltip" data-bs-placement="top"
-                            data-bs-custom-class="custom-tooltip" data-bs-title="Capturas">
+                    <div class="col-2 col-lg-12 justify-content-center justify-content-lg-between border rounded-pill p-2 px-3" data-id="1" id="divTopico1" aria-current="true" style="cursor: pointer;">
+                        <div class="row h-100 align-items-center" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Capturas">
                             <div class="col-lg-9 d-none d-lg-block">
                                 <p class="display-6 align-middle">Capturas</p>
                             </div>
@@ -31,10 +29,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-2 col-lg-12 justify-content-center justify-content-lg-between border rounded-pill p-2 px-3"
-                        data-id="2" id="divTopico2" aria-current="true" style="cursor: pointer;">
-                        <div class="row h-100 align-items-center px-2" data-bs-toggle="tooltip" data-bs-placement="top"
-                            data-bs-custom-class="custom-tooltip" data-bs-title="Asesinato">
+                    <div class="col-2 col-lg-12 justify-content-center justify-content-lg-between border rounded-pill p-2 px-3" data-id="2" id="divTopico2" aria-current="true" style="cursor: pointer;">
+                        <div class="row h-100 align-items-center px-2" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Asesinato">
                             <div class="col-lg-9 d-none d-lg-block">
                                 <p class="display-6 ">Asesinato</p>
                             </div>
@@ -43,10 +39,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-2 col-lg-12 justify-content-center justify-content-lg-between border rounded-pill p-2 px-3" data-id="9" id="divTopico3"
-                        aria-current="true" style="cursor: pointer;">
-                        <div class="row h-100 align-items-center" data-bs-toggle="tooltip" data-bs-placement="top"
-                            data-bs-custom-class="custom-tooltip" data-bs-title="Migrantes">
+                    <div class="col-2 col-lg-12 justify-content-center justify-content-lg-between border rounded-pill p-2 px-3" data-id="9" id="divTopico3" aria-current="true" style="cursor: pointer;">
+                        <div class="row h-100 align-items-center" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Migrantes">
                             <div class="col-lg-9 d-none d-lg-block">
                                 <p class="display-6 ">Migrantes</p>
                             </div>
@@ -55,10 +49,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-2 col-lg-12 justify-content-center justify-content-lg-between border rounded-pill p-2 px-3"
-                        data-id="4" id="divTopico4" aria-current="true" style="cursor: pointer;">
-                        <div class="row h-100 align-items-center" data-bs-toggle="tooltip" data-bs-placement="top"
-                            data-bs-custom-class="custom-tooltip" data-bs-title="Incautación de droga">
+                    <div class="col-2 col-lg-12 justify-content-center justify-content-lg-between border rounded-pill p-2 px-3" data-id="4" id="divTopico4" aria-current="true" style="cursor: pointer;">
+                        <div class="row h-100 align-items-center" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Incautación de droga">
                             <div class="col-lg-9 d-none d-lg-block">
                                 <p class="display-6 ">Inc. Droga</p>
                             </div>
@@ -67,10 +59,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-2 col-lg-12 justify-content-center justify-content-lg-between border rounded-pill p-2 px-3"
-                        data-id="5" id="divTopico5" aria-current="true" style="cursor: pointer;">
-                        <div class="row h-100 align-items-center" data-bs-toggle="tooltip" data-bs-placement="top"
-                            data-bs-custom-class="custom-tooltip" data-bs-title="Incautación de dinero">
+                    <div class="col-2 col-lg-12 justify-content-center justify-content-lg-between border rounded-pill p-2 px-3" data-id="5" id="divTopico5" aria-current="true" style="cursor: pointer;">
+                        <div class="row h-100 align-items-center" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Incautación de dinero">
                             <div class="col-lg-9 d-none d-lg-block">
                                 <p class="display-6 ">Inc. Dinero</p>
                             </div>
@@ -79,10 +69,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-2 col-lg-12 justify-content-center justify-content-lg-between border rounded-pill p-2 px-3"
-                        data-id="6" id="divTopico6" aria-current="true" style="cursor: pointer;">
-                        <div class="row h-100 align-items-center" data-bs-toggle="tooltip" data-bs-placement="top"
-                            data-bs-custom-class="custom-tooltip" data-bs-title="Incautación de armas">
+                    <div class="col-2 col-lg-12 justify-content-center justify-content-lg-between border rounded-pill p-2 px-3" data-id="6" id="divTopico6" aria-current="true" style="cursor: pointer;">
+                        <div class="row h-100 align-items-center" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Incautación de armas">
                             <div class="col-lg-9 d-none d-lg-block">
                                 <p class="display-6 ">Inc. Armas</p>
                             </div>
@@ -91,10 +79,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-2 col-lg-12 justify-content-center justify-content-lg-between border rounded-pill p-2 px-3"
-                        data-id="7" id="divTopico7" aria-current="true" style="cursor: pointer;">
-                        <div class="row h-100 align-items-center" data-bs-toggle="tooltip" data-bs-placement="top"
-                            data-bs-custom-class="custom-tooltip" data-bs-title="Desastres naturales">
+                    <div class="col-2 col-lg-12 justify-content-center justify-content-lg-between border rounded-pill p-2 px-3" data-id="7" id="divTopico7" aria-current="true" style="cursor: pointer;">
+                        <div class="row h-100 align-items-center" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Desastres naturales">
                             <div class="col-lg-9 d-none d-lg-block">
                                 <p class="display-6 ">D. Naturales</p>
                             </div>
@@ -103,10 +89,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-2 col-lg-12 justify-content-center justify-content-lg-between border rounded-pill p-2 px-3"
-                        data-id="8" id="divTopico8" aria-current="true" style="cursor: pointer;">
-                        <div class="row h-100 align-items-center" data-bs-toggle="tooltip" data-bs-placement="top"
-                            data-bs-custom-class="custom-tooltip" data-bs-title="Destrucción de pistas">
+                    <div class="col-2 col-lg-12 justify-content-center justify-content-lg-between border rounded-pill p-2 px-3" data-id="8" id="divTopico8" aria-current="true" style="cursor: pointer;">
+                        <div class="row h-100 align-items-center" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Destrucción de pistas">
                             <div class="col-lg-9 d-none d-lg-block">
                                 <p class="display-6 ">D. de pistas</p>
                             </div>
@@ -115,10 +99,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-2 col-lg-12 justify-content-center justify-content-lg-between border rounded-pill p-2 px-3"
-                        data-id="10" id="divTopico10" aria-current="true" style="cursor: pointer;">
-                        <div class="row h-100 align-items-center" data-bs-toggle="tooltip" data-bs-placement="top"
-                            data-bs-custom-class="custom-tooltip" data-bs-title="Movimiento social">
+                    <div class="col-2 col-lg-12 justify-content-center justify-content-lg-between border rounded-pill p-2 px-3" data-id="10" id="divTopico10" aria-current="true" style="cursor: pointer;">
+                        <div class="row h-100 align-items-center" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Movimiento social">
                             <div class="col-lg-9 d-none d-lg-block">
                                 <p class="display-6 ">Mov. Social</p>
                             </div>
@@ -140,8 +122,7 @@
         </div>
     </div>
     <!-- MODAL PRINCIPAL -->
-    <div class="modal fade" id="modalIngreso" tabindex="-1" role="dialog" aria-labelledby="modalIngresoLabel"
-        aria-hidden="true">
+    <div class="modal fade" id="modalIngreso" tabindex="-1" role="dialog" aria-labelledby="modalIngresoLabel" aria-hidden="true">
         <div class="modal-dialog " role="document">
             <div class="modal-content">
                 <div class="modal-header ">
@@ -166,7 +147,7 @@
                                 </label>
                                 <select class="form-control" name="tipo" id="tipo" required>
                                     <option value="">Seleccione ...</option>
-                                    <?php foreach ($topicos as $topico): ?>
+                                    <?php foreach ($topicos as $topico) : ?>
                                         <option value="<?= $topico['id'] ?>">
                                             <?= $topico['desc'] ?>
                                         </option>
@@ -190,7 +171,7 @@
                                 <label for="departamento">Departamento</label>
                                 <select name="departamento" id="departamento" class="form-control" required>
                                     <option value="">Seleccione...</option>
-                                    <?php foreach ($departamentos as $departamento): ?>
+                                    <?php foreach ($departamentos as $departamento) : ?>
                                         <option value="<?= $departamento['dm_codigo'] ?>">
                                             <?= $departamento['dm_desc_lg'] ?>
                                         </option>
@@ -214,9 +195,9 @@
                         <div class="row mb-3">
                             <div class="col">
                                 <label for="actividad"> Actividad vinculada</label>
-                                <select class=" form-control "  name="actividad" id="actividad" required>
+                                <select class=" form-control " name="actividad" id="actividad" required>
                                     <option value="">Seleccione</option>
-                                    <?php foreach ($actividades as $actividad): ?>
+                                    <?php foreach ($actividades as $actividad) : ?>
                                         <option value="<?= $actividad['id'] ?>">
                                             <?= $actividad['desc'] ?>
                                         </option>
@@ -279,8 +260,7 @@
                                 <button type="button" id="agregarInputscaptura" class="btn btn-success w-100"><i class="bi bi-plus-circle "></i></button>
                             </div>
                             <div class="col-lg-1">
-                                <button type="button" id="quitarInputscaptura" class="btn btn-secondary w-100"><i
-                                        class="bi bi-dash-circle"></i></button>
+                                <button type="button" id="quitarInputscaptura" class="btn btn-secondary w-100"><i class="bi bi-dash-circle"></i></button>
                             </div>
 
 
@@ -297,16 +277,13 @@
 
 
                 <div class="col-lg-3">
-                    <button type="submit" form="formCaptura" id="btnGuardarCaptura" class="btn btn-primary w-100"><i
-                            class="bi bi-save me-2"></i>Guardar</button>
+                    <button type="submit" form="formCaptura" id="btnGuardarCaptura" class="btn btn-primary w-100"><i class="bi bi-save me-2"></i>Guardar</button>
                 </div>
                 <div class="col-lg-3">
-                    <button type="button" class="btn btn-warning w-100" id="btnModificarCaptura"><i
-                            class="bi bi-save me-2"></i>Modificar</button>
+                    <button type="button" class="btn btn-warning w-100" id="btnModificarCaptura"><i class="bi bi-save me-2"></i>Modificar</button>
                 </div>
                 <div class="col-lg-3">
-                    <button type="button" class="btn btn-danger w-100" id="btnBorrarCaptura"><i
-                            class="bi bi-trash  me-2"> </i> Borrar</button>
+                    <button type="button" class="btn btn-danger w-100" id="btnBorrarCaptura"><i class="bi bi-trash  me-2"> </i> Borrar</button>
                 </div>
 
             </div>
@@ -330,59 +307,55 @@
                 </form> -->
                 <div class="row justify-content-center mb-3">
                     <form id="formAsesinatos" novalidate>
-                    <form id="formAsesinatos" novalidate>
-                        <div class="col p-1">
-                            <input type="hidden" name="topico" id="topico">
-                            <div class="row justify-content-center mb-5">
-                                <h4>Información del Asesinato</h4>
-                                <div class="col-12 text-center">
-                                    <label class="h3 " for="info">Noticia</label>
-                                    <textarea name="info2" id="info2" class="form-control"></textarea>
+                        <form id="formAsesinatos" novalidate>
+                            <div class="col p-1">
+                                <input type="hidden" name="topico" id="topico">
+                                <div class="row justify-content-center mb-5">
+                                    <h4>Información del Asesinato</h4>
+                                    <div class="col-12 text-center">
+                                        <label class="h3 " for="info">Noticia</label>
+                                        <textarea name="info2" id="info2" class="form-control"></textarea>
 
 
+                                    </div>
                                 </div>
                             </div>
-                            </div>
-                        </div>
-                        <div class="row justify-content-center">
-
-                            <div class="col">
-
-                                <h2>Personas Asesinadas</h2>
-                            </div>
-                            <div class="col-lg-1">
-                                <button type="button" id="agregarInputsAsesinatos" class="btn btn-success w-100"><i class="bi bi-plus-circle "></i></button>
-                            </div>
-                            <div class="col-lg-1">
-                                <button type="button" id="quitarInputsAsesinatos" class="btn btn-secondary w-100"><i
-                                        class="bi bi-dash-circle"></i></button>
-                            </div>
-
-
-                        </div>
-
-
-                        <div id='divAsesinados' class="row">
-
-
-                        </div>
-                    </form>
                 </div>
+                <div class="row justify-content-center">
+
+                    <div class="col">
+
+                        <h2>Personas Asesinadas</h2>
+                    </div>
+                    <div class="col-lg-1">
+                        <button type="button" id="agregarInputsAsesinatos" class="btn btn-success w-100"><i class="bi bi-plus-circle "></i></button>
+                    </div>
+                    <div class="col-lg-1">
+                        <button type="button" id="quitarInputsAsesinatos" class="btn btn-secondary w-100"><i class="bi bi-dash-circle"></i></button>
+                    </div>
+
+
+                </div>
+
+
+                <div id='divAsesinados' class="row">
+
+
+                </div>
+                </form>
             </div>
+
             <div class="modal-footer row justify-content-end">
 
 
                 <div class="col-lg-3">
-                    <button type="submit" form="formAsesinatos" id="btnGuardarAsesinados"
-                        class="btn btn-primary w-100"><i class="bi bi-save me-2"></i>Guardar</button>
+                    <button type="submit" form="formAsesinatos" id="btnGuardarAsesinados" class="btn btn-primary w-100"><i class="bi bi-save me-2"></i>Guardar</button>
                 </div>
                 <div class="col-lg-3">
-                    <button type="button" class="btn btn-warning w-100" id="btnModificarAsesinados"><i
-                            class="bi bi-save me-2"></i>Modificar</button>
+                    <button type="button" class="btn btn-warning w-100" id="btnModificarAsesinados"><i class="bi bi-save me-2"></i>Modificar</button>
                 </div>
                 <div class="col-lg-3">
-                    <button type="button" class="btn btn-danger w-100" id="btnBorrarAsesinados"><i
-                            class="bi bi-trash  me-2"> </i> Borrar</button>
+                    <button type="button" class="btn btn-danger w-100" id="btnBorrarAsesinados"><i class="bi bi-trash  me-2"> </i> Borrar</button>
                 </div>
 
             </div>
@@ -427,8 +400,7 @@
                                 <button type="button" id="agregarInputsMigrantes" class="btn btn-success w-100"><i class="bi bi-plus-circle "></i></button>
                             </div>
                             <div class="col-lg-1">
-                                <button type="button" id="quitarInputsMigrantes" class="btn btn-secondary w-100"><i
-                                        class="bi bi-dash-circle"></i></button>
+                                <button type="button" id="quitarInputsMigrantes" class="btn btn-secondary w-100"><i class="bi bi-dash-circle"></i></button>
                             </div>
 
 
@@ -446,16 +418,13 @@
 
 
                 <div class="col-lg-3">
-                    <button type="submit" form="formMigrantes" id="btnGuardarMigrantes" class="btn btn-primary w-100"><i
-                            class="bi bi-save me-2"></i>Guardar</button>
+                    <button type="submit" form="formMigrantes" id="btnGuardarMigrantes" class="btn btn-primary w-100"><i class="bi bi-save me-2"></i>Guardar</button>
                 </div>
                 <div class="col-lg-3">
-                    <button type="button" class="btn btn-warning w-100" id="btnModificarMigrantes"><i
-                            class="bi bi-save me-2"></i>Modificar</button>
+                    <button type="button" class="btn btn-warning w-100" id="btnModificarMigrantes"><i class="bi bi-save me-2"></i>Modificar</button>
                 </div>
                 <div class="col-lg-3">
-                    <button type="button" class="btn btn-danger w-100" id="btnBorrarMigrantes"><i
-                            class="bi bi-trash  me-2"> </i> Borrar</button>
+                    <button type="button" class="btn btn-danger w-100" id="btnBorrarMigrantes"><i class="bi bi-trash  me-2"> </i> Borrar</button>
                 </div>
 
             </div>
@@ -463,8 +432,7 @@
     </div>
 </div>
 <!-- MODAL 4 -->
-<div class="modal fade" id="modalDrogas" tabindex="-1" role="dialog" aria-labelledby="modalDrogasLabel"
-    aria-hidden="true">
+<div class="modal fade" id="modalDrogas" tabindex="-1" role="dialog" aria-labelledby="modalDrogasLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header ">
@@ -494,7 +462,7 @@
                             <div class="col">
                                 <ul class="nav nav-tabs" id="tabsDrogas" role="tablist">
                                     <li class="nav-item" role="presentation">
-                                        <button class="nav-link active" id="plantacion-tab" data-bs-toggle="tab"data-bs-target="#plantacion" type="button" role="tab" aria-controls="plantacion" aria-selected="true">Plantación</button>
+                                        <button class="nav-link active" id="plantacion-tab" data-bs-toggle="tab" data-bs-target="#plantacion" type="button" role="tab" aria-controls="plantacion" aria-selected="true">Plantación</button>
                                     </li>
                                     <li class="nav-item" role="presentation">
                                         <button class="nav-link" id="polvo-tab" data-bs-toggle="tab" data-bs-target="#polvo" type="button" role="tab" aria-controls="polvo" aria-selected="false">Polvo</button>
@@ -505,56 +473,56 @@
                                         <div class="row p-4">
                                             <div class="col-lg-6">
                                                 <label for="tipo_droga_plantacion">Tipo de droga</label>
-                                                <select name="tipo_droga_plantacion" id="tipo_droga_plantacion" class="form-control" >
+                                                <select name="tipo_droga_plantacion" id="tipo_droga_plantacion" class="form-control">
                                                     <option value="">SELECCIONE...</option>
                                                     <?php foreach ($drogas as $droga) : ?>
                                                         <option value="<?= $droga['id'] ?>"><?= $droga['desc']  ?></option>
-                                                    <?php endforeach?>
+                                                    <?php endforeach ?>
                                                 </select>
-                                            </div> 
+                                            </div>
                                             <div class="col-lg-6 ">
                                                 <label for="cantidad_plantacion">Cantidad de matas</label>
                                                 <input type="number" name="cantidad_plantacion" id="cantidad_plantacion" class="form-control">
-                                            </div> 
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="tab-pane fade" id="polvo" role="tabpanel" aria-labelledby="polvo-tab">
                                         <div class="row  p-4">
                                             <div class="col-lg-6 ">
                                                 <label for="tipo_droga">Tipo de droga</label>
-                                                <select name="tipo_droga" id="tipo_droga" class="form-control" >
+                                                <select name="tipo_droga" id="tipo_droga" class="form-control">
                                                     <option value="">SELECCIONE...</option>
                                                     <?php foreach ($drogas as $droga) : ?>
                                                         <option value="<?= $droga['id'] ?>"><?= $droga['desc']  ?></option>
-                                                    <?php endforeach?>
+                                                    <?php endforeach ?>
                                                 </select>
-                                            </div> 
+                                            </div>
                                             <div class="col-lg-6">
                                                 <label for="cantidad">Cantidad en Kg</label>
                                                 <div class="input-group mb-3">
                                                     <input type="number" name="cantidad" id="cantidad" class="form-control">
                                                     <span class="input-group-text">Kg</span>
                                                 </div>
-                                            </div> 
+                                            </div>
                                         </div>
                                         <div class="row p-4">
                                             <div class="col-lg-6 ">
                                                 <label for="transporte">Transporte de la droga</label>
-                                                <select name="transporte" id="transporte" class="form-control" >
+                                                <select name="transporte" id="transporte" class="form-control">
                                                     <option value="">SELECCIONE...</option>
                                                     <?php foreach ($transportes as $transporte) : ?>
                                                         <option value="<?= $transporte['id'] ?>"><?= $transporte['desc']  ?></option>
-                                                    <?php endforeach?>
+                                                    <?php endforeach ?>
                                                 </select>
-                                            </div> 
+                                            </div>
                                             <div class="col-lg-3">
                                                 <label for="tipo_transporte">Tipo de transporte</label>
                                                 <input type="text" name="tipo_transporte" id="tipo_transporte" class="form-control">
-                                            </div> 
+                                            </div>
                                             <div class="col-lg-3">
                                                 <label for="matricula">Placa o matricula</label>
                                                 <input type="text" name="matricula" id="matricula" class="form-control">
-                                            </div> 
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -567,12 +535,10 @@
                                 <h2>Personas capturada en la incauación</h2>
                             </div>
                             <div class="col-lg-1">
-                                <button type="button" id="agregarInputscapturaDroga" class="btn btn-success w-100"><i
-                                        class="bi bi-plus-circle "></i></button>
+                                <button type="button" id="agregarInputscapturaDroga" class="btn btn-success w-100"><i class="bi bi-plus-circle "></i></button>
                             </div>
                             <div class="col-lg-1">
-                                <button type="button" id="quitarInputscapturaDroga" class="btn btn-secondary w-100"><i
-                                        class="bi bi-dash-circle"></i></button>
+                                <button type="button" id="quitarInputscapturaDroga" class="btn btn-secondary w-100"><i class="bi bi-dash-circle"></i></button>
                             </div>
 
 
@@ -588,16 +554,13 @@
             <div class="modal-footer row justify-content-end">
 
                 <div class="col-lg-3">
-                    <button type="submit" form="formDroga" id="btnGuardarCapturaDroga" class="btn btn-primary w-100"><i
-                            class="bi bi-save me-2"></i>Guardar</button>
+                    <button type="submit" form="formDroga" id="btnGuardarCapturaDroga" class="btn btn-primary w-100"><i class="bi bi-save me-2"></i>Guardar</button>
                 </div>
                 <div class="col-lg-3">
-                    <button type="button" class="btn btn-warning w-100" id="btnModificarCapturaDroga"><i
-                            class="bi bi-save me-2"></i>Modificar</button>
+                    <button type="button" class="btn btn-warning w-100" id="btnModificarCapturaDroga"><i class="bi bi-save me-2"></i>Modificar</button>
                 </div>
                 <div class="col-lg-3">
-                    <button type="button" class="btn btn-danger w-100" id="btnBorrarCapturaDroga"><i
-                            class="bi bi-trash  me-2"> </i> Borrar</button>
+                    <button type="button" class="btn btn-danger w-100" id="btnBorrarCapturaDroga"><i class="bi bi-trash  me-2"> </i> Borrar</button>
                 </div>
 
             </div>
@@ -606,8 +569,7 @@
 </div>
 <!-- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
 <!-- MODAL 5 -->
-<div class="modal fade" id="modalArmas" tabindex="-1" role="dialog" aria-labelledby="modalArmasLabel"
-    aria-hidden="true">
+<div class="modal fade" id="modalArmas" tabindex="-1" role="dialog" aria-labelledby="modalArmasLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header ">
@@ -640,22 +602,20 @@
                                 <h2>Armas incautadas</h2>
                             </div>
                             <div class="col-lg-1">
-                                <button type="button" id="agregarInputsArmas" class="btn btn-success w-100"><i
-                                        class="bi bi-plus-circle "></i></button>
+                                <button type="button" id="agregarInputsArmas" class="btn btn-success w-100"><i class="bi bi-plus-circle "></i></button>
                             </div>
                             <div class="col-lg-1">
-                                <button type="button" id="quitarInputsArmas" class="btn btn-secondary w-100"><i
-                                        class="bi bi-dash-circle"></i></button>
+                                <button type="button" id="quitarInputsArmas" class="btn btn-secondary w-100"><i class="bi bi-dash-circle"></i></button>
                             </div>
 
 
                         </div>
 
 
-                        <div  class="row justify-content-center">
+                        <div class="row justify-content-center">
                             <div class="col" id='divArmas'>
 
-                            </div>                             
+                            </div>
                         </div>
                         <div class="row justify-content-center">
 
@@ -664,22 +624,20 @@
                                 <h2>Munición incautada</h2>
                             </div>
                             <div class="col-lg-1">
-                                <button type="button" id="agregarInputsMunicion" class="btn btn-success w-100"><i
-                                        class="bi bi-plus-circle "></i></button>
+                                <button type="button" id="agregarInputsMunicion" class="btn btn-success w-100"><i class="bi bi-plus-circle "></i></button>
                             </div>
                             <div class="col-lg-1">
-                                <button type="button" id="quitarInputsMunicion" class="btn btn-secondary w-100"><i
-                                        class="bi bi-dash-circle"></i></button>
+                                <button type="button" id="quitarInputsMunicion" class="btn btn-secondary w-100"><i class="bi bi-dash-circle"></i></button>
                             </div>
 
 
                         </div>
 
-                        <div  class="row justify-content-center">
-                            
+                        <div class="row justify-content-center">
+
                             <div id='divMunicion' class="col">
 
-                            </div>                             
+                            </div>
                         </div>
 
                     </form>
@@ -688,16 +646,13 @@
             <div class="modal-footer row justify-content-end">
 
                 <div class="col-lg-3">
-                    <button type="submit" form="formArmas" id="btnGuardarArmas" class="btn btn-primary w-100"><i
-                            class="bi bi-save me-2"></i>Guardar</button>
+                    <button type="submit" form="formArmas" id="btnGuardarArmas" class="btn btn-primary w-100"><i class="bi bi-save me-2"></i>Guardar</button>
                 </div>
                 <div class="col-lg-3">
-                    <button type="button" class="btn btn-warning w-100" id="btnModificarArmas"><i
-                            class="bi bi-save me-2"></i>Modificar</button>
+                    <button type="button" class="btn btn-warning w-100" id="btnModificarArmas"><i class="bi bi-save me-2"></i>Modificar</button>
                 </div>
                 <div class="col-lg-3">
-                    <button type="button" class="btn btn-danger w-100" id="btnBorrarArmas"><i
-                            class="bi bi-trash  me-2"> </i> Borrar</button>
+                    <button type="button" class="btn btn-danger w-100" id="btnBorrarArmas"><i class="bi bi-trash  me-2"> </i> Borrar</button>
                 </div>
 
             </div>
@@ -809,7 +764,7 @@
                         <div id='divDesastres' class="row">
                             <div class="row mb-3">
 
-                            <input type="hidden" name="id" id="id">
+                                <input type="hidden" name="id" id="id">
 
                                 <div class="col-lg-6 text-center">
                                     <label for="tipo">Tipo de desastre</label>
@@ -961,28 +916,28 @@
                         </div>
                         <div class="row justify-content-center">
 
-                           
+
 
                         </div>
 
 
                         <div id='divDesastres' class="row">
-                            
+
                             <input type="hidden" name="id" id="id">
 
-                                
-                              
-
-                        
-                                <div class="col-lg-4 text-center align-items-center">
-                                    <label for="rios">Longitud de Pista</label>
-                                    <input type="number"  name="distancia" id="distancia" placeholder="Cantidad" class="form-control">
-                                </div>
 
 
+
+
+                            <div class="col-lg-4 text-center align-items-center">
+                                <label for="rios">Longitud de Pista</label>
+                                <input type="number" name="distancia" id="distancia" placeholder="Cantidad" class="form-control">
                             </div>
 
-             
+
+                        </div>
+
+
                     </form>
                 </div>
             </div>
@@ -1030,67 +985,67 @@
                         </div>
                         <div class="row justify-content-center">
 
-                           
+
 
                         </div>
 
 
                         <div id='divMovimiento' class="row">
-                            
-                        <div class="col-lg-4 text-center mb-3">
 
-                        <input type="hidden" id="id" name="id">
-                        <label for="tipo_movimiento">Tipo de Movimiento</label>
-                                    <select name="tipo_movimiento" id="tipo_movimiento" class="form-control">
-                                        <option value="0">Seleccionar</option>
-                                        <?php
-                                        foreach ($tipo_movimiento as $fila) : ?>
+                            <div class="col-lg-4 text-center mb-3">
 
-                                            <option value="<?= $fila['id'] ?>"> <?= $fila['desc'] ?></option>
+                                <input type="hidden" id="id" name="id">
+                                <label for="tipo_movimiento">Tipo de Movimiento</label>
+                                <select name="tipo_movimiento" id="tipo_movimiento" class="form-control">
+                                    <option value="0">Seleccionar</option>
+                                    <?php
+                                    foreach ($tipo_movimiento as $fila) : ?>
 
-                                        <?php endforeach ?>
+                                        <option value="<?= $fila['id'] ?>"> <?= $fila['desc'] ?></option>
 
-
-                                    </select>
-
-                                    </div>
-                                    <div class="col-lg-4 text-center">
-                                    <label for="organizacion">Organizacion</label>
-                                    <select name="organizacion" id="organizacion" class="form-control">
-                                        <option value="0">Seleccionar</option>
-                                        <?php
-                                        foreach ($movimiento as $fila) : ?>
-
-                                            <option value="<?= $fila['id'] ?>"> <?= $fila['desc'] ?></option>
-
-                                        <?php endforeach ?>
+                                    <?php endforeach ?>
 
 
-                                    </select>
-                                    </div>
-                                    <div class="col-lg-4 text-center">
+                                </select>
 
-                                        <label for="cantidad">Cantidad de personas</label>
-                                      <input type="number" id="cantidad" name="cantidad" class="form-control">
+                            </div>
+                            <div class="col-lg-4 text-center">
+                                <label for="organizacion">Organizacion</label>
+                                <select name="organizacion" id="organizacion" class="form-control">
+                                    <option value="0">Seleccionar</option>
+                                    <?php
+                                    foreach ($movimiento as $fila) : ?>
 
-                                    </div>
-            </div>
-            <div class="modal-footer row justify-content-end">
+                                        <option value="<?= $fila['id'] ?>"> <?= $fila['desc'] ?></option>
 
-                <div class="col-lg-3">
-                    <button type="submit" form="formMovimiento" id="btnGuardarMovimiento" class="btn btn-primary w-100"><i class="bi bi-save me-2"></i>Guardar</button>
+                                    <?php endforeach ?>
+
+
+                                </select>
+                            </div>
+                            <div class="col-lg-4 text-center">
+
+                                <label for="cantidad">Cantidad de personas</label>
+                                <input type="number" id="cantidad" name="cantidad" class="form-control">
+
+                            </div>
+                        </div>
+                        <div class="modal-footer row justify-content-end">
+
+                            <div class="col-lg-3">
+                                <button type="submit" form="formMovimiento" id="btnGuardarMovimiento" class="btn btn-primary w-100"><i class="bi bi-save me-2"></i>Guardar</button>
+                            </div>
+                            <div class="col-lg-3">
+                                <button type="button" class="btn btn-warning w-100" id="btnModificarMovimiento"><i class="bi bi-save me-2"></i>Modificar</button>
+                            </div>
+                            <div class="col-lg-3">
+                                <button type="button" class="btn btn-danger w-100" id="btnBorrarMovimiento"><i class="bi bi-trash  me-2"> </i> Borrar</button>
+                            </div>
+
+                        </div>
                 </div>
-                <div class="col-lg-3">
-                    <button type="button" class="btn btn-warning w-100" id="btnModificarMovimiento"><i class="bi bi-save me-2"></i>Modificar</button>
-                </div>
-                <div class="col-lg-3">
-                    <button type="button" class="btn btn-danger w-100" id="btnBorrarMovimiento"><i class="bi bi-trash  me-2"> </i> Borrar</button>
-                </div>
-
             </div>
         </div>
-    </div>
-</div>
-<!-- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
+        <!-- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
 
-<script src="./build/js/eventos/index.js"></script>
+        <script src="./build/js/eventos/index.js"></script>

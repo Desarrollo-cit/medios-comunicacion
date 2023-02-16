@@ -139,9 +139,9 @@ tinymce.init({
 });
 
 L.easyPrint({
-	title: 'Imprimir vista actual',
-	position: 'topright',
-	sizeModes: ['A4Portrait', 'A4Landscape']
+    title: 'Imprimir vista actual',
+    position: 'topright',
+    sizeModes: ['A4Portrait', 'A4Landscape']
 }).addTo(map);
 const abreModal = e => {
     const punto = e.latlng;
@@ -353,45 +353,45 @@ const buscarEventos = async e => {
                             modal1(e, p)
                             break;
 
-                            case '2':
+                        case '2':
                             modal2(e, p)
                             break;
-                            case '4':
+                        case '4':
                             modal4(e, p)
                             break;
-                            case '6':
+                        case '6':
                             modal6(e, p)
                             break;
 
-                            case '9':
-                                modal3(e, p)
-                                break;
+                        case '9':
+                            modal3(e, p)
+                            break;
 
-                                 case '4':
-                                modal4(e, p)
-                                break;
+                        case '4':
+                            modal4(e, p)
+                            break;
 
-                                case '5':
-                                    modal5(e, p)
-                                    break;
+                        case '5':
+                            modal5(e, p)
+                            break;
 
-                                    case '6':
-                                        modal6(e, p)
-                                        break;
-                                        
-                                        case '7':
-                                            modal7(e, p)
-                                            break;
+                        case '6':
+                            modal6(e, p)
+                            break;
 
-                                            case '8':
-                                                modal8(e, p)
-                                                break;
+                        case '7':
+                            modal7(e, p)
+                            break;
 
-                                                case '10':
-                                                    modal9(e, p)
-                                                    break;
+                        case '8':
+                            modal8(e, p)
+                            break;
 
-                                             
+                        case '10':
+                            modal9(e, p)
+                            break;
+
+
 
                     }
                 })
@@ -582,22 +582,22 @@ const recargarModalCaptura = async (id) => {
                 agregarInputsCaptura(null, c.id, c.nombre, c.edad, c.nacionalidad, c.sexo, c.delito, c.vinculo, true, 0, divCapturados)
             })
 
-        } 
+        }
 
         if (capturados.length > 0 && captura) {
-        
-           
+
+
             btnGuardarCaptura.disabled = true
             btnModificarCaptura.disabled = false
 
 
             btnGuardarCaptura.parentElement.style.display = 'none'
             btnModificarCaptura.parentElement.style.display = ''
-            
+
         } else {
             btnGuardarCaptura.disabled = false
             btnModificarCaptura.disabled = true
-            
+
             btnGuardarCaptura.parentElement.style.display = ''
             btnModificarCaptura.parentElement.style.display = 'none'
 
@@ -643,14 +643,14 @@ const recargarModalAsesinatos = async (id) => {
         if (asesinados) {
             // console.log(data);
             asesinados.forEach(a => {
-                agregarInputsAsesinatos(null, a.id , a.nombre , a.edad ,  a.sexo,true)
+                agregarInputsAsesinatos(null, a.id, a.nombre, a.edad, a.sexo, true)
             })
 
-        } 
+        }
 
         if (asesinados.length > 0 && asesinatos) {
-        
-           
+
+
             btnGuardarAsesinatos.disabled = true
             btnModificarAsesinatos.disabled = false
 
@@ -680,7 +680,7 @@ const recargarModalMigrantes = async (id) => {
     formMigrantes.reset()
     formMigrantes.topic.value = id
 
-  
+
 
 
     while (inputsMigrantes > 0) {
@@ -701,21 +701,21 @@ const recargarModalMigrantes = async (id) => {
         const data = await respuesta.json();
         console.log(data);
         const { migrantes, migrante } = data;
-       console.log(migrantes.info);
+        console.log(migrantes.info);
 
-        migrantes&&tinymce.get('info3').setContent(migrantes.info)
+        migrantes && tinymce.get('info3').setContent(migrantes.info)
         // }
         if (migrante) {
             // console.log(data);
-            migrante.forEach( m => {
-                agregarInputsMigrantes(null, m.id , m.pais_migrante , m.edad ,  m.cantidad , m.sexo, m.lugar_ingreso, m.destino , true)
+            migrante.forEach(m => {
+                agregarInputsMigrantes(null, m.id, m.pais_migrante, m.edad, m.cantidad, m.sexo, m.lugar_ingreso, m.destino, true)
             })
 
-        } 
+        }
 
         if (migrante.length > 0 && migrantes) {
-        
-           
+
+
             btnGuardarMigrantes.disabled = true
             btnModificarMigrantes.disabled = false
 
@@ -745,8 +745,8 @@ const recargarModalDinero = async (id) => {
     formDinero.reset()
     formDinero.topico.value = id
 
- 
-  
+
+
 
 
     while (inputsDinero > 0) {
@@ -766,22 +766,22 @@ const recargarModalDinero = async (id) => {
         const respuesta = await fetch(url, config);
         const data = await respuesta.json();
         console.log(data);
-        const {info, dinero } = data;
-  
+        const { info, dinero } = data;
 
-       info && tinymce.get('info5').setContent(info.info)
+
+        info && tinymce.get('info5').setContent(info.info)
         // }
         if (dinero) {
             // console.log(data);
-            dinero.forEach( d => {
-                agregarInputsDinero(null, d.id , d.cantidad, d.moneda ,  d.conversion, true)
+            dinero.forEach(d => {
+                agregarInputsDinero(null, d.id, d.cantidad, d.moneda, d.conversion, true)
             })
 
-        } 
+        }
 
         if (dinero.length > 0 && info) {
-        
-           
+
+
             btnGuardarDinero.disabled = true
             btnModificarDinero.disabled = false
 
@@ -809,7 +809,7 @@ const recargarModalDesastres = async (id) => {
     formDesastres.reset()
     formDesastres.topico.value = id
 
- 
+
 
 
     try {
@@ -826,40 +826,40 @@ const recargarModalDesastres = async (id) => {
         const data = await respuesta.json();
         console.log(data);
 
-        const {info, desastre } = data;
-          
+        const { info, desastre } = data;
 
-       info && tinymce.get('info6').setContent(info.info)
+
+        info && tinymce.get('info6').setContent(info.info)
         // }
         if (desastre) {
 
-        // console.log(data);
-        desastre.forEach( d => {
-            formDesastres.id.value= d.id,
-            formDesastres.topico.value= d.topico,
-            formDesastres.tipo.value= d.tipo,
-            formDesastres.nombre_desastre.value= d.nombre_desastre,
-            formDesastres.per_fallecida.value= d.per_fallecida,
-            formDesastres.per_evacuada.value= d.per_evacuada,
-            formDesastres.per_afectada.value= d.per_afectada,
-            formDesastres.albergues.value= d.albergues,
-            formDesastres.inundaciones.value= d.inundaciones,
-            formDesastres.est_colapsadas.value= d.est_colapsadas,
-            formDesastres.derrumbes.value= d.derrumbes,
-            formDesastres.carre_colap.value=d.carre_colap,
-            formDesastres.hectareas_quemadas.value = d.hectareas_quemadas,
-            formDesastres.rios.value= d.rios
-        
-          
-        })
+            // console.log(data);
+            desastre.forEach(d => {
+                formDesastres.id.value = d.id,
+                    formDesastres.topico.value = d.topico,
+                    formDesastres.tipo.value = d.tipo,
+                    formDesastres.nombre_desastre.value = d.nombre_desastre,
+                    formDesastres.per_fallecida.value = d.per_fallecida,
+                    formDesastres.per_evacuada.value = d.per_evacuada,
+                    formDesastres.per_afectada.value = d.per_afectada,
+                    formDesastres.albergues.value = d.albergues,
+                    formDesastres.inundaciones.value = d.inundaciones,
+                    formDesastres.est_colapsadas.value = d.est_colapsadas,
+                    formDesastres.derrumbes.value = d.derrumbes,
+                    formDesastres.carre_colap.value = d.carre_colap,
+                    formDesastres.hectareas_quemadas.value = d.hectareas_quemadas,
+                    formDesastres.rios.value = d.rios
 
 
-  
-        } 
+            })
+
+
+
+        }
 
         if (desastre.length > 0 && info) {
-        
-           
+
+
             btnGuardarDesastres.disabled = true
             btnModificarDesastres.disabled = false
 
@@ -887,7 +887,7 @@ const recargarModalPistas = async (id) => {
     formPistas.reset()
     formPistas.topico.value = id
 
- 
+
 
 
     try {
@@ -903,31 +903,31 @@ const recargarModalPistas = async (id) => {
         const respuesta = await fetch(url, config);
         const data = await respuesta.json();
         console.log(data);
-      
-        const {info, pista } = data;
-          
 
-       info && tinymce.get('info7').setContent(info.info)
+        const { info, pista } = data;
+
+
+        info && tinymce.get('info7').setContent(info.info)
         // }
         if (pista) {
 
-        // console.log(data);
-        pista.forEach( p => {
-            formPistas.id.value= p.id,
-            formPistas.topico.value= p.topico,
-            formPistas.distancia.value= p.distancia
-           
-        
-          
-        })
+            // console.log(data);
+            pista.forEach(p => {
+                formPistas.id.value = p.id,
+                    formPistas.topico.value = p.topico,
+                    formPistas.distancia.value = p.distancia
 
 
-  
-        } 
+
+            })
+
+
+
+        }
 
         if (pista.length > 0 && info) {
-        
-           
+
+
             btnGuardarPistas.disabled = true
             btnModificarPistas.disabled = false
 
@@ -956,7 +956,7 @@ const recargarModalMovimiento = async (id) => {
     formMovimiento.topico.value = id
 
 
- 
+
 
 
     try {
@@ -973,30 +973,30 @@ const recargarModalMovimiento = async (id) => {
         const data = await respuesta.json();
         console.log(data);
 
-      
-        const {info, movimiento } = data;
-          
 
-       info && tinymce.get('info8').setContent(info.info)
+        const { info, movimiento } = data;
+
+
+        info && tinymce.get('info8').setContent(info.info)
         // }
         if (movimiento) {
 
-        // console.log(data);
-        movimiento.forEach( m => {
-            formMovimiento.id.value= m.id,
-            formMovimiento.topico.value= m.topico,
-            formMovimiento.tipo_movimiento.value= m.tipo_movimiento,
-            formMovimiento.organizacion.value= m.organizacion,
-            formMovimiento.cantidad.value= m.cantidad
-        })
+            // console.log(data);
+            movimiento.forEach(m => {
+                formMovimiento.id.value = m.id,
+                    formMovimiento.topico.value = m.topico,
+                    formMovimiento.tipo_movimiento.value = m.tipo_movimiento,
+                    formMovimiento.organizacion.value = m.organizacion,
+                    formMovimiento.cantidad.value = m.cantidad
+            })
 
 
-  
-        } 
+
+        }
 
         if (movimiento.length > 0 && info) {
-        
-           
+
+
             btnGuardarMovimiento.disabled = true
             btnModificarMovimiento.disabled = false
 
@@ -1042,9 +1042,9 @@ const recargarModalDroga = async (id) => {
         const respuesta = await fetch(url, config);
         const data = await respuesta.json();
         console.log(data);
-        const { evento, incautacion , capturados } = data;
+        const { evento, incautacion, capturados } = data;
 
-    //     // if(captura){
+        //     // if(captura){
         evento && tinymce.get('info_incautacion').setContent(evento.info)
 
         formDroga.cantidad.value = incautacion.cantidad
@@ -1055,29 +1055,29 @@ const recargarModalDroga = async (id) => {
         formDroga.tipo_transporte.value = incautacion.tipo_transporte
         formDroga.transporte.value = incautacion.transporte
 
-    //     // }
+        //     // }
         if (capturados) {
             // console.log(data);
             capturados.forEach(c => {
                 agregarInputsCaptura(null, c.id, c.nombre, c.edad, c.nacionalidad, c.sexo, c.delito, c.vinculo, true, 1, divCapturadosDroga)
             })
 
-        } 
+        }
 
         if (capturados.length > 0 && evento && incautacion) {
-        
-           
+
+
             btnGuardarCapturaDroga.disabled = true
             btnModificarCapturaDroga.disabled = false
 
 
             btnGuardarCapturaDroga.parentElement.style.display = 'none'
             btnModificarCapturaDroga.parentElement.style.display = ''
-            
+
         } else {
             btnGuardarCapturaDroga.disabled = false
             btnModificarCapturaDroga.disabled = true
-            
+
             btnGuardarCapturaDroga.parentElement.style.display = ''
             btnModificarCapturaDroga.parentElement.style.display = 'none'
 
@@ -1114,7 +1114,7 @@ const recargarModalArmas = async (id) => {
         const respuesta = await fetch(url, config);
         const data = await respuesta.json();
         console.log(data);
-        const { evento, armas , municion } = data;
+        const { evento, armas, municion } = data;
 
         evento && tinymce.get('info_incautacion_armas').setContent(evento.info)
 
@@ -1124,29 +1124,29 @@ const recargarModalArmas = async (id) => {
                 agregarInputsArmas(null, arma.id, arma.cantidad, arma.tipo_arma, arma.calibre, true)
             })
 
-        } 
+        }
         if (municion) {
             // console.log(data);
             municion.forEach(municion => {
-                agregarInputsMunicion(null, municion.id, municion.cantidad,municion.calibre, true)
+                agregarInputsMunicion(null, municion.id, municion.cantidad, municion.calibre, true)
             })
 
-        } 
+        }
 
         if (armas.length > 0 && evento && municion.length > 0) {
-        
-           
+
+
             btnGuardarArmas.disabled = true
             btnModificarArmas.disabled = false
 
 
             btnGuardarArmas.parentElement.style.display = 'none'
             btnModificarArmas.parentElement.style.display = ''
-            
+
         } else {
             btnGuardarArmas.disabled = false
             btnModificarArmas.disabled = true
-            
+
             btnGuardarArmas.parentElement.style.display = ''
             btnModificarArmas.parentElement.style.display = 'none'
 
@@ -1163,16 +1163,16 @@ const recargarModalArmas = async (id) => {
 
 
 
-const agregarInputsCaptura = async (e, id = '', nombre = '', edad = '', nacionalidad = '', sexo = '', delito = '', vinculo = "", boton = false, contador , divInputs) => {
+const agregarInputsCaptura = async (e, id = '', nombre = '', edad = '', nacionalidad = '', sexo = '', delito = '', vinculo = "", boton = false, contador, divInputs) => {
     let cantidad = 0
     switch (contador) {
         case 0:
             cantidad = ++inputscapturas;
-            
+
             break;
         case 1:
             cantidad = ++inputsDrogas;
-            
+
             break;
     }
     // console.log(inputscapturas);
@@ -1377,18 +1377,18 @@ const agregarInputsCaptura = async (e, id = '', nombre = '', edad = '', nacional
 
     divInputs.appendChild(fragment)
 }
-const agregarInputsAsesinatos = async (e, id = '', nombre = '', edad = '',  sexo = '',boton = false) => {
+const agregarInputsAsesinatos = async (e, id = '', nombre = '', edad = '', sexo = '', boton = false) => {
     inputsasesinados++;
     // console.log(inputscapturas);
     const fragment = document.createDocumentFragment();
     const divCuadro = document.createElement('div');
     const divRow = document.createElement('div');
     const divRow1 = document.createElement('div');
-   
+
     const divCol1 = document.createElement('div');
     const divCol2 = document.createElement('div');
     const divCol3 = document.createElement('div');
-    
+
     const inputIdRow = document.createElement('input');
     const input1 = document.createElement('input')
     const input2 = document.createElement('input')
@@ -1421,7 +1421,7 @@ const agregarInputsAsesinatos = async (e, id = '', nombre = '', edad = '',  sexo
     input2.type = 'number'
     input2.required = true;
 
-    
+
     select3.classList.add("form-control")
     select3.name = `sexo[]`
     select3.id = `sexo[]`
@@ -1486,7 +1486,7 @@ const agregarInputsAsesinatos = async (e, id = '', nombre = '', edad = '',  sexo
     divAsesinados.appendChild(fragment)
 }
 
-const agregarInputsMigrantes = async (e, id = '', pais_migrante = '', edad = '',  cantidad = '', sexo ='', lugar_ingreso='',  destino ='', boton = false) => {
+const agregarInputsMigrantes = async (e, id = '', pais_migrante = '', edad = '', cantidad = '', sexo = '', lugar_ingreso = '', destino = '', boton = false) => {
     inputsMigrantes++;
     console.log(destino);
     const fragment = document.createDocumentFragment();
@@ -1502,7 +1502,7 @@ const agregarInputsMigrantes = async (e, id = '', pais_migrante = '', edad = '',
     const divCol6 = document.createElement('div');
     const inputIdRow = document.createElement('input');
     const select1 = document.createElement('select')
-    const select2= document.createElement('select')
+    const select2 = document.createElement('select')
     const input1 = document.createElement('input')
     const select3 = document.createElement('select')
     const input2 = document.createElement('input')
@@ -1521,19 +1521,19 @@ const agregarInputsMigrantes = async (e, id = '', pais_migrante = '', edad = '',
 
     const option1 = document.createElement('option')
     option1.value = ""
-    option1.innerText ="SELECCIONE"
+    option1.innerText = "SELECCIONE"
 
     const option2 = document.createElement('option')
     option2.value = ""
-    option2.innerText ="SELECCIONE"
+    option2.innerText = "SELECCIONE"
 
     const option3 = document.createElement('option')
     option3.value = ""
-    option3.innerText ="SELECCIONE"
+    option3.innerText = "SELECCIONE"
 
     const option4 = document.createElement('option')
     option4.value = ""
-    option4.innerText ="SELECCIONE"
+    option4.innerText = "SELECCIONE"
 
     select1.appendChild(option1)
     select2.appendChild(option2)
@@ -1568,7 +1568,7 @@ const agregarInputsMigrantes = async (e, id = '', pais_migrante = '', edad = '',
     input1.classList.add("form-control")
     input1.name = `cantidad[]`
     input1.id = `cantidad[]`
-    input1.type= `number`
+    input1.type = `number`
     input1.required = true;
     select3.classList.add("form-control")
     select3.name = `sexo[]`
@@ -1577,13 +1577,13 @@ const agregarInputsMigrantes = async (e, id = '', pais_migrante = '', edad = '',
     input2.classList.add("form-control")
     input2.name = `lugar_ingreso[]`
     input2.id = `lugar_ingreso[]`
-    input2.type= `text`
+    input2.type = `text`
     input2.required = true;
     select4.classList.add("form-control")
     select4.name = `destino[]`
     select4.id = `destino[]`
     select4.required = true;
-    h1.innerText= `CANTIDAD ${inputsMigrantes}`
+    h1.innerText = `CANTIDAD ${inputsMigrantes}`
     label1.innerText = `PAIS DEL MIGRANTE`
     label1.htmlFor = `pais_migrante[]`
     label2.innerText = `Rango de edad`
@@ -1663,8 +1663,8 @@ const agregarInputsMigrantes = async (e, id = '', pais_migrante = '', edad = '',
     input2.value = lugar_ingreso;
     select2.value = edad;
     select3.value = sexo;
-    select4.value= destino
-  
+    select4.value = destino
+
 
 
     divCuadro.appendChild(h1)
@@ -1703,7 +1703,7 @@ const agregarInputsMigrantes = async (e, id = '', pais_migrante = '', edad = '',
 
     divMigrantes.appendChild(fragment)
 }
-const agregarInputsDinero = async (e, id = '', cantidad = '', moneda = '',  conversion = '', boton = false) => {
+const agregarInputsDinero = async (e, id = '', cantidad = '', moneda = '', conversion = '', boton = false) => {
     inputsDinero++;
     const fragment = document.createDocumentFragment();
     const divCuadro = document.createElement('div');
@@ -1714,7 +1714,7 @@ const agregarInputsDinero = async (e, id = '', cantidad = '', moneda = '',  conv
     const divCol3 = document.createElement('div');
     const inputIdRow = document.createElement('input');
     const input1 = document.createElement('input')
-    const select1= document.createElement('select')
+    const select1 = document.createElement('select')
     const input2 = document.createElement('input')
     const label1 = document.createElement('label')
     const label2 = document.createElement('label')
@@ -1726,7 +1726,7 @@ const agregarInputsDinero = async (e, id = '', cantidad = '', moneda = '',  conv
 
     const option1 = document.createElement('option')
     option1.value = ""
-    option1.innerText ="SELECCIONE"
+    option1.innerText = "SELECCIONE"
 
 
 
@@ -1747,7 +1747,7 @@ const agregarInputsDinero = async (e, id = '', cantidad = '', moneda = '',  conv
     input1.classList.add("form-control")
     input1.name = `cantidad[]`
     input1.id = `cantidad[]`
-    input1.type= `number`
+    input1.type = `number`
     input1.required = true;
     select1.classList.add("form-control")
     select1.name = `moneda[]`
@@ -1757,10 +1757,10 @@ const agregarInputsDinero = async (e, id = '', cantidad = '', moneda = '',  conv
     input2.classList.add("form-control")
     input2.name = `conversion[]`
     input2.id = `conversion[]`
-    input2.type= `number`
-    input2.readOnly= true
+    input2.type = `number`
+    input2.readOnly = true
     input2.required = true;
-    label1.innerText = `CANTIDAD ${inputsDinero}` 
+    label1.innerText = `CANTIDAD ${inputsDinero}`
     label1.htmlFor = `cantidad[]`
     label2.innerText = `MONEDA`
     label2.htmlFor = `moneda[]`
@@ -1816,7 +1816,7 @@ const agregarInputsDinero = async (e, id = '', cantidad = '', moneda = '',  conv
         divRow1.appendChild(divColBoton)
         buttonEliminar.addEventListener('click', (e) => eliminarDinero(e, id))
     }
-   
+
     divCuadro.appendChild(divRow1)
 
     divRow.appendChild(divCuadro)
@@ -1976,8 +1976,8 @@ const agregarInputsDinero = async (e, id = '', cantidad = '', moneda = '',  conv
 //     input10.type= `number`
 //     input10.required = true;
 
-    
-    
+
+
 //     label1.innerText = `Tipo ${inputsDesastres}` 
 //     label1.htmlFor = `tipo[]`
 //     label2.innerText = `Nombre`
@@ -2040,7 +2040,7 @@ const agregarInputsDinero = async (e, id = '', cantidad = '', moneda = '',  conv
 
 
 
-   
+
 
 
 //     select1.value = tipo;
@@ -2056,7 +2056,7 @@ const agregarInputsDinero = async (e, id = '', cantidad = '', moneda = '',  conv
 //     input9.value = hectareas_quemadas;
 //     input10.value = rios;
 //     inputIdRow.value = id;
-   
+
 
 
 
@@ -2107,7 +2107,7 @@ const agregarInputsDinero = async (e, id = '', cantidad = '', moneda = '',  conv
 //         divRow1.appendChild(divColBoton)
 //         buttonEliminar.addEventListener('click', (e) => eliminarDesastre(e, id))
 //     }
-   
+
 //     divCuadro.appendChild(divRow1)
 //     divCuadro.appendChild(divRow2)
 //     divCuadro.appendChild(divRow3)
@@ -2119,19 +2119,19 @@ const agregarInputsDinero = async (e, id = '', cantidad = '', moneda = '',  conv
 
 //     divDesastres.appendChild(fragment)
 // }
-const agregarInputsArmas = async (e, id = '', cantidad = '', tipo = '',  calibre = '',boton = false) => {
+const agregarInputsArmas = async (e, id = '', cantidad = '', tipo = '', calibre = '', boton = false) => {
     inputsArmas++;
     // console.log(inputscapturas);
     const fragment = document.createDocumentFragment();
     const divCuadro = document.createElement('div');
     const divExterno = document.createElement('div');
     const divRow = document.createElement('div');
-   
+
     const divColCantidad = document.createElement('div');
     const divColTipo = document.createElement('div');
     const divColCalibre = document.createElement('div');
     const divColBoton = document.createElement('div');
-    
+
     const inputIdRow = document.createElement('input');
     const inputCantidad = document.createElement('input')
     const selectTipo = document.createElement('select')
@@ -2161,7 +2161,7 @@ const agregarInputsArmas = async (e, id = '', cantidad = '', tipo = '',  calibre
     selectTipo.name = `tipo[]`
     selectTipo.id = `tipo[]`
     selectTipo.required = true;
-    
+
     selectCalibre.classList.add("form-control")
     selectCalibre.name = `calibre[]`
     selectCalibre.id = `calibre[]`
@@ -2201,7 +2201,7 @@ const agregarInputsArmas = async (e, id = '', cantidad = '', tipo = '',  calibre
         option.innerText = `${tipo.desc} `
         selectTipo.appendChild(option)
     })
-    
+
     const urlCalibres = `/medios-comunicacion/API/calibres/buscar`
     const configCalibres = { method: "GET", headers }
     const responseCalibres = await fetch(urlCalibres, configCalibres);
@@ -2245,18 +2245,18 @@ const agregarInputsArmas = async (e, id = '', cantidad = '', tipo = '',  calibre
     divArmas.appendChild(fragment)
 }
 
-const agregarInputsMunicion = async (e, id = '', cantidad = '', calibre = '',boton = false) => {
+const agregarInputsMunicion = async (e, id = '', cantidad = '', calibre = '', boton = false) => {
     inputsMunicion++;
     // console.log(inputscapturas);
     const fragment = document.createDocumentFragment();
     const divCuadro = document.createElement('div');
     const divExterno = document.createElement('div');
     const divRow = document.createElement('div');
-   
+
     const divColCantidad = document.createElement('div');
     const divColCalibre = document.createElement('div');
     const divColBoton = document.createElement('div');
-    
+
     const inputIdRow = document.createElement('input');
     const inputCantidad = document.createElement('input')
     const selectCalibre = document.createElement('select')
@@ -2278,7 +2278,7 @@ const agregarInputsMunicion = async (e, id = '', cantidad = '', calibre = '',bot
     inputCantidad.id = `cantidad_municion[]`
     inputCantidad.type = 'number'
     inputCantidad.required = true;
-   
+
     selectCalibre.classList.add("form-control")
     selectCalibre.name = `calibre_municion[]`
     selectCalibre.id = `calibre_municion[]`
@@ -2298,7 +2298,7 @@ const agregarInputsMunicion = async (e, id = '', cantidad = '', calibre = '',bot
     optionVacio2.value = ""
     optionVacio2.innerText = "SELECCIONE..."
 
- 
+
 
 
     selectCalibre.appendChild(optionVacio2)
@@ -2355,11 +2355,11 @@ const quitarInputsCaptura = (contador, divInputs) => {
         switch (contador) {
             case 0:
                 inputscapturas--;
-                
+
                 break;
             case 1:
                 inputsDrogas--;
-                
+
                 break;
         }
 
@@ -2588,7 +2588,7 @@ const guardarIncautacionArmamento = async e => {
 
     let info = tinymce.get('info_incautacion_armas').getContent()
     console.log(info);
-    if (validarFormulario(formArmas, ['id_registro[]','id_registro_municion[]', 'info_incautacion_armas']) && info != '') {
+    if (validarFormulario(formArmas, ['id_registro[]', 'id_registro_municion[]', 'info_incautacion_armas']) && info != '') {
 
         // console.log('hola');
         try {
@@ -2662,7 +2662,7 @@ const guardarAsesinatos = async e => {
     let info = tinymce.get('info2').getContent()
     console.log(info);
 
- 
+
     if (validarFormulario(formAsesinatos, ['id_per[]', 'info2']) && info != '') {
 
         // console.log('hola');
@@ -2735,7 +2735,7 @@ const guardarMigrantes = async e => {
 
     let info = tinymce.get('info3').getContent()
     console.log(info);
-    if (validarFormulario(formMigrantes, ['id_mig[]' , 'info3']) && info != '') {
+    if (validarFormulario(formMigrantes, ['id_mig[]', 'info3']) && info != '') {
 
         // console.log('hola');
         try {
@@ -2744,7 +2744,7 @@ const guardarMigrantes = async e => {
 
             const body = new FormData(formMigrantes);
 
-      
+
             body.append('info3', info)
             const headers = new Headers();
             headers.append("X-Requested-With", "fetch");
@@ -2782,10 +2782,10 @@ const guardarMigrantes = async e => {
 
                     break;
 
-                    case 5:
-                        icon = "warning"
-                        break;
-    
+                case 5:
+                    icon = "warning"
+                    break;
+
 
                 default:
                     break;
@@ -2814,7 +2814,7 @@ const guardarDinero = async e => {
 
     let info = tinymce.get('info5').getContent()
     console.log(info);
-    if (validarFormulario(formDinero, ['id_din[]','info5']) && info != '') {
+    if (validarFormulario(formDinero, ['id_din[]', 'info5']) && info != '') {
 
         // console.log('hola');
         try {
@@ -2823,7 +2823,7 @@ const guardarDinero = async e => {
 
             const body = new FormData(formDinero);
 
-      
+
             body.append('info5', info)
             const headers = new Headers();
             headers.append("X-Requested-With", "fetch");
@@ -2861,10 +2861,10 @@ const guardarDinero = async e => {
 
                     break;
 
-                    case 5:
-                        icon = "warning"
-                        break;
-    
+                case 5:
+                    icon = "warning"
+                    break;
+
 
                 default:
                     break;
@@ -2892,7 +2892,7 @@ const guardarDesastres = async e => {
 
     let info = tinymce.get('info6').getContent()
     console.log(info);
-    if (validarFormulario(formDesastres, ['id','info6']) && info != '') {
+    if (validarFormulario(formDesastres, ['id', 'info6']) && info != '') {
 
         // console.log('hola');
         try {
@@ -2901,7 +2901,7 @@ const guardarDesastres = async e => {
 
             const body = new FormData(formDesastres);
 
-      
+
             body.append('info6', info)
             const headers = new Headers();
             headers.append("X-Requested-With", "fetch");
@@ -2939,10 +2939,10 @@ const guardarDesastres = async e => {
 
                     break;
 
-                    case 5:
-                        icon = "warning"
-                        break;
-    
+                case 5:
+                    icon = "warning"
+                    break;
+
 
                 default:
                     break;
@@ -2966,12 +2966,12 @@ const guardarDesastres = async e => {
 
 }
 
-const guardarPistas= async e => {
+const guardarPistas = async e => {
     e.preventDefault();
 
     let info = tinymce.get('info7').getContent()
     console.log(info);
-    if (validarFormulario(formPistas, ['id','info7']) && info != '') {
+    if (validarFormulario(formPistas, ['id', 'info7']) && info != '') {
 
         // console.log('hola');
         try {
@@ -2980,7 +2980,7 @@ const guardarPistas= async e => {
 
             const body = new FormData(formPistas);
 
-      
+
             body.append('info7', info)
             const headers = new Headers();
             headers.append("X-Requested-With", "fetch");
@@ -3018,10 +3018,10 @@ const guardarPistas= async e => {
 
                     break;
 
-                    case 5:
-                        icon = "warning"
-                        break;
-    
+                case 5:
+                    icon = "warning"
+                    break;
+
 
                 default:
                     break;
@@ -3045,12 +3045,12 @@ const guardarPistas= async e => {
 
 }
 
-const guardarMovimiento= async e => {
+const guardarMovimiento = async e => {
     e.preventDefault();
 
     let info = tinymce.get('info8').getContent()
     console.log(info);
-    if (validarFormulario(formMovimiento, ['id','info8']) && info != '') {
+    if (validarFormulario(formMovimiento, ['id', 'info8']) && info != '') {
 
         // console.log('hola');
         try {
@@ -3059,7 +3059,7 @@ const guardarMovimiento= async e => {
 
             const body = new FormData(formMovimiento);
 
-      
+
             body.append('info8', info)
             const headers = new Headers();
             headers.append("X-Requested-With", "fetch");
@@ -3097,10 +3097,10 @@ const guardarMovimiento= async e => {
 
                     break;
 
-                    case 5:
-                        icon = "warning"
-                        break;
-    
+                case 5:
+                    icon = "warning"
+                    break;
+
 
                 default:
                     break;
@@ -3136,26 +3136,26 @@ const eliminarCapturado = async (e, id, contador) => {
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: 'Si, Eliminar'
-    }).then( async(result) => {
+    }).then(async (result) => {
         if (result.isConfirmed) {
             try {
 
                 const url = '/medios-comunicacion/API/capturas/capturado/eliminar'
-    
+
                 const body = new FormData();
                 body.append('id', id)
                 const headers = new Headers();
                 headers.append("X-Requested-With", "fetch");
-    
+
                 const config = {
                     method: 'POST',
                     headers,
                     body
                 }
-    
+
                 const respuesta = await fetch(url, config);
                 const data = await respuesta.json();
-    
+
                 // console.log(data);
                 // return 
                 const { mensaje, codigo, detalle } = data;
@@ -3167,9 +3167,9 @@ const eliminarCapturado = async (e, id, contador) => {
                         switch (contador) {
                             case 0:
                                 recargarModalCaptura(formCaptura.topico.value)
-                                
+
                                 break;
-                            case 1 :
+                            case 1:
                                 recargarModalDroga(formDroga.topico.value)
                                 break;
                             default:
@@ -3180,38 +3180,38 @@ const eliminarCapturado = async (e, id, contador) => {
                         icon = "warning"
                         switch (contador) {
                             case 0:
-                                    recargarModalCaptura(formCaptura.topico.value)
-                                    formCaptura.reset();
-                                
+                                recargarModalCaptura(formCaptura.topico.value)
+                                formCaptura.reset();
+
                                 break;
-                                case 1 :
-                                    recargarModalDroga(formDroga.topico.value)
-                                    formDroga.reset();
+                            case 1:
+                                recargarModalDroga(formDroga.topico.value)
+                                formDroga.reset();
                                 break;
                             default:
                                 break;
                         }
-    
+
                         break;
                     case 3:
                         icon = "error"
-    
+
                         break;
                     case 4:
                         icon = "error"
                         console.log(detalle)
-    
+
                         break;
-    
+
                     default:
                         break;
                 }
-    
+
                 Toast.fire({
                     icon: icon,
                     title: mensaje,
                 })
-    
+
             } catch (error) {
                 console.log(error);
             }
@@ -3228,26 +3228,26 @@ const eliminarAsesinado = async (e, id) => {
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: 'Si, Eliminar'
-    }).then( async(result) => {
+    }).then(async (result) => {
         if (result.isConfirmed) {
             try {
 
                 const url = '/medios-comunicacion/API/asesinatos/asesinado/eliminar'
-    
+
                 const body = new FormData();
                 body.append('id', id)
                 const headers = new Headers();
                 headers.append("X-Requested-With", "fetch");
-    
+
                 const config = {
                     method: 'POST',
                     headers,
                     body
                 }
-    
+
                 const respuesta = await fetch(url, config);
                 const data = await respuesta.json();
-    
+
                 // console.log(data);
                 // return 
                 const { mensaje, codigo, detalle } = data;
@@ -3261,27 +3261,27 @@ const eliminarAsesinado = async (e, id) => {
                     case 2:
                         icon = "warning"
                         formAsesinatos.reset();
-    
+
                         break;
                     case 3:
                         icon = "error"
-    
+
                         break;
                     case 4:
                         icon = "error"
                         console.log(detalle)
-    
+
                         break;
-    
+
                     default:
                         break;
                 }
-    
+
                 Toast.fire({
                     icon: icon,
                     title: mensaje,
                 })
-    
+
             } catch (error) {
                 console.log(error);
             }
@@ -3298,26 +3298,26 @@ const eliminarMigrante = async (e, id) => {
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: 'Si, Eliminar'
-    }).then( async(result) => {
+    }).then(async (result) => {
         if (result.isConfirmed) {
             try {
 
                 const url = '/medios-comunicacion/API/migrantes/eliminar'
-    
+
                 const body = new FormData();
                 body.append('id', id)
                 const headers = new Headers();
                 headers.append("X-Requested-With", "fetch");
-    
+
                 const config = {
                     method: 'POST',
                     headers,
                     body
                 }
-    
+
                 const respuesta = await fetch(url, config);
                 const data = await respuesta.json();
-    
+
                 // console.log(data);
                 // return 
                 const { mensaje, codigo, detalle } = data;
@@ -3331,27 +3331,27 @@ const eliminarMigrante = async (e, id) => {
                     case 2:
                         icon = "warning"
                         formMigrantes.reset();
-    
+
                         break;
                     case 3:
                         icon = "error"
-    
+
                         break;
                     case 4:
                         icon = "error"
                         console.log(detalle)
-    
+
                         break;
-    
+
                     default:
                         break;
                 }
-    
+
                 Toast.fire({
                     icon: icon,
                     title: mensaje,
                 })
-    
+
             } catch (error) {
                 console.log(error);
             }
@@ -3368,26 +3368,26 @@ const eliminarDinero = async (e, id) => {
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: 'Si, Eliminar'
-    }).then( async(result) => {
+    }).then(async (result) => {
         if (result.isConfirmed) {
             try {
 
                 const url = '/medios-comunicacion/API/dinero/eliminar'
-    
+
                 const body = new FormData();
                 body.append('id', id)
                 const headers = new Headers();
                 headers.append("X-Requested-With", "fetch");
-    
+
                 const config = {
                     method: 'POST',
                     headers,
                     body
                 }
-    
+
                 const respuesta = await fetch(url, config);
                 const data = await respuesta.json();
-    
+
                 // console.log(data);
                 // return 
                 const { mensaje, codigo, detalle } = data;
@@ -3401,27 +3401,27 @@ const eliminarDinero = async (e, id) => {
                     case 2:
                         icon = "warning"
                         formDinero.reset();
-    
+
                         break;
                     case 3:
                         icon = "error"
-    
+
                         break;
                     case 4:
                         icon = "error"
                         console.log(detalle)
-    
+
                         break;
-    
+
                     default:
                         break;
                 }
-    
+
                 Toast.fire({
                     icon: icon,
                     title: mensaje,
                 })
-    
+
             } catch (error) {
                 console.log(error);
             }
@@ -3440,26 +3440,26 @@ const eliminarCaptura = async (e) => {
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: 'Si, Eliminar'
-    }).then( async(result) => {
+    }).then(async (result) => {
         if (result.isConfirmed) {
             try {
 
                 const url = '/medios-comunicacion/API/capturas/eliminar'
-    
+
                 const body = new FormData();
                 body.append('topico', formCaptura.topico.value)
                 const headers = new Headers();
                 headers.append("X-Requested-With", "fetch");
-    
+
                 const config = {
                     method: 'POST',
                     headers,
                     body
                 }
-    
+
                 const respuesta = await fetch(url, config);
                 const data = await respuesta.json();
-    
+
                 console.log(data);
                 // return 
                 const { mensaje, codigo, detalle } = data;
@@ -3474,27 +3474,27 @@ const eliminarCaptura = async (e) => {
                     case 2:
                         icon = "warning"
                         formCaptura.reset();
-    
+
                         break;
                     case 3:
                         icon = "error"
-    
+
                         break;
                     case 4:
                         icon = "error"
                         console.log(detalle)
-    
+
                         break;
-    
+
                     default:
                         break;
                 }
-    
+
                 Toast.fire({
                     icon: icon,
                     title: mensaje,
                 })
-    
+
             } catch (error) {
                 console.log(error);
             }
@@ -3511,26 +3511,26 @@ const eliminarAsesinato = async (e) => {
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: 'Si, Eliminar'
-    }).then( async(result) => {
+    }).then(async (result) => {
         if (result.isConfirmed) {
             try {
 
                 const url = '/medios-comunicacion/API/asesinatos/eliminar'
-    
+
                 const body = new FormData();
                 body.append('topico', formAsesinatos.topico.value)
                 const headers = new Headers();
                 headers.append("X-Requested-With", "fetch");
-    
+
                 const config = {
                     method: 'POST',
                     headers,
                     body
                 }
-    
+
                 const respuesta = await fetch(url, config);
                 const data = await respuesta.json();
-    
+
                 console.log(data);
                 // return 
                 const { mensaje, codigo, detalle } = data;
@@ -3545,48 +3545,34 @@ const eliminarAsesinato = async (e) => {
                     case 2:
                         icon = "warning"
                         formAsesinatos.reset();
-    
+
                         break;
                     case 3:
                         icon = "error"
-    
+
                         break;
                     case 4:
                         icon = "error"
                         console.log(detalle)
-    
+
                         break;
-    
+
                     default:
                         break;
                 }
-    
+
                 Toast.fire({
                     icon: icon,
                     title: mensaje,
                 })
-    
+
             } catch (error) {
                 console.log(error);
             }
         }
     })
 }
-const eliminarMigrantes = async (e) => {
-    Swal.fire({
-        title: 'Confirmación',
-        text: "¿Esta seguro que desea eliminar estos migrantes?",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Si, Eliminar'
-    }).then( async(result) => {
-        if (result.isConfirmed) {
-            try {
-
-                const url = '/medios-comunicacion/API/migrantes/migrantes/eliminar'
-    const eliminarIncautacion = async (e) => {
+const eliminarIncautacion = async (e) => {
     Swal.fire({
         title: 'Confirmación',
         text: "¿Esta seguro que desea eliminar esta incautación?",
@@ -3595,7 +3581,7 @@ const eliminarMigrantes = async (e) => {
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: 'Si, Eliminar'
-    }).then( async(result) => {
+    }).then(async (result) => {
         if (result.isConfirmed) {
             try {
 
@@ -3603,16 +3589,16 @@ const eliminarMigrantes = async (e) => {
                 body.append('topic', formMigrantes.topic.value)
                 const headers = new Headers();
                 headers.append("X-Requested-With", "fetch");
-    
+
                 const config = {
                     method: 'POST',
                     headers,
                     body
                 }
-    
+
                 const respuesta = await fetch(url, config);
                 const data = await respuesta.json();
-    
+
                 console.log(data);
                 // return 
                 const { mensaje, codigo, detalle } = data;
@@ -3627,33 +3613,34 @@ const eliminarMigrantes = async (e) => {
                     case 2:
                         icon = "warning"
                         formMigrantes.reset();
-    
+
                         break;
                     case 3:
                         icon = "error"
-    
+
                         break;
                     case 4:
                         icon = "error"
                         console.log(detalle)
-    
+
                         break;
-    
+
                     default:
                         break;
                 }
-    
+
                 Toast.fire({
                     icon: icon,
                     title: mensaje,
                 })
-    
+
             } catch (error) {
                 console.log(error);
             }
         }
     })
 }
+
 
 const eliminarDineros = async (e) => {
     Swal.fire({
@@ -3664,26 +3651,26 @@ const eliminarDineros = async (e) => {
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: 'Si, Eliminar'
-    }).then( async(result) => {
+    }).then(async (result) => {
         if (result.isConfirmed) {
             try {
 
                 const url = '/medios-comunicacion/API/dinero/dinero/eliminar'
-    
+
                 const body = new FormData();
                 body.append('topico', formDinero.topico.value)
                 const headers = new Headers();
                 headers.append("X-Requested-With", "fetch");
-    
+
                 const config = {
                     method: 'POST',
                     headers,
                     body
                 }
-    
+
                 const respuesta = await fetch(url, config);
                 const data = await respuesta.json();
-    
+
                 console.log(data);
                 // return 
                 const { mensaje, codigo, detalle } = data;
@@ -3698,27 +3685,27 @@ const eliminarDineros = async (e) => {
                     case 2:
                         icon = "warning"
                         formDinero.reset();
-    
+
                         break;
                     case 3:
                         icon = "error"
-    
+
                         break;
                     case 4:
                         icon = "error"
                         console.log(detalle)
-    
+
                         break;
-    
+
                     default:
                         break;
                 }
-    
+
                 Toast.fire({
                     icon: icon,
                     title: mensaje,
                 })
-    
+
             } catch (error) {
                 console.log(error);
             }
@@ -3734,26 +3721,26 @@ const eliminarDesastre = async (e) => {
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: 'Si, Eliminar'
-    }).then( async(result) => {
+    }).then(async (result) => {
         if (result.isConfirmed) {
             try {
 
                 const url = '/medios-comunicacion/API/des_natural/eliminar'
-    
+
                 const body = new FormData();
                 body.append('topico', formDesastres.topico.value)
                 const headers = new Headers();
                 headers.append("X-Requested-With", "fetch");
-    
+
                 const config = {
                     method: 'POST',
                     headers,
                     body
                 }
-    
+
                 const respuesta = await fetch(url, config);
                 const data = await respuesta.json();
-    
+
                 console.log(data);
                 // return 
                 const { mensaje, codigo, detalle } = data;
@@ -3768,27 +3755,27 @@ const eliminarDesastre = async (e) => {
                     case 2:
                         icon = "warning"
                         formDesastres.reset();
-    
+
                         break;
                     case 3:
                         icon = "error"
-    
+
                         break;
                     case 4:
                         icon = "error"
                         console.log(detalle)
-    
+
                         break;
-    
+
                     default:
                         break;
                 }
-    
+
                 Toast.fire({
                     icon: icon,
                     title: mensaje,
                 })
-    
+
             } catch (error) {
                 console.log(error);
             }
@@ -3804,26 +3791,26 @@ const eliminarPistas = async (e) => {
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: 'Si, Eliminar'
-    }).then( async(result) => {
+    }).then(async (result) => {
         if (result.isConfirmed) {
             try {
 
                 const url = '/medios-comunicacion/API/pistas/eliminar'
-    
+
                 const body = new FormData();
                 body.append('topico', formPistas.topico.value)
                 const headers = new Headers();
                 headers.append("X-Requested-With", "fetch");
-    
+
                 const config = {
                     method: 'POST',
                     headers,
                     body
                 }
-    
+
                 const respuesta = await fetch(url, config);
                 const data = await respuesta.json();
-    
+
                 console.log(data);
                 // return 
                 const { mensaje, codigo, detalle } = data;
@@ -3838,27 +3825,27 @@ const eliminarPistas = async (e) => {
                     case 2:
                         icon = "warning"
                         formPistas.reset();
-    
+
                         break;
                     case 3:
                         icon = "error"
-    
+
                         break;
                     case 4:
                         icon = "error"
                         console.log(detalle)
-    
+
                         break;
-    
+
                     default:
                         break;
                 }
-    
+
                 Toast.fire({
                     icon: icon,
                     title: mensaje,
                 })
-    
+
             } catch (error) {
                 console.log(error);
             }
@@ -3875,26 +3862,26 @@ const eliminarMovimiento = async (e) => {
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: 'Si, Eliminar'
-    }).then( async(result) => {
+    }).then(async (result) => {
         if (result.isConfirmed) {
             try {
 
                 const url = '/medios-comunicacion/API/mov_social/eliminar'
-    
+
                 const body = new FormData();
                 body.append('topico', formMovimiento.topico.value)
                 const headers = new Headers();
                 headers.append("X-Requested-With", "fetch");
-    
+
                 const config = {
                     method: 'POST',
                     headers,
                     body
                 }
-    
+
                 const respuesta = await fetch(url, config);
                 const data = await respuesta.json();
-    
+
                 console.log(data);
                 // return 
                 const { mensaje, codigo, detalle } = data;
@@ -3909,27 +3896,27 @@ const eliminarMovimiento = async (e) => {
                     case 2:
                         icon = "warning"
                         formMovimiento.reset();
-    
+
                         break;
                     case 3:
                         icon = "error"
-    
+
                         break;
                     case 4:
                         icon = "error"
                         console.log(detalle)
-    
+
                         break;
-    
+
                     default:
                         break;
                 }
-    
+
                 Toast.fire({
                     icon: icon,
                     title: mensaje,
                 })
-    
+
             } catch (error) {
                 console.log(error);
             }
@@ -3937,63 +3924,6 @@ const eliminarMovimiento = async (e) => {
     })
 }
 
-                const url = '/medios-comunicacion/API/incautacion/eliminar'
-    
-                const body = new FormData();
-                body.append('topico', formDroga.topico.value)
-                const headers = new Headers();
-                headers.append("X-Requested-With", "fetch");
-    
-                const config = {
-                    method: 'POST',
-                    headers,
-                    body
-                }
-    
-                const respuesta = await fetch(url, config);
-                const data = await respuesta.json();
-    
-                console.log(data);
-                // return 
-                const { mensaje, codigo, detalle } = data;
-                // const resultado = data.resultado;
-                let icon = "";
-                switch (codigo) {
-                    case 1:
-                        icon = "success"
-                        modalDroga.hide()
-                        buscarEventos()
-                        break;
-                    case 2:
-                        icon = "warning"
-                        formDroga.reset();
-    
-                        break;
-                    case 3:
-                        icon = "error"
-    
-                        break;
-                    case 4:
-                        icon = "error"
-                        console.log(detalle)
-    
-                        break;
-    
-                    default:
-                        break;
-                }
-    
-                Toast.fire({
-                    icon: icon,
-                    title: mensaje,
-                })
-    
-            } catch (error) {
-                console.log(error);
-            }
-        }
-    })
-}
 
 const modificarCaptura = async e => {
     e.preventDefault();
@@ -4073,7 +4003,7 @@ const modificarIncautacion = async e => {
     // return
 
     let info = tinymce.get('info_incautacion').getContent()
-        
+
     // console.log(info);
     if (validarFormulario(formDroga, ['id_per[]', 'info_incautacion']) && info != '') {
 
@@ -4592,7 +4522,7 @@ const modificarIncautacionArmamento = async e => {
 
     let info = tinymce.get('info_incautacion_armas').getContent()
     // console.log(info);
-    if (validarFormulario(formArmas, ['id_registro[]','id_registro_municion[]', 'info_incautacion_armas']) && info != '') {
+    if (validarFormulario(formArmas, ['id_registro[]', 'id_registro_municion[]', 'info_incautacion_armas']) && info != '') {
 
         // console.log('hola');
         try {
@@ -4668,26 +4598,26 @@ const eliminarArmamento = async (e, id) => {
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: 'Si, Eliminar'
-    }).then( async(result) => {
+    }).then(async (result) => {
         if (result.isConfirmed) {
             try {
 
                 const url = '/medios-comunicacion/API/incautacion_armas/armas/eliminar'
-    
+
                 const body = new FormData();
                 body.append('id', id)
                 const headers = new Headers();
                 headers.append("X-Requested-With", "fetch");
-    
+
                 const config = {
                     method: 'POST',
                     headers,
                     body
                 }
-    
+
                 const respuesta = await fetch(url, config);
                 const data = await respuesta.json();
-    
+
                 // console.log(data);
                 // return 
                 const { mensaje, codigo, detalle } = data;
@@ -4701,27 +4631,27 @@ const eliminarArmamento = async (e, id) => {
                     case 2:
                         icon = "warning"
                         formArmas.reset();
-    
+
                         break;
                     case 3:
                         icon = "error"
-    
+
                         break;
                     case 4:
                         icon = "error"
                         console.log(detalle)
-    
+
                         break;
-    
+
                     default:
                         break;
                 }
-    
+
                 Toast.fire({
                     icon: icon,
                     title: mensaje,
                 })
-    
+
             } catch (error) {
                 console.log(error);
             }
@@ -4737,26 +4667,26 @@ const eliminarMunicion = async (e, id) => {
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: 'Si, Eliminar'
-    }).then( async(result) => {
+    }).then(async (result) => {
         if (result.isConfirmed) {
             try {
 
                 const url = '/medios-comunicacion/API/incautacion_armas/municion/eliminar'
-    
+
                 const body = new FormData();
                 body.append('id', id)
                 const headers = new Headers();
                 headers.append("X-Requested-With", "fetch");
-    
+
                 const config = {
                     method: 'POST',
                     headers,
                     body
                 }
-    
+
                 const respuesta = await fetch(url, config);
                 const data = await respuesta.json();
-    
+
                 // console.log(data);
                 // return 
                 const { mensaje, codigo, detalle } = data;
@@ -4770,27 +4700,27 @@ const eliminarMunicion = async (e, id) => {
                     case 2:
                         icon = "warning"
                         formArmas.reset();
-    
+
                         break;
                     case 3:
                         icon = "error"
-    
+
                         break;
                     case 4:
                         icon = "error"
                         console.log(detalle)
-    
+
                         break;
-    
+
                     default:
                         break;
                 }
-    
+
                 Toast.fire({
                     icon: icon,
                     title: mensaje,
                 })
-    
+
             } catch (error) {
                 console.log(error);
             }
@@ -4807,26 +4737,26 @@ const eliminarIncautacionArmamento = async (e) => {
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: 'Si, Eliminar'
-    }).then( async(result) => {
+    }).then(async (result) => {
         if (result.isConfirmed) {
             try {
 
                 const url = '/medios-comunicacion/API/incautacion_armas/eliminar'
-    
+
                 const body = new FormData();
                 body.append('topico', formArmas.topico.value)
                 const headers = new Headers();
                 headers.append("X-Requested-With", "fetch");
-    
+
                 const config = {
                     method: 'POST',
                     headers,
                     body
                 }
-    
+
                 const respuesta = await fetch(url, config);
                 const data = await respuesta.json();
-    
+
                 console.log(data);
                 // return 
                 const { mensaje, codigo, detalle } = data;
@@ -4841,27 +4771,27 @@ const eliminarIncautacionArmamento = async (e) => {
                     case 2:
                         icon = "warning"
                         formCaptura.reset();
-    
+
                         break;
                     case 3:
                         icon = "error"
-    
+
                         break;
                     case 4:
                         icon = "error"
                         console.log(detalle)
-    
+
                         break;
-    
+
                     default:
                         break;
                 }
-    
+
                 Toast.fire({
                     icon: icon,
                     title: mensaje,
                 })
-    
+
             } catch (error) {
                 console.log(error);
             }
@@ -4884,18 +4814,18 @@ btnModificarDesastres.addEventListener('click', modificarDesastres)
 btnModificarPistas.addEventListener('click', modificarPistas)
 btnModificarMovimiento.addEventListener('click', modificarMovimiento)
 btnModificarArmas.addEventListener('click', modificarIncautacionArmamento)
-btnBorrarCaptura.addEventListener('click', eliminarCaptura );
-btnBorrarCapturaDroga.addEventListener('click', eliminarIncautacion );
-btnBorrarAsesinatos.addEventListener('click', eliminarAsesinato );
-btnBorrarMigrantes.addEventListener('click', eliminarMigrantes );
-btnBorrarDinero.addEventListener('click', eliminarDineros );
-btnBorrarDesastres.addEventListener('click', eliminarDesastre );
-btnBorrarPistas.addEventListener('click', eliminarPistas );
-btnBorrarMovimiento.addEventListener('click', eliminarMovimiento );
-btnBorrarArmas.addEventListener('click', eliminarIncautacionArmamento )
-buttonAgregarInputsCaptura.addEventListener('click',e => agregarInputsCaptura(e,'','','','','','','',false, 0, divCapturados))
+btnBorrarCaptura.addEventListener('click', eliminarCaptura);
+btnBorrarCapturaDroga.addEventListener('click', eliminarIncautacion);
+btnBorrarAsesinatos.addEventListener('click', eliminarAsesinato);
+btnBorrarMigrantes.addEventListener('click', eliminarMigrante);
+btnBorrarDinero.addEventListener('click', eliminarDineros);
+btnBorrarDesastres.addEventListener('click', eliminarDesastre);
+btnBorrarPistas.addEventListener('click', eliminarPistas);
+btnBorrarMovimiento.addEventListener('click', eliminarMovimiento);
+btnBorrarArmas.addEventListener('click', eliminarIncautacionArmamento)
+buttonAgregarInputsCaptura.addEventListener('click', e => agregarInputsCaptura(e, '', '', '', '', '', '', '', false, 0, divCapturados))
 buttonQuitarInputsCaptura.addEventListener('click', e => quitarInputsCaptura(0, divCapturados))
-buttonAgregarInputsCapturaDroga.addEventListener('click',e => agregarInputsCaptura(e,'','','','','','','',false, 1, divCapturadosDroga))
+buttonAgregarInputsCapturaDroga.addEventListener('click', e => agregarInputsCaptura(e, '', '', '', '', '', '', '', false, 1, divCapturadosDroga))
 buttonQuitarInputsCapturaDroga.addEventListener('click', e => quitarInputsCaptura(1, divCapturadosDroga))
 buttonAgregarInputsAsesinatos.addEventListener('click', agregarInputsAsesinatos)
 buttonQuitarInputsAsesinatos.addEventListener('click', quitarInputsAsesinatos)
@@ -4909,12 +4839,12 @@ buttonQuitarInputsArmas.addEventListener('click', quitarInputsArmas)
 buttonAgregarInputsMunicion.addEventListener('click', agregarInputsMunicion)
 buttonQuitarInputsMunicion.addEventListener('click', quitarInputsMunicion)
 formCaptura.addEventListener('submit', guardarCaptura)
-formAsesinatos.addEventListener('submit',guardarAsesinatos)
-formMigrantes.addEventListener('submit',guardarMigrantes)
-formDinero.addEventListener('submit',guardarDinero)
-formDesastres.addEventListener('submit',guardarDesastres)
-formPistas.addEventListener('submit',guardarPistas)
-formMovimiento.addEventListener('submit',guardarMovimiento)
+formAsesinatos.addEventListener('submit', guardarAsesinatos)
+formMigrantes.addEventListener('submit', guardarMigrantes)
+formDinero.addEventListener('submit', guardarDinero)
+formDesastres.addEventListener('submit', guardarDesastres)
+formPistas.addEventListener('submit', guardarPistas)
+formMovimiento.addEventListener('submit', guardarMovimiento)
 
 formDroga.addEventListener('submit', guardarIncautacion)
 formArmas.addEventListener('submit', guardarIncautacionArmamento)

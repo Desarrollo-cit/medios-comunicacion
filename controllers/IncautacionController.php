@@ -1,10 +1,11 @@
 <?php
 namespace Controllers;
 
-use Model\Capturados;
-use Model\Evento;
-use Model\Incautacion;
+use Exception;
 use MVC\Router;
+use Model\Evento;
+use Model\Capturados;
+use Model\Incautacion;
 
 class IncautacionController
 {
