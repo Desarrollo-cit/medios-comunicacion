@@ -4,7 +4,7 @@ namespace Model;
 
 class Evento extends ActiveRecord{
     protected static $tabla = 'amc_topico'; //nombre de la tablaX
-    protected static $columnasDB = ['ID','FECHA','LUGAR', 'DEPARTAMENTO','MUNICIPIO','TIPO','LATITUD','LONGITUD','ACTIVIDAD','SITUACION','INFO'];
+    protected static $columnasDB = ['ID','FECHA','LUGAR', 'DEPARTAMENTO','MUNICIPIO','TIPO','LATITUD','LONGITUD','ACTIVIDAD','SITUACION','INFO', 'DEPENDENCIA'];
 
     public $id;
     public $fecha;
@@ -17,6 +17,7 @@ class Evento extends ActiveRecord{
     public $actividad;
     public $situacion;
     public $info;
+    public $dependencia;
 
 
     public function __construct($args = []){
@@ -31,5 +32,6 @@ class Evento extends ActiveRecord{
         $this->actividad = $args['actividad'] ?? '';
         $this->situacion = $args['situacion'] ?? '1';
         $this->info = utf8_decode( preg_replace("[\n|\r|\n\r]", "", $args['info'])) ?? '';
+        $this->dependencia = $args['dependencia'] ?? '';
     }
 }

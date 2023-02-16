@@ -63,7 +63,12 @@ class EventoController {
         $_POST['fecha'] = str_replace('T', ' ', $_POST['fecha']);
 
         try {
+            
+
+
             $evento = new Evento($_POST);
+            $dependencia = Evento::fetchArray("SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user")[0]['org_dependencia'];
+            $evento->dependencia = $dependencia;
             $resultado = $evento->guardar();
 
 
