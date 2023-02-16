@@ -40,23 +40,34 @@ function isNotAuth(){
 }
 
 function hasPermission(array $permisos){
+
+    $comprobaciones = [];
     foreach ($permisos as $permiso) {
-        if(!isset($_SESSION[$permiso])){
-            header('Location: /');
-        }
+
+        $comprobaciones[] = !isset($_SESSION[$permiso]) ? false : true;
+      
+    }
+
+    if(array_search(true, $comprobaciones) !== false){}else{
+        header('Location: /');
     }
 }
 
 function hasPermissionApi(array $permisos){
+    $comprobaciones = [];
     foreach ($permisos as $permiso) {
-        if(!isset($_SESSION[$permiso])){
-            echo json_encode([     
-                "mensaje" => "No tiene permisos",
 
-                "codigo" => 4,
-            ]);
-            exit;
-        }
+        $comprobaciones[] = !isset($_SESSION[$permiso]) ? false : true;
+      
+    }
+
+    if(array_search(true, $comprobaciones) !== false){}else{
+        echo json_encode([     
+            "mensaje" => "No tiene permisos",
+
+            "codigo" => 4,
+        ]);
+        exit;
     }
 }
 
