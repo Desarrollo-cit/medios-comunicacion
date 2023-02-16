@@ -23,7 +23,11 @@ function isAuth() {
 function isAuthApi() {
     session_start();
     if(!isset($_SESSION['auth_user'])) {
-        echo json_encode(["error" => "NO AUTENTICADO"]);
+        echo json_encode([    
+            "mensaje" => "No esta autenticado",
+
+            "codigo" => 4,
+        ]);
         exit;
     }
 }
@@ -46,7 +50,11 @@ function hasPermission(array $permisos){
 function hasPermissionApi(array $permisos){
     foreach ($permisos as $permiso) {
         if(!isset($_SESSION[$permiso])){
-            echo json_encode(["error" => "NO TIENE PERMISOS"]);
+            echo json_encode([     
+                "mensaje" => "No tiene permisos",
+
+                "codigo" => 4,
+            ]);
             exit;
         }
     }
