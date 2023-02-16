@@ -30,7 +30,10 @@ use Controllers\ReporteController;
 
 
 use Controllers\infoCapturaController;
+use Controllers\infoMuertesController;
 use Controllers\infoDrogaController;
+use Controllers\infoMarasController;
+use Controllers\infoMigrantesController;
 
 $router = new Router();
 $router->setBaseURL('/medios-comunicacion');
@@ -159,10 +162,92 @@ $router->post('/API/incautacion_armas/eliminar', [IncautacionArmasController::cl
 $router->post('/API/incautacion_armas/armas/eliminar', [IncautacionArmasController::class, 'eliminarArma']);
 $router->post('/API/incautacion_armas/municion/eliminar', [IncautacionArmasController::class, 'eliminarMunicion']);
 
+
+// MAPA CALOR MUERTES
+
+
+
+$router->get('/mapas/muertes', [infoMuertesController::class , 'index']);
+$router->post('/API/mapas/IndexMuertes/resumen', [infoMuertesController::class , 'resumenAPI'] );
+$router->get('/API/mapas/IndexMuertes/listado', [infoMuertesController::class , 'listadoAPI'] );
+$router->post('/API/mapas/IndexMuertes/modal', [infoMuertesController::class , 'modalAPI'] );
+$router->post('/API/mapas/IndexMuertes/informacion', [infoMuertesController::class , 'informacionModalAPI'] );
+$router->post('/API/mapas/IndexMuertes/informacion1', [infoMuertesController::class , 'informacionModalAPI1'] );
+$router->post('/API/mapas/IndexMuertes/mapaCalor', [infoMuertesController::class , 'mapaCalorAPI'] );
+$router->post('/API/mapas/IndexMuertes/mapaCalorPorDepto', [infoMuertesController::class , 'mapaCalorDeptoAPI'] );
+$router->post('/API/mapas/IndexMuertes/colores', [infoMuertesController::class , 'coloresAPI'] );
+$router->post('/API/mapas/IndexMuertes/mapaCalorPorDeptoGrafica', [infoMuertesController::class , 'mapaCalorPorDeptoGraficaAPI'] );
+
+
 $router->get('/reportes/topico', [ReporteController::class, 'reporteTopico']);
 $router->get('/reportes/general', [ReporteController::class, 'reporteGeneral']);
 
+
 $router->get('/mapas/droga', [infoDrogaController::class , 'index']);
+$router->post('/API/mapas/infoDroga/resumen', [infoDrogaController::class , 'resumenAPI'] );
+$router->get('/API/mapas/infoDroga/listado', [infoDrogaController::class , 'listadoAPI'] );
+$router->post('/API/mapas/infoDroga/modal', [infoDrogaController::class , 'modalAPI'] );
+$router->post('/API/mapas/infoDroga/informacion', [infoDrogaController::class , 'informacionModalAPI'] );
+$router->post('/API/mapas/infoDroga/informacion1', [infoDrogaController::class , 'informacionModalAPI1'] );
+$router->post('/API/mapas/infoDroga/informacionPersonas', [infoDrogaController::class , 'informacionPersonasAPI'] );
+$router->post('/API/mapas/infoDroga/distanciaPista', [infoDrogaController::class , 'distanciaPistaAPI'] );
+$router->post('/API/mapas/infoDroga/mapaCalor', [infoDrogaController::class , 'mapaCalorAPI'] );
+$router->post('/API/mapas/infoDroga/colores', [infoDrogaController::class , 'coloresAPI'] );
+$router->post('/API/mapas/infoDroga/mapaCalorPorDepto', [infoDrogaController::class , 'mapaCalorDeptoAPI'] );
+$router->post('/API/mapas/infoDroga/mapaCalorPorDeptoGrafica', [infoDrogaController::class , 'mapaCalorPorDeptoGraficaAPI'] );
+$router->post('/API/mapas/infoDroga/mapaCalorPorDeptoPistas', [infoDrogaController::class , 'mapaCalorPorDeptoPistasAPI'] );
+$router->post('/API/mapas/infoDroga/DrogasCantGrafica', [infoDrogaController::class , 'DrogasCantGraficaAPI'] );
+$router->post('/API/mapas/infoDroga/DrogasDepartamentoGrafica', [infoDrogaController::class , 'DrogasDepartamentoGraficaAPI'] );
+$router->post('/API/mapas/infoDroga/IncautacionesPorDiaGrafica', [infoDrogaController::class , 'IncautacionesPorDiaGraficaAPI'] );
+$router->post('/API/mapas/infoDroga/KilosPorDiaGrafica', [infoDrogaController::class , 'KilosPorDiaGraficaAPI'] );
+$router->post('/API/mapas/infoDroga/MatasPorDiaGrafica', [infoDrogaController::class , 'MatasPorDiaGraficaAPI'] );
+$router->post('/API/mapas/infoDroga/GraficatrimestralKilos', [infoDrogaController::class , 'GraficatrimestralKilosAPI'] );
+$router->post('/API/mapas/infoDroga/GraficatrimestralMatas', [infoDrogaController::class , 'GraficatrimestralMatasAPI'] );
+$router->post('/API/mapas/infoDroga/GraficatrimestralPistas', [infoDrogaController::class , 'GraficatrimestralPistasAPI'] );
+$router->post('/API/mapas/infoDroga/GraficaTrimestralIncautacionesGeneral', [infoDrogaController::class , 'GraficaTrimestralIncautacionesGeneralAPI'] );
+
+
+
+$router->get('/mapas/maras', [infoMarasController::class , 'index']);
+$router->post('/API/mapas/infoMaras/resumen', [infoMarasController::class , 'resumenAPI'] );
+$router->get('/API/mapas/infoMaras/listado', [infoMarasController::class , 'listadoAPI'] );
+$router->post('/API/mapas/infoMaras/modal', [infoMarasController::class , 'modalAPI'] );
+$router->post('/API/mapas/infoMaras/informacionCapturas', [infoMarasController::class , 'informacionCapturasModalAPI'] );
+$router->post('/API/mapas/infoMaras/informacionDroga', [infoMarasController::class , 'informacionDrogaModalAPI'] );
+$router->post('/API/mapas/infoMaras/informacionMuerte', [infoMarasController::class , 'informacionMuerteModalAPI'] );
+$router->post('/API/mapas/infoMaras/informacionDinero', [infoMarasController::class , 'informacionDineroModalAPI'] );
+$router->post('/API/mapas/infoMaras/informacionArmas', [infoMarasController::class , 'informacionArmasModalAPI'] );
+$router->post('/API/mapas/infoMaras/informacionMunicion', [infoMarasController::class , 'informacionMunicionModalAPI'] );
+$router->post('/API/mapas/infoMaras/mapaCalor', [infoMarasController::class , 'mapaCalorAPI'] );
+$router->post('/API/mapas/infoMaras/mapaCalorPorDepto', [infoMarasController::class , 'mapaCalorDeptoAPI'] );
+$router->post('/API/mapas/infoMaras/mapaCalorPorDeptoGrafica', [infoMarasController::class , 'mapaCalorPorDeptoGraficaAPI'] );
+$router->post('/API/mapas/infoMaras/colores', [infoMarasController::class , 'coloresAPI'] );
+$router->post('/API/mapas/infoMaras/DelitosCantGrafica', [infoMarasController::class , 'DelitosCantGraficaAPI'] );
+$router->post('/API/mapas/infoMaras/DelitosDepartamentoGrafica', [infoMarasController::class , 'DelitosDepartamentoGraficaAPI'] );
+$router->post('/API/mapas/infoMaras/ActividadesPorDiaGrafica', [infoMarasController::class , 'ActividadesPorDiaGraficaAPI'] );
+$router->post('/API/mapas/infoMaras/Mara18PorDiaGrafica', [infoMarasController::class , 'Mara18PorDiaGraficaAPI'] );
+$router->post('/API/mapas/infoMaras/SalvatruchaPorDiaGrafica', [infoMarasController::class , 'SalvatruchaPorDiaGraficaAPI'] );
+$router->post('/API/mapas/infoMaras/GraficaTrimestralMara18', [infoMarasController::class , 'GraficaTrimestralMara18API'] );
+$router->post('/API/mapas/infoMaras/GraficaTrimestralSalvatrucha', [infoMarasController::class , 'GraficaTrimestralSalvatruchaAPI'] );
+$router->post('/API/mapas/infoMaras/GraficaTrimestralGeneral', [infoMarasController::class , 'GraficaTrimestralGeneralAPI'] );
+
+
+
+$router->get('/mapas/migrantes', [infoMigrantesController::class , 'index']);
+$router->post('/API/mapas/infoMigrantes/resumen', [infoMigrantesController::class , 'resumenAPI'] );
+$router->get('/API/mapas/infoMigrantes/listado', [infoMigrantesController::class , 'listadoAPI'] );
+$router->post('/API/mapas/infoMigrantes/modal', [infoMigrantesController::class , 'modalAPI'] );
+$router->post('/API/mapas/infoMigrantes/informacionMigrantes', [infoMigrantesController::class , 'informacionMigrantesModalAPI'] );
+$router->post('/API/mapas/infoMigrantes/mapaCalor', [infoMigrantesController::class , 'mapaCalorAPI'] );
+$router->post('/API/mapas/infoMigrantes/mapaCalorPorDepto', [infoMigrantesController::class , 'mapaCalorDeptoAPI'] );
+$router->post('/API/mapas/infoMigrantes/mapaCalorPorDeptoGrafica', [infoMigrantesController::class , 'mapaCalorPorDeptoGraficaAPI'] );
+$router->post('/API/mapas/infoMigrantes/colores', [infoMigrantesController::class , 'coloresAPI'] );
+$router->post('/API/mapas/infoMigrantes/MigrantesCantGrafica', [infoMigrantesController::class , 'MigrantesCantGraficaAPI'] );
+$router->post('/API/mapas/infoMigrantes/MigrantesDepartamentoGrafica', [infoMigrantesController::class , 'MigrantesDepartamentoGraficaAPI'] );
+$router->post('/API/mapas/infoMigrantes/MigrantesPorDiaGrafica', [infoMigrantesController::class , 'MigrantesPorDiaGraficaAPI'] );
+$router->post('/API/mapas/infoMigrantes/GraficaTrimestral', [infoMigrantesController::class , 'GraficaTrimestralAPI'] );
+$router->post('/API/mapas/infoMigrantes/GraficaTrimestralGeneral', [infoMigrantesController::class , 'GraficaTrimestralGeneralAPI'] );
+
 
 
 // Comprueba y valida las rutas, que existan y les asigna las funciones del Controlador

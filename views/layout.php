@@ -68,11 +68,37 @@
                             <li>
                                 <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/tipo"><i class="ms-lg-0 ms-2 bi bi-arrows-move me-2"></i>Tipos de Movimientos Sociales</a>
                             </li>
+                          
+                    
+                        
+                        </ul>
+                    </div> 
+                    <div class="nav-item dropdown " >
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                            <i class="bi bi-bar-chart me-2"></i>Estadisticas
+                        </a>
+                        <ul class="dropdown-menu  dropdown-menu-dark "id="dropwdownRevision" style="margin: 0;">
+                            <!-- <h6 class="dropdown-header">Información</h6> -->
+                           
                             <li>
-                                <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/mapas/capturas"><i class="ms-lg-0 ms-2 bi bi-plus-circle me-2"></i>Capturas</a>
+                                <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/mapas/capturas"><i class="ms-lg-0 ms-2  fa-solid fa-handcuffs me-2"></i>Capturas</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/mapas/droga"><i class="ms-lg-0 ms-2 fa-solid fa-cannabis me-2"> </i>Drogas</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/mapas/muertes"><i class="ms-lg-0 ms-2 fa-solid fa-skull me-2"></i>Muertes</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/mapas/maras"><i class="ms-lg-0 ms-2 fa-solid fa-user-ninja me-2"></i>Maras</a>
+                            </li>
+                            <li>
+
+                                <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/mapas/migrantes"><i class="ms-lg-0 ms-2 fa-solid fa-users-between-lines me-2"></i>Migrantes</a>
                             </li>
                             <li>
                                 <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/mapas/droga"><i class="fas fa-user"></i>Drogas</a>
+
                             </li>
                         
                     
@@ -107,5 +133,6 @@
             </div>
         </div>
     </div>
+    <script src="https://kit.fontawesome.com/ae0feae7c7.js" crossorigin="anonymous"></script>
 </body>
 </html>

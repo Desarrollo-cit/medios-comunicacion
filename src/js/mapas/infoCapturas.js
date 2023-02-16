@@ -65,7 +65,7 @@ const cambiarmes = async (evento) => {
         const respuesta = await fetch(url, config);
         const data = await respuesta.json();
 
-        // console.log(data)
+        
         if (data) {
             infocapturas.innerText = data[0].cantidad
             infodelito.innerText = data[1].desc
@@ -170,7 +170,7 @@ const Buscar_capturas = async (e) => {
 
         const respuesta = await fetch(url, config);
         const info = await respuesta.json();
-        // console.log(info)
+
 
         tablaregistro.destroy();
         tablaregistro = new Datatable('#dataTable2', {
@@ -217,7 +217,6 @@ const Buscar_capturas = async (e) => {
 window.ModalPersonal = async (id, tipo) => {
 
 
-
     const url = `/medios-comunicacion/API/mapas/infoCapturas/modal`
     const body = new FormData();
     body.append('id', id);
@@ -227,11 +226,10 @@ window.ModalPersonal = async (id, tipo) => {
     const config = {
         method: 'POST',
         body,
-
     }
-
     const respuesta = await fetch(url, config);
     const info = await respuesta.json();
+    console.log(info);
 
     const url1 = `/medios-comunicacion/API/mapas/infoCapturas/informacion`
     const body1 = new FormData();
@@ -480,7 +478,7 @@ window.detalle = async (valor) => {
     const respuesta = await fetch(url, config);
     const info_depto1 = await respuesta.json();
 
-    // console.log(info_depto1)
+    
     if (info_depto1) {
         deptoinfo.innerText = info_depto1[0].cantidad_delito
         deptoincidencia.innerText = info_depto1[1].desc
@@ -524,7 +522,7 @@ window.detalle = async (valor) => {
         const datos = await response.json()
 
         // console.log(datos);
-        if (datos[1]['codigo'] == 1) {
+        if (datos.length > 0) {
             document.getElementById('grafica_depto1').style.display = "block"
             document.getElementById('texto_no').style.display = "none"
 
@@ -652,8 +650,8 @@ const delitos_estadistica = async (e) => {
         const response1 = await fetch(url_grafica1, configGrafica1)
         const datos1 = await response1.json()
 
-        // console.log(datos1);
-        if (datos1[1]['codigo'] == 1) {
+        
+        if(datos1.length > 0){
             document.getElementById('graficaDelitos').style.display = "block"
             document.getElementById('texto_no1').style.display = "none"
 
@@ -746,12 +744,12 @@ const delitos_estadistica = async (e) => {
                 }
             });
 
-        } else {
+        }else{
 
             document.getElementById('texto_no1').style.display = "block";
             document.getElementById('graficaDelitos').style.display = "none";
-
         }
+        
     } catch (error) {
         console.log(error);
     }
@@ -780,7 +778,7 @@ const deptos_estadistica = async (e) => {
         const datos2 = await response2.json()
 
 
-        if (datos2[1]['codigo'] == 1) {
+        if (datos2.length > 0) {
             document.getElementById('graficaDelitosDepartamento').style.display = "block"
             document.getElementById('texto_no2').style.display = "none"
 
@@ -794,15 +792,12 @@ const deptos_estadistica = async (e) => {
             //  $("#delitos_cant").destroy();
             const ctx = document.getElementById('myChart2');
             if (window.delitosDepartamento_grafica) {
-                window.delitosdelitosDepartamento_grafica_grafica.clear();
-                window.delitosdelitosDepartamento_grafica_grafica.destroy();
+                window.delitosDepartamento_grafica.clear();
+                window.delitosDepartamento_grafica.destroy();
             }
 
-            if (window.delitosdelitosDepartamento_grafica_grafica) {
-                window.delitosdelitosDepartamento_grafica_grafica.clear();
-                window.delitosdelitosDepartamento_grafica_grafica.destroy();
-            }
-            window.delitosdelitosDepartamento_grafica_grafica = new Chart(ctx, {
+         
+            window.delitosDepartamento_grafica = new Chart(ctx, {
                 type: 'doughnut',
                 data: {
                     labels,
@@ -875,7 +870,7 @@ const CapturasPorDia = async () => {
         const response2 = await fetch(url_grafica2, configGrafica2)
         const datos2 = await response2.json()
 
-
+// console.log(datos2);
 
         const { dias, cantidades } = datos2;
 

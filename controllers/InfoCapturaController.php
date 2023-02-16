@@ -4,6 +4,7 @@ namespace Controllers;
 
 use Exception;
 use DateTime;
+use Model\Captura;
 use Model\Capturadas;
 use Model\Delito;
 use Model\DepMun;
@@ -206,41 +207,54 @@ class InfoCapturaController
 
         try {
 
-            $sql = "SELECT DISTINCT amc_topico.id as id, amc_topico.lugar as lugar, amc_topico.tipo as tipo, amc_tipo_topics.desc as topico,  amc_topico.fecha as fecha, dm_desc_lg as departamento,  amc_delito.desc as delito,  amc_actividad_vinculada.desc as actividad from amc_topico inner join amc_per_capturadas on topico = amc_topico.id inner join amc_delito on amc_per_capturadas.delito = amc_delito.id inner join amc_tipo_topics on amc_topico.tipo = amc_tipo_topics.id inner join depmun on amc_topico.departamento = depmun.dm_codigo  inner join amc_actividad_vinculada on amc_topico.actividad = amc_actividad_vinculada.id and amc_per_capturadas.situacion = 1 and amc_topico.situacion = 1";
-            $info =  Capturadas::fetchArray($sql);
-
-            $data = [];
-
-            $i = 1;
-            foreach ($info as $key) {
-                $id = $key['id'];
-                $lugar = $key['lugar'];
-                $fecha = $key['fecha'];
-                $departamento = $key['departamento'];
-                $topico = $key['topico'];
-                $tipo = $key['tipo'];
-                $delito = $key['delito'];
-                $actividad = $key['actividad'];
-
+            $sql ="SELECT DISTINCT amc_topico.id as id, amc_topico.lugar as lugar, amc_topico.tipo as tipo, amc_tipo_topics.desc as topico,  amc_topico.fecha as fecha, dm_desc_lg as departamento,  amc_delito.desc as delito,  amc_actividad_vinculada.desc as actividad from amc_topico inner join amc_per_capturadas on topico = amc_topico.id inner join amc_delito on amc_per_capturadas.delito = amc_delito.id inner join amc_tipo_topics on amc_topico.tipo = amc_tipo_topics.id inner join depmun on amc_topico.departamento = depmun.dm_codigo  inner join amc_actividad_vinculada on amc_topico.actividad = amc_actividad_vinculada.id and amc_per_capturadas.situacion = 1 and amc_topico.situacion = 1";
+            $info = Captura::fetchArray($sql);
+            
+            $data=[];
+            
+            $i=1;
+            foreach($info as $key){ 
+                 $id = $key['id'];
+               $lugar = $key['lugar'];
+               $fecha = $key['fecha'];
+               $municipio = trim($key['departamento']);
+               $topico = $key['topico'];
+               $tipo = $key['tipo'];
+               $delito = $key['delito'];
+               $actividad = $key['actividad'];
+            //    $destino_id = $key['ALMACEN_DESTINO'];
+            //    $id = $key['ALMACEN_ID'];
+            
+               
+            
+               
                 $arrayInterno = [[
-                    "contador" => $i,
-                    "id" => $id,
-                    "lugar" => $lugar,
-                    "fecha" => $fecha,
-                    "departamento" => $departamento,
-                    "topico" => $topico,
-                    "tipo" => $tipo,
-                    "delito" => $delito,
-                    "actividad" => $actividad,
-
-
-                ]];
-                $i++;
-                $data = array_merge($data, $arrayInterno);
+                   "contador" => $i,
+                   "id" => $id,
+                   "lugar" => $lugar,
+                   "fecha" => $fecha,
+                   "departamento" => $municipio,
+                   "topico" => $topico,
+                   "tipo" => $tipo,
+                   "delito" => $delito,
+                   "actividad" => $actividad,
+                 
+                  
+                  
+            
+                         
+                         
+                  
+               ]];
+               $i++;
+               $data = array_merge($data,$arrayInterno);
+            
+            
             }
-
+            
             $arrayreturn = ["data" => $data];
             echo json_encode($data);
+            
         } catch (Exception $e) {
             echo json_encode([
                 "detalle" => $e->getMessage(),
@@ -255,18 +269,18 @@ class InfoCapturaController
     {
         getHeadersApi();
 
-        // echo json_encode($sql);
-
+       
+        
         try {
-
+            
+            
             $id = $_POST['id'];
-
-
             $sql = "SELECT amc_topico.id, fecha, lugar, departamento, municipio as muni, tipo,latitud,longitud,actividad, amc_topico.situacion, depmun.dm_desc_lg as departamento1, amc_actividad_vinculada.desc as act, amc_tipo_topics.desc as topico from amc_topico inner join depmun on amc_topico.departamento = depmun.dm_codigo inner join amc_actividad_vinculada on amc_topico.actividad = amc_actividad_vinculada.id inner join amc_tipo_topics on amc_topico.tipo = amc_tipo_topics.id where amc_topico.situacion = 1 and amc_topico.id =  $id";
+            
             $info = Capturadas::fetchArray($sql);
             $data = [];
-
-
+            
+            
             $i = 1;
             foreach ($info as $key) {
                 $id = $key['id'];
@@ -278,15 +292,15 @@ class InfoCapturaController
                 $latitud = $key['latitud'];
                 $longitud = $key['longitud'];
                 $tipo = $key['topico'];
-                $delito = $key['delito'];
+                
                 $actividad = $key['act'];
 
-
+                
                 if ($depto1 < 1000) {
-
+                    
                     $depto1 = '0' . $depto1;
                 }
-
+                
                 //    $sql1 = "SELECT dm_desc_md as municipio from depmun where dm_codigo = $municipio ";
 
                 $municipio = DepMun::fetchArray("SELECT dm_desc_lg from depmun where dm_codigo = $muni");
@@ -294,8 +308,8 @@ class InfoCapturaController
                 //     $nombreMuni = $key1['dm_desc_lg'];
 
                 // }
-
-
+                
+                
                 $arrayInterno = [[
                     "contador" => $i,
                     "id" => $id,
@@ -306,15 +320,17 @@ class InfoCapturaController
                     "topico" => $tipo,
                     "latitud" => $latitud,
                     "longitud" => $longitud,
-                    "delito" => $delito,
+                    
                     "actividad" => $actividad,
-
-                ]];
-                $i++;
-                $data = array_merge($data, $arrayInterno);
-            }
-
-            echo json_encode($data);
+                    
+                    ]];
+                    $i++;
+                    $data = array_merge($data, $arrayInterno);
+                }
+                
+                echo json_encode($data);
+                    // exit;
+           
         } catch (Exception $e) {
             echo json_encode([
                 "detalle" => $e->getMessage(),
@@ -385,6 +401,8 @@ class InfoCapturaController
             ]);
         }
     }
+
+    
     public function informacionModalAPI1()
     {
         getHeadersApi();
@@ -569,24 +587,10 @@ class InfoCapturaController
             $sql .= " group by desc ";
             $info = Capturadas::fetchArray($sql);
 
-            if ($info) {
+            
 
-
-                $info[1] = [
-
-                    "codigo" => 1,
-                ];
-                echo json_encode($info);
-            } else {
-
-                $info[1] = [
-                    "descripcion" => "",
-                    "cantidad" => 0,
-                    "codigo" => 2,
-                ];
-
-                echo json_encode($info);
-            }
+                echo json_encode($info ? $info:[]);
+               
         } catch (Exception $e) {
             echo json_encode([
                 "detalle" => $e->getMessage(),
@@ -635,24 +639,9 @@ class InfoCapturaController
             $sql .= " group by desc ";
             $info = Capturadas::fetchArray($sql);
 
-            if ($info) {
-
-
-                $info[1]["codigo"] = [
-
-                    1,
-                ];
                 echo json_encode($info);
-            } else {
-
-                $info[1] = [
-                    "descripcion" => "",
-                    "cantidad" => 0,
-                    "codigo" => 2,
-                ];
-
-                echo json_encode($info);
-            }
+            
+     
         } catch (Exception $e) {
             echo json_encode([
                 "detalle" => $e->getMessage(),
@@ -677,11 +666,11 @@ class InfoCapturaController
                 $sql = "SELECT count(*) as  cantidad  From amc_per_capturadas inner join amc_topico on amc_per_capturadas.topico = amc_topico.id where year(amc_topico.fecha) = year(current) and month(amc_topico.fecha) = month(current) and day(amc_topico.fecha) = day($i) and amc_topico.situacion = 1 and amc_per_capturadas.situacion = 1";
                 $info = Capturadas::fetchArray($sql);
                 $data['dias'][] = $i;
-                if ($info['cantidad'] == null) {
+                if ($info[0]['cantidad'] == null) {
 
                     $valor = 0;
                 } else {
-                    $valor = $info['cantidad'];
+                    $valor = $info[0]['cantidad'];
                 }
                 $data['cantidades'][] = $valor;
             }
@@ -823,7 +812,7 @@ class InfoCapturaController
                 //  exit;
                 $info = Capturadas::fetchArray($sql);
                 $meses[] = $mes;
-                $cantidades[$mes][] = (int) $info[0]['cantidad'];
+                $cantidades[$mes] = (int) $info[0]['cantidad'];
 
 
 

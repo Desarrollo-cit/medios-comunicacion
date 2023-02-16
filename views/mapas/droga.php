@@ -1,59 +1,11 @@
 <?php
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-date_default_timezone_set('America/Guatemala');
-// require_once 'final.php';
-setlocale(LC_TIME, "es_ES");
 
+setlocale(LC_TIME, "es_ES");
+// var_dump(($colores));
 $fechaLarga = strftime(" %B ");
 
 
-
-// $droga = $clase->droga();
-// $droga = $droga[0]['CANTIDAD'];
-// $pista = $clase->pista();
-// $pista = $pista[0]['CANTIDAD'];
-// $incidencia_droga = $clase->incidencia_droga();
-// // var_dump( $incidencia_droga);
-// $incidencia_droga = $incidencia_droga[0]['DESC'];
-
-// $incidencia_droga1 = $clase->incidencia_droga1();
-// $incidencia_droga1 = $incidencia_droga1[0]['DESC'];
-// $captura = $clase->captura();
-// $captura = $captura[0]['CANTIDAD'];
-// $total_droga = $clase->total_droga();
-// $total_droga = $total_droga[0]['CANTIDAD'];
-// $total_matas = $clase->total_matas();
-// // var_dump( $total_matas);
-// $total_matas = $total_matas[0]['CANTIDAD'];
-// $drogas_tipo = $clase->drogas_tipo();
-// $mujeres = $clase->mujeres();
-// $mujeres = $mujeres[0]['CANTIDAD'];
-// $hombres = $clase->hombres();
-// $hombres = $hombres[0]['CANTIDAD1'];
-// $depto = $clase->departamento_capturas();
-// $depto = $depto[0]['DESC'];
-// $depto1 = $clase->departamento_pistas();
-// $depto1 = $depto1[0]['DESC'];
-// $departamento = $clase->get_departamentos_mysql();
-// $topics = $clase->tipo_topic();
-// $actividad_vinculada = $clase->actividad_vinculada();
-// $colores = $clase->colores(4);
-//         foreach($colores as $color){
-//             $primer_desc = $color['PRIMER_DESC'];
-//             $primer_cantidad = $color['PRIMER_CANTIDAD'];
-//             $primer_color = $color['PRIMER_COLOR'];
-//             $segundo_desc = $color['SEGUNDO_DESC'];
-//             $segundo_cantidad = $color['SEGUNDA_CANTIDAD'];
-//             $segundo_color = $color['SEGUNDO_COLOR'];
-//             $tercer_desc = $color['TERCER_DESC'];
-//             $tercera_cantidad = $color['TERCERA_CANTIDAD'];
-//             $tercer_color = $color['TERCER_COLOR'];
-
-//         }
-// include('../includes/navbar.php');
 ?>
 <div class="row justify-content-center">
     <div class=" ms-1 col border border-2 border-dark  pt-3 bg-light rounded">
@@ -115,7 +67,7 @@ $fechaLarga = strftime(" %B ");
                     </div>
                     <div class="row">
                         <div class="col">
-                            <p class="h3" id="cantidad_Incautaciones"><?= $droga ?></p>
+                            <p class="h3" id="cantidadIncautaciones"><?= $operacionesDroga[0]['cantidad'] ?></p>
                         </div>
                     </div>
 
@@ -136,7 +88,7 @@ $fechaLarga = strftime(" %B ");
                     </div>
                     <div class="row">
                         <div class="col">
-                            <p class="h3" id="kilos_incautados"><?= $total_droga ?></p>
+                            <p class="h3" id="kilosIncautados"><?= $total_droga[0]['cantidad'] ?></p>
                         </div>
                     </div>
 
@@ -158,7 +110,7 @@ $fechaLarga = strftime(" %B ");
                     </div>
                     <div class="row">
                         <div class="col">
-                            <p class="h3" id="kilos_incautados1"><?= $incidencia_droga ?></p>
+                            <p class="h3" id="kilosIncautados1"><?= $incidenciaDroga[0]['desc'] ?></p>
                         </div>
                     </div>
 
@@ -179,7 +131,7 @@ $fechaLarga = strftime(" %B ");
                     </div>
                     <div class="row">
                         <div class="col">
-                            <p class="h3" id="matas_incautados"><?= $total_matas ?></p>
+                            <p class="h3" id="matasIncautados"><?= $totalMatas[0]['cantidad'] ?></p>
                         </div>
                     </div>
 
@@ -200,7 +152,7 @@ $fechaLarga = strftime(" %B ");
                     </div>
                     <div class="row">
                         <div class="col">
-                            <p class="h3" id="matas_incautados1"><?= $incidencia_droga1 ?></p>
+                            <p class="h3" id="matasIncautados1"><?= $incidenciaMatas[0]['desc'] ?></p>
                         </div>
                     </div>
 
@@ -245,7 +197,7 @@ $fechaLarga = strftime(" %B ");
                     </div>
                     <div class="row">
                         <div class="col">
-                            <p class="h3" id="cantidad_capturas"><?= $captura ?></p>
+                            <p class="h3" id="cantidadCapturas"><?= $captura[0]['cantidad'] ?></p>
                         </div>
                     </div>
 
@@ -267,7 +219,28 @@ $fechaLarga = strftime(" %B ");
                     </div>
                     <div class="row">
                         <div class="col">
-                            <p class="h3" id="cantidad_hombres"><?= $hombres ?></p>
+                            <p class="h3" id="cantidadHombres"><?= $hombres[0]['cantidad'] ?></p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-lg-2 text-center">
+                    <div class="row">
+                        <div class="col">
+                            <p class="h5">Mujeres</p>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-center">
+                        <div class="col-2 col-sm-4">
+                            <img src="<?= asset('./images/iconos/capturas/mujer.png') ?>" class="w-100" alt="operaciones">
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <p class="h3" id="cantidadMujeres"><?= $mujer[0]['cantidad'] ?></p>
                         </div>
                     </div>
 
@@ -288,7 +261,7 @@ $fechaLarga = strftime(" %B ");
                     </div>
                     <div class="row">
                         <div class="col">
-                            <p class="h3" id="cantidad_pista"><?= $pista ?></p>
+                            <p class="h3" id="cantidadPista"><?= $pista[0]['cantidad'] ?></p>
                         </div>
                     </div>
 
@@ -309,7 +282,7 @@ $fechaLarga = strftime(" %B ");
                     </div>
                     <div class="row">
                         <div class="col">
-                            <p class="h3" id="depto_mayor"><?= $depto ?></p>
+                            <p class="h3" id="deptoMayor"><?= $departamentoCapturas[0]['desc'] ?></p>
                         </div>
                     </div>
 
@@ -330,7 +303,7 @@ $fechaLarga = strftime(" %B ");
                     </div>
                     <div class="row">
                         <div class="col">
-                            <p class="h3" id="depto_mayor1"><?= $depto1 ?></p>
+                            <p class="h3" id="deptoMayor1"><?= $departamentoPistas[0]['desc'] ?></p>
                         </div>
                     </div>
 
@@ -404,12 +377,8 @@ $fechaLarga = strftime(" %B ");
                                 <label>
                                     Topico
                                 </label>
-                                <select class="form-control" name="topico1" id="topico1" disabled value="" selected readonly>
-                                    <option value="">Seleccione...</option>
-                                    <?php foreach ($topics as $ca3) { ?>
-                                        <option value="<?= $ca3['ID']  ?>"><?= $ca3['DESC']  ?></option>
-                                    <?php  }  ?>
-                                </select>
+                                <input type="text" name="topico1" id="topico1" class="form-control" readonly novalidate>
+
 
                             </div>
                         </div>
@@ -425,13 +394,9 @@ $fechaLarga = strftime(" %B ");
                         </div>
                         <div class="row mb-3">
                             <div class="col">
-                                <label for="departamento">Departamento</label>
-                                <select name="departamentoBusqueda1" disabled id="departamentoBusqueda1" value="" class="form-control">
-                                    <option value="">Seleccione...</option>
-                                    <?php foreach ($departamento as $ca2) { ?>
-                                        <option value="<?= $ca2['DM_CODIGO']  ?>"><?= $ca2['DM_DESC_LG']  ?></option>
-                                    <?php  }  ?>
-                                </select>
+                                <label for="departamentoBusqueda1">Departamento</label>
+                                <input type="text" id="departamentoBusqueda1" name="departamentoBusqueda1" class="form-control" required readonly>
+
                             </div>
                             <div class="col">
                                 <label for="municipio">Municipio</label>
@@ -445,12 +410,8 @@ $fechaLarga = strftime(" %B ");
                         </div>
                         <div>
                             <label for="actvidad_vinculada"> Actividad vinculada</label>
-                            <select class=" form-control " disabled style="width:400px" name="actvidad_vinculada1" id="actvidad_vinculada1" required>
-                                <option value="">Seleccione</option>
-                                <?php foreach ($actividad_vinculada as $ca1) { ?>
-                                    <option value="<?= $ca1['ID']  ?>"><?= $ca1['DESC']  ?></option>
-                                <?php  }  ?>
-                            </select>
+                            <input type="text" id="actvidad_vinculada1" name="actvidad_vinculada1" class="form-control" required readonly>
+
                         </div>
 
 
@@ -501,13 +462,8 @@ $fechaLarga = strftime(" %B ");
                                 <label>
                                     Topico
                                 </label>
-                                <select class="form-control" name="topico" id="topico" disabled value="" selected readonly>
-                                    <option value="">Seleccione...</option>
-                                    <?php foreach ($topics as $ca3) { ?>
-                                        <option value="<?= $ca3['ID']  ?>"><?= $ca3['DESC']  ?></option>
-                                    <?php  }  ?>
-                                </select>
 
+                                <input type="text" name="topico" id="topico" class="form-control" readonly novalidate>
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -522,13 +478,8 @@ $fechaLarga = strftime(" %B ");
                         </div>
                         <div class="row mb-3">
                             <div class="col">
-                                <label for="departamento">Departamento</label>
-                                <select name="departamentoBusqueda" disabled id="departamentoBusqueda" value="" class="form-control">
-                                    <option value="">Seleccione...</option>
-                                    <?php foreach ($departamento as $ca2) { ?>
-                                        <option value="<?= $ca2['DM_CODIGO']  ?>"><?= $ca2['DM_DESC_LG']  ?></option>
-                                    <?php  }  ?>
-                                </select>
+                                <label for="departamentoBusqueda">Departamento</label>
+                                <input type="text" id="departamentoBusqueda" name="departamentoBusqueda" class="form-control" required readonly>
                             </div>
                             <div class="col">
                                 <label for="municipio">Municipio</label>
@@ -542,12 +493,7 @@ $fechaLarga = strftime(" %B ");
                         </div>
                         <div>
                             <label for="actvidad_vinculada"> Actividad vinculada</label>
-                            <select class=" form-control " disabled style="width:400px" name="actvidad_vinculada" id="actvidad_vinculada" required>
-                                <option value="">Seleccione</option>
-                                <?php foreach ($actividad_vinculada as $ca1) { ?>
-                                    <option value="<?= $ca1['ID']  ?>"><?= $ca1['DESC']  ?></option>
-                                <?php  }  ?>
-                            </select>
+                            <input type="text" id="actvidad_vinculada" name="actvidad_vinculada" class="form-control" required readonly>
                         </div>
 
                         <hr>
@@ -632,15 +578,12 @@ $fechaLarga = strftime(" %B ");
     </div>
 </div>
 <div class="  container-fluid text-center pt-2 rounded bg-secondary" id="mapa_calor">
-    <div class="row mb-1 justify-content-center">
+<div class="row mb-1 justify-content-center">
 
-
-
-
-        <div class=" col-lg-12">
-            <h1 class="ms-5" style="color:white;"> INCAUTACIONES DE DROGA EN EL MES DE <?= strtoupper($fechaLarga) ?><a type="button" id="buscaravanzada"> <img src="<?= asset('./images/iconos/lupa.png') ?>" style="width:40px; height:40px;" alt="capturas"></a></h1>
-            <hr style="width:100%; height:5px; color:#9A7D0A;">
-            <div id="mapa_de_calor">
+<div class="  col-lg-12 ">
+    <h1 class="ms-5" style="color:white;"> DEPARTAMENTOS CON MAS CAPTURAS EN EL MES DE <?= strtoupper($fechaLarga) ?><a type="button" id="buscaravanzada"> <img src="<?= asset('./images/iconos/lupa.png') ?>" style="width:40px; height:40px;" alt="capturas"></a></h1>
+    <hr style="width:100%; height:5px; color:#9A7D0A;">
+    <div id="mapa_de_calor">
 
 
                 <div class="row mb-3">
@@ -652,7 +595,7 @@ $fechaLarga = strftime(" %B ");
                                 </div>
                             </div>
                             <div class="row mb-3 justify-content-center">
-                                <div class="col-lg-3">
+                                <div class="col-2 col-sm-1">
                                     <a onclick="pistas_clandestinas()">
                                         <<img src="<?= asset('./images/iconos/droga/explosion.png') ?>" class="w-100" alt="operaciones">
                                     </a>
@@ -662,7 +605,7 @@ $fechaLarga = strftime(" %B ");
                                     <select class="form-control" name="incautaciondroga_mapa_calor" id="incautaciondroga_mapa_calor">
                                         <option value="">Seleccione...</option>
                                         <?php foreach ($drogas_tipo as $ca3) { ?>
-                                            <option value="<?= $ca3['ID']  ?>"><?= $ca3['DESC']  ?></option>
+                                            <option value="<?= $ca3['id']  ?>"><?= $ca3['desc']  ?></option>
                                         <?php  }  ?>
                                     </select>
                                 </div>
@@ -845,7 +788,7 @@ $fechaLarga = strftime(" %B ");
                 </circle>
             </svg>
         </div>
-        <div class="  col-lg-4 bg-dark rounded  pt-3 h-50" >
+        <div class="  col-lg-4 bg-dark rounded  pt-3 h-50">
             <div class="row mb-2 justify-content-between">
                 <div class="col-7 ">
                     <label for="">
@@ -881,7 +824,7 @@ $fechaLarga = strftime(" %B ");
                 </div>
                 <div class="col-2  justify-content-end ms-2">
 
-                    <div  class="border w-100 h-100" style=" background-color:<?= $colores[2]['color'] ?>"></div>
+                    <div class="border w-100 h-100" style=" background-color:<?= $colores[2]['color'] ?>"></div>
 
                 </div>
             </div>
@@ -972,7 +915,7 @@ $fechaLarga = strftime(" %B ");
                     </div>
                     <div class="row mb-1">
                         <div id="texto_no" style="display:none;">
-                            <h3> No se encontraron delitos</h3>
+                            <h3> No se encontraron incautaciones</h3>
                         </div>
                         <!-- <div class="col-lg-6 ">
 
@@ -984,7 +927,7 @@ $fechaLarga = strftime(" %B ");
 
                             <div class="col-lg-12 ">
                                 <h2 style="color:black">Droga Incautada</h2>
-                                <canvas id="delitos_cant"></canvas>
+                                <canvas id="droga_cant"></canvas>
                             </div>
                             <!-- <div class="col-lg-6  "style="width: 600px; height:400px; ">
                               
@@ -1011,35 +954,35 @@ $fechaLarga = strftime(" %B ");
 <div class=" ms-2 container-fluid text-center pt-4" id="div_graficas" style="display:none; ">
     <div class="justify-content-center">
         <div class="  row col-lg-12 justify-content-end " style="border:solid; border-radius:10px; background-color:white;">
-            <h1 style="color:black">ESTADISTICAS DEL MES DE <?= strtoupper($fechaLarga) ?> </h1>
+            <h1 style="color:black">ESTADISTICAS DEL MES DE <?= strtoupper($fechaLarga) ?><a type="button" id="buscarGrafica"> <img src="<?= asset('./images/iconos/lupa.png') ?>" style="width:40px; height:40px;" alt="capturas"></a> </h1>
             <div id="cuadro_busquedad_grafica" class="row mb-3 " style="display:none">
-            <div class="col-lg-12 text-center ">
+                <div class="col-lg-12 text-center ">
 
-                <form class=" ms-5  col-lg-11 justify-content-center border border-2 border-dark rounded bg-dark pt-3  " id="formBusqueda_grafica">
-                    <div class="row mb-3">
-                        <div class="col">
-                            <h2 style="color: white;">Ingrese los criterios de busqueda</h2>
+                    <form class=" ms-5  col-lg-11 justify-content-center border border-2 border-dark rounded bg-dark pt-3  " id="formBusqueda_grafica">
+                        <div class="row mb-3">
+                            <div class="col">
+                                <h2 style="color: white;">Ingrese los criterios de busqueda</h2>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row mb-3 justify-content-center">
-                        <div class="col-lg-3">
-                            <label for="fecha_grafica" style="color: white;">DE</label>
-                            <input type="datetime-local" id="fecha_grafica" name="fecha_grafica" class="form-control" required>
+                        <div class="row mb-3 justify-content-center">
+                            <div class="col-lg-3">
+                                <label for="fecha_grafica" style="color: white;">DE</label>
+                                <input type="datetime-local" id="fecha_grafica" name="fecha_grafica" class="form-control" required>
+                            </div>
+                            <div class="col-lg-3">
+                                <label for="fecha_grafica2" style="color: white;">HASTA</label>
+                                <input type="datetime-local" id="fecha_grafica2" name="fecha_grafica2" class="form-control" required>
+                            </div>
+                            <div class="col-lg-2 pt-4">
+                                <button type="submit" class="btn btn-info w-100"><i class="bi bi-search me-2"></i>Buscar</button>
+                            </div>
                         </div>
-                        <div class="col-lg-3">
-                            <label for="fecha_grafica2" style="color: white;">HASTA</label>
-                            <input type="datetime-local" id="fecha_grafica2" name="fecha_grafica2" class="form-control" required>
-                        </div>
-                        <div class="col-lg-2 pt-4">
-                            <button type="submit" class="btn btn-info w-100"><i class="bi bi-search me-2"></i>Buscar</button>
-                        </div>
-                    </div>
 
 
-                </form>
+                    </form>
 
+                </div>
             </div>
-        </div>
 
 
 
@@ -1049,8 +992,8 @@ $fechaLarga = strftime(" %B ");
                 <div class="col-lg-6 ">
                     <h2 style="color:black">Droga Incautada</h2>
                     <div id="texto_no1" style="display:none;">
-                            <h3> No se encontraron incautaciones</h3>
-                        </div>
+                        <h3> No se encontraron incautaciones</h3>
+                    </div>
                     <div id="graficaDroga" style="width: 800px; height:900px; ">
 
                         <canvas id="myChart9" width="50" height="50"></canvas>
@@ -1059,8 +1002,8 @@ $fechaLarga = strftime(" %B ");
                 <div class="col-lg-6 ">
                     <h2 style="color:black">Operaciones relacionadas al narcotrafico por departamentos</h2>
                     <div id="texto_no2" style="display:none;">
-                            <h3> No se encontraron Incautaciones</h3>
-                        </div>
+                        <h3> No se encontraron Incautaciones</h3>
+                    </div>
                     <div id="graficaDrogaDepartamento" style="width: 800px; height:900px; ">
                         <canvas id="myChart2"></canvas>
                     </div>
@@ -1119,7 +1062,7 @@ $fechaLarga = strftime(" %B ");
                 <div class="col-lg-12 ">
 
                     <div class="col-lg-12 " style="height:800px;">
-                        <h2 style="color:black">ESTADISTICAS TRIMESTRALES DE PISTAS CLANDESTINAS <img src="../assets/img/destruccion_pista/pista.png" style="width:60px; height:60px;" alt="capturas"></h2>
+                        <h2 style="color:black">ESTADISTICAS TRIMESTRALES DE PISTAS CLANDESTINAS <img src="<?= asset('./images/iconos/droga/explosion.png') ?>" style="width:60px; height:60px;" alt="capturas"></h2>
                         <canvas id="pista_clandestina" height="100"></canvas>
                     </div>
                 </div>
@@ -1134,7 +1077,7 @@ $fechaLarga = strftime(" %B ");
                 <div class="col-lg-12 ">
 
                     <div class="col-lg-12 " style="height:800px;">
-                        <h2 style="color:black">ESTADISTICAS TRIMESTRALES <img src="../assets/img/incautacion_droga/kilo.png" style="width:60px; height:60px;" alt="capturas"> </h2>
+                        <h2 style="color:black">ESTADISTICAS TRIMESTRALES <img src="<?= asset('./images/iconos/droga/evidence.png') ?>" style="width:60px; height:60px;" alt="capturas"> </h2>
                         <canvas id="myChart5" height="100"></canvas>
                     </div>
                 </div>

@@ -14,27 +14,21 @@ const formBusqueda_mapa = document.getElementById('formBusqueda_mapa');
 const btnBuscarmapacalor = document.querySelector("#buscaravanzada");
 const btnresumenbuscar = document.querySelector("#buscarresumen");
 const btngraficabuscar = document.querySelector("#buscarGrafica");
-const btnBuscar = document.getElementById("buscarincautaciones");
+const btnBuscar = document.getElementById("buscarinfo");
 const btnmapa = document.querySelector("#ver_mapa");
-
 
 const btngrafica = document.querySelector("#ver_grafica");
 
 let tablaregistro = new Datatable('#dataTable2');
 let TablaInfoPer = new Datatable('#dataTable3');
 let TablaInfoPer1 = new Datatable('#dataTable4');
-const forminfo = document.querySelector('#formInformacion1')
+const formmigrante = document.querySelector('#formInformacion1')
 const formdroga = document.querySelector('#formInformacion2')
-const capturas = new Modal(document.getElementById('modalPersonal12'), {
+const modalmigrante = new Modal(document.getElementById('modalmigrante'), {
     keyboard: false
 })
-const modaldroga1 = new Modal(document.getElementById('modalPersonal13'), {
-    keyboard: false
-})
+
 const modaldeptos = new Modal(document.getElementById('modaldepto'), {
-    keyboard: false
-})
-const modal_pista = new Modal(document.getElementById('modalPersonal12'), {
     keyboard: false
 })
 
@@ -43,17 +37,13 @@ const cambiarmes = async (evento) => {
     evento.preventDefault();
 
 
-    var cantidadIncautaciones = document.getElementById('cantidadIncautaciones');
-    var kilosIncautados = document.getElementById('kilosIncautados');
-    var kilosIncautados1 = document.getElementById('kilosIncautados1');
-    var matasIncautados = document.getElementById('matasIncautados');
-    var matasIncautados1 = document.getElementById('matasIncautados1');
-    var cantidadCapturas = document.getElementById('cantidadCapturas');
-    var cantidadHombres = document.getElementById('cantidadHombres');
-    var cantidadMujeres = document.getElementById('cantidadMujeres');
-    var cantidadPista = document.getElementById('cantidadPista');
-    var deptoMayor = document.getElementById('deptoMayor');
-    var deptoMayor1 = document.getElementById('deptoMayor1');
+    var cantidad_migrantes = document.getElementById('cantidad_migrantes');
+    var edad_concurrente = document.getElementById('edad_concurrente');
+    var cantidad_paises = document.getElementById('cantidad_paises');
+    var pais_migrante = document.getElementById('pais_migrante');
+    var infomujeres = document.getElementById('cantidad_mujeres');
+    var infohombres = document.getElementById('cantidad_hombres');
+    var infodepto = document.getElementById('depto_mayor');
     var f1 = new Date(formBusqueda_resumen.fecha_resumen.value)
     var f2 = new Date(formBusqueda_resumen.fecha_resumen2.value)
 
@@ -61,7 +51,7 @@ const cambiarmes = async (evento) => {
 
     if (f1 < f2) {
 
-        const url = '/medios-comunicacion/API/mapas/infoDroga/resumen'
+        const url = '/medios-comunicacion/API/mapas/infoMigrantes/resumen'
         const body = new FormData(formBusqueda_resumen);
         const headers = new Headers();
         headers.append("X-Requested-With", "fetch");
@@ -75,19 +65,15 @@ const cambiarmes = async (evento) => {
         const respuesta = await fetch(url, config);
         const data = await respuesta.json();
 
-        // console.log(data)
+
         if (data) {
-            cantidadIncautaciones.innerText = data[0].cantidad
-            kilosIncautados.innerText = data[2].cantidad
-            kilosIncautados1.innerText = data[1].desc
-            matasIncautados.innerText = data[4].cantidad
-            matasIncautados1.innerText = data[3].desc
-            cantidadCapturas.innerText = data[5].cantidad
-            cantidadHombres.innerText = data[7].cantidad
-            cantidadMujeres.innerText = data[6].cantidad
-            cantidadPista.innerText = data[8].cantidad
-            deptoMayor.innerText = data[9].desc
-            deptoMayor1.innerText = data[10].desc.trim()
+            cantidad_migrantes.innerText = data[0].cantidad
+            edad_concurrente.innerText = data[1].edades
+            cantidad_paises.innerText = data[2].cantidad
+            pais_migrante.innerText = data[3].pais
+            infomujeres.innerText = data[4].cantidad
+            infohombres.innerText = data[5].cantidad
+            infodepto.innerText = data[6].desc.trim()
         }
 
     } else {
@@ -162,7 +148,7 @@ function ocultar_busquedad_mapa() {
 }
 
 
-const Buscar_capturas = async (e) => {
+const Buscar_migrantes = async (e) => {
 
     if (document.querySelector("#tabla").style.display === "none") {
         document.querySelector("#tabla").style.display = "block";
@@ -175,7 +161,7 @@ const Buscar_capturas = async (e) => {
     try {
 
 
-        const url = `/medios-comunicacion/API/mapas/infoDroga/listado`
+        const url = `/medios-comunicacion/API/mapas/infoMigrantes/listado`
         const headers = new Headers();
         headers.append("X-Requested-With", "fetch");
 
@@ -186,8 +172,7 @@ const Buscar_capturas = async (e) => {
 
         const respuesta = await fetch(url, config);
         const info = await respuesta.json();
-        // console.log(info)
-
+// console.log(info);
         tablaregistro.destroy();
         tablaregistro = new Datatable('#dataTable2', {
             language: lenguaje,
@@ -198,8 +183,9 @@ const Buscar_capturas = async (e) => {
                 { data: "departamento", "width": "11%" },
                 { data: "lugar", "width": "11%" },
                 { data: "topico", "width": "15%" },
-
-                { data: "actividad", "width": "15%" },
+                { data: "nacionalidad", "width": "11%" },
+                { data: "edad", "width": "11%" },
+                { data: "cantidad", "width": "15%" },
 
                 {
                     data: "id",
@@ -233,8 +219,7 @@ const Buscar_capturas = async (e) => {
 window.ModalPersonal = async (id, tipo) => {
 
 
-
-    const url = `/medios-comunicacion/API/mapas/infoDroga/modal`
+    const url = `/medios-comunicacion/API/mapas/infoMigrantes/modal`
     const body = new FormData();
     body.append('id', id);
     const headers = new Headers();
@@ -243,166 +228,56 @@ window.ModalPersonal = async (id, tipo) => {
     const config = {
         method: 'POST',
         body,
-
     }
     const respuesta = await fetch(url, config);
     const info = await respuesta.json();
-    // console.log(info)
+   
 
-    switch (tipo) {
+    const url1 = `/medios-comunicacion/API/mapas/infoMigrantes/informacionMigrantes`
+    const body1 = new FormData();
+    body1.append('id', id);
+    const headers2 = new Headers();
+    headers2.append("X-Requested-With", "fetch");
 
-        case 4:
+    const config1 = {
+        method: 'POST',
+        body,
 
-            modaldroga1.show();
+    }
 
+    const respuesta1 = await fetch(url1, config1);
+    const info1 = await respuesta1.json();
 
+    // console.log(info1);
+    
+            modalmigrante.show();
             info.forEach(info1 => {
-                formdroga.fecha1.value = info1.fecha
-                formdroga.topico.value = info1.topico
-                formdroga.latitud.value = info1.latitud
-                formdroga.longitud.value = info1.longitud
-                formdroga.departamentoBusqueda.value = info1.depto
-                formdroga.municipio.value = info1.municipio
-                formdroga.actvidad_vinculada.value = info1.actividad
-                formdroga.lugar.value = info1.lugar
-                // forminfo.departamentoBusqueda.value = info1.FECHA
+                formmigrante.fecha1.value = info1.fecha
+                formmigrante.topico.value = info1.topico
+                formmigrante.latitud.value = info1.latitud
+                formmigrante.longitud.value = info1.longitud
+                formmigrante.departamentoBusqueda.value = info1.depto
+                formmigrante.municipio.value = info1.municipio[0]['dm_desc_lg']
+                formmigrante.actvidad_vinculada.value = info1.actividad
+                formmigrante.lugar.value = info1.lugar
+
             });
 
 
 
-
-            const url1 = `/medios-comunicacion/API/mapas/infoDroga/informacion`
-            const body1 = new FormData();
-            body1.append('id', id);
-            const headers2 = new Headers();
-            headers2.append("X-Requested-With", "fetch");
-
-            const config1 = {
-                method: 'POST',
-                body,
-
-            }
-
-
-            const respuesta1 = await fetch(url1, config1);
-            const info1 = await respuesta1.json();
-
-            // console.log(droga)
-            if (info1 != null) {
-                info1.forEach(droga1 => {
-                    formdroga.cantidad_droga.value = droga1.cantidad
-                    formdroga.tipo_droga.value = droga1.droga
-                    formdroga.transporte.value = droga1.transporte
-                    formdroga.placa.value = droga1.matricula
-                    formdroga.tipo_transporte.value = droga1.tipo_t
-
-                    // formdroga.actvidad_vinculada.value = droga1.ACTIVIDAD
-                    // formdroga.lugar.value = droga1.LUGAR
-                    // forminfo.departamentoBusqueda.value = info1.FECHA
-                });
-            }
-
-
-            const url3 = `/medios-comunicacion/API/mapas/infoDroga/informacion1`
-            const body3 = new FormData();
-            body3.append('id', id);
-            const headers3 = new Headers();
-            headers3.append("X-Requested-With", "fetch");
-
-            const config3 = {
-                method: 'POST',
-                body,
-
-            }
-
-            const respuesta3 = await fetch(url3, config3);
-            const droga1 = await respuesta3.json();
-
-            // console.log(droga1)
-            if (droga1 != null) {
-                droga1.forEach(droga11 => {
-
-                    formdroga.matas_incautadas.value = droga11.cantidad1
-                    formdroga.tipo_matas.value = droga11.tipo_droga
-                    // formdroga.actvidad_vinculada.value = droga1.ACTIVIDAD
-                    // formdroga.lugar.value = droga1.LUGAR
-                    // forminfo.departamentoBusqueda.value = info1.FECHA
-                });
-            }
-
-
-            const url_Droga = `/medios-comunicacion/API/mapas/infoDroga/informacionPersonas`
-            const bodyDroga = new FormData();
-            bodyDroga.append('id', id);
-            const headersDroga = new Headers();
-            headersDroga.append("X-Requested-With", "fetch");
-
-            const config_Droga = {
-                method: 'POST',
-                body: bodyDroga,
-
-            }
-
-            const response_Droga = await fetch(url_Droga, config_Droga);
-            const info_Droga = await response_Droga.json();
-            //  console.log(info_Droga);
-
-            TablaInfoPer1.destroy();
-            TablaInfoPer1 = new Datatable('#dataTable4', {
-
+            TablaInfoPer.destroy();
+            TablaInfoPer = new Datatable('#dataTable3', {
                 language: lenguaje,
-                data: info_Droga,
+                data: info1,
                 columns: [
                     { data: "contador", "width": "10%" },
-                    { data: "nombre", "width": "20%" },
+                    { data: "pais", "width": "20%" },
                     { data: "sexo", "width": "15%" },
                     { data: "edad", "width": "15%" },
-                    { data: "nacionalidad", "width": "25%" },
-                    { data: "delito", "width": "15%" }
+                    { data: "cantidad", "width": "15%" },
+                    { data: "destino", "width": "15%" }
                 ]
             })
-            break;
-        case 8:
-            modal_pista.show();
-
-            info.forEach(info1 => {
-                forminfo.fecha1.value = info1.fecha
-                forminfo.topico1.value = info1.topico
-                forminfo.latitud1.value = info1.latitud
-                forminfo.longitud1.value = info1.longitud
-                forminfo.departamentoBusqueda1.value = info1.depto
-                forminfo.municipio1.value = info1.municipio
-                forminfo.actvidad_vinculada1.value = info1.actividad
-                forminfo.lugar1.value = info1.lugar
-                // forminfo.departamentoBusqueda.value = info1.FECHA
-            });
-
-            const urlPista = `/medios-comunicacion/API/mapas/infoDroga/distanciaPista`
-            const bodyPista = new FormData();
-            bodyPista.append('id', id);
-            const headersPista = new Headers();
-            headersPista.append("X-Requested-With", "fetch");
-
-            const configPista = {
-                method: 'POST',
-                body: bodyPista,
-
-            }
-
-            const responsePista = await fetch(urlPista, configPista);
-            const pista_dato = await responsePista.json();
-
-
-            console.log(pista_dato)
-            if (pista_dato != null) {
-                pista_dato.forEach(pista1 => {
-                    forminfo.longitud_pista.value = pista1.cantidad
-
-                });
-            }
-
-            break;
-    }
 
 
 }
@@ -428,7 +303,7 @@ const busquedad_mapa_Calor = async (e) => {
 
     if ((f1 < f2 && valor == 2) || (valor == 1)) {
 
-        const url = `/medios-comunicacion/API/mapas/infoDroga/mapaCalor`
+        const url = `/medios-comunicacion/API/mapas/infoMigrantes/mapaCalor`
         const body = new FormData(formMapa);
 
         const headers = new Headers();
@@ -443,9 +318,7 @@ const busquedad_mapa_Calor = async (e) => {
 
         const respuesta = await fetch(url, config);
         const info = await respuesta.json();
-        // console.log(info);
-
-        if ((fecha1 != "" && fecha2 != "") || formMapa.incautaciondroga_mapa_calor.value != "") {
+        if ((fecha1 != "" && fecha2 != "") || formMapa.edades_mapa_calor.value != "") {
             if (info.length == 0) {
                 Toast.fire({
                     icon: 'error',
@@ -464,7 +337,7 @@ const busquedad_mapa_Calor = async (e) => {
             element.setAttribute('fill', '#145A32 ')
 
         })
-        const url1 = `/medios-comunicacion/API/mapas/infoDroga/colores`
+        const url1 = `/medios-comunicacion/API/mapas/infoMigrantes/colores`
         const headers1 = new Headers();
         headers1.append("X-Requested-With", "fetch");
 
@@ -476,9 +349,9 @@ const busquedad_mapa_Calor = async (e) => {
         const respuesta1 = await fetch(url1, config1);
         const info1 = await respuesta1.json();
 
-        // console.log(info1)
+  
 
-        info1.forEach(data1 => {
+       
 
             window.cantidad_baja = parseInt(info1[0]['cantidad'])
             window.color_bajo = info1[0]['color']
@@ -487,7 +360,7 @@ const busquedad_mapa_Calor = async (e) => {
             window.cantidad_alta = parseInt(info1[2]['cantidad'])
             window.color_alta = info1[2]['color']
 
-        })
+        
 
 
 
@@ -533,8 +406,12 @@ window.detalle = async (valor) => {
 
         valor = '0' + valor
     }
-    const tipoDroga = formMapa.incautaciondroga_mapa_calor.value
-    const url = `/medios-comunicacion/API/mapas/infoDroga/mapaCalorPorDepto`
+
+    var deptoinfo = document.getElementById('deptoinfo');
+    var deptoincidencia = document.getElementById('deptoincidencia');
+    var label_migrante = document.getElementById('label_migrante');
+    const delito = formMapa.edades_mapa_calor.value
+    const url = `/medios-comunicacion/API/mapas/infoMigrantes/mapaCalorPorDepto`
     const body = new FormData(formMapa);
     body.append('departamento', valor);
     const headers = new Headers();
@@ -549,24 +426,24 @@ window.detalle = async (valor) => {
 
     const respuesta = await fetch(url, config);
     const info_depto1 = await respuesta.json();
+// console.log(info_depto1);
 
-    // console.log(info_depto1)
     if (info_depto1) {
-        deptoinfo1.innerText = info_depto1[0].cantidad
-        deptoincidencia1.innerText = info_depto1[1].desc
-        deptoinfo.innerText = info_depto1[2].cantidad
-        deptoinfo2.innerText = info_depto1[4].cantidad
-        deptoincidencia.innerText = info_depto1[3].desc
-        if (tipoDroga != "") {
-            label_delito.innerText = '  Droga seleccionado:'
+        deptoinfo.innerText = info_depto1[0].cantidad
+
+
+        deptoincidencia.innerText = info_depto1[1].edades
+
+        if (delito != "") {
+            label_migrante.innerText = 'Rango de edad seleccionado:'
         }
-        if (tipoDroga == "") {
-            label_delito.innerText = 'Incidencia:'
+        if (delito == "") {
+            label_migrante.innerText = 'Incidencia:'
         }
     } else {
         deptoinfo.innerText = ''
         deptoincidencia.innerText = ''
-        label_delito.innerText = 'Incidencia:'
+        label_migrante.innerText = 'Incidencia:'
 
     }
 
@@ -578,7 +455,7 @@ window.detalle = async (valor) => {
     modaldeptos.show();
     label.innerText = 'DEPARTAMENTO DE ' + name.toUpperCase();
 
-    const url_grafica = `/medios-comunicacion/API/mapas/infoDroga/mapaCalorPorDeptoGrafica`
+    const url_grafica = `/medios-comunicacion/API/mapas/infoMigrantes/mapaCalorPorDeptoGrafica`
     const bodyGrafica = new FormData(formMapa);
     bodyGrafica.append('departamento', valor);
     const headersGrafica = new Headers();
@@ -590,142 +467,109 @@ window.detalle = async (valor) => {
         body: bodyGrafica,
 
     }
-    const response = await fetch(url_grafica, configGrafica)
-    const datos = await response.json()
+
     try {
 
-       
+        const response = await fetch(url_grafica, configGrafica)
+        const datos = await response.json()
 
-        
-        if (datos) {
+        // console.log(datos);
+        if (datos.length > 0) {
             document.getElementById('grafica_depto1').style.display = "block"
             document.getElementById('texto_no').style.display = "none"
 
-            const ctx = document.getElementById('droga_cant');
+
+            let labels = [], cantidades = []
+            datos.forEach(d => {
+                labels = [...labels, d.edades]
+                cantidades = [...cantidades, d.cantidad]
+            })
+            // mostrar(datos)
+            //  $("#delitos_cant").destroy();
+            const ctx = document.getElementById('delitos_cant');
             if (window.grafica) {
                 window.grafica.clear();
                 window.grafica.destroy();
             }
-
-            let { labels, cantidades } = datos;
-            
-            let dataSetsLabels = Object.keys(cantidades);
-            let dataSetsValues = Object.values(cantidades)
-            let datasets = []
-
-            for (let index = 0; index < dataSetsLabels.length; index++) {
-                datasets = [...datasets, {
-                    label: dataSetsLabels[index],
-                    data: dataSetsValues[index],
-                    backgroundColor: chartColors[index],
-                    borderColor: chartColors[index],
-                    borderWidth: 1
-                }]
-
-            }
-            // mostrar(datos)
-            //  $("#delitos_cant").destroy();
-
-
-            let chartInfo = {
+            window.grafica = new Chart(ctx, {
                 type: 'bar',
                 data: {
                     labels,
-                    datasets
+                    datasets: [{
+                        label: 'EDADES',
+                        data: cantidades,
+                        backgroundColor: [
+                            'rgba(255, 199, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 236, 0, 1)',
+                            'rgba(255, 236, 0, 1)',
+                            'rgba(255, 236, 0, 1)',
+                            'rgba(255, 236, 0, 1)',
+                            'rgba(255, 236, 0, 1)',
+                            'rgba(255, 236, 0, 1)'
+                        ],
+                        borderWidth: 4
+                    }],
                 },
                 options: {
-                    indexAxis: 'x',
-                    plugins: {
-                        title: {
-                            display: true,
-                            text: 'Cantidad de Droga'
-                        },
-                        scales: {
 
-                            stepSize: 1,
-                            beginAtZero: true,
-                            grid: {
-                                color: 'rgba(255, 199, 132, 1)'
+                    scales: {
+                        y: { // not 'yAxes: [{' anymore (not an array anymore)
+                            ticks: {
+                                color: "black", // not 'fontColor:' anymore
+                                // fontSize: 18,
+                                font: {
+                                    size: 18, // 'size' now within object 'font {}'
+                                },
+                                stepSize: 5,
+                                beginAtZero: true,
+                                grid: {
+                                    color: 'rgba(255, 199, 132, 1)'
+                                }
                             }
+                        },
+                        x: { // not 'xAxes: [{' anymore (not an array anymore)
+                            ticks: {
+                                color: "black", // not 'fontColor:' anymore
+                                //fontSize: 14,
+                                font: {
+                                    size: 14 // 'size' now within object 'font {}'
+                                },
+                                stepSize: 1,
+                                beginAtZero: true,
 
+                            }
+                        }
 
+                    },
+                    legend: {
+                        labels: {
+                            color: "black",
+                            labels: {
+                                color: "blue", // not 'fontColor:' anymore
+                                // fontSize: 18  // not 'fontSize:' anymore
+                                font: {
+                                    size: 18 // 'size' now within object 'font {}'
+                                }
+                            }
                         }
                     }
                 }
-            }
-            window.grafica = new Chart(ctx, chartInfo)
-            window.grafica.update()
+            });
 
-        }
-        else {
-          
+        } else {
+            // alert("hola")
             document.getElementById('grafica_depto1').style.display = "none"
             document.getElementById('texto_no').style.display = "block"
         }
     } catch (error) {
         console.log(error);
-    }
-
-
-
-
-}
-
-window.pistas_clandestinas = async(e) => {
-    e && e.preventDefault();
-    // tipo_droga = $('#incautaciondroga_mapa_calor').val()
-
-   
-    const url = `/medios-comunicacion/API/mapas/infoDroga/mapaCalorPorDeptoPistas`
-    const body = new FormData(formMapa);
-    
-    const headers = new Headers();
-    headers.append("X-Requested-With", "fetch");
-
-    const config = {
-        method: 'POST',
-        headers,
-        body,
-
-    }
-
-    const respuesta = await fetch(url, config);
-    const info = await respuesta.json();
-
-    deptos = document.querySelectorAll('path');
-   
-        // console.log(info)
-
-    deptos.forEach(element => {
-        element.setAttribute('fill', '#145A32 ')
-            // console.log(element)
-    })
-
-    if (info != null) {
-        info.forEach(data => {
-            // console.log(parseInt(data.CANTIDAD), cantidad_alta, cantidad_baja, cantidad_medio)
-            data.fill = 'gray'
-            let color = '#145A32 '
-
-            if (parseInt(data.cantidad) >= cantidad_baja && parseInt(data.cantidad) <= cantidad_medio) {
-
-                color = color_bajo;
-            }
-            if (parseInt(data.cantidad) >= cantidad_medio && parseInt(data.cantidad) < cantidad_alta) {
-                // console.log(color_medio)
-                color = color_medio;
-            }
-            if (parseInt(data.cantidad) >= cantidad_alta) {
-
-                color = color_alta;
-            }
-
-            document.getElementById(data.codigo).setAttribute('fill', color);
-
-
-        })
-
-
     }
 
 }
@@ -736,19 +580,10 @@ window.pistas_clandestinas = async(e) => {
 //________________________________________________________GRAFICA POR DELITOS __________________________________________________________________________________________________________
 
 
-const drogas_estadistica = async (e) => {
+const migrantes_por_edades_estadistica = async (e) => {
     e && e.preventDefault();
 
-
-    var f1 = new Date(formBusqueda_grafica.fecha_grafica.value)
-    var f2 = new Date(formBusqueda_grafica.fecha_grafica2.value)
-
-var fecha1 = formBusqueda_grafica.fecha_grafica.value
-var fecha2 = formBusqueda_grafica.fecha_grafica2.value
-
-    if ((f1 < f2) || (fecha1 == "" && fecha2 == "")) {
-
-    const url_grafica1 = `/medios-comunicacion/API/mapas/infoDroga/DrogasCantGrafica`
+    const url_grafica1 = `/medios-comunicacion/API/mapas/infoMigrantes/MigrantesCantGrafica`
     const bodyGrafica1 = new FormData(formBusqueda_grafica);
 
     const headersGrafica1 = new Headers();
@@ -763,101 +598,118 @@ var fecha2 = formBusqueda_grafica.fecha_grafica2.value
 
         const response1 = await fetch(url_grafica1, configGrafica1)
         const datos1 = await response1.json()
-        // console.log(datos1);
-        if (window.drogas_grafica) {
-            // window.drogas_grafica.clear();
-            window.drogas_grafica.destroy();
-        }
-        let { labels, cantidades, informacion } = datos1;
 
-            let dataSetsLabels = Object.keys(cantidades);
-            let dataSetsValues = Object.values(cantidades); 
-           
-        if (informacion > 0 ) {
-
-            if(fecha1 != "" && fecha2 != "" ){
-            Toast.fire({
-                icon: 'success',
-                title: 'Si  existen regristros'
-            })}
-            document.getElementById('graficaDroga').style.display = "block"
+        if (datos1.length > 0) {
+            document.getElementById('graficaDelitos').style.display = "block"
             document.getElementById('texto_no1').style.display = "none"
 
-                 
-        
-            let datasets = []
-        
-            for (let index = 0; index < dataSetsLabels.length; index++) {
-                datasets = [...datasets, {
-                    label: dataSetsLabels[index],
-                    data: dataSetsValues[index],
-                    backgroundColor: chartColors[index],
-                    borderColor: chartColors[index],
-                    borderWidth: 1
-                }]
-        
-            }
 
-            const canvas = document.getElementById('myChart9');
-            const ctx = canvas.getContext('2d');
-           
-            let chartInfo = {
+            let labels = [], cantidades = []
+            datos1.forEach(d => {
+                labels = [...labels, d.edades]
+                cantidades = [...cantidades, d.cantidad]
+            })
+
+            const ctx = document.getElementById('myChart1');
+            if (window.delitos_grafica) {
+                window.delitos_grafica.clear();
+                window.delitos_grafica.destroy();
+            }
+            window.delitos_grafica = new Chart(ctx, {
                 type: 'bar',
                 data: {
                     labels,
-                    datasets
+                    datasets: [{
+                        label: 'Migrantes',
+                        data: cantidades,
+
+                        backgroundColor: [
+                            'rgba(252, 100, 7 , 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(46, 148, 26 , 1)',
+                            'rgba(255, 159, 64, 1)',
+                            'rgba(241, 9, 9 , 1)',
+                            'rgba(26, 50, 148,  1)',
+                            'rgba(18, 199, 29,  1)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 236, 0, 1)',
+                            'rgba(255, 236, 0, 1)',
+                            'rgba(255, 236, 0, 1)',
+                            'rgba(255, 236, 0, 1)',
+                            'rgba(255, 236, 0, 1)',
+                            'rgba(255, 236, 0, 1)'
+                        ],
+                        borderWidth: 7
+                    }],
                 },
                 options: {
                     indexAxis: 'y',
-                    plugins: {
-                        title: {
-                            display: true,
-                            text: 'Cantidad de Droga'
-                        },
-                        scales: {
-        
-                            stepSize: 1,
-                            beginAtZero: true,
-                            grid: {
-                                color: 'rgba(255, 199, 132, 1)'
+                    scales: {
+                        y: { // not 'yAxes: [{' anymore (not an array anymore)
+                            ticks: {
+                                color: "black", // not 'fontColor:' anymore
+                                // fontSize: 18,
+                                font: {
+                                    size: 16, // 'size' now within object 'font {}'
+                                },
+                                stepSize: 1,
+                                beginAtZero: true,
+                                grid: {
+                                    color: 'rgba(255, 199, 132, 1)'
+                                }
                             }
-        
-        
+                        },
+                        x: { // not 'xAxes: [{' anymore (not an array anymore)
+                            ticks: {
+                                color: "black", // not 'fontColor:' anymore
+                                //fontSize: 14,
+                                font: {
+                                    size: 14 // 'size' now within object 'font {}'
+                                },
+                                stepSize: 1,
+                                beginAtZero: true,
+
+                            }
                         }
-                    }
+
+                    },
+                    legend: {
+                        labels: {
+                            color: "black",
+                            labels: {
+                                color: "blue", // not 'fontColor:' anymore
+                                // fontSize: 18  // not 'fontSize:' anymore
+                                font: {
+                                    size: 18 // 'size' now within object 'font {}'
+                                }
+                            }
+                        }
+                    },
+
                 }
-            }
-            window.drogas_grafica = new Chart(ctx, chartInfo);
-        window.drogas_grafica.update()
-        } 
-        
-        else {
+            });
 
-            if(fecha1 != "" && fecha2 != "" ){
-                Toast.fire({
-                    icon: 'error',
-                    title: 'No  existen regristros'
-                })
-            }
-          
+        } else {
+
             document.getElementById('texto_no1').style.display = "block";
-            document.getElementById('graficaDroga').style.display = "none";
-
+            document.getElementById('graficaDelitos').style.display = "none";
         }
+
     } catch (error) {
         console.log(error);
     }
-    deptos_estadistica();
-}else{
+    deptos_estadistica()
 
-}
 }
 
 
 const deptos_estadistica = async (e) => {
     e && e.preventDefault();
 
-    const url_grafica2 = `/medios-comunicacion/API/mapas/infoDroga/DrogasDepartamentoGrafica`
+    const url_grafica2 = `/medios-comunicacion/API/mapas/infoMigrantes/MigrantesDepartamentoGrafica`
     const bodyGrafica2 = new FormData(formBusqueda_grafica);
 
     const headersGrafica2 = new Headers();
@@ -868,14 +720,14 @@ const deptos_estadistica = async (e) => {
         headers: headersGrafica2,
         body: bodyGrafica2,
     }
-    const response2 = await fetch(url_grafica2, configGrafica2)
-    const datos2 = await response2.json()
-        // console.log(datos2)
     try {
 
-       
+        const response2 = await fetch(url_grafica2, configGrafica2)
+        const datos2 = await response2.json()
+// console.log(datos2);
+
         if (datos2.length > 0) {
-            document.getElementById('graficaDrogaDepartamento').style.display = "block"
+            document.getElementById('graficaDelitosDepartamento').style.display = "block"
             document.getElementById('texto_no2').style.display = "none"
 
 
@@ -887,18 +739,18 @@ const deptos_estadistica = async (e) => {
             // mostrar(datos)
             //  $("#delitos_cant").destroy();
             const ctx = document.getElementById('myChart2');
-          
-
-            if (window.DrogaDepartamento_grafica) {
-                window.DrogaDepartamento_grafica.clear();
-                window.DrogaDepartamento_grafica.destroy();
+            if (window.delitosDepartamento_grafica) {
+                window.delitosDepartamento_grafica.clear();
+                window.delitosDepartamento_grafica.destroy();
             }
-            window.DrogaDepartamento_grafica = new Chart(ctx, {
+
+
+            window.delitosDepartamento_grafica = new Chart(ctx, {
                 type: 'doughnut',
                 data: {
                     labels,
                     datasets: [{
-                        label: 'Droga',
+                        label: 'DELITOS',
                         data: cantidades,
 
                         backgroundColor: [
@@ -939,7 +791,7 @@ const deptos_estadistica = async (e) => {
         } else {
 
             document.getElementById('texto_no2').style.display = "block";
-            document.getElementById('graficaDrogaDepartamento').style.display = "none";
+            document.getElementById('graficaDelitosDepartamento').style.display = "none";
 
         }
     } catch (error) {
@@ -950,52 +802,25 @@ const deptos_estadistica = async (e) => {
 
 
 
-const IncautacionesPorDia = async () => {
+const MigrantesPorDia = async () => {
 
-    const url_grafica2 = `/medios-comunicacion/API/mapas/infoDroga/IncautacionesPorDiaGrafica`
+    const url_grafica2 = `/medios-comunicacion/API/mapas/infoMigrantes/MigrantesPorDiaGrafica`
     const headersGrafica2 = new Headers();
     headersGrafica2.append("X-Requested-With", "fetch");
 
     const configGrafica2 = {
         method: 'POST',
         headers: headersGrafica2,
+
     }
-    const response2 = await fetch(url_grafica2, configGrafica2)
-    const datos2 = await response2.json()
+    try {
 
+        const response2 = await fetch(url_grafica2, configGrafica2)
+        const datos2 = await response2.json()
 
-    const url_grafica = `/medios-comunicacion/API/mapas/infoDroga/KilosPorDiaGrafica`
-    const headersGrafica = new Headers();
-    headersGrafica.append("X-Requested-With", "fetch");
-
-    const configGrafica = {
-        method: 'POST',
-        headers: headersGrafica,
-    }
-    const response = await fetch(url_grafica, configGrafica)
-    const datos = await response.json()
-   
-
-
-    const url_grafica1 = `/medios-comunicacion/API/mapas/infoDroga/MatasPorDiaGrafica`
-    const headersGrafica1 = new Headers();
-    headersGrafica1.append("X-Requested-With", "fetch");
-    const configGrafica1 = {
-        method: 'POST',
-        headers: headersGrafica1,
-    }
-    const response1 = await fetch(url_grafica1, configGrafica1)
-    const datos1 = await response1.json()
-    // console.log(datos1);
-
-    try { 
-
-
-
+        // console.log(datos2);
 
         const { dias, cantidades } = datos2;
-        const {matas} = datos1;
-        const {kilos} = datos;
 
         const canvas = document.getElementById('myChart3');
         const ctx = canvas.getContext('2d');
@@ -1007,7 +832,7 @@ const IncautacionesPorDia = async () => {
         const data = {
             labels: dias,
             datasets: [{
-                label: 'INCAUTACIONES',
+                label: 'Migrantes',
                 data: cantidades,
                 fill: true,
                 borderColor: 'rgb(75, 192, 192)',
@@ -1021,40 +846,7 @@ const IncautacionesPorDia = async () => {
                 pointHitRadius: 30,
                 pointBorderWidth: 2,
                 pointStyle: 'rectRounded',
-            },
-            {
-                label: 'CANTIDAD DE KILOS INCAUTADOS',
-                data: kilos,
-                fill: true,
-                borderColor: 'rgb(75, 192, 192)',
-                tension: 0.5,
-                borderColor: '#F10909',
-                backgroundColor: '#52A00F',
-                pointBorderColor: 'white',
-                pointBackgroundColor: 'blue',
-                pointRadius: 10,
-                pointHoverRadius: 20,
-                pointHitRadius: 30,
-                pointBorderWidth: 2,
-                pointStyle: 'rectRounded',
-            },
-            {
-                label: 'CANTIDAD DE MATAS INCAUTADAS',
-                data: matas,
-                fill: true,
-                borderColor: 'rgb(75, 192, 192)',
-                tension: 0.5,
-                borderColor: '#F10909',
-                backgroundColor: '#E6F805',
-                pointBorderColor: 'white',
-                pointBackgroundColor: 'black',
-                pointRadius: 10,
-                pointHoverRadius: 20,
-                pointHitRadius: 30,
-                pointBorderWidth: 2,
-                pointStyle: 'rectRounded',
-            }
-        ]
+            }]
 
         };
 
@@ -1126,7 +918,7 @@ const IncautacionesPorDia = async () => {
                         },
                         title: {
                             display: true,
-                            text: "OPERACIONES E INCAUTACIONES",
+                            text: "Migraciones",
                             fullSize: true,
                             color: 'black',
                             font: {
@@ -1162,9 +954,9 @@ const chartColors = [
 
 
 
-const trimestralKilos= async () => {
+const trimestralesMigrantes = async () => {
 
-    const url_grafica2 = `/medios-comunicacion/API/mapas/infoDroga/GraficatrimestralKilos`
+    const url_grafica2 = `/medios-comunicacion/API/mapas/infoMigrantes/GraficaTrimestral`
     const headersGrafica2 = new Headers();
     headersGrafica2.append("X-Requested-With", "fetch");
 
@@ -1177,17 +969,28 @@ const trimestralKilos= async () => {
 
         const response2 = await fetch(url_grafica2, configGrafica2)
         const info = await response2.json()
+console.log(info);
+        // info.length < 1 && Toast.fire({
+        //     icon: 'warning',
+        //     title: 'Ingreso mal las fechas'
+        // })
 
-       
+
+        // return
+
         const canvas = document.getElementById('myChart4');
         const ctx = canvas.getContext('2d');
         window.trimestralGrafica && window.trimestralGrafica.destroy()
 
         let { labels, cantidades } = info;
 
+        // console.log(cantidades);
 
         let dataSetsLabels = Object.keys(cantidades);
         let dataSetsValues = Object.values(cantidades)
+
+        // console.log(dataSetsLabels);
+        // console.log(dataSetsValues);
 
 
 
@@ -1204,7 +1007,7 @@ const trimestralKilos= async () => {
 
         }
 
-     
+        // console.log(datasets);
         let chartInfo = {
             type: 'bar',
             data: {
@@ -1238,205 +1041,13 @@ const trimestralKilos= async () => {
     } catch (error) {
         console.log(error)
     }
- 
-}
-
-
-const trimestralMatas= async () => {
-
-    const url_grafica2 = `/medios-comunicacion/API/mapas/infoDroga/GraficatrimestralMatas`
-    const headersGrafica2 = new Headers();
-    headersGrafica2.append("X-Requested-With", "fetch");
-
-    const configGrafica2 = {
-        method: 'POST',
-        headers: headersGrafica2,
-
-    }
-    try {
-
-        const response2 = await fetch(url_grafica2, configGrafica2)
-        const info = await response2.json()
-
-        const canvas = document.getElementById('myChart11');
-        const ctx = canvas.getContext('2d');
-        window.trimestralGraficaMatas && window.trimestralGraficaMatas.destroy()
-
-        let { labels, cantidades } = info;
-
-
-
-        let dataSetsLabels = Object.keys(cantidades);
-        let dataSetsValues = Object.values(cantidades)
-
-      
-
-
-
-        let datasets = []
-
-        for (let index = 0; index < dataSetsLabels.length; index++) {
-            datasets = [...datasets, {
-                label: dataSetsLabels[index],
-                data: dataSetsValues[index],
-                backgroundColor: chartColors[index],
-                borderColor: chartColors[index],
-                borderWidth: 1
-            }]
-
-        }
-
-       
-        let chartInfo = {
-            type: 'bar',
-            data: {
-                labels,
-                datasets
-            },
-            options: {
-                indexAxis: 'y',
-                plugins: {
-                    title: {
-                        display: true,
-                        text: 'Cantidad de Capturas'
-                    },
-                    scales: {
-
-                        stepSize: 1,
-                        beginAtZero: true,
-                        grid: {
-                            color: 'rgba(255, 199, 132, 1)'
-                        }
-
-
-                    }
-                }
-            }
-        }
-
-
-        window.trimestralGraficaMatas = new Chart(ctx, chartInfo);
-        window.trimestralGraficaMatas.update()
-    } catch (error) {
-        console.log(error)
-    }
-  
-}
-
-
-const trimestralPistas= async () => {
-
-    const url_grafica2 = `/medios-comunicacion/API/mapas/infoDroga/GraficatrimestralPistas`
-    const headersGrafica2 = new Headers();
-    headersGrafica2.append("X-Requested-With", "fetch");
-
-    const configGrafica2 = {
-        method: 'POST',
-        headers: headersGrafica2,
-
-    }
-    try {
-
-        const response2 = await fetch(url_grafica2, configGrafica2)
-        const info = await response2.json()
-
-
-        const canvas = document.getElementById('pista_clandestina');
-        const ctx = canvas.getContext('2d');
-        window.trimestralGraficaPistas && window.trimestralGraficaPistas.destroy()
-        let { meses, cantidades } = info;
-        let dataSetsValues = Object.values(cantidades)
-        
-     
-        const data = {
-            labels: meses,
-            datasets: [{
-                label: 'Pistas inhabilitadas',
-                data: dataSetsValues,
-                fill: false,
-                borderColor: 'rgb(75, 192, 192)',
-                tension: 0.5,
-                borderColor: '#F10909',
-                backgroundColor: [
-                    'rgba(233, 252, 5 , 0.5)',
-                    'rgba(252, 17, 5, 0.8)',
-                    'rgba(5, 47, 252 , 0.6)',
-                    'rgba(61, 118, 11 , 1)',
-                    'rgba(8, 129, 144 , 1)',
-                    'rgba(255, 159, 64, 1)',
-                    'rgba(241, 9, 9 , 1)',
-                    'rgba(26, 50, 148,  1)',
-                    'rgba(18, 199, 29,  1)'
-                ],
-            }]
-    
-        };
-        const configChart = {
-            type: 'bar',
-            data: data,
-            options: {
-               
-                indexAxis: 'x',
-                scales: {
-                    x: {
-    
-                        grid: {
-                            tickColor: "white",
-                        
-                            tickWidth: 25,
-                            color: "black",
-                            borderColor: "black",
-                            size: 25
-                        },
-    
-                        ticks: {
-                            color: "black",
-                            font: {
-                                weight: "bold",
-                                size: 30
-                            },
-    
-                        }
-    
-                    },
-                    y: {
-                        
-                        ticks: {
-                            color: "black",
-                            font: {
-                                weight: "bold",
-                                size: 25
-                            },
-                            // stepSize: 10,
-                            beginAtZero: true,
-                        },
-                        title: {
-                            display: true,
-                            text: "Pistas inhabilitadas",
-                            fullSize: true,
-                            color: 'White',
-                            font: {
-                                weight: "bold",
-                                size: 30
-                            }
-                        }
-    
-                    }
-                }
-            }
-        };
-
-        window.trimestralGraficaPistas = new Chart(ctx, configChart);
-        window.trimestralGraficaPistas.update()
-    } catch (error) {
-        console.log(error)
-    }
     // console.log(info);
 }
 
 
-const trimestral_incautaciones_general = async () => {
-    const url_grafica2 = `/medios-comunicacion/API/mapas/infoDroga/GraficaTrimestralIncautacionesGeneral`
+
+const trimestral_migrantes_general = async () => {
+    const url_grafica2 = `/medios-comunicacion/API/mapas/infoMigrantes/GraficaTrimestralGeneral`
     const headersGrafica2 = new Headers();
     headersGrafica2.append("X-Requested-With", "fetch");
 
@@ -1450,24 +1061,23 @@ const trimestral_incautaciones_general = async () => {
         const response2 = await fetch(url_grafica2, configGrafica2)
         const info = await response2.json()
 
-    //   console.log(info);
+        
+
+
         const { meses, cantidades } = info;
-
-        let dataSetsValues1 = Object.values(cantidades)
-        // console.log(dataSetsValues1);
-
+        // console.log(info);
         const canvas1 = document.getElementById('myChart5');
         const ctx1 = canvas1.getContext('2d');
-        if (window.trimestralIncautacionesGeneral) {
-            // console.log(window.trimestralIncautacionesGeneral);
-            window.trimestralIncautacionesGeneral.destroy()
+        if (window.trimestral_MigranteGeneral) {
+            console.log(window.trimestral_MigranteGeneral);
+            window.trimestral_MigranteGeneral.destroy()
         }
 
         const data = {
             labels: meses,
             datasets: [{
                 label: 'ESTADISTICA TRIMESTRAL',
-                data: dataSetsValues1,
+                data: cantidades,
                 fill: false,
                 borderColor: 'rgb(75, 192, 192)',
                 tension: 0.5,
@@ -1544,7 +1154,7 @@ const trimestral_incautaciones_general = async () => {
                         },
                         title: {
                             display: true,
-                            text: "INCAUTACIONES",
+                            text: "Migrantes",
                             fullSize: true,
                             color: 'White',
                             font: {
@@ -1557,8 +1167,8 @@ const trimestral_incautaciones_general = async () => {
                 }
             }
         };
-        window.trimestralIncautacionesGeneral = new Chart(ctx1, configChart);
-        window.trimestralIncautacionesGeneral.update()
+        window.trimestral_MigranteGeneral = new Chart(ctx1, configChart);
+        window.trimestral_MigranteGeneral.update()
     } catch (error) {
         console.log(error);
     }
@@ -1568,22 +1178,20 @@ const trimestral_incautaciones_general = async () => {
 
 }
 
-btnmapa.addEventListener("click", ocultar_mapa);
+
 formBusqueda_resumen.addEventListener('submit', cambiarmes)
-formBusqueda_grafica.addEventListener('submit', drogas_estadistica)
-btngrafica.addEventListener("click", ocultar_graficas);
-btnBuscar.addEventListener("click", Buscar_capturas);
+formBusqueda_grafica.addEventListener('submit', migrantes_por_edades_estadistica)
+btnBuscar.addEventListener("click", Buscar_migrantes);
 btnresumenbuscar.addEventListener("click", ocultar_select);
 btngraficabuscar.addEventListener("click", ocultar_busquedad_grafica);
 btnBuscarmapacalor.addEventListener("click", ocultar_busquedad_mapa);
 formBusqueda_mapa.addEventListener('submit', busquedad_mapa_Calor)
-
+btnmapa.addEventListener("click", ocultar_mapa);
 busquedad_mapa_Calor();
-drogas_estadistica();
-trimestralKilos();
-IncautacionesPorDia();
-trimestralMatas();
-trimestralPistas();
-trimestral_incautaciones_general();
-
+migrantes_por_edades_estadistica();
+MigrantesPorDia();
+trimestralesMigrantes();
+trimestral_migrantes_general();
+// deptos_estadistica();
+btngrafica.addEventListener("click", ocultar_graficas);
 
