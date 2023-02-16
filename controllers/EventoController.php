@@ -3,6 +3,7 @@
 namespace Controllers;
 
 use Model\Delitos;
+use Model\Droga;
 use Model\Evento;
 use Model\Nacionalidad;
 use MVC\Router;
@@ -18,6 +19,8 @@ class EventoController {
         $fenomenos = Evento::fetchArray("SELECT * from amc_fenomeno_natural where situacion = 1");
         $tipo_movimiento = Evento::fetchArray("SELECT * from amc_tipo_movimiento_social where situacion = 1");
         $movimiento = Evento::fetchArray("SELECT * from amc_organizacion_mov_social where situacion = 1");
+        $drogas = Evento::fetchArray("SELECT * FROM amc_drogas where situacion = 1 ");
+        $transportes = Evento::fetchArray("SELECT * FROM amc_transporte where situacion = 1 ");
         $router->render('eventos/index', [
             'topicos' => $topicos,
             'departamentos' => $departamentos,
@@ -26,6 +29,8 @@ class EventoController {
             'fenomenos' => $fenomenos,
             'tipo_movimiento' => $tipo_movimiento,
             'movimiento' => $movimiento,
+            'drogas' => $drogas,
+            'transportes' => $transportes,
         ]);
     }
 
@@ -66,7 +71,12 @@ class EventoController {
         $_POST['fecha'] = str_replace('T', ' ', $_POST['fecha']);
 
         try {
+            
+
+
             $evento = new Evento($_POST);
+            $dependencia = Evento::fetchArray("SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user")[0]['org_dependencia'];
+            $evento->dependencia = $dependencia;
             $resultado = $evento->guardar();
 
 
@@ -106,13 +116,17 @@ class EventoController {
             $eventos = null;
             if(strlen($topicos) > 0){
                 
-                $sql = "SELECT amc_topico.latitud as latitud, amc_topico.longitud as longitud, amc_actividad_vinculada.desc as actividad, amc_tipo_topics.desc as tipo, amc_tipo_topics.id as tipo_id, amc_topico.id as id  from amc_topico inner join amc_actividad_vinculada on amc_topico.actividad = amc_actividad_vinculada.id inner join amc_tipo_topics on amc_topico.tipo = amc_tipo_topics.id where amc_topico.situacion = 1 and amc_tipo_topics.id in ($topicos) " ; 
+                $sql = "SELECT amc_topico.latitud as latitud, amc_topico.longitud as longitud, amc_actividad_vinculada.desc as actividad, amc_tipo_topics.desc as tipo, amc_tipo_topics.id as tipo_id, amc_topico.id as id , trim(dep_desc_ct) as dependencia from amc_topico inner join amc_actividad_vinculada on amc_topico.actividad = amc_actividad_vinculada.id inner join amc_tipo_topics on amc_topico.tipo = amc_tipo_topics.id inner join mdep on amc_topico.dependencia = dep_llave where amc_topico.situacion = 1 and amc_tipo_topics.id in ($topicos) " ; 
                 
                 if($inicio != ''){
                     $sql .= " and amc_topico.fecha >= '$inicio'";
                 }
                 if($fin != ''){
                     $sql .= " and amc_topico.fecha <= '$fin'";
+                }
+
+                if($_SESSION['AMC_COMANDO']){
+                    $sql .= " and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
                 }
                 
                 $eventos = Evento::fetchArray($sql);

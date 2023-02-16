@@ -15,10 +15,13 @@ class ArmasController{
         getHeadersApi();
 
         try {
-            $_POST["desc"] = strtoupper($_POST["desc"]);
+            // $_POST["desc"] = strtoupper($_POST["desc"]);
             $armas = new Armas($_POST);
-            $valor = $_POST["desc"];
-            $existe = Armas::SQL("select * from amc_tipo_armas where situacion =1 AND desc = '$valor'");
+            $valor = mb_strtoupper(trim($_POST["desc"]));
+            $existe = Armas::SQL("SELECT * from amc_tipo_armas where situacion =1 AND desc = '$valor'");
+            
+            // echo json_encode($existe);
+            // exit;
             if (count($existe)>0){
                echo json_encode([
                    "mensaje" => "El registro ya existe",
@@ -62,7 +65,7 @@ class ArmasController{
     public function modificarAPI(){
         getHeadersApi();
        try {
-            $_POST["desc"] = strtoupper($_POST["desc"]);
+            // $_POST["desc"] = strtoupper($_POST["desc"]);
             $armas = new Armas($_POST);
             $valor = $_POST["desc"];
             $existe = Armas::SQL("select * from amc_tipo_armas where situacion =1 AND desc = '$valor'");

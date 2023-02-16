@@ -9,7 +9,7 @@
         <div class="row mb-4 mt-3">
             <div class="col-lg-12">
                 <label for="nombre">Nombre de los Desastre Natural</label>
-                <input type="text" name="desc" id="desc" class="form-control" placeholder="Ingrese nuevo Desastre Natural">
+                <input type="text" name="desc" id="desc" class="form-control" placeholder="Ingrese nuevo Desastre Natural" style="text-transform:uppercase">
             </div>
         </div>
 

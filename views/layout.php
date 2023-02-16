@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="<?= asset('build/js/app.js') ?>"></script>
-    <link rel="shortcut icon" href="<?= asset('images/cit.png') ?>" type="image/x-icon">
+    <link rel="shortcut icon" href="<?= asset('images/emdn.png') ?>" type="image/x-icon">
     <link rel="stylesheet" href="<?= asset('build/styles.css') ?>">
     <title>Medios</title>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark  bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark  bg-dark " style="z-index: 1005">
         
         <div class="container-fluid">
 
@@ -18,7 +18,7 @@
             </button>
             <a class="navbar-brand" href="/medios-comunicacion/">
 
-                <img src="<?= asset('./images/cit.png') ?>" width="35px'" alt="cit" >
+                <img src="<?= asset('./images/emdn.png') ?>" width="35px'" alt="cit" >
 
                 Medios
             </a>
@@ -29,27 +29,83 @@
                         <a class="nav-link" aria-current="page" href="/medios-comunicacion/"><i class="bi bi-house-fill me-2"></i>Inicio</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="/medios-comunicacion/eventos"><i class="bi bi-globe2 me-2"></i>Nuevo evento</a>
+                        <a class="nav-link" aria-current="page" href="/medios-comunicacion/eventos"><i class="bi bi-plus-circle me-2"></i>Nuevo evento</a>
                     </li>
-  
+                    <?php if(isset($_SESSION['AMC_ADMIN'])) : ?>
                     <div class="nav-item dropdown " >
                         <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
-                            <i class="bi bi-gear me-2"></i>Informacion
+                            <i class="bi bi-tools me-2"></i>Mantenimientos
                         </a>
                         <ul class="dropdown-menu  dropdown-menu-dark "id="dropwdownRevision" style="margin: 0;">
                             <!-- <h6 class="dropdown-header">Información</h6> -->
                             <li>
-                                <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/mapas/capturas"><i class="ms-lg-0 ms-2 bi bi-plus-circle me-2"></i>Capturas</a>
+                                <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/armas"><i class="ms-lg-0 ms-2 bi bi-hammer me-2"></i>Armas</a>
                             </li>
                             <li>
-                                <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/mapas/droga"><i class="ms-lg-0 ms-2 bi bi-plus-circle me-2"></i>Drogas</a>
+                                <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/calibres"><i class="ms-lg-0 ms-2 bi bi-hash me-2"></i>Calibres</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/colores"><i class="ms-lg-0 ms-2 bi bi-palette me-2"></i>Colores</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/delitos"><i class="ms-lg-0 ms-2 bi bi-clipboard-x me-2"></i>Delitos</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/desastre_natural"><i class="ms-lg-0 ms-2 bi bi-cloud-lightning-rain me-2"></i>Desastres Naturales</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/fenomeno_natural"><i class="ms-lg-0 ms-2 bi bi-cloudy me-2"></i>Fenomenos Naturales</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/moneda"><i class="ms-lg-0 ms-2 bi bi-coin me-2"></i>Moneda</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/nacionalidad"><i class="ms-lg-0 ms-2 bi bi-person-rolodex me-2"></i>Nacionalidades</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/organizacion"><i class="ms-lg-0 ms-2 bi bi-building me-2"></i>Organizaciones</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/tipo"><i class="ms-lg-0 ms-2 bi bi-arrows-move me-2"></i>Tipos de Movimientos Sociales</a>
+                            </li>
+                          
+                    
+                        
+                        </ul>
+                    </div> 
+                    <div class="nav-item dropdown " >
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                            <i class="bi bi-bar-chart me-2"></i>Estadisticas
+                        </a>
+                        <ul class="dropdown-menu  dropdown-menu-dark "id="dropwdownRevision" style="margin: 0;">
+                            <!-- <h6 class="dropdown-header">Información</h6> -->
+                           
+                            <li>
+                                <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/mapas/capturas"><i class="ms-lg-0 ms-2  fa-solid fa-handcuffs me-2"></i>Capturas</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/mapas/droga"><i class="ms-lg-0 ms-2 fa-solid fa-cannabis me-2"> </i>Drogas</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/mapas/muertes"><i class="ms-lg-0 ms-2 fa-solid fa-skull me-2"></i>Muertes</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/mapas/maras"><i class="ms-lg-0 ms-2 fa-solid fa-user-ninja me-2"></i>Maras</a>
+                            </li>
+                            <li>
+
+                                <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/mapas/migrantes"><i class="ms-lg-0 ms-2 fa-solid fa-users-between-lines me-2"></i>Migrantes</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/mapas/droga"><i class="fas fa-user"></i>Drogas</a>
+
                             </li>
                         
                     
                         
                         </ul>
                     </div> 
-
+                    <?php endif ?>
                 </ul> 
                 <div class="col-lg-1 d-grid mb-lg-0 mb-2">
                     <!-- Ruta relativa desde el archivo donde se incluye menu.php -->
@@ -77,5 +133,6 @@
             </div>
         </div>
     </div>
+    <script src="https://kit.fontawesome.com/ae0feae7c7.js" crossorigin="anonymous"></script>
 </body>
 </html>

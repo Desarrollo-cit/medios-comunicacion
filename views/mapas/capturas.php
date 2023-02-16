@@ -451,8 +451,6 @@ $depto = $depto[0]['desc'];
     </div>
 </div>
 <div class="  container-fluid text-center pt-2 rounded bg-secondary" id="mapa_calor">
-
-
     <div class="row mb-1 justify-content-center">
 
         <div class="  col-lg-12 ">

@@ -20,10 +20,14 @@ const modalDinero = new Modal(document.getElementById('modalDinero'), {})
 const modalDesastres = new Modal(document.getElementById('modalDesastres'), {})
 const modalPistas = new Modal(document.getElementById('modalPistas'), {})
 const modalMovimiento = new Modal(document.getElementById('modalMovimiento'), {})
+const modalDroga = new Modal(document.getElementById('modalDrogas'), {})
+const modalArmas = new Modal(document.getElementById('modalArmas'), {})
 const formInformacion = document.querySelector('#formInformacion')
 const divPills = document.getElementById('divPills')
 const formCaptura = document.querySelector('#formCaptura')
 const formAsesinatos = document.querySelector('#formAsesinatos')
+const formDroga = document.querySelector('#formDroga')
+const formArmas = document.querySelector('#formArmas')
 const formMigrantes = document.querySelector('#formMigrantes')
 const formDinero = document.querySelector('#formDinero')
 const formDesastres = document.querySelector('#formDesastres')
@@ -31,6 +35,8 @@ const formPistas = document.querySelector('#formPistas')
 const formMovimiento = document.querySelector('#formMovimiento')
 const buttonAgregarInputsCaptura = document.getElementById('agregarInputscaptura');
 const buttonQuitarInputsCaptura = document.getElementById('quitarInputscaptura');
+const buttonAgregarInputsCapturaDroga = document.getElementById('agregarInputscapturaDroga');
+const buttonQuitarInputsCapturaDroga = document.getElementById('quitarInputscapturaDroga');
 const buttonAgregarInputsAsesinatos = document.getElementById('agregarInputsAsesinatos');
 const buttonQuitarInputsAsesinatos = document.getElementById('quitarInputsAsesinatos');
 const buttonAgregarInputsMigrantes = document.getElementById('agregarInputsMigrantes');
@@ -40,10 +46,28 @@ const buttonQuitarInputsDinero = document.getElementById('quitarInputsDinero');
 const btnGuardarCaptura = document.getElementById('btnGuardarCaptura');
 const btnModificarCaptura = document.getElementById('btnModificarCaptura');
 const btnBorrarCaptura = document.getElementById('btnBorrarCaptura');
+const btnGuardarCapturaDroga = document.getElementById('btnGuardarCapturaDroga');
+const btnModificarCapturaDroga = document.getElementById('btnModificarCapturaDroga');
+const btnBorrarCapturaDroga = document.getElementById('btnBorrarCapturaDroga');
 
+const buttonAgregarInputsArmas = document.getElementById('agregarInputsArmas');
+const buttonQuitarInputsArmas = document.getElementById('quitarInputsArmas');
+const buttonAgregarInputsMunicion = document.getElementById('agregarInputsMunicion');
+const buttonQuitarInputsMunicion = document.getElementById('quitarInputsMunicion');
 const btnGuardarAsesinatos = document.getElementById('btnGuardarAsesinados');
 const btnModificarAsesinatos = document.getElementById('btnModificarAsesinados');
 const btnBorrarAsesinatos = document.getElementById('btnBorrarAsesinados');
+const btnGuardarArmas = document.getElementById('btnGuardarArmas');
+const btnModificarArmas = document.getElementById('btnModificarArmas');
+const btnBorrarArmas = document.getElementById('btnBorrarArmas');
+const divCapturados = document.getElementById('divCapturados');
+let inputscapturas = 0;
+const divCapturadosDroga = document.getElementById('divCapturadosDroga');
+let inputsDrogas = 0;
+const divArmas = document.getElementById('divArmas');
+let inputsArmas = 0;
+const divMunicion = document.getElementById('divMunicion');
+let inputsMunicion = 0;
 
 const btnGuardarMigrantes = document.getElementById('btnGuardarMigrantes');
 const btnModificarMigrantes = document.getElementById('btnModificarMigrantes');
@@ -275,15 +299,15 @@ document.querySelectorAll('[id^=divTopico]').forEach(d => {
 })
 
 let iconos = {
-    "1": "handcuffs.png",
-    "2": "murder.png",
-    "9": "walk.png",
-    "4": "pills.png",
-    "5": "money-bag.png",
-    "6": "rifle.png",
-    "7": "disaster.png",
-    "8": "dynamite.png",
-    "10": "banner.png",
+    "1": "1.png",
+    "2": "2.png",
+    "9": "9.png",
+    "4": "4.png",
+    "5": "5.png",
+    "6": "6.png",
+    "7": "7.png",
+    "8": "8.png",
+    "10": "10.png",
 }
 
 const buscarEventos = async e => {
@@ -305,7 +329,7 @@ const buscarEventos = async e => {
 
         const respuesta = await fetch(url, config);
         const data = await respuesta.json();
-        // console.log(data);
+        console.log(data);
 
         if (data) {
             data.forEach(p => {
@@ -319,6 +343,7 @@ const buscarEventos = async e => {
                     <p><b>Longitud: </b> ${p.longitud}</p>
                     <p><b>Actividad vinculada: </b> ${p.actividad}</p>
                     <p><b>Tipo de topic: </b> ${p.tipo}</p>
+                    <p><b>Ingresado por: </b> ${p.dependencia}</p>
                 `);
 
                 marker.addEventListener('contextmenu', e => {
@@ -330,6 +355,12 @@ const buscarEventos = async e => {
 
                             case '2':
                             modal2(e, p)
+                            break;
+                            case '4':
+                            modal4(e, p)
+                            break;
+                            case '6':
+                            modal6(e, p)
                             break;
 
                             case '9':
@@ -391,8 +422,7 @@ const crearIcono = (nombre) => {
 }
 
 // MODAL 1
-const divCapturados = document.getElementById('divCapturados');
-let inputscapturas = 0;
+
 const modal1 = async (e, punto) => {
     L.DomEvent.stopPropagation(e);
 
@@ -497,12 +527,36 @@ const modal9 = async (e, punto) => {
 
 
 }
+// MODAL 4
+const modal4 = async (e, punto) => {
+    L.DomEvent.stopPropagation(e);
 
+
+    recargarModalDroga(punto.id)
+
+
+    modalDroga.show();
+
+
+
+}
+const modal6 = async (e, punto) => {
+    L.DomEvent.stopPropagation(e);
+
+
+    recargarModalArmas(punto.id)
+
+
+    modalArmas.show();
+
+
+
+}
 const recargarModalCaptura = async (id) => {
     formCaptura.reset()
     formCaptura.topico.value = id
     while (inputscapturas > 0) {
-        quitarInputsCaptura();
+        quitarInputsCaptura(0, divCapturados);
     }
     try {
         const url = `/medios-comunicacion/API/capturas/buscar?topico=${id}`
@@ -525,7 +579,7 @@ const recargarModalCaptura = async (id) => {
         if (capturados) {
             // console.log(data);
             capturados.forEach(c => {
-                agregarInputsCaptura(null, c.id, c.nombre, c.edad, c.nacionalidad, c.sexo, c.delito, c.vinculo, true)
+                agregarInputsCaptura(null, c.id, c.nombre, c.edad, c.nacionalidad, c.sexo, c.delito, c.vinculo, true, 0, divCapturados)
             })
 
         } 
@@ -968,12 +1022,159 @@ const recargarModalMovimiento = async (id) => {
 }
 
 
+const recargarModalDroga = async (id) => {
+    formDroga.reset()
+    formDroga.topico.value = id
+    while (inputsDrogas > 0) {
+        console.log(inputsDrogas);
+        quitarInputsCaptura(1, divCapturadosDroga);
+    }
+    try {
+        const url = `/medios-comunicacion/API/incautacion/buscar?topico=${id}`
+        const headers = new Headers();
+        headers.append("X-Requested-With", "fetch");
+
+        const config = {
+            method: 'GET',
+            headers
+        }
+
+        const respuesta = await fetch(url, config);
+        const data = await respuesta.json();
+        console.log(data);
+        const { evento, incautacion , capturados } = data;
+
+    //     // if(captura){
+        evento && tinymce.get('info_incautacion').setContent(evento.info)
+
+        formDroga.cantidad.value = incautacion.cantidad
+        formDroga.cantidad_plantacion.value = incautacion.cantidad_plantacion
+        formDroga.matricula.value = incautacion.matricula
+        formDroga.tipo_droga_plantacion.value = incautacion.tip_droga_plantacion
+        formDroga.tipo_droga.value = incautacion.tipo_droga
+        formDroga.tipo_transporte.value = incautacion.tipo_transporte
+        formDroga.transporte.value = incautacion.transporte
+
+    //     // }
+        if (capturados) {
+            // console.log(data);
+            capturados.forEach(c => {
+                agregarInputsCaptura(null, c.id, c.nombre, c.edad, c.nacionalidad, c.sexo, c.delito, c.vinculo, true, 1, divCapturadosDroga)
+            })
+
+        } 
+
+        if (capturados.length > 0 && evento && incautacion) {
+        
+           
+            btnGuardarCapturaDroga.disabled = true
+            btnModificarCapturaDroga.disabled = false
+
+
+            btnGuardarCapturaDroga.parentElement.style.display = 'none'
+            btnModificarCapturaDroga.parentElement.style.display = ''
+            
+        } else {
+            btnGuardarCapturaDroga.disabled = false
+            btnModificarCapturaDroga.disabled = true
+            
+            btnGuardarCapturaDroga.parentElement.style.display = ''
+            btnModificarCapturaDroga.parentElement.style.display = 'none'
+
+        }
+
+    } catch (e) {
+        console.log(e);
+    }
+
+    modalDroga.show();
+
+
+
+}
+const recargarModalArmas = async (id) => {
+    formArmas.reset()
+    formArmas.topico.value = id
+    while (inputsArmas > 0) {
+        quitarInputsArmas();
+    }
+    while (inputsMunicion > 0) {
+        quitarInputsMunicion();
+    }
+    try {
+        const url = `/medios-comunicacion/API/incautacion_armas/buscar?topico=${id}`
+        const headers = new Headers();
+        headers.append("X-Requested-With", "fetch");
+
+        const config = {
+            method: 'GET',
+            headers
+        }
+
+        const respuesta = await fetch(url, config);
+        const data = await respuesta.json();
+        console.log(data);
+        const { evento, armas , municion } = data;
+
+        evento && tinymce.get('info_incautacion_armas').setContent(evento.info)
+
+        if (armas) {
+            // console.log(data);
+            armas.forEach(arma => {
+                agregarInputsArmas(null, arma.id, arma.cantidad, arma.tipo_arma, arma.calibre, true)
+            })
+
+        } 
+        if (municion) {
+            // console.log(data);
+            municion.forEach(municion => {
+                agregarInputsMunicion(null, municion.id, municion.cantidad,municion.calibre, true)
+            })
+
+        } 
+
+        if (armas.length > 0 && evento && municion.length > 0) {
+        
+           
+            btnGuardarArmas.disabled = true
+            btnModificarArmas.disabled = false
+
+
+            btnGuardarArmas.parentElement.style.display = 'none'
+            btnModificarArmas.parentElement.style.display = ''
+            
+        } else {
+            btnGuardarArmas.disabled = false
+            btnModificarArmas.disabled = true
+            
+            btnGuardarArmas.parentElement.style.display = ''
+            btnModificarArmas.parentElement.style.display = 'none'
+
+        }
+
+    } catch (e) {
+        console.log(e);
+    }
 
 
 
 
-const agregarInputsCaptura = async (e, id = '', nombre = '', edad = '', nacionalidad = '', sexo = '', delito = '', vinculo = "", boton = false) => {
-    inputscapturas++;
+}
+
+
+
+const agregarInputsCaptura = async (e, id = '', nombre = '', edad = '', nacionalidad = '', sexo = '', delito = '', vinculo = "", boton = false, contador , divInputs) => {
+    let cantidad = 0
+    switch (contador) {
+        case 0:
+            cantidad = ++inputscapturas;
+            
+            break;
+        case 1:
+            cantidad = ++inputsDrogas;
+            
+            break;
+    }
     // console.log(inputscapturas);
     const fragment = document.createDocumentFragment();
     const divCuadro = document.createElement('div');
@@ -1073,7 +1274,7 @@ const agregarInputsCaptura = async (e, id = '', nombre = '', edad = '', nacional
     select.name = `delito[]`
     select.id = `delito[]`
     select.required = true;
-    label1.innerText = `Persona ${inputscapturas}`
+    label1.innerText = `Persona ${cantidad}`
     label1.htmlFor = `nombre[]`
     label2.innerText = `Edad `
     label2.htmlFor = `edad[]`
@@ -1163,7 +1364,7 @@ const agregarInputsCaptura = async (e, id = '', nombre = '', edad = '', nacional
     divRow1.appendChild(divCol4)
     if (boton) {
         divRow1.appendChild(divColBoton)
-        buttonEliminar.addEventListener('click', (e) => eliminarCapturado(e, id))
+        buttonEliminar.addEventListener('click', (e) => eliminarCapturado(e, id, contador))
     }
     divRow2.appendChild(divCol3)
     divRow2.appendChild(divCol5)
@@ -1174,7 +1375,7 @@ const agregarInputsCaptura = async (e, id = '', nombre = '', edad = '', nacional
     fragment.appendChild(divRow)
 
 
-    divCapturados.appendChild(fragment)
+    divInputs.appendChild(fragment)
 }
 const agregarInputsAsesinatos = async (e, id = '', nombre = '', edad = '',  sexo = '',boton = false) => {
     inputsasesinados++;
@@ -1918,13 +2119,249 @@ const agregarInputsDinero = async (e, id = '', cantidad = '', moneda = '',  conv
 
 //     divDesastres.appendChild(fragment)
 // }
+const agregarInputsArmas = async (e, id = '', cantidad = '', tipo = '',  calibre = '',boton = false) => {
+    inputsArmas++;
+    // console.log(inputscapturas);
+    const fragment = document.createDocumentFragment();
+    const divCuadro = document.createElement('div');
+    const divExterno = document.createElement('div');
+    const divRow = document.createElement('div');
+   
+    const divColCantidad = document.createElement('div');
+    const divColTipo = document.createElement('div');
+    const divColCalibre = document.createElement('div');
+    const divColBoton = document.createElement('div');
+    
+    const inputIdRow = document.createElement('input');
+    const inputCantidad = document.createElement('input')
+    const selectTipo = document.createElement('select')
+    const selectCalibre = document.createElement('select')
+    const label1 = document.createElement('label')
+    const label2 = document.createElement('label')
+    const label3 = document.createElement('label')
+    const buttonEliminar = document.createElement('button')
+
+    divExterno.classList.add("row", "justify-content-center");
+    divRow.classList.add("row", "justify-content-start");
+    divCuadro.classList.add("col", "border", "rounded", "mb-2", "bg-light", 'p-3');
+    divColCantidad.classList.add("col-lg-3");
+    divColTipo.classList.add("col-lg-3");
+    divColCalibre.classList.add("col-lg-3");
+    divColBoton.classList.add("col-lg-3", 'd-flex', 'flex-column', 'justify-content-end');
+    inputIdRow.name = `id_registro[]`
+    inputIdRow.id = `id_registro[]`
+    inputIdRow.type = 'hidden'
+    inputCantidad.classList.add("form-control")
+    inputCantidad.name = `cantidad[]`
+    inputCantidad.id = `cantidad[]`
+    inputCantidad.type = 'number'
+    inputCantidad.required = true;
+
+    selectTipo.classList.add("form-control")
+    selectTipo.name = `tipo[]`
+    selectTipo.id = `tipo[]`
+    selectTipo.required = true;
+    
+    selectCalibre.classList.add("form-control")
+    selectCalibre.name = `calibre[]`
+    selectCalibre.id = `calibre[]`
+    selectCalibre.required = true;
+
+    label1.innerText = `Tipo arma ${inputsArmas}`
+    label2.innerText = `Calibre arma ${inputsArmas}`
+    label3.innerText = `Cantidad`
+
+    buttonEliminar.classList.add('btn', 'btn-danger', 'w-100')
+    buttonEliminar.innerHTML = "<i class='bi bi-x-circle me-2'></i>Eliminar"
+    buttonEliminar.type = 'button'
+
+    divColBoton.appendChild(buttonEliminar);
+
+    const optionVacio1 = document.createElement('option')
+    optionVacio1.value = ""
+    optionVacio1.innerText = "SELECCIONE..."
+
+    const optionVacio2 = optionVacio1.cloneNode(true)
+
+    selectTipo.appendChild(optionVacio1)
+    selectCalibre.appendChild(optionVacio2)
+
+    const headers = new Headers();
+    headers.append("X-Requested-With", "fetch");
 
 
-const quitarInputsCaptura = () => {
+    const urlTipos = `/medios-comunicacion/API/armas/buscar`
+    const configTipos = { method: "GET", headers }
+    const responseTipos = await fetch(urlTipos, configTipos);
+    const tipos = await responseTipos.json()
 
-    if (inputscapturas > 0) {
-        divCapturados.removeChild(divCapturados.lastElementChild);
-        inputscapturas--;
+    tipos.forEach(tipo => {
+        const option = document.createElement('option')
+        option.value = tipo.id
+        option.innerText = `${tipo.desc} `
+        selectTipo.appendChild(option)
+    })
+    
+    const urlCalibres = `/medios-comunicacion/API/calibres/buscar`
+    const configCalibres = { method: "GET", headers }
+    const responseCalibres = await fetch(urlCalibres, configCalibres);
+    const calibres = await responseCalibres.json()
+
+    calibres.forEach(tipo => {
+        const option = document.createElement('option')
+        option.value = tipo.id
+        option.innerText = `${tipo.desc} `
+        selectCalibre.appendChild(option)
+    })
+
+
+    inputCantidad.value = cantidad;
+    inputIdRow.value = id;
+    selectTipo.value = tipo;
+    selectCalibre.value = calibre;
+
+
+    divColTipo.appendChild(inputIdRow)
+    divColTipo.appendChild(label1)
+    divColTipo.appendChild(selectTipo)
+    divColCalibre.appendChild(label2)
+    divColCalibre.appendChild(selectCalibre)
+    divColCantidad.appendChild(label3)
+    divColCantidad.appendChild(inputCantidad)
+
+    divRow.appendChild(divColTipo)
+    divRow.appendChild(divColCalibre)
+    divRow.appendChild(divColCantidad)
+    if (boton) {
+        divRow.appendChild(divColBoton)
+        buttonEliminar.addEventListener('click', (e) => eliminarArmamento(e, id))
+    }
+
+    divCuadro.appendChild(divRow)
+    divExterno.appendChild(divCuadro)
+    fragment.appendChild(divExterno)
+
+
+    divArmas.appendChild(fragment)
+}
+
+const agregarInputsMunicion = async (e, id = '', cantidad = '', calibre = '',boton = false) => {
+    inputsMunicion++;
+    // console.log(inputscapturas);
+    const fragment = document.createDocumentFragment();
+    const divCuadro = document.createElement('div');
+    const divExterno = document.createElement('div');
+    const divRow = document.createElement('div');
+   
+    const divColCantidad = document.createElement('div');
+    const divColCalibre = document.createElement('div');
+    const divColBoton = document.createElement('div');
+    
+    const inputIdRow = document.createElement('input');
+    const inputCantidad = document.createElement('input')
+    const selectCalibre = document.createElement('select')
+    const label1 = document.createElement('label')
+    const label2 = document.createElement('label')
+    const buttonEliminar = document.createElement('button')
+
+    divExterno.classList.add("row", "justify-content-center");
+    divRow.classList.add("row", "justify-content-start");
+    divCuadro.classList.add("col", "border", "rounded", "mb-2", "bg-light", 'p-3');
+    divColCantidad.classList.add("col-lg-4");
+    divColCalibre.classList.add("col-lg-5");
+    divColBoton.classList.add("col-lg-3", 'd-flex', 'flex-column', 'justify-content-end');
+    inputIdRow.name = `id_registro_municion[]`
+    inputIdRow.id = `id_registro_municion[]`
+    inputIdRow.type = 'hidden'
+    inputCantidad.classList.add("form-control")
+    inputCantidad.name = `cantidad_municion[]`
+    inputCantidad.id = `cantidad_municion[]`
+    inputCantidad.type = 'number'
+    inputCantidad.required = true;
+   
+    selectCalibre.classList.add("form-control")
+    selectCalibre.name = `calibre_municion[]`
+    selectCalibre.id = `calibre_municion[]`
+    selectCalibre.required = true;
+
+    label1.innerText = `Calibre arma ${inputsMunicion}`
+    label2.innerText = `Cantidad `
+
+
+    buttonEliminar.classList.add('btn', 'btn-danger', 'w-100')
+    buttonEliminar.innerHTML = "<i class='bi bi-x-circle me-2'></i>Eliminar"
+    buttonEliminar.type = 'button'
+
+    divColBoton.appendChild(buttonEliminar);
+
+    const optionVacio2 = document.createElement('option')
+    optionVacio2.value = ""
+    optionVacio2.innerText = "SELECCIONE..."
+
+ 
+
+
+    selectCalibre.appendChild(optionVacio2)
+
+    const headers = new Headers();
+    headers.append("X-Requested-With", "fetch");
+
+    const urlCalibres = `/medios-comunicacion/API/calibres/buscar`
+    const configCalibres = { method: "GET", headers }
+    const responseCalibres = await fetch(urlCalibres, configCalibres);
+    const calibres = await responseCalibres.json()
+
+    calibres.forEach(tipo => {
+        const option = document.createElement('option')
+        option.value = tipo.id
+        option.innerText = `${tipo.desc} `
+        selectCalibre.appendChild(option)
+    })
+
+
+    inputCantidad.value = cantidad;
+    inputIdRow.value = id;
+    selectCalibre.value = calibre;
+
+
+
+    divColCalibre.appendChild(inputIdRow)
+    divColCalibre.appendChild(label1)
+    divColCalibre.appendChild(selectCalibre)
+    divColCantidad.appendChild(label2)
+    divColCantidad.appendChild(inputCantidad)
+
+
+    divRow.appendChild(divColCalibre)
+    divRow.appendChild(divColCantidad)
+    if (boton) {
+        divRow.appendChild(divColBoton)
+        buttonEliminar.addEventListener('click', (e) => eliminarMunicion(e, id))
+    }
+
+    divCuadro.appendChild(divRow)
+    divExterno.appendChild(divCuadro)
+    fragment.appendChild(divExterno)
+
+
+    divMunicion.appendChild(fragment)
+}
+
+
+const quitarInputsCaptura = (contador, divInputs) => {
+
+    if (inputscapturas > 0 || inputsDrogas > 0) {
+        divInputs.removeChild(divInputs.lastElementChild);
+        switch (contador) {
+            case 0:
+                inputscapturas--;
+                
+                break;
+            case 1:
+                inputsDrogas--;
+                
+                break;
+        }
 
     } else {
         Toast.fire({
@@ -1939,6 +2376,33 @@ const quitarInputsAsesinatos = () => {
     if (inputsasesinados > 0) {
         divAsesinados.removeChild(divAsesinados.lastElementChild);
         inputsasesinados--;
+
+    } else {
+        Toast.fire({
+            icon: 'warning',
+            title: 'No puede realizar esta acción'
+        });
+    }
+}
+
+const quitarInputsArmas = () => {
+
+    if (inputsArmas > 0) {
+        divArmas.removeChild(divArmas.lastElementChild);
+        inputsArmas--;
+
+    } else {
+        Toast.fire({
+            icon: 'warning',
+            title: 'No puede realizar esta acción'
+        });
+    }
+}
+const quitarInputsMunicion = () => {
+
+    if (inputsMunicion > 0) {
+        divMunicion.removeChild(divMunicion.lastElementChild);
+        inputsMunicion--;
 
     } else {
         Toast.fire({
@@ -2013,6 +2477,151 @@ const guardarCaptura = async e => {
                 case 2:
                     icon = "warning"
                     formCaptura.reset();
+
+                    break;
+                case 3:
+                    icon = "error"
+
+                    break;
+                case 4:
+                    icon = "error"
+                    console.log(detalle)
+
+                    break;
+
+                default:
+                    break;
+            }
+
+            Toast.fire({
+                icon: icon,
+                title: mensaje,
+            })
+
+        } catch (error) {
+            console.log(error);
+        }
+
+    } else {
+        Toast.fire({
+            icon: 'warning',
+            title: 'Debe llenar todos los campos'
+        });
+    }
+
+}
+
+const guardarIncautacion = async e => {
+    e.preventDefault();
+
+    let info = tinymce.get('info_incautacion').getContent()
+    // console.log(info);
+    if (validarFormulario(formDroga, ['id_per[]', 'info_incautacion']) && info != '') {
+
+        // console.log('hola');
+        try {
+
+            const url = '/medios-comunicacion/API/incautacion/guardar'
+
+            const body = new FormData(formDroga);
+            body.append('info', info)
+            const headers = new Headers();
+            headers.append("X-Requested-With", "fetch");
+
+            const config = {
+                method: 'POST',
+                headers,
+                body
+            }
+
+            const respuesta = await fetch(url, config);
+            const data = await respuesta.json();
+
+            console.log(data);
+
+            const { mensaje, codigo, detalle } = data;
+            // const resultado = data.resultado;
+            let icon = "";
+            switch (codigo) {
+                case 1:
+                    icon = "success"
+                    recargarModalDroga(formDroga.topico.value)
+                    break;
+                case 2:
+                    icon = "warning"
+                    formDroga.reset();
+
+                    break;
+                case 3:
+                    icon = "error"
+
+                    break;
+                case 4:
+                    icon = "error"
+                    console.log(detalle)
+
+                    break;
+
+                default:
+                    break;
+            }
+
+            Toast.fire({
+                icon: icon,
+                title: mensaje,
+            })
+
+        } catch (error) {
+            console.log(error);
+        }
+
+    } else {
+        Toast.fire({
+            icon: 'warning',
+            title: 'Debe llenar todos los campos'
+        });
+    }
+
+}
+const guardarIncautacionArmamento = async e => {
+    e.preventDefault();
+
+    let info = tinymce.get('info_incautacion_armas').getContent()
+    console.log(info);
+    if (validarFormulario(formArmas, ['id_registro[]','id_registro_municion[]', 'info_incautacion_armas']) && info != '') {
+
+        // console.log('hola');
+        try {
+
+            const url = '/medios-comunicacion/API/incautacion_armas/guardar'
+
+            const body = new FormData(formArmas);
+            body.append('info', info)
+            const headers = new Headers();
+            headers.append("X-Requested-With", "fetch");
+
+            const config = {
+                method: 'POST',
+                headers,
+                body
+            }
+
+            const respuesta = await fetch(url, config);
+            const data = await respuesta.json();
+
+            console.log(data);
+
+            const { mensaje, codigo, detalle } = data;
+            // const resultado = data.resultado;
+            let icon = "";
+            switch (codigo) {
+                case 1:
+                    icon = "success"
+                    recargarModalArmas(formArmas.topico.value)
+                    break;
+                case 2:
+                    icon = "warning"
+                    formArmas.reset();
 
                     break;
                 case 3:
@@ -2518,7 +3127,7 @@ const guardarMovimiento= async e => {
 
 
 
-const eliminarCapturado = async (e, id) => {
+const eliminarCapturado = async (e, id, contador) => {
     Swal.fire({
         title: 'Confirmación',
         text: "¿Esta seguro que desea eliminar este registro?",
@@ -2555,11 +3164,33 @@ const eliminarCapturado = async (e, id) => {
                 switch (codigo) {
                     case 1:
                         icon = "success"
-                        recargarModalCaptura(formCaptura.topico.value)
+                        switch (contador) {
+                            case 0:
+                                recargarModalCaptura(formCaptura.topico.value)
+                                
+                                break;
+                            case 1 :
+                                recargarModalDroga(formDroga.topico.value)
+                                break;
+                            default:
+                                break;
+                        }
                         break;
                     case 2:
                         icon = "warning"
-                        formCaptura.reset();
+                        switch (contador) {
+                            case 0:
+                                    recargarModalCaptura(formCaptura.topico.value)
+                                    formCaptura.reset();
+                                
+                                break;
+                                case 1 :
+                                    recargarModalDroga(formDroga.topico.value)
+                                    formDroga.reset();
+                                break;
+                            default:
+                                break;
+                        }
     
                         break;
                     case 3:
@@ -2955,7 +3586,19 @@ const eliminarMigrantes = async (e) => {
             try {
 
                 const url = '/medios-comunicacion/API/migrantes/migrantes/eliminar'
-    
+    const eliminarIncautacion = async (e) => {
+    Swal.fire({
+        title: 'Confirmación',
+        text: "¿Esta seguro que desea eliminar esta incautación?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, Eliminar'
+    }).then( async(result) => {
+        if (result.isConfirmed) {
+            try {
+
                 const body = new FormData();
                 body.append('topic', formMigrantes.topic.value)
                 const headers = new Headers();
@@ -3294,6 +3937,63 @@ const eliminarMovimiento = async (e) => {
     })
 }
 
+                const url = '/medios-comunicacion/API/incautacion/eliminar'
+    
+                const body = new FormData();
+                body.append('topico', formDroga.topico.value)
+                const headers = new Headers();
+                headers.append("X-Requested-With", "fetch");
+    
+                const config = {
+                    method: 'POST',
+                    headers,
+                    body
+                }
+    
+                const respuesta = await fetch(url, config);
+                const data = await respuesta.json();
+    
+                console.log(data);
+                // return 
+                const { mensaje, codigo, detalle } = data;
+                // const resultado = data.resultado;
+                let icon = "";
+                switch (codigo) {
+                    case 1:
+                        icon = "success"
+                        modalDroga.hide()
+                        buscarEventos()
+                        break;
+                    case 2:
+                        icon = "warning"
+                        formDroga.reset();
+    
+                        break;
+                    case 3:
+                        icon = "error"
+    
+                        break;
+                    case 4:
+                        icon = "error"
+                        console.log(detalle)
+    
+                        break;
+    
+                    default:
+                        break;
+                }
+    
+                Toast.fire({
+                    icon: icon,
+                    title: mensaje,
+                })
+    
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    })
+}
 
 const modificarCaptura = async e => {
     e.preventDefault();
@@ -3329,6 +4029,82 @@ const modificarCaptura = async e => {
                 case 1:
                     icon = "success"
                     recargarModalCaptura(formCaptura.topico.value)
+                    break;
+                case 2:
+                    icon = "warning"
+                    formCaptura.reset();
+
+                    break;
+                case 3:
+                    icon = "error"
+
+                    break;
+                case 4:
+                    icon = "error"
+                    console.log(detalle)
+
+                    break;
+
+                default:
+                    break;
+            }
+
+            Toast.fire({
+                icon: icon,
+                title: mensaje,
+            })
+
+        } catch (error) {
+            console.log(error);
+        }
+
+    } else {
+        Toast.fire({
+            icon: 'warning',
+            title: 'Debe llenar todos los campos'
+        });
+    }
+
+}
+const modificarIncautacion = async e => {
+    e.preventDefault();
+
+    // alert("hola")
+    // return
+
+    let info = tinymce.get('info_incautacion').getContent()
+        
+    // console.log(info);
+    if (validarFormulario(formDroga, ['id_per[]', 'info_incautacion']) && info != '') {
+
+        // console.log('hola');
+        try {
+
+            const url = '/medios-comunicacion/API/incautacion/modificar'
+
+            const body = new FormData(formDroga);
+            body.append('info', info)
+            const headers = new Headers();
+            headers.append("X-Requested-With", "fetch");
+
+            const config = {
+                method: 'POST',
+                headers,
+                body
+            }
+
+            const respuesta = await fetch(url, config);
+            const data = await respuesta.json();
+
+            console.log(data);
+            // return 
+            const { mensaje, codigo, detalle } = data;
+            // const resultado = data.resultado;
+            let icon = "";
+            switch (codigo) {
+                case 1:
+                    icon = "success"
+                    recargarModalArmas(formDroga.topico.value)
                     break;
                 case 2:
                     icon = "warning"
@@ -3440,7 +4216,6 @@ const modificarAsesinato = async e => {
 }
 const modificarMigrantes = async e => {
     e.preventDefault();
-
     let info = tinymce.get('info3').getContent()
     if (validarFormulario(formMigrantes, ['id_mig[]', 'info3']) && info != '') {
 
@@ -3811,27 +4586,317 @@ const multiplicarMoneda = async e => {
 
 
 }
+
+const modificarIncautacionArmamento = async e => {
+    e.preventDefault();
+
+    let info = tinymce.get('info_incautacion_armas').getContent()
+    // console.log(info);
+    if (validarFormulario(formArmas, ['id_registro[]','id_registro_municion[]', 'info_incautacion_armas']) && info != '') {
+
+        // console.log('hola');
+        try {
+
+            const url = '/medios-comunicacion/API/incautacion_armas/modificar'
+
+            const body = new FormData(formArmas);
+            body.append('info', info)
+            const headers = new Headers();
+            headers.append("X-Requested-With", "fetch");
+
+            const config = {
+                method: 'POST',
+                headers,
+                body
+            }
+
+            const respuesta = await fetch(url, config);
+            const data = await respuesta.json();
+
+            console.log(data);
+
+            const { mensaje, codigo, detalle } = data;
+            // const resultado = data.resultado;
+            let icon = "";
+            switch (codigo) {
+                case 1:
+                    icon = "success"
+                    recargarModalArmas(formArmas.topico.value)
+                    break;
+                case 2:
+                    icon = "warning"
+                    formArmas.reset();
+
+                    break;
+                case 3:
+                    icon = "error"
+
+                    break;
+                case 4:
+                    icon = "error"
+                    console.log(detalle)
+
+                    break;
+
+                default:
+                    break;
+            }
+
+            Toast.fire({
+                icon: icon,
+                title: mensaje,
+            })
+
+        } catch (error) {
+            console.log(error);
+        }
+
+    } else {
+        Toast.fire({
+            icon: 'warning',
+            title: 'Debe llenar todos los campos'
+        });
+    }
+
+}
+const eliminarArmamento = async (e, id) => {
+    Swal.fire({
+        title: 'Confirmación',
+        text: "¿Esta seguro que desea eliminar este registro?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, Eliminar'
+    }).then( async(result) => {
+        if (result.isConfirmed) {
+            try {
+
+                const url = '/medios-comunicacion/API/incautacion_armas/armas/eliminar'
+    
+                const body = new FormData();
+                body.append('id', id)
+                const headers = new Headers();
+                headers.append("X-Requested-With", "fetch");
+    
+                const config = {
+                    method: 'POST',
+                    headers,
+                    body
+                }
+    
+                const respuesta = await fetch(url, config);
+                const data = await respuesta.json();
+    
+                // console.log(data);
+                // return 
+                const { mensaje, codigo, detalle } = data;
+                // const resultado = data.resultado;
+                let icon = "";
+                switch (codigo) {
+                    case 1:
+                        icon = "success"
+                        recargarModalArmas(formArmas.topico.value)
+                        break;
+                    case 2:
+                        icon = "warning"
+                        formArmas.reset();
+    
+                        break;
+                    case 3:
+                        icon = "error"
+    
+                        break;
+                    case 4:
+                        icon = "error"
+                        console.log(detalle)
+    
+                        break;
+    
+                    default:
+                        break;
+                }
+    
+                Toast.fire({
+                    icon: icon,
+                    title: mensaje,
+                })
+    
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    })
+}
+const eliminarMunicion = async (e, id) => {
+    Swal.fire({
+        title: 'Confirmación',
+        text: "¿Esta seguro que desea eliminar este registro?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, Eliminar'
+    }).then( async(result) => {
+        if (result.isConfirmed) {
+            try {
+
+                const url = '/medios-comunicacion/API/incautacion_armas/municion/eliminar'
+    
+                const body = new FormData();
+                body.append('id', id)
+                const headers = new Headers();
+                headers.append("X-Requested-With", "fetch");
+    
+                const config = {
+                    method: 'POST',
+                    headers,
+                    body
+                }
+    
+                const respuesta = await fetch(url, config);
+                const data = await respuesta.json();
+    
+                // console.log(data);
+                // return 
+                const { mensaje, codigo, detalle } = data;
+                // const resultado = data.resultado;
+                let icon = "";
+                switch (codigo) {
+                    case 1:
+                        icon = "success"
+                        recargarModalArmas(formArmas.topico.value)
+                        break;
+                    case 2:
+                        icon = "warning"
+                        formArmas.reset();
+    
+                        break;
+                    case 3:
+                        icon = "error"
+    
+                        break;
+                    case 4:
+                        icon = "error"
+                        console.log(detalle)
+    
+                        break;
+    
+                    default:
+                        break;
+                }
+    
+                Toast.fire({
+                    icon: icon,
+                    title: mensaje,
+                })
+    
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    })
+}
+
+const eliminarIncautacionArmamento = async (e) => {
+    Swal.fire({
+        title: 'Confirmación',
+        text: "¿Esta seguro que desea eliminar esta incautación?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, Eliminar'
+    }).then( async(result) => {
+        if (result.isConfirmed) {
+            try {
+
+                const url = '/medios-comunicacion/API/incautacion_armas/eliminar'
+    
+                const body = new FormData();
+                body.append('topico', formArmas.topico.value)
+                const headers = new Headers();
+                headers.append("X-Requested-With", "fetch");
+    
+                const config = {
+                    method: 'POST',
+                    headers,
+                    body
+                }
+    
+                const respuesta = await fetch(url, config);
+                const data = await respuesta.json();
+    
+                console.log(data);
+                // return 
+                const { mensaje, codigo, detalle } = data;
+                // const resultado = data.resultado;
+                let icon = "";
+                switch (codigo) {
+                    case 1:
+                        icon = "success"
+                        modalArmas.hide()
+                        buscarEventos()
+                        break;
+                    case 2:
+                        icon = "warning"
+                        formCaptura.reset();
+    
+                        break;
+                    case 3:
+                        icon = "error"
+    
+                        break;
+                    case 4:
+                        icon = "error"
+                        console.log(detalle)
+    
+                        break;
+    
+                    default:
+                        break;
+                }
+    
+                Toast.fire({
+                    icon: icon,
+                    title: mensaje,
+                })
+    
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    })
+}
+
+
 map.on('click', abreModal)
 formInformacion.departamento.addEventListener('change', buscarMunicipio)
 formInformacion.addEventListener('submit', guardarEvento)
 inicioInput.addEventListener('change', buscarEventos)
 finInput.addEventListener('change', buscarEventos)
 btnModificarCaptura.addEventListener('click', modificarCaptura)
+btnModificarCapturaDroga.addEventListener('click', modificarIncautacion)
 btnModificarAsesinatos.addEventListener('click', modificarAsesinato)
 btnModificarMigrantes.addEventListener('click', modificarMigrantes)
 btnModificarDinero.addEventListener('click', modificarDinero)
 btnModificarDesastres.addEventListener('click', modificarDesastres)
 btnModificarPistas.addEventListener('click', modificarPistas)
 btnModificarMovimiento.addEventListener('click', modificarMovimiento)
+btnModificarArmas.addEventListener('click', modificarIncautacionArmamento)
 btnBorrarCaptura.addEventListener('click', eliminarCaptura );
+btnBorrarCapturaDroga.addEventListener('click', eliminarIncautacion );
 btnBorrarAsesinatos.addEventListener('click', eliminarAsesinato );
 btnBorrarMigrantes.addEventListener('click', eliminarMigrantes );
 btnBorrarDinero.addEventListener('click', eliminarDineros );
 btnBorrarDesastres.addEventListener('click', eliminarDesastre );
 btnBorrarPistas.addEventListener('click', eliminarPistas );
 btnBorrarMovimiento.addEventListener('click', eliminarMovimiento );
-buttonAgregarInputsCaptura.addEventListener('click', agregarInputsCaptura)
-buttonQuitarInputsCaptura.addEventListener('click', quitarInputsCaptura)
+btnBorrarArmas.addEventListener('click', eliminarIncautacionArmamento )
+buttonAgregarInputsCaptura.addEventListener('click',e => agregarInputsCaptura(e,'','','','','','','',false, 0, divCapturados))
+buttonQuitarInputsCaptura.addEventListener('click', e => quitarInputsCaptura(0, divCapturados))
+buttonAgregarInputsCapturaDroga.addEventListener('click',e => agregarInputsCaptura(e,'','','','','','','',false, 1, divCapturadosDroga))
+buttonQuitarInputsCapturaDroga.addEventListener('click', e => quitarInputsCaptura(1, divCapturadosDroga))
 buttonAgregarInputsAsesinatos.addEventListener('click', agregarInputsAsesinatos)
 buttonQuitarInputsAsesinatos.addEventListener('click', quitarInputsAsesinatos)
 buttonAgregarInputsMigrantes.addEventListener('click', agregarInputsMigrantes)
@@ -3839,6 +4904,10 @@ buttonQuitarInputsMigrantes.addEventListener('click', quitarInputsMigrantes)
 buttonAgregarInputsDinero.addEventListener('click', agregarInputsDinero)
 buttonQuitarInputsDinero.addEventListener('click', quitarInputsDinero)
 
+buttonAgregarInputsArmas.addEventListener('click', agregarInputsArmas)
+buttonQuitarInputsArmas.addEventListener('click', quitarInputsArmas)
+buttonAgregarInputsMunicion.addEventListener('click', agregarInputsMunicion)
+buttonQuitarInputsMunicion.addEventListener('click', quitarInputsMunicion)
 formCaptura.addEventListener('submit', guardarCaptura)
 formAsesinatos.addEventListener('submit',guardarAsesinatos)
 formMigrantes.addEventListener('submit',guardarMigrantes)
@@ -3846,3 +4915,6 @@ formDinero.addEventListener('submit',guardarDinero)
 formDesastres.addEventListener('submit',guardarDesastres)
 formPistas.addEventListener('submit',guardarPistas)
 formMovimiento.addEventListener('submit',guardarMovimiento)
+
+formDroga.addEventListener('submit', guardarIncautacion)
+formArmas.addEventListener('submit', guardarIncautacionArmamento)

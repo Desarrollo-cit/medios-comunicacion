@@ -19,6 +19,10 @@ module.exports = {
     'js/eventos/index' : './src/js/eventos/index.js',
     'js/mapas/infoCapturas' : './src/js/mapas/infoCapturas.js',
     'js/mapas/infoDroga' : './src/js/mapas/infoDroga.js',
+    'js/mapas/infoMaras' : './src/js/mapas/infoMaras.js',
+    'js/mapas/IndexMuertes' : './src/js/mapas/IndexMuertes.js',
+    'js/mapas/infoMigrantes' : './src/js/mapas/infoMigrantes.js',
+    
   },
   output: {
     filename: '[name].js',
