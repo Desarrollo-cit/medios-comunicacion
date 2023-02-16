@@ -23,7 +23,7 @@ class Capturados extends ActiveRecord{
         $this->topico = $args['topico'] ?? '';
         $this->nacionalidad = $args['nacionalidad'] ?? '';
         $this->sexo = $args['sexo'] ?? '';
-        $this->nombre = $args['nombre'] ?? '';
+        $this->nombre = utf8_decode($args['nombre']) ?? '';
         $this->edad = $args['edad'] ?? '';
         $this->delito = $args['delito'] ?? '';
         $this->vinculo = $args['vinculo'] ?? '';

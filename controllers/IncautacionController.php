@@ -1,24 +1,35 @@
 <?php
-
 namespace Controllers;
 
-use Model\Captura;
 use Model\Capturados;
 use Model\Evento;
+use Model\Incautacion;
 use MVC\Router;
-use Exception;
 
-class CapturaController
+class IncautacionController
 {
+
     public static function guardar(){
         getHeadersApi();
-        
-        
+        // echo json_encode($_POST)   ;
         try {
 
             $evento = Evento::find($_POST['topico']);
-            $evento->info = $_POST['info'];
+            $evento->info = preg_replace("[\n|\r|\n\r]", "",$_POST['info']);
             $evento->guardar();
+
+            $incautacion = new Incautacion([
+                'topico' => $_POST['topico'],
+                'tipo_droga' => $_POST['tipo_droga'],
+                'transporte' => $_POST['transporte'],
+                'matricula' => $_POST['matricula'],
+                'tipo_transporte' => $_POST['tipo_transporte'],
+                'cantidad' => $_POST['cantidad'],
+                'tip_droga_plantacion' => $_POST['tipo_droga_plantacion'],
+                'cantidad_plantacion' => $_POST['cantidad_plantacion'],
+            ]);
+
+            $incautacion->guardar();
  
             $cantidadCapturados = count($_POST['nombre']);
             $resultados = [];
@@ -64,18 +75,19 @@ class CapturaController
         }
     }
 
-    public static function buscarCapturaAPI(){
+    public static function buscarIncautacionAPI(){
         getHeadersApi();
         $topico = $_GET['topico'];
 
         try{
             $evento = Evento::find($topico);
 
-
+            $incautacion = Incautacion::where('topico', $topico);
             $capturados = Capturados::fetchArray("SELECT * FROM amc_per_capturadas where topico = $topico and situacion = 1;");
 
             echo json_encode([
-                "captura" => $evento,
+                "evento" => $evento,
+                "incautacion" => array_shift($incautacion),
                 "capturados" => $capturados,
             ]);
 
@@ -89,22 +101,27 @@ class CapturaController
         }
     }
 
-    
     public static function modificar(){
         getHeadersApi();
-        
         
         try {
 
             $evento = Evento::find($_POST['topico']);
-
-            $evento->info = $_POST['info'];
+            $evento->info = preg_replace("[\n|\r|\n\r]", "",$_POST['info']);
             $evento->guardar();
 
-            // echo json_encode($resultado);
-            // exit;
+            $arrayBusqueda = Incautacion::where('topico', $_POST['topico']);
+            $incautacion = array_shift($arrayBusqueda);
+            $incautacion->tipo_droga = $_POST['tipo_droga'];
+            $incautacion->transporte = $_POST['transporte'];
+            $incautacion->matricula = $_POST['matricula'];
+            $incautacion->tipo_transporte = $_POST['tipo_transporte'];
+            $incautacion->cantidad = $_POST['cantidad'];
+            $incautacion->tip_droga_plantacion = $_POST['tipo_droga_plantacion'];
+            $incautacion->cantidad_plantacion = $_POST['cantidad_plantacion'];
 
-            
+            $incautacion->guardar();
+ 
             $cantidadCapturados = count($_POST['nombre']);
             $resultados = [];
             for ($i=0; $i < $cantidadCapturados ; $i++) { 
@@ -124,12 +141,12 @@ class CapturaController
                 $resultados[] = $guardado['resultado'];
             }
 
-
+            // echo json_encode($resultados);
 
 
             if(!array_search(0, $resultados)){
                 echo json_encode([
-                    "mensaje" => "El registro se modificó.",
+                    "mensaje" => "El registro se guardó.",
                     "codigo" => 1,
                 ]);
                 
@@ -150,39 +167,7 @@ class CapturaController
         }
     }
 
-    public static function eliminarCapturado(){
-        getHeadersApi();
-        
-        
-        try {
-            $capturado = Capturados::find($_POST['id']);
-            $capturado->situacion = 0;
-            $resultado = $capturado->guardar();
-    
-            if($resultado['resultado'] == 1){
-                echo json_encode([
-                    "mensaje" => "El registro del capturado se eliminó.",
-                    "codigo" => 1,
-                ]);
-                
-            }else{
-                echo json_encode([
-                    "mensaje" => "Ocurrió  un error.",
-                    "codigo" => 0,
-                ]);
-    
-            }
-        } catch (Exception $e) {
-            echo json_encode([
-                "detalle" => $e->getMessage(),       
-                "mensaje" => "Ocurrió  un error en base de datos.",
-
-                "codigo" => 4,
-            ]);
-        }
-    } 
-
-    public static function eliminarCaptura(){
+    public static function eliminarIncautacion(){
         getHeadersApi();
         
         
@@ -193,12 +178,13 @@ class CapturaController
             $evento = Evento::find($topico);
             $evento->situacion = 0;
             $evento->guardar();
-            // ELIMINA LA CAPTURA
-            $captura = array_shift(Captura::where('topico', $topico));
 
-            if($captura){
-                $captura->situacion = 0;
-                $captura->guardar();
+            // ELIMINA LA INCAUTACION
+            $incautacion = array_shift(Incautacion::where('topico', $topico));
+
+            if($incautacion){
+                $incautacion->situacion = 0;
+                $incautacion->guardar();
 
             }
             // ELIMINA LOS CAPTURADOS
@@ -212,7 +198,7 @@ class CapturaController
     
             if(!array_search(0, $resultados)){
                 echo json_encode([
-                    "mensaje" => "La captura se eliminó.",
+                    "mensaje" => "La incautación se eliminó.",
                     "codigo" => 1,
                 ]);
                 
@@ -232,5 +218,4 @@ class CapturaController
             ]);
         }
     } 
-
 }
