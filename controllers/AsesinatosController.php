@@ -2,39 +2,44 @@
 
 namespace Controllers;
 
-use Model\Captura;
-use Model\Capturados;
+use Model\Asesinatos;
+use Model\Asesinados;
 use Model\Evento;
 use MVC\Router;
 use Exception;
 
-class CapturaController
+class AsesinatosController
 {
     public static function guardar(){
         getHeadersApi();
-        
+                    
+        $cantidadasesinados = count($_POST['nombre']);
         
         try {
+            $asesinatos = new Asesinatos([
+                'topico' => $_POST['topico'],
+                'info' => $_POST['info'],
+                'cant_per_asesinadas' => $cantidadasesinados,
 
-            $evento = Evento::find($_POST['topico']);
-            $evento->info = $_POST['info'];
-            $evento->guardar();
- 
-            $cantidadCapturados = count($_POST['nombre']);
+            ]);
+
+            if(!$asesinatos->validarExisteTopico()){
+                $guardado = $asesinatos->guardar();
+            }
+
             $resultados = [];
-            for ($i=0; $i < $cantidadCapturados ; $i++) { 
-                $capturado = new Capturados([
+            for ($i=0; $i < $cantidadasesinados ; $i++) { 
+                $asesinados = new Asesinados([
+                    'id' =>  $_POST['id_per'][$i] != '' ? $_POST['id_per'][$i] : null ,
                     'topico' => $_POST['topico'],
-                    'nacionalidad' => $_POST['nacionalidad'][$i],
-                    'sexo' => $_POST['sexo'][$i],
                     'nombre' => $_POST['nombre'][$i],
+                    'sexo' => $_POST['sexo'][$i],
                     'edad' => $_POST['edad'][$i],
-                    'delito' => $_POST['delito'][$i],
-                    'vinculo' => $_POST['vinculo'][$i],
+                 
                 ]);
                 
 
-                $guardado = $capturado->guardar();
+                $guardado = $asesinados->guardar();
                 $resultados[] = $guardado['resultado'];
             }
 
@@ -64,19 +69,22 @@ class CapturaController
         }
     }
 
-    public static function buscarCapturaAPI(){
+    public static function buscarAsesinatosAPI(){
+
+   
         getHeadersApi();
+     
         $topico = $_GET['topico'];
 
         try{
-            $evento = Evento::find($topico);
+            $asesinatos = Asesinatos::fetchArray("SELECT * FROM amc_asesinato where topico = $topico and situacion = 1;");
 
 
-            $capturados = Capturados::fetchArray("SELECT * FROM amc_per_capturadas where topico = $topico and situacion = 1;");
+            $asesinados = Asesinados::fetchArray("SELECT * FROM amc_per_asesinadas where topico = $topico and situacion = 1;");
 
             echo json_encode([
-                "captura" => $evento,
-                "capturados" => $capturados,
+                "asesinatos" => array_shift($asesinatos),
+                "asesinados" => $asesinados,
             ]);
 
         } catch (Exception $e) {
@@ -88,42 +96,38 @@ class CapturaController
             ]);
         }
     }
-
-    
     public static function modificar(){
         getHeadersApi();
         
         
         try {
 
-            $evento = Evento::find($_POST['topico']);
+            $busquedaAsesinato = Asesinatos::where( 'topico' , $_POST['topico']);
+            $asesinato = array_shift($busquedaAsesinato);
+ 
 
-            $evento->info = $_POST['info'];
-            $evento->guardar();
+            $asesinato->info = $_POST['info'];
+            $asesinato->guardar();
 
             // echo json_encode($resultado);
             // exit;
 
-            
-            $cantidadCapturados = count($_POST['nombre']);
+            $cantidadasesinados = count($_POST['nombre']);
             $resultados = [];
-            for ($i=0; $i < $cantidadCapturados ; $i++) { 
-                $capturado = new Capturados([
+            for ($i=0; $i < $cantidadasesinados ; $i++) { 
+                $asesinados = new Asesinados([
                     'id' =>  $_POST['id_per'][$i] != '' ? $_POST['id_per'][$i] : null ,
                     'topico' => $_POST['topico'],
-                    'nacionalidad' => $_POST['nacionalidad'][$i],
-                    'sexo' => $_POST['sexo'][$i],
                     'nombre' => $_POST['nombre'][$i],
+                    'sexo' => $_POST['sexo'][$i],
                     'edad' => $_POST['edad'][$i],
-                    'delito' => $_POST['delito'][$i],
-                    'vinculo' => $_POST['vinculo'][$i],
+                 
                 ]);
                 
 
-                $guardado = $capturado->guardar();
+                $guardado = $asesinados->guardar();
                 $resultados[] = $guardado['resultado'];
             }
-
 
 
 
@@ -150,18 +154,18 @@ class CapturaController
         }
     }
 
-    public static function eliminarCapturado(){
+    public static function eliminarAsesinado(){
         getHeadersApi();
         
         
         try {
-            $capturado = Capturados::find($_POST['id']);
-            $capturado->situacion = 0;
-            $resultado = $capturado->guardar();
+            $asesinado = asesinados::find($_POST['id']);
+            $asesinado->situacion = 0;
+            $resultado = $asesinado->guardar();
     
             if($resultado['resultado'] == 1){
                 echo json_encode([
-                    "mensaje" => "El registro del capturado se eliminó.",
+                    "mensaje" => "El registro del asesinado se eliminó.",
                     "codigo" => 1,
                 ]);
                 
@@ -182,7 +186,7 @@ class CapturaController
         }
     } 
 
-    public static function eliminarCaptura(){
+    public static function eliminarAsesinato(){
         getHeadersApi();
         
         
@@ -194,19 +198,19 @@ class CapturaController
             $evento->situacion = 0;
             $evento->guardar();
             // ELIMINA LA CAPTURA
-            $captura = array_shift(Captura::where('topico', $topico));
+            $asesinatos = array_shift(asesinatos::where('topico', $topico));
 
-            if($captura){
-                $captura->situacion = 0;
-                $captura->guardar();
+            if($asesinatos){
+                $asesinatos->situacion = 0;
+                $asesinatos->guardar();
 
             }
-            // ELIMINA LOS CAPTURADOS
-            $capturados = Capturados::where('topico', $topico);
+            // ELIMINA LOS asesinados
+            $asesinados = asesinados::where('topico', $topico);
             $resultados = [];
-            foreach($capturados as $capturado){
-                $capturado->situacion = 0;
-                $resultados[] = $capturado->guardar();
+            foreach($asesinados as $asesinado){
+                $asesinado->situacion = 0;
+                $resultados[] = $asesinado->guardar();
             }
 
     

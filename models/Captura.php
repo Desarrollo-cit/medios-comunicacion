@@ -15,7 +15,7 @@ class Captura extends ActiveRecord{
     public function __construct($args = []){
         $this->id = $args['id'] ?? null;
         $this->topico = $args['topico'] ?? '';
-        $this->info = $args['info'] ?? '';
+        $this->info = utf8_decode( $args['info'] ) ?? '';
         $this->situacion = $args['situacion'] ?? '1';
     }
 

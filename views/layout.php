@@ -9,7 +9,7 @@
     <title>Medios</title>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark  bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark  bg-dark " style="z-index: 1005">
         
         <div class="container-fluid">
 
@@ -31,7 +31,7 @@
                     <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="/medios-comunicacion/eventos"><i class="bi bi-plus-circle me-2"></i>Nuevo evento</a>
                     </li>
-  
+                    <?php if(isset($_SESSION['AMC_ADMIN'])) : ?>
                     <div class="nav-item dropdown " >
                         <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
                             <i class="bi bi-tools me-2"></i>Mantenimientos
@@ -72,14 +72,14 @@
                                 <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/mapas/capturas"><i class="ms-lg-0 ms-2 bi bi-plus-circle me-2"></i>Capturas</a>
                             </li>
                             <li>
-                                <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/mapas/droga"><i class="ms-lg-0 ms-2 bi bi-plus-circle me-2"></i>Drogas</a>
+                                <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/mapas/droga"><i class="fas fa-user"></i>Drogas</a>
                             </li>
                         
                     
                         
                         </ul>
                     </div> 
-
+                    <?php endif ?>
                 </ul> 
                 <div class="col-lg-1 d-grid mb-lg-0 mb-2">
                     <!-- Ruta relativa desde el archivo donde se incluye menu.php -->

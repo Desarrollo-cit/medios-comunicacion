@@ -3,7 +3,8 @@
 // ini_set('display_startup_errors', 1);
 // error_reporting(E_ALL);
 require_once __DIR__ . '/../includes/app.php';
-
+date_default_timezone_set('America/Guatemala');
+setlocale(LC_ALL, 'es_ES');
 
 use Controllers\ArmasController;
 use Controllers\CalibresController;
@@ -12,6 +13,8 @@ use Controllers\DelitosController;
 
 
 use Controllers\EventoController;
+use Controllers\IncautacionArmasController;
+use Controllers\IncautacionController;
 use MVC\Router;
 use Controllers\AppController;
 
@@ -22,7 +25,8 @@ use Controllers\ColoresController;
 use Controllers\Desastre_naturalController;
 use Controllers\Fenomeno_naturalController;
 use Controllers\MonedaController;
-
+use Controllers\AsesinatosController;
+use Controllers\ReporteController;
 
 
 use Controllers\infoCapturaController;
@@ -119,6 +123,13 @@ $router->get('/API/capturas/buscar', [CapturaController::class, 'buscarCapturaAP
 $router->post('/API/capturas/capturado/eliminar', [CapturaController::class, 'eliminarCapturado']);
 $router->post('/API/capturas/eliminar', [CapturaController::class, 'eliminarCaptura']);
 
+$router->post('/API/asesinatos/guardar', [AsesinatosController::class, 'guardar']);
+$router->post('/API/asesinatos/modificar', [AsesinatosController::class, 'modificar']);
+$router->get('/API/asesinatos/buscar', [AsesinatosController::class, 'buscarAsesinatosAPI']);
+$router->post('/API/asesinatos/asesinado/eliminar', [AsesinatosController::class, 'eliminarAsesinado']);
+$router->post('/API/asesinatos/eliminar', [AsesinatosController::class, 'eliminarAsesinato']);
+
+
 
 $router->get('/mapas/capturas', [infoCapturaController::class , 'index']);
 $router->post('/API/mapas/infoCapturas/resumen', [infoCapturaController::class , 'resumenAPI'] );
@@ -136,7 +147,20 @@ $router->post('/API/mapas/infoCapturas/CapturasPorDiaGrafica', [infoCapturaContr
 $router->post('/API/mapas/infoCapturas/GraficaTrimestral', [infoCapturaController::class , 'GraficaTrimestralAPI'] );
 $router->post('/API/mapas/infoCapturas/GraficaTrimestralGeneral', [infoCapturaController::class , 'GraficaTrimestralGeneralAPI'] );
 
+$router->post('/API/incautacion/guardar', [IncautacionController::class, 'guardar']);
+$router->post('/API/incautacion/modificar', [IncautacionController::class, 'modificar']);
+$router->get('/API/incautacion/buscar', [IncautacionController::class, 'buscarIncautacionAPI']);
+$router->post('/API/incautacion/eliminar', [IncautacionController::class, 'eliminarIncautacion']);
 
+$router->post('/API/incautacion_armas/guardar', [IncautacionArmasController::class, 'guardar']);
+$router->post('/API/incautacion_armas/modificar', [IncautacionArmasController::class, 'modificar']);
+$router->get('/API/incautacion_armas/buscar', [IncautacionArmasController::class, 'buscarIncautacionAPI']);
+$router->post('/API/incautacion_armas/eliminar', [IncautacionArmasController::class, 'eliminarIncautacion']);
+$router->post('/API/incautacion_armas/armas/eliminar', [IncautacionArmasController::class, 'eliminarArma']);
+$router->post('/API/incautacion_armas/municion/eliminar', [IncautacionArmasController::class, 'eliminarMunicion']);
+
+$router->get('/reportes/topico', [ReporteController::class, 'reporteTopico']);
+$router->get('/reportes/general', [ReporteController::class, 'reporteGeneral']);
 
 $router->get('/mapas/droga', [infoDrogaController::class , 'index']);
 
