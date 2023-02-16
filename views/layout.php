@@ -31,7 +31,7 @@
                     <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="/medios-comunicacion/eventos"><i class="bi bi-plus-circle me-2"></i>Nuevo evento</a>
                     </li>
-  
+                    <?php if(isset($_SESSION['AMC_ADMIN'])) : ?>
                     <div class="nav-item dropdown " >
                         <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
                             <i class="bi bi-tools me-2"></i>Mantenimientos
@@ -79,7 +79,7 @@
                         
                         </ul>
                     </div> 
-
+                    <?php endif ?>
                 </ul> 
                 <div class="col-lg-1 d-grid mb-lg-0 mb-2">
                     <!-- Ruta relativa desde el archivo donde se incluye menu.php -->
