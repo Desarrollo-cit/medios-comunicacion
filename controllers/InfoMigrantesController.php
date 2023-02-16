@@ -24,7 +24,7 @@ class InfoMigrantesController
         $hombres = static::hombres();
         $colores = static::coloresAPI1();
         $depto = static::departamento_migrantes();
-  
+
         $router->render('mapas/migrantes', [
             'migrantes' => $migrantes,
             'edades' => $edades,
@@ -35,7 +35,7 @@ class InfoMigrantesController
             'hombres' => $hombres,
             'depto' => $depto,
             'colores' => $colores,
-            
+
         ]);
     }
 
@@ -60,9 +60,39 @@ class InfoMigrantesController
 
             $delito = [[
                 "cantidad" =>
-                "Sin datos"
+                "0"
             ]];
             return $delito;
+        }
+    }
+    
+    
+    function estadistica_por_pais( $año = "", $mes = "", $pais_migrante="")
+    {
+
+
+        $sql =  "SELECT amc_nacionalidad.desc , sum (cantidad ) as cantidad from amc_migrantes inner join amc_topico on amc_migrantes.topic = amc_topico.id inner join amc_edades on amc_migrantes.edad = amc_edades.id inner join amc_nacionalidad on amc_nacionalidad.id = amc_migrantes.pais_migrante  where   amc_topico.situacion = 1 and amc_migrantes.situacion > 0 and amc_nacionalidad.id = $pais_migrante   ";
+      
+
+      $sql .= " AND year(amc_topico.fecha) = $año  and  month(amc_topico.fecha) =$mes ";
+
+
+        
+        
+        $sql .= " group by desc";
+        
+        // return $sql;
+        // exit;
+        $result = Migrantes::fetchArray($sql);
+        if ($result[0]['cantidad'] != NULL) {
+            return $result;
+        } else {
+
+            $result = [[
+                "cantidad" =>
+                "0"
+            ]];
+            return $result;
         }
     }
 
@@ -165,7 +195,7 @@ class InfoMigrantesController
             return $result;
         } else {
 
-            $result =  array($cero = ["cantidad" => "Sin datos"]);
+            $result =  array($cero = ["cantidad" => "0"]);
             return $result;
         }
     }
@@ -185,7 +215,7 @@ class InfoMigrantesController
             return $result;
         } else {
 
-            $result =  array($cero = ["cantidad" => "Sin datos"]);
+            $result =  array($cero = ["cantidad" => "0"]);
             return $result;
         }
     }
@@ -260,7 +290,13 @@ class InfoMigrantesController
 
         try {
 
-            $sql = "      SELECT DISTINCT amc_topico.id as id, amc_topico.lugar as lugar, amc_topico.tipo as tipo, amc_tipo_topics.desc as topico,  amc_topico.fecha as fecha, dm_desc_lg as departamento,   paises.pai_desc_lg as pais,  amc_edades.edades as edad, amc_migrantes.cantidad from amc_topico inner join amc_migrantes on topic = amc_topico.id inner join paises on paises.pai_codigo = amc_migrantes.pais_migrante  inner join amc_tipo_topics on amc_topico.tipo = amc_tipo_topics.id inner join depmun on amc_topico.departamento = depmun.dm_codigo  inner join amc_edades on amc_edades.id = amc_migrantes.edad and amc_migrantes.situacion = 1 and amc_topico.situacion = 1 and amc_topico.tipo = 9";
+            $sql = "      SELECT DISTINCT amc_topico.id as id, amc_topico.lugar as lugar, amc_topico.tipo as tipo, amc_tipo_topics.desc as topico,  amc_topico.fecha as fecha, 
+            dm_desc_lg as departamento,   amc_nacionalidad.desc as pais,  amc_edades.edades as edad, amc_migrantes.cantidad from amc_topico 
+             inner join amc_migrantes on topic = amc_topico.id
+             inner join amc_nacionalidad on amc_nacionalidad.id = amc_migrantes.pais_migrante  
+             inner join amc_tipo_topics on amc_topico.tipo = amc_tipo_topics.id 
+             inner join depmun on amc_topico.departamento = depmun.dm_codigo  
+            inner join amc_edades on amc_edades.id = amc_migrantes.edad and amc_migrantes.situacion = 1 and amc_topico.situacion = 1 and amc_topico.tipo = 9";
             $info = Migrantes::fetchArray($sql);
 
             $data = [];
@@ -327,7 +363,11 @@ class InfoMigrantesController
 
 
             $id = $_POST['id'];
-            $sql = "SELECT amc_topico.id, fecha, lugar, departamento, municipio as muni, tipo,latitud,longitud,actividad, amc_topico.situacion, depmun.dm_desc_lg as departamento1, amc_actividad_vinculada.desc as act, amc_tipo_topics.desc as topico from amc_topico inner join depmun on amc_topico.departamento = depmun.dm_codigo inner join amc_actividad_vinculada on amc_topico.actividad = amc_actividad_vinculada.id inner join amc_tipo_topics on amc_topico.tipo = amc_tipo_topics.id where amc_topico.situacion = 1 and amc_topico.id =  $id";
+            $sql = "SELECT amc_topico.id, fecha, lugar, departamento, municipio as muni, tipo,latitud,longitud,actividad, amc_topico.situacion, depmun.dm_desc_lg as departamento1, amc_actividad_vinculada.desc as act, amc_tipo_topics.desc as topico 
+            from amc_topico 
+            inner join depmun on amc_topico.departamento = depmun.dm_codigo 
+            inner join amc_actividad_vinculada on amc_topico.actividad = amc_actividad_vinculada.id 
+            inner join amc_tipo_topics on amc_topico.tipo = amc_tipo_topics.id where amc_topico.situacion = 1 and amc_topico.id =  $id";
 
             $info = Migrantes::fetchArray($sql);
             $data = [];
@@ -408,7 +448,10 @@ class InfoMigrantesController
 
             $id = $_POST['id'];
 
-            $sql = "   SELECT amc_migrantes.id, amc_migrantes.topic as topico,  paises.pai_desc_lg as pais, amc_sexo.desc as sexo,  amc_edades.edades as edad, amc_migrantes.destino, amc_migrantes.cantidad   from amc_migrantes inner join paises on paises.pai_codigo = amc_migrantes.pais_migrante inner join amc_edades on amc_migrantes.edad = amc_edades.id inner join amc_sexo on amc_sexo.id = amc_migrantes.sexo where topic = $id and amc_migrantes.situacion = 1
+            $sql = "   SELECT amc_migrantes.id, amc_migrantes.topic as topico,  amc_nacionalidad.desc as pais, amc_sexo.desc as sexo,  amc_edades.edades as edad, amc_migrantes.destino, amc_migrantes.cantidad   from amc_migrantes
+            inner join amc_nacionalidad on amc_nacionalidad.id = amc_migrantes.pais_migrante  
+             inner join amc_edades on amc_migrantes.edad = amc_edades.id 
+             inner join amc_sexo on amc_sexo.id = amc_migrantes.sexo where topic = $id and amc_migrantes.situacion = 1
 ";
             $info = Migrantes::fetchArray($sql);
             $data = [];
@@ -509,7 +552,7 @@ class InfoMigrantesController
         }
     }
 
-    
+
     public function coloresAPI()
     {
         getHeadersApi();
@@ -545,62 +588,60 @@ class InfoMigrantesController
             $fecha2 = str_replace('T', ' ', $_POST['fecha2']);
             // echo json_encode($_POST);
             // exit;
-            $sql ="  SELECT  sum (cantidad ) as cantidad from amc_migrantes inner join amc_topico on amc_migrantes.topic = amc_topico.id  where  amc_topico.situacion = 1 and amc_migrantes.situacion = 1 AND amc_topico.departamento = $depto  ";
+            $sql = "  SELECT  sum (cantidad ) as cantidad from amc_migrantes inner join amc_topico on amc_migrantes.topic = amc_topico.id  where  amc_topico.situacion = 1 and amc_migrantes.situacion = 1 AND amc_topico.departamento = $depto  ";
 
-            if($edad != ''){
-         
-               $sql.= " AND amc_migrantes.edad = $edad";
+            if ($edad != '') {
+
+                $sql .= " AND amc_migrantes.edad = $edad";
             }
-         
-            if($fecha1 != '' && $fecha2 != ''){
-         
-               $sql.= " AND amc_topico.fecha   BETWEEN '$fecha1' AND  '$fecha2' ";
-            }else{
-         
-               $sql.= " AND year(amc_topico.fecha) = year(current) AND month(amc_topico.fecha) = month(current)";
-         
+
+            if ($fecha1 != '' && $fecha2 != '') {
+
+                $sql .= " AND amc_topico.fecha   BETWEEN '$fecha1' AND  '$fecha2' ";
+            } else {
+
+                $sql .= " AND year(amc_topico.fecha) = year(current) AND month(amc_topico.fecha) = month(current)";
             }
-         
-         
+
+
             $info =  Migrantes::fetchArray($sql);
-            
-         
-            if($info[0]['cantidad'] == ""){
-     
-               $info[0]['cantidad'] = 0;
+
+
+            if ($info[0]['cantidad'] == "") {
+
+                $info[0]['cantidad'] = 0;
             }
-          
-         
-            $consulta="   SELECT first 1 amc_edades.edades , sum (cantidad ) as cantidad from amc_migrantes inner join amc_topico on amc_migrantes.topic = amc_topico.id inner join amc_edades on amc_migrantes.edad = amc_edades.id  where  amc_topico.situacion = 1 and amc_migrantes.situacion > 0  AND amc_topico.departamento = $depto ";
-         
-            if($edad != ''){
-         
-               $consulta.="AND amc_migrantes.edad = $edad";
+
+
+            $consulta = "   SELECT first 1 amc_edades.edades , sum (cantidad ) as cantidad from amc_migrantes inner join amc_topico on amc_migrantes.topic = amc_topico.id inner join amc_edades on amc_migrantes.edad = amc_edades.id  where  amc_topico.situacion = 1 and amc_migrantes.situacion > 0  AND amc_topico.departamento = $depto ";
+
+            if ($edad != '') {
+
+                $consulta .= "AND amc_migrantes.edad = $edad";
             }
-         
-            if($fecha1 != '' && $fecha2 != ''){
-         
-               $consulta.= " AND amc_topico.fecha   BETWEEN '$fecha1' AND  '$fecha2' ";
-            }else{
-         
-               $consulta.= " AND  year(amc_topico.fecha) = year(current) and month(amc_topico.fecha) = month(current)";
+
+            if ($fecha1 != '' && $fecha2 != '') {
+
+                $consulta .= " AND amc_topico.fecha   BETWEEN '$fecha1' AND  '$fecha2' ";
+            } else {
+
+                $consulta .= " AND  year(amc_topico.fecha) = year(current) and month(amc_topico.fecha) = month(current)";
             }
-         
-            $consulta.="group by edades";
-         
+
+            $consulta .= "group by edades";
+
             $info1 =  Migrantes::fetchArray($consulta);
-         
-           
-            if($info1[0]['cantidad'] == ""){
-         
-               $info1[0]['edades'] = 'Sin registros';
+
+
+            if ($info1[0]['cantidad'] == "") {
+
+                $info1[0]['edades'] = 'Sin registros';
             }
-         
-            
-            
-            $array_resultante= array_merge($info,$info1);
+
+
+
+            $array_resultante = array_merge($info, $info1);
             echo json_encode($array_resultante);
-         
         } catch (Exception $e) {
             echo json_encode([
                 "detalle" => $e->getMessage(),
@@ -624,35 +665,313 @@ class InfoMigrantesController
             // echo json_encode($_POST);
             // exit;
 
-            $sql ="SELECT amc_edades.edades , sum (cantidad ) as cantidad from amc_migrantes inner join amc_topico on amc_migrantes.topic = amc_topico.id inner join amc_edades on amc_migrantes.edad = amc_edades.id  where   amc_topico.situacion = 1 and amc_migrantes.situacion > 0 ";
-   
-   
-            if($depto != ''){
-         
-               $sql.=" AND amc_topico.departamento = $depto ";
+            $sql = "SELECT amc_edades.edades , sum (cantidad ) as cantidad from amc_migrantes inner join amc_topico on amc_migrantes.topic = amc_topico.id inner join amc_edades on amc_migrantes.edad = amc_edades.id  where   amc_topico.situacion = 1 and amc_migrantes.situacion > 0 ";
+
+
+            if ($depto != '') {
+
+                $sql .= " AND amc_topico.departamento = $depto ";
             }
-            if($edad != ''){
-         
-               $sql.=" AND amc_migrantes.edad = $edad";
+            if ($edad != '') {
+
+                $sql .= " AND amc_migrantes.edad = $edad";
             }
-         
-            if($fecha1 != '' && $fecha2 != ''){
-         
-               $sql.= " AND amc_topico.fecha   BETWEEN '$fecha1' AND  '$fecha2' ";
-            }else{
-         
-                  $sql.="AND year(amc_topico.fecha) = year(current) and month(amc_topico.fecha) = month(current) ";
-         
+
+            if ($fecha1 != '' && $fecha2 != '') {
+
+                $sql .= " AND amc_topico.fecha   BETWEEN '$fecha1' AND  '$fecha2' ";
+            } else {
+
+                $sql .= "AND year(amc_topico.fecha) = year(current) and month(amc_topico.fecha) = month(current) ";
             }
-         
-            $sql.=" group by edades ";
-                 
+
+            $sql .= " group by edades ";
+
             $info = Migrantes::fetchArray($sql);
 
-            
 
-                echo json_encode($info );
+
+            echo json_encode($info);
+        } catch (Exception $e) {
+            echo json_encode([
+                "detalle" => $e->getMessage(),
+                "mensaje" => "ocurrio un error en base de datos",
+
+                "codigo" => 4,
+            ]);
+        }
+    }
+
+    public function MigrantesCantGraficaAPI()
+    {
+        try {
+            getHeadersApi();
+
+            $depto = $_POST['depto'];
+            $edad = $_POST['edad'];
+            $fecha1 = str_replace('T', ' ', $_POST['fecha_grafica']);
+            $fecha2 = str_replace('T', ' ', $_POST['fecha_grafica2']);
+
+            $sql = "SELECT amc_edades.edades , sum (cantidad ) as cantidad from amc_migrantes inner join amc_topico on amc_migrantes.topic = amc_topico.id inner join amc_edades on amc_migrantes.edad = amc_edades.id  where   amc_topico.situacion = 1 and amc_migrantes.situacion > 0 ";
+
+
+            if ($depto != '') {
+
+                $sql .= " AND amc_topico.departamento = $depto ";
+            }
+            if ($edad != '') {
+
+                $sql .= " AND amc_migrantes.edad = $edad";
+            }
+
+            if ($fecha1 != '' && $fecha2 != '') {
+
+                $sql .= " AND amc_topico.fecha   BETWEEN '$fecha1' AND  '$fecha2' ";
+            } else {
+
+                $sql .= "AND year(amc_topico.fecha) = year(current) and month(amc_topico.fecha) = month(current) ";
+            }
+
+            $sql .= " group by edades ";
+
+            $info = Migrantes::fetchArray($sql);
+
+            echo json_encode($info);
+        } catch (Exception $e) {
+            echo json_encode([
+                "detalle" => $e->getMessage(),
+                "mensaje" => "ocurrio un error en base de datos",
+
+                "codigo" => 4,
+            ]);
+        }
+    }
+
+
+    public function MigrantesDepartamentoGraficaAPI()
+    {
+        try {
+            getHeadersApi();
+
+            $depto = $_POST['depto'];
+            $edad = $_POST['edad'];
+            $fecha1 = str_replace('T', ' ', $_POST['fecha_grafica']);
+            $fecha2 = str_replace('T', ' ', $_POST['fecha_grafica2']);
+
+            $sql = "SELECT depmun.dm_desc_lg as descripcion, sum (cantidad ) as cantidad FROM amc_migrantes   inner join amc_topico on amc_migrantes.topic = amc_topico.id inner join depmun on amc_topico.departamento = depmun.dm_codigo where amc_topico.situacion = 1 ";
+
+
+            if ($depto != '') {
+
+                $sql .= " AND amc_topico.departamento = $depto ";
+            }
+            if ($edad != '') {
+
+                $sql .= " AND amc_migrantes.edad = $edad";
+            }
+
+            if ($fecha1 != '' && $fecha2 != '') {
+
+                $sql .= " AND amc_topico.fecha   BETWEEN '$fecha1' AND  '$fecha2' ";
+            } else {
+
+                $sql .= "AND year(amc_topico.fecha) = year(current) and month(amc_topico.fecha) = month(current) ";
+            }
+
+            $sql .= " group by dm_desc_lg";
+
+            $info = Migrantes::fetchArray($sql);
+
+            echo json_encode($info);
+        } catch (Exception $e) {
+            echo json_encode([
+                "detalle" => $e->getMessage(),
+                "mensaje" => "ocurrio un error en base de datos",
+
+                "codigo" => 4,
+            ]);
+        }
+    }
+
+    public function MigrantesPorDiaGraficaAPI()
+    {
+        try {
+
+
+            $diasMes =  date('t');
+            $data = [];
+            for ($i = 0; $i <=  $diasMes; $i++) {
+                // $main = new Main();
+                $sql = "SELECT sum (cantidad ) as cantidad From amc_migrantes inner join amc_topico on amc_migrantes.topic = amc_topico.id where year(amc_topico.fecha) = year(current) and month(amc_topico.fecha) = month(current) and day(amc_topico.fecha) = day($i) and amc_topico.situacion = 1 and amc_migrantes.situacion = 1";
+                $info = Migrantes::fetchArray($sql);
+                $data['dias'][] = $i;
+                if ($info[0]['cantidad'] == null) {
+
+                    $valor = 0;
+                } else {
+                    $valor = $info[0]['cantidad'];
+                }
+                $data['cantidades'][] = $valor;
+            }
+            echo json_encode($data);
+            exit;
+        } catch (Exception $e) {
+            echo json_encode([
+                "detalle" => $e->getMessage(),
+                "mensaje" => "ocurrio un error en base de datos",
+
+                "codigo" => 4,
+            ]);
+        }
+    }
+
+    
+    
+    
+    protected static function paises1($fecha1 ="", $fecha2 =""){
+       
+
+        $sql = "SELECT DISTINCT  pai_desc_lg, pais_migrante from amc_nacionalidad inner join paises on paises.pai_codigo = amc_nacionalidad.pais inner join amc_migrantes on amc_migrantes.pais_migrante = amc_nacionalidad.id inner join amc_topico on amc_migrantes.topic = amc_topico.id    where  amc_topico.situacion = 1 ";
+       
+       
+        $sql .= " AND extend(fecha, year to month)  BETWEEN '$fecha1' AND  '$fecha2' ";
+
+        $result = Migrantes::fetchArray($sql);
+        return $result;
+    }
+
+    public function GraficaTrimestralAPI()
+    {
+        try {
+
+            $mes = date("n");
+            // $mes = 1;
+            $año = date("Y");
+
+            $meses = [];
+
+            switch ($mes) {
+                case '1':
+                    $meses = [11, 12, 1];
+                    $años = [$año - 1, $año - 1, $año]; 
+                    $añoInicio = $año-1;
+                    $mesinicio = 11;
+                    $fechaInicio = $añoInicio."-".$mesinicio;
+                    $fechaFin = $año."-"."1";
+
+
+
+                    break;
+                case '2':
+                    $meses = [12, 1, 2];
+                    $años = [$año - 1, $año, $año];
+                    $añoInicio = $año-1;
+                    $mesinicio = 12;
+                    $fechaInicio = $añoInicio."-".$mesinicio;
+                    $fechaFin = $año."-"."2";
+
+
+                    break;
+                default:
+
+                    $meses = [$mes - 2, $mes - 1, $mes];
+                    $años = [$año, $año, $año];
+                    $mesinicio = $mes-2;
+                    $fechaInicio = $año."-".$mesinicio;
+                    $fechaFin = $año."-".$mes;
+                    break;
+            }
+
+            $tipos = static::paises1($fechaInicio, $fechaFin );
+
+            $data = [];
+            $labels = [];
+            $cantidades = [];
+           
+            $i = 0;
+            foreach ($tipos as $tipo) {
+                $tipo_id = (int)$tipo['pais_migrante'];
+                $labels[] = trim($tipo['pai_desc_lg']);
                
+              
+
+                for ($i = 0; $i < 3; $i++) {
+                    $dateObj = DateTime::createFromFormat('!m', $meses[$i]);
+                    $mes = strftime("%B", $dateObj->getTimestamp());
+                    $operaciones = static::estadistica_por_pais($años[$i], $meses[$i], $tipo_id);
+                    
+                    $cantidades[$mes][] = $operaciones[0]['cantidad'];
+                }
+                }
+               
+            $data = [
+                'labels' => $labels,
+                'cantidades' => $cantidades
+            ];
+            
+            echo json_encode($data);
+            exit;
+        } catch (Exception $e) {
+            echo json_encode([
+                "detalle" => $e->getMessage(),
+                "mensaje" => "ocurrio un error en base de datos",
+
+                "codigo" => 4,
+            ]);
+        }
+    }
+
+
+
+    public function GraficaTrimestralGeneralAPI()
+    {
+        try {
+
+
+            $mes = date("n");
+            // $mes = 1;
+            $año = date("Y");
+
+            $meses = [];
+
+            switch ($mes) {
+                case '1':
+                    $meses = [11, 12, 1];
+                    $años = [$año - 1, $año - 1, $año];
+                    break;
+                case '2':
+                    $meses = [12, 1, 2];
+                    $años = [$año - 1, $año, $año];
+
+                    break;
+                default:
+
+                    $meses = [$mes - 2, $mes - 1, $mes];
+                    $años = [$año, $año, $año];
+                    break;
+            }
+
+            $data = [];
+            $cantidades = [];
+            $i = 0;
+            $meses1 = [];
+
+
+            for ($i = 0; $i < 3; $i++) {
+                $dateObj = DateTime::createFromFormat('!m', $meses[$i]);
+                $mes = strftime("%B", $dateObj->getTimestamp());
+                $sql = " SELECT sum (cantidad ) as cantidad from amc_migrantes inner join amc_topico on amc_migrantes.topic = amc_topico.id  where year(amc_topico.fecha) = $años[$i] and month(amc_topico.fecha) =$meses[$i]and amc_topico.situacion = 1 and amc_migrantes.situacion = 1";
+                $info = Migrantes::fetchArray($sql);
+                $meses[] = $mes;
+                $cantidades[$mes] = (int) $info[0]['cantidad'];
+            }
+            $data = [
+                'meses' => $meses1,
+                'cantidades' => $cantidades
+            ];
+
+
+            echo json_encode($data);
         } catch (Exception $e) {
             echo json_encode([
                 "detalle" => $e->getMessage(),

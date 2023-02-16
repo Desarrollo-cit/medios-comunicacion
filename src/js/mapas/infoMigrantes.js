@@ -172,7 +172,7 @@ const Buscar_migrantes = async (e) => {
 
         const respuesta = await fetch(url, config);
         const info = await respuesta.json();
-
+// console.log(info);
         tablaregistro.destroy();
         tablaregistro = new Datatable('#dataTable2', {
             language: lenguaje,
@@ -248,7 +248,7 @@ window.ModalPersonal = async (id, tipo) => {
     const respuesta1 = await fetch(url1, config1);
     const info1 = await respuesta1.json();
 
-    console.log(info1);
+    // console.log(info1);
     
             modalmigrante.show();
             info.forEach(info1 => {
@@ -426,7 +426,7 @@ window.detalle = async (valor) => {
 
     const respuesta = await fetch(url, config);
     const info_depto1 = await respuesta.json();
-console.log(info_depto1);
+// console.log(info_depto1);
 
     if (info_depto1) {
         deptoinfo.innerText = info_depto1[0].cantidad
@@ -473,7 +473,7 @@ console.log(info_depto1);
         const response = await fetch(url_grafica, configGrafica)
         const datos = await response.json()
 
-        console.log(datos);
+        // console.log(datos);
         if (datos.length > 0) {
             document.getElementById('grafica_depto1').style.display = "block"
             document.getElementById('texto_no').style.display = "none"
@@ -572,9 +572,6 @@ console.log(info_depto1);
         console.log(error);
     }
 
-
-
-
 }
 
 
@@ -583,10 +580,10 @@ console.log(info_depto1);
 //________________________________________________________GRAFICA POR DELITOS __________________________________________________________________________________________________________
 
 
-const delitos_estadistica = async (e) => {
+const migrantes_por_edades_estadistica = async (e) => {
     e && e.preventDefault();
 
-    const url_grafica1 = `/medios-comunicacion/API/mapas/infoCapturas/DelitosCantGrafica`
+    const url_grafica1 = `/medios-comunicacion/API/mapas/infoMigrantes/MigrantesCantGrafica`
     const bodyGrafica1 = new FormData(formBusqueda_grafica);
 
     const headersGrafica1 = new Headers();
@@ -602,7 +599,6 @@ const delitos_estadistica = async (e) => {
         const response1 = await fetch(url_grafica1, configGrafica1)
         const datos1 = await response1.json()
 
-
         if (datos1.length > 0) {
             document.getElementById('graficaDelitos').style.display = "block"
             document.getElementById('texto_no1').style.display = "none"
@@ -610,7 +606,7 @@ const delitos_estadistica = async (e) => {
 
             let labels = [], cantidades = []
             datos1.forEach(d => {
-                labels = [...labels, d.descripcion]
+                labels = [...labels, d.edades]
                 cantidades = [...cantidades, d.cantidad]
             })
 
@@ -624,7 +620,7 @@ const delitos_estadistica = async (e) => {
                 data: {
                     labels,
                     datasets: [{
-                        label: 'DELITOS',
+                        label: 'Migrantes',
                         data: cantidades,
 
                         backgroundColor: [
@@ -713,7 +709,7 @@ const delitos_estadistica = async (e) => {
 const deptos_estadistica = async (e) => {
     e && e.preventDefault();
 
-    const url_grafica2 = `/medios-comunicacion/API/mapas/infoCapturas/DelitosDepartamentoGrafica`
+    const url_grafica2 = `/medios-comunicacion/API/mapas/infoMigrantes/MigrantesDepartamentoGrafica`
     const bodyGrafica2 = new FormData(formBusqueda_grafica);
 
     const headersGrafica2 = new Headers();
@@ -728,7 +724,7 @@ const deptos_estadistica = async (e) => {
 
         const response2 = await fetch(url_grafica2, configGrafica2)
         const datos2 = await response2.json()
-
+// console.log(datos2);
 
         if (datos2.length > 0) {
             document.getElementById('graficaDelitosDepartamento').style.display = "block"
@@ -806,9 +802,9 @@ const deptos_estadistica = async (e) => {
 
 
 
-const CapturasPorDia = async () => {
+const MigrantesPorDia = async () => {
 
-    const url_grafica2 = `/medios-comunicacion/API/mapas/infoCapturas/CapturasPorDiaGrafica`
+    const url_grafica2 = `/medios-comunicacion/API/mapas/infoMigrantes/MigrantesPorDiaGrafica`
     const headersGrafica2 = new Headers();
     headersGrafica2.append("X-Requested-With", "fetch");
 
@@ -836,7 +832,7 @@ const CapturasPorDia = async () => {
         const data = {
             labels: dias,
             datasets: [{
-                label: 'CAPTURAS',
+                label: 'Migrantes',
                 data: cantidades,
                 fill: true,
                 borderColor: 'rgb(75, 192, 192)',
@@ -922,7 +918,7 @@ const CapturasPorDia = async () => {
                         },
                         title: {
                             display: true,
-                            text: "CAPTURAS",
+                            text: "Migraciones",
                             fullSize: true,
                             color: 'black',
                             font: {
@@ -958,9 +954,9 @@ const chartColors = [
 
 
 
-const trimestralesDelitos = async () => {
+const trimestralesMigrantes = async () => {
 
-    const url_grafica2 = `/medios-comunicacion/API/mapas/infoCapturas/GraficaTrimestral`
+    const url_grafica2 = `/medios-comunicacion/API/mapas/infoMigrantes/GraficaTrimestral`
     const headersGrafica2 = new Headers();
     headersGrafica2.append("X-Requested-With", "fetch");
 
@@ -973,7 +969,7 @@ const trimestralesDelitos = async () => {
 
         const response2 = await fetch(url_grafica2, configGrafica2)
         const info = await response2.json()
-
+console.log(info);
         // info.length < 1 && Toast.fire({
         //     icon: 'warning',
         //     title: 'Ingreso mal las fechas'
@@ -1050,8 +1046,8 @@ const trimestralesDelitos = async () => {
 
 
 
-const trimestral_capturas_general = async () => {
-    const url_grafica2 = `/medios-comunicacion/API/mapas/infoCapturas/GraficaTrimestralGeneral`
+const trimestral_migrantes_general = async () => {
+    const url_grafica2 = `/medios-comunicacion/API/mapas/infoMigrantes/GraficaTrimestralGeneral`
     const headersGrafica2 = new Headers();
     headersGrafica2.append("X-Requested-With", "fetch");
 
@@ -1065,19 +1061,16 @@ const trimestral_capturas_general = async () => {
         const response2 = await fetch(url_grafica2, configGrafica2)
         const info = await response2.json()
 
-        // info.length < 1 && Toast.fire({
-        //     icon: 'warning',
-        //     title: 'Ingreso mal las fechas'
-        // })
+        
 
 
         const { meses, cantidades } = info;
         // console.log(info);
         const canvas1 = document.getElementById('myChart5');
         const ctx1 = canvas1.getContext('2d');
-        if (window.trimestral_capturaGeneral) {
-            console.log(window.trimestral_capturaGeneral);
-            window.trimestral_capturaGeneral.destroy()
+        if (window.trimestral_MigranteGeneral) {
+            console.log(window.trimestral_MigranteGeneral);
+            window.trimestral_MigranteGeneral.destroy()
         }
 
         const data = {
@@ -1161,7 +1154,7 @@ const trimestral_capturas_general = async () => {
                         },
                         title: {
                             display: true,
-                            text: "CAPTURAS",
+                            text: "Migrantes",
                             fullSize: true,
                             color: 'White',
                             font: {
@@ -1174,8 +1167,8 @@ const trimestral_capturas_general = async () => {
                 }
             }
         };
-        window.trimestral_capturaGeneral = new Chart(ctx1, configChart);
-        window.trimestral_capturaGeneral.update()
+        window.trimestral_MigranteGeneral = new Chart(ctx1, configChart);
+        window.trimestral_MigranteGeneral.update()
     } catch (error) {
         console.log(error);
     }
@@ -1187,7 +1180,7 @@ const trimestral_capturas_general = async () => {
 
 
 formBusqueda_resumen.addEventListener('submit', cambiarmes)
-formBusqueda_grafica.addEventListener('submit', delitos_estadistica)
+formBusqueda_grafica.addEventListener('submit', migrantes_por_edades_estadistica)
 btnBuscar.addEventListener("click", Buscar_migrantes);
 btnresumenbuscar.addEventListener("click", ocultar_select);
 btngraficabuscar.addEventListener("click", ocultar_busquedad_grafica);
@@ -1195,10 +1188,10 @@ btnBuscarmapacalor.addEventListener("click", ocultar_busquedad_mapa);
 formBusqueda_mapa.addEventListener('submit', busquedad_mapa_Calor)
 btnmapa.addEventListener("click", ocultar_mapa);
 busquedad_mapa_Calor();
-delitos_estadistica();
-CapturasPorDia();
-trimestralesDelitos();
-trimestral_capturas_general();
+migrantes_por_edades_estadistica();
+MigrantesPorDia();
+trimestralesMigrantes();
+trimestral_migrantes_general();
 // deptos_estadistica();
 btngrafica.addEventListener("click", ocultar_graficas);
 

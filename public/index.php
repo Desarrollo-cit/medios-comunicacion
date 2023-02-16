@@ -215,13 +215,10 @@ $router->post('/API/mapas/infoMigrantes/mapaCalor', [infoMigrantesController::cl
 $router->post('/API/mapas/infoMigrantes/mapaCalorPorDepto', [infoMigrantesController::class , 'mapaCalorDeptoAPI'] );
 $router->post('/API/mapas/infoMigrantes/mapaCalorPorDeptoGrafica', [infoMigrantesController::class , 'mapaCalorPorDeptoGraficaAPI'] );
 $router->post('/API/mapas/infoMigrantes/colores', [infoMigrantesController::class , 'coloresAPI'] );
-$router->post('/API/mapas/infoMigrantes/DelitosCantGrafica', [infoMigrantesController::class , 'DelitosCantGraficaAPI'] );
-$router->post('/API/mapas/infoMigrantes/DelitosDepartamentoGrafica', [infoMigrantesController::class , 'DelitosDepartamentoGraficaAPI'] );
-$router->post('/API/mapas/infoMigrantes/ActividadesPorDiaGrafica', [infoMigrantesController::class , 'ActividadesPorDiaGraficaAPI'] );
-$router->post('/API/mapas/infoMigrantes/Mara18PorDiaGrafica', [infoMigrantesController::class , 'Mara18PorDiaGraficaAPI'] );
-$router->post('/API/mapas/infoMigrantes/SalvatruchaPorDiaGrafica', [infoMigrantesController::class , 'SalvatruchaPorDiaGraficaAPI'] );
-$router->post('/API/mapas/infoMigrantes/GraficaTrimestralMara18', [infoMigrantesController::class , 'GraficaTrimestralMara18API'] );
-$router->post('/API/mapas/infoMigrantes/GraficaTrimestralSalvatrucha', [infoMigrantesController::class , 'GraficaTrimestralSalvatruchaAPI'] );
+$router->post('/API/mapas/infoMigrantes/MigrantesCantGrafica', [infoMigrantesController::class , 'MigrantesCantGraficaAPI'] );
+$router->post('/API/mapas/infoMigrantes/MigrantesDepartamentoGrafica', [infoMigrantesController::class , 'MigrantesDepartamentoGraficaAPI'] );
+$router->post('/API/mapas/infoMigrantes/MigrantesPorDiaGrafica', [infoMigrantesController::class , 'MigrantesPorDiaGraficaAPI'] );
+$router->post('/API/mapas/infoMigrantes/GraficaTrimestral', [infoMigrantesController::class , 'GraficaTrimestralAPI'] );
 $router->post('/API/mapas/infoMigrantes/GraficaTrimestralGeneral', [infoMigrantesController::class , 'GraficaTrimestralGeneralAPI'] );
 
 
