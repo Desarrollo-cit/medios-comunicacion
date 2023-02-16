@@ -16,12 +16,16 @@ class EventoController {
         $actividades = Evento::fetchArray("SELECT * from amc_actividad_vinculada where situacion = 1");
         $tipos_desastres = Evento::fetchArray("SELECT * from amc_tipo_desastre_natural where situacion = 1");
         $fenomenos = Evento::fetchArray("SELECT * from amc_fenomeno_natural where situacion = 1");
+        $tipo_movimiento = Evento::fetchArray("SELECT * from amc_tipo_movimiento_social where situacion = 1");
+        $movimiento = Evento::fetchArray("SELECT * from amc_organizacion_mov_social where situacion = 1");
         $router->render('eventos/index', [
             'topicos' => $topicos,
             'departamentos' => $departamentos,
             'actividades' => $actividades,
             'tipos_desastres' => $tipos_desastres,
             'fenomenos' => $fenomenos,
+            'tipo_movimiento' => $tipo_movimiento,
+            'movimiento' => $movimiento,
         ]);
     }
 

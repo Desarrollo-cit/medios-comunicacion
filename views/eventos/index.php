@@ -305,7 +305,7 @@
                 <div class="row justify-content-center mb-3">
                     <form id="formAsesinatos" novalidate>
                         <div class="col p-1">
-                            <input type="text" name="topico" id="topico">
+                            <input type="hidden" name="topico" id="topico">
                             <div class="row justify-content-center mb-5">
                                 <h4>Información del Asesinato</h4>
                                 <div class="col-12 text-center">
@@ -372,7 +372,7 @@
                 <div class="row justify-content-center mb-3">
                     <form id="formMigrantes" novalidate>
                         <div class="col p-1">
-                            <input type="text" name="topic" id="topic">
+                            <input type="hidden" name="topic" id="topic">
                             <div class="row justify-content-center mb-5">
                                 <h4>Información de los Migrantes</h4>
                                 <div class="col-12 text-center">
@@ -437,7 +437,7 @@
                 <div class="row justify-content-center mb-3">
                     <form id="formDinero" novalidate>
                         <div class="col p-1">
-                            <input type="text" name="topico" id="topico">
+                            <input type="hidden" name="topico" id="topico">
                             <div class="row justify-content-center mb-5">
                                 <h4>Información del Dinero</h4>
                                 <div class="col-12 text-center">
@@ -670,7 +670,7 @@
                             <div class="row justify-content-center mb-5">
                                 <h4>Información de la Pista</h4>
                                 <div class="col-12 text-center">
-                                    <label class="h3 " for="info6">Noticia</label>
+                                    <label class="h3 " for="info7">Noticia</label>
                                     <textarea name="info7" id="info7" class="form-control"></textarea>
 
                                 </div>
@@ -713,6 +713,95 @@
                 </div>
                 <div class="col-lg-3">
                     <button type="button" class="btn btn-danger w-100" id="btnBorrarPistas"><i class="bi bi-trash  me-2"> </i> Borrar</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL 9 -->
+<div class="modal fade" id="modalMovimiento" tabindex="-1" role="dialog" aria-labelledby="modalMovimientoLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header ">
+                <h5 class="modal-title " id="modalDesastresLabel">DETALLE DEL MOVIMIENTO SOCIAL</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body container ">
+                <!-- <form>
+
+                </form> -->
+                <div class="row justify-content-center mb-3">
+                    <form id="formMovimiento" novalidate>
+                        <div class="col p-1">
+                            <input type="hidden" name="topico" id="topico">
+                            <div class="row justify-content-center mb-5">
+                                <h4>Información del Movimiento</h4>
+                                <div class="col-12 text-center">
+                                    <label class="h3 " for="info6">Noticia</label>
+                                    <textarea name="info8" id="info8" class="form-control"></textarea>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row justify-content-center">
+
+                           
+
+                        </div>
+
+
+                        <div id='divMovimiento' class="row">
+                            
+                        <div class="col-lg-4 text-center mb-3">
+
+                        <input type="hidden" id="id" name="id">
+                        <label for="tipo_movimiento">Tipo de Movimiento</label>
+                                    <select name="tipo_movimiento" id="tipo_movimiento" class="form-control">
+                                        <option value="0">Seleccionar</option>
+                                        <?php
+                                        foreach ($tipo_movimiento as $fila) : ?>
+
+                                            <option value="<?= $fila['id'] ?>"> <?= $fila['desc'] ?></option>
+
+                                        <?php endforeach ?>
+
+
+                                    </select>
+
+                                    </div>
+                                    <div class="col-lg-4 text-center">
+                                    <label for="organizacion">Organizacion</label>
+                                    <select name="organizacion" id="organizacion" class="form-control">
+                                        <option value="0">Seleccionar</option>
+                                        <?php
+                                        foreach ($movimiento as $fila) : ?>
+
+                                            <option value="<?= $fila['id'] ?>"> <?= $fila['desc'] ?></option>
+
+                                        <?php endforeach ?>
+
+
+                                    </select>
+                                    </div>
+                                    <div class="col-lg-4 text-center">
+
+                                        <label for="cantidad">Cantidad de personas</label>
+                                      <input type="number" id="cantidad" name="cantidad" class="form-control">
+
+                                    </div>
+            </div>
+            <div class="modal-footer row justify-content-end">
+
+                <div class="col-lg-3">
+                    <button type="submit" form="formMovimiento" id="btnGuardarMovimiento" class="btn btn-primary w-100"><i class="bi bi-save me-2"></i>Guardar</button>
+                </div>
+                <div class="col-lg-3">
+                    <button type="button" class="btn btn-warning w-100" id="btnModificarMovimiento"><i class="bi bi-save me-2"></i>Modificar</button>
+                </div>
+                <div class="col-lg-3">
+                    <button type="button" class="btn btn-danger w-100" id="btnBorrarMovimiento"><i class="bi bi-trash  me-2"> </i> Borrar</button>
                 </div>
 
             </div>

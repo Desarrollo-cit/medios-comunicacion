@@ -19,6 +19,7 @@ const modalMigrantes = new Modal(document.getElementById('modalMigrantes'), {})
 const modalDinero = new Modal(document.getElementById('modalDinero'), {})
 const modalDesastres = new Modal(document.getElementById('modalDesastres'), {})
 const modalPistas = new Modal(document.getElementById('modalPistas'), {})
+const modalMovimiento = new Modal(document.getElementById('modalMovimiento'), {})
 const formInformacion = document.querySelector('#formInformacion')
 const divPills = document.getElementById('divPills')
 const formCaptura = document.querySelector('#formCaptura')
@@ -27,6 +28,7 @@ const formMigrantes = document.querySelector('#formMigrantes')
 const formDinero = document.querySelector('#formDinero')
 const formDesastres = document.querySelector('#formDesastres')
 const formPistas = document.querySelector('#formPistas')
+const formMovimiento = document.querySelector('#formMovimiento')
 const buttonAgregarInputsCaptura = document.getElementById('agregarInputscaptura');
 const buttonQuitarInputsCaptura = document.getElementById('quitarInputscaptura');
 const buttonAgregarInputsAsesinatos = document.getElementById('agregarInputsAsesinatos');
@@ -35,8 +37,6 @@ const buttonAgregarInputsMigrantes = document.getElementById('agregarInputsMigra
 const buttonQuitarInputsMigrantes = document.getElementById('quitarInputsMigrantes');
 const buttonAgregarInputsDinero = document.getElementById('agregarInputsDinero');
 const buttonQuitarInputsDinero = document.getElementById('quitarInputsDinero');
-const buttonAgregarInputsDesastres = document.getElementById('agregarInputsDesastres');
-const buttonQuitarInputsDesastres = document.getElementById('quitarInputsDesastres');
 const btnGuardarCaptura = document.getElementById('btnGuardarCaptura');
 const btnModificarCaptura = document.getElementById('btnModificarCaptura');
 const btnBorrarCaptura = document.getElementById('btnBorrarCaptura');
@@ -60,6 +60,11 @@ const btnBorrarDesastres = document.getElementById('btnBorrarDesastres');
 const btnGuardarPistas = document.getElementById('btnGuardarPistas');
 const btnModificarPistas = document.getElementById('btnModificarPistas');
 const btnBorrarPistas = document.getElementById('btnBorrarPistas');
+
+const btnGuardarMovimiento = document.getElementById('btnGuardarMovimiento');
+const btnModificarMovimiento = document.getElementById('btnModificarMovimiento');
+const btnBorrarMovimiento = document.getElementById('btnBorrarMovimiento');
+
 
 
 const inicioInput = document.getElementById('inicio');
@@ -450,7 +455,7 @@ const modal5 = async (e, punto) => {
 
 }
 
-//MODAL 6
+//MODAL 7
 const divDesastres = document.getElementById('divDesastres');
 let inputsDesastres = 0;
 const modal7 = async (e, punto) => {
@@ -465,7 +470,7 @@ const modal7 = async (e, punto) => {
 
 
 }
-
+//MODAL 8
 const modal8 = async (e, punto) => {
     L.DomEvent.stopPropagation(e);
 
@@ -474,6 +479,20 @@ const modal8 = async (e, punto) => {
 
 
     modalPistas.show();
+
+
+
+}
+
+//MODAL 9
+const modal9 = async (e, punto) => {
+    L.DomEvent.stopPropagation(e);
+
+
+    recargarModalMovimiento(punto.id)
+
+
+    modalMovimiento.show();
 
 
 
@@ -875,6 +894,75 @@ const recargarModalPistas = async (id) => {
     }
 
     modalPistas.show();
+
+
+}
+const recargarModalMovimiento = async (id) => {
+    formMovimiento.reset()
+    formMovimiento.topico.value = id
+
+
+ 
+
+
+    try {
+        const url = `/medios-comunicacion/API/mov_social/buscar?topico=${id}`
+        const headers = new Headers();
+        headers.append("X-Requested-With", "fetch");
+
+        const config = {
+            method: 'GET',
+            headers
+        }
+
+        const respuesta = await fetch(url, config);
+        const data = await respuesta.json();
+        console.log(data);
+
+      
+        const {info, movimiento } = data;
+          
+
+       info && tinymce.get('info8').setContent(info.info)
+        // }
+        if (movimiento) {
+
+        // console.log(data);
+        movimiento.forEach( m => {
+            formMovimiento.id.value= m.id,
+            formMovimiento.topico.value= m.topico,
+            formMovimiento.tipo_movimiento.value= m.tipo_movimiento,
+            formMovimiento.organizacion.value= m.organizacion,
+            formMovimiento.cantidad.value= m.cantidad
+        })
+
+
+  
+        } 
+
+        if (movimiento.length > 0 && info) {
+        
+           
+            btnGuardarMovimiento.disabled = true
+            btnModificarMovimiento.disabled = false
+
+
+            btnGuardarMovimiento.parentElement.style.display = 'none'
+            btnModificarMovimiento.parentElement.style.display = ''
+
+        } else {
+            btnGuardarMovimiento.disabled = false
+            btnModificarMovimiento.disabled = true
+
+            btnGuardarMovimiento.parentElement.style.display = ''
+            btnModificarMovimiento.parentElement.style.display = 'none'
+
+        }
+    } catch (e) {
+        console.log(e);
+    }
+
+    modalMovimiento.show();
 
 
 }
@@ -1297,7 +1385,7 @@ const agregarInputsMigrantes = async (e, id = '', pais_migrante = '', edad = '',
     h1.innerText= `CANTIDAD ${inputsMigrantes}`
     label1.innerText = `PAIS DEL MIGRANTE`
     label1.htmlFor = `pais_migrante[]`
-    label2.innerText = ``
+    label2.innerText = `Rango de edad`
     label2.htmlFor = `edad[]`
     label3.innerText = `CANTIDAD `
     label3.htmlFor = `cantidad[]`
@@ -2348,6 +2436,86 @@ const guardarPistas= async e => {
 
 }
 
+const guardarMovimiento= async e => {
+    e.preventDefault();
+
+    let info = tinymce.get('info8').getContent()
+    console.log(info);
+    if (validarFormulario(formMovimiento, ['id','info8']) && info != '') {
+
+        // console.log('hola');
+        try {
+
+            const url = '/medios-comunicacion/API/mov_social/guardar'
+
+            const body = new FormData(formMovimiento);
+
+      
+            body.append('info8', info)
+            const headers = new Headers();
+            headers.append("X-Requested-With", "fetch");
+
+            const config = {
+                method: 'POST',
+                headers,
+                body
+            }
+
+            const respuesta = await fetch(url, config);
+            const data = await respuesta.json();
+
+            console.log(data);
+            const { mensaje, codigo, detalle } = data;
+            // const resultado = data.resultado;
+            let icon = "";
+            switch (codigo) {
+                case 1:
+                    icon = "success"
+                    recargarModalMovimiento(formMovimiento.topico.value)
+                    break;
+                case 2:
+                    icon = "warning"
+                    formMovimiento.reset();
+
+                    break;
+                case 3:
+                    icon = "error"
+
+                    break;
+                case 4:
+                    icon = "error"
+                    console.log(detalle)
+
+                    break;
+
+                    case 5:
+                        icon = "warning"
+                        break;
+    
+
+                default:
+                    break;
+            }
+
+            Toast.fire({
+                icon: icon,
+                title: mensaje,
+            })
+
+        } catch (error) {
+            console.log(error);
+        }
+
+    } else {
+        Toast.fire({
+            icon: 'warning',
+            title: 'Debe llenar todos los campos'
+        });
+    }
+
+}
+
+
 
 
 const eliminarCapturado = async (e, id) => {
@@ -3055,6 +3223,77 @@ const eliminarPistas = async (e) => {
     })
 }
 
+const eliminarMovimiento = async (e) => {
+    Swal.fire({
+        title: 'Confirmación',
+        text: "¿Esta seguro que desea eliminar este Movimiento Social",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, Eliminar'
+    }).then( async(result) => {
+        if (result.isConfirmed) {
+            try {
+
+                const url = '/medios-comunicacion/API/mov_social/eliminar'
+    
+                const body = new FormData();
+                body.append('topico', formMovimiento.topico.value)
+                const headers = new Headers();
+                headers.append("X-Requested-With", "fetch");
+    
+                const config = {
+                    method: 'POST',
+                    headers,
+                    body
+                }
+    
+                const respuesta = await fetch(url, config);
+                const data = await respuesta.json();
+    
+                console.log(data);
+                // return 
+                const { mensaje, codigo, detalle } = data;
+                // const resultado = data.resultado;
+                let icon = "";
+                switch (codigo) {
+                    case 1:
+                        icon = "success"
+                        modalMovimiento.hide()
+                        buscarEventos()
+                        break;
+                    case 2:
+                        icon = "warning"
+                        formMovimiento.reset();
+    
+                        break;
+                    case 3:
+                        icon = "error"
+    
+                        break;
+                    case 4:
+                        icon = "error"
+                        console.log(detalle)
+    
+                        break;
+    
+                    default:
+                        break;
+                }
+    
+                Toast.fire({
+                    icon: icon,
+                    title: mensaje,
+                })
+    
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    })
+}
+
 
 const modificarCaptura = async e => {
     e.preventDefault();
@@ -3417,7 +3656,7 @@ const modificarPistas = async e => {
     e.preventDefault();
 
     let info = tinymce.get('info7').getContent()
-    if (validarFormulario(formPistas, ['id[]', 'info7']) && info != '') {
+    if (validarFormulario(formPistas, ['id', 'info7']) && info != '') {
 
         // console.log('hola');
         try {
@@ -3485,6 +3724,78 @@ const modificarPistas = async e => {
 
 }
 
+const modificarMovimiento = async e => {
+    e.preventDefault();
+
+    let info = tinymce.get('info8').getContent()
+    if (validarFormulario(formMovimiento, ['id', 'info8']) && info != '') {
+
+        // console.log('hola');
+        try {
+
+            const url = '/medios-comunicacion/API/mov_social/modificar'
+
+            const body = new FormData(formMovimiento);
+            body.append('info8', info)
+            const headers = new Headers();
+            headers.append("X-Requested-With", "fetch");
+
+            const config = {
+                method: 'POST',
+                headers,
+                body
+            }
+
+            const respuesta = await fetch(url, config);
+            const data = await respuesta.json();
+
+            console.log(data);
+            // return 
+            const { mensaje, codigo, detalle } = data;
+            // const resultado = data.resultado;
+            let icon = "";
+            switch (codigo) {
+                case 1:
+                    icon = "success"
+                    recargarModalMovimiento(formMovimiento.topico.value)
+                    break;
+                case 2:
+                    icon = "warning"
+                    formMovimiento.reset();
+
+                    break;
+                case 3:
+                    icon = "error"
+
+                    break;
+                case 4:
+                    icon = "error"
+                    console.log(detalle)
+
+                    break;
+
+                default:
+                    break;
+            }
+
+            Toast.fire({
+                icon: icon,
+                title: mensaje,
+            })
+
+        } catch (error) {
+            console.log(error);
+        }
+
+    } else {
+        Toast.fire({
+            icon: 'warning',
+            title: 'Debe llenar todos los campos'
+        });
+    }
+
+}
+
 const multiplicarMoneda = async e => {
     e.preventDefault();
     let inputCantidad = e.target.parentElement.previousElementSibling.lastElementChild.value,
@@ -3511,12 +3822,14 @@ btnModificarMigrantes.addEventListener('click', modificarMigrantes)
 btnModificarDinero.addEventListener('click', modificarDinero)
 btnModificarDesastres.addEventListener('click', modificarDesastres)
 btnModificarPistas.addEventListener('click', modificarPistas)
+btnModificarMovimiento.addEventListener('click', modificarMovimiento)
 btnBorrarCaptura.addEventListener('click', eliminarCaptura );
 btnBorrarAsesinatos.addEventListener('click', eliminarAsesinato );
 btnBorrarMigrantes.addEventListener('click', eliminarMigrantes );
 btnBorrarDinero.addEventListener('click', eliminarDineros );
 btnBorrarDesastres.addEventListener('click', eliminarDesastre );
 btnBorrarPistas.addEventListener('click', eliminarPistas );
+btnBorrarMovimiento.addEventListener('click', eliminarMovimiento );
 buttonAgregarInputsCaptura.addEventListener('click', agregarInputsCaptura)
 buttonQuitarInputsCaptura.addEventListener('click', quitarInputsCaptura)
 buttonAgregarInputsAsesinatos.addEventListener('click', agregarInputsAsesinatos)
@@ -3532,3 +3845,4 @@ formMigrantes.addEventListener('submit',guardarMigrantes)
 formDinero.addEventListener('submit',guardarDinero)
 formDesastres.addEventListener('submit',guardarDesastres)
 formPistas.addEventListener('submit',guardarPistas)
+formMovimiento.addEventListener('submit',guardarMovimiento)

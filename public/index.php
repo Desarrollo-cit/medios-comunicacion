@@ -33,6 +33,7 @@ use Controllers\DesastresController;
 
 use Controllers\infoCapturaController;
 use Controllers\infoDrogaController;
+use Controllers\Mov_socialController;
 use Controllers\PistasController;
 
 $router = new Router();
@@ -159,6 +160,11 @@ $router->post('/API/pistas/guardar', [PistasController::class, 'guardar']);
 $router->post('/API/pistas/modificar', [PistasController::class, 'modificar']);
 $router->get('/API/pistas/buscar', [PistasController::class, 'buscarPistasAPI']);
 $router->post('/API/pistas/eliminar', [PistasController::class, 'eliminarPistas']);
+
+$router->post('/API/mov_social/guardar', [Mov_socialController::class, 'guardar']);
+$router->post('/API/mov_social/modificar', [Mov_socialController::class, 'modificar']);
+$router->get('/API/mov_social/buscar', [Mov_socialController::class, 'buscarMovimientoAPI']);
+$router->post('/API/mov_social/eliminar', [Mov_socialController::class, 'eliminarMovimiento']);
 
 
 
