@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="<?= asset('build/js/app.js') ?>"></script>
-    <link rel="shortcut icon" href="<?= asset('images/cit.png') ?>" type="image/x-icon">
+    <link rel="shortcut icon" href="<?= asset('images/emdn.png') ?>" type="image/x-icon">
     <link rel="stylesheet" href="<?= asset('build/styles.css') ?>">
     <title>Medios</title>
 </head>
@@ -18,7 +18,7 @@
             </button>
             <a class="navbar-brand" href="/medios-comunicacion/">
 
-                <img src="<?= asset('./images/cit.png') ?>" width="35px'" alt="cit" >
+                <img src="<?= asset('./images/emdn.png') ?>" width="35px'" alt="cit" >
 
                 Medios
             </a>
