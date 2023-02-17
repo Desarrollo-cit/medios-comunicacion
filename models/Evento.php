@@ -34,4 +34,8 @@ class Evento extends ActiveRecord{
         $this->info = utf8_decode( preg_replace("[\n|\r|\n\r]", "", $args['info'])) ?? '';
         $this->dependencia = $args['dependencia'] ?? '';
     }
+
+    public function setInfo($info){
+        $this->info = utf8_decode( preg_replace("[\n|\r|\n\r]", "", $info));
+    }
 }

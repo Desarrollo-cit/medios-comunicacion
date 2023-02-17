@@ -30,7 +30,7 @@ class MigrantesController{
         try {
 
             $evento = Evento::find($_POST['topic']);
-            $evento->info = $_POST['info3'];
+            $evento->setInfo($_POST['info3']);
             $evento->guardar();
      
 
@@ -177,7 +177,7 @@ class MigrantesController{
         try {
 
             $evento = Evento::find($_POST['topic']);
-            $evento->info = $_POST['info3'];
+            $evento->setInfo($_POST['info3']);
             $evento->guardar();
      
 

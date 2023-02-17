@@ -18,7 +18,7 @@ class AsesinatosController
         try {
 
             $evento = Evento::find($_POST['topico']);
-            $evento->info = $_POST['info'];
+            $evento->setInfo($_POST['info']);
             $evento->guardar();
  
             $asesinatos = new Asesinatos([
@@ -109,7 +109,7 @@ class AsesinatosController
         try {
 
             $evento = Evento::find($_POST['topico']);
-            $evento->info = $_POST['info'];
+            $evento->setInfo($_POST['info']);
             $evento->guardar();
             // echo json_encode($resultado);
             // exit;

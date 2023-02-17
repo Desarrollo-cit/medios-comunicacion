@@ -39,7 +39,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-2 col-lg-12 justify-content-center justify-content-lg-between border rounded-pill p-2 px-3" data-id="9" id="divTopico3" aria-current="true" style="cursor: pointer;">
+                    <div class="col-2 col-lg-12 justify-content-center justify-content-lg-between border rounded-pill p-2 px-3" data-id="9" id="divTopico9" aria-current="true" style="cursor: pointer;">
                         <div class="row h-100 align-items-center" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Migrantes">
                             <div class="col-lg-9 d-none d-lg-block">
                                 <p class="display-6 ">Migrantes</p>
