@@ -108,13 +108,9 @@ class AsesinatosController
         
         try {
 
-            $busquedaAsesinato = Asesinatos::where( 'topico' , $_POST['topico']);
-            $asesinato = array_shift($busquedaAsesinato);
- 
-
-            $asesinato->info = $_POST['info'];
-            $asesinato->guardar();
-
+            $evento = Evento::find($_POST['topico']);
+            $evento->info = $_POST['info'];
+            $evento->guardar();
             // echo json_encode($resultado);
             // exit;
 

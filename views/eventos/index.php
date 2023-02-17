@@ -305,43 +305,42 @@
                 <!-- <form>
 
                 </form> -->
-                <div class="row justify-content-center mb-3">
-                    <form id="formAsesinatos" novalidate>
-                        <form id="formAsesinatos" novalidate>
-                            <div class="col p-1">
-                                <input type="hidden" name="topico" id="topico">
-                                <div class="row justify-content-center mb-5">
-                                    <h4>Información del Asesinato</h4>
-                                    <div class="col-12 text-center">
-                                        <label class="h3 " for="info">Noticia</label>
-                                        <textarea name="info2" id="info2" class="form-control"></textarea>
+                <form id="formAsesinatos" novalidate>
+                    <div class="row justify-content-center mb-3">
+                        <div class="col p-1">
+                            <input type="hidden" name="topico" id="topico">
+                            <div class="row justify-content-center mb-5">
+                                <h4>Información del Asesinato</h4>
+                                <div class="col-12 text-center">
+                                    <label class="h3 " for="info">Noticia</label>
+                                    <textarea name="info2" id="info2" class="form-control"></textarea>
 
 
-                                    </div>
                                 </div>
                             </div>
-                </div>
-                <div class="row justify-content-center">
-
-                    <div class="col">
-
-                        <h2>Personas Asesinadas</h2>
+                        </div>
                     </div>
-                    <div class="col-lg-1">
-                        <button type="button" id="agregarInputsAsesinatos" class="btn btn-success w-100"><i class="bi bi-plus-circle "></i></button>
+                    <div class="row justify-content-center">
+
+                        <div class="col">
+
+                            <h2>Personas Asesinadas</h2>
+                        </div>
+                        <div class="col-lg-1">
+                            <button type="button" id="agregarInputsAsesinatos" class="btn btn-success w-100"><i class="bi bi-plus-circle "></i></button>
+                        </div>
+                        <div class="col-lg-1">
+                            <button type="button" id="quitarInputsAsesinatos" class="btn btn-secondary w-100"><i class="bi bi-dash-circle"></i></button>
+                        </div>
+
+
                     </div>
-                    <div class="col-lg-1">
-                        <button type="button" id="quitarInputsAsesinatos" class="btn btn-secondary w-100"><i class="bi bi-dash-circle"></i></button>
+
+
+                    <div id='divAsesinados' class="row">
+
+
                     </div>
-
-
-                </div>
-
-
-                <div id='divAsesinados' class="row">
-
-
-                </div>
                 </form>
             </div>
 

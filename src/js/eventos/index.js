@@ -2660,7 +2660,7 @@ const guardarAsesinatos = async e => {
     e.preventDefault();
 
     let info = tinymce.get('info2').getContent()
-    console.log(info);
+    // console.log(info);
 
 
     if (validarFormulario(formAsesinatos, ['id_per[]', 'info2']) && info != '') {
