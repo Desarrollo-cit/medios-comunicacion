@@ -167,6 +167,18 @@ $router->post('/API/mapas/IndexMuertes/GraficaTrimestral', [infoMuertesControlle
 $router->get('/mapas/dinero_y_armas', [InfoDinero_y_armasController::class , 'index']);
 $router->post('/API/mapas/IndexDinero_y_armas/resumen', [InfoDinero_y_armasController::class , 'resumenAPI'] );
 $router->get('/API/mapas/IndexDinero_y_armas/listado', [InfoDinero_y_armasController::class , 'listadoAPI'] );
+$router->post('/API/mapas/IndexDinero_y_armas/modal', [InfoDinero_y_armasController::class , 'modalAPI'] );
+$router->post('/API/mapas/IndexDinero_y_armas/informacion', [InfoDinero_y_armasController::class , 'informacionModalAPI'] );
+$router->post('/API/mapas/IndexDinero_y_armas/informacion1', [InfoDinero_y_armasController::class , 'informacionModalAPI1'] );
+$router->post('/API/mapas/IndexDinero_y_armas/mapaCalor', [InfoDinero_y_armasController::class , 'mapaCalorAPI'] );
+$router->post('/API/mapas/IndexDinero_y_armas/mapaCalorPorDepto', [InfoDinero_y_armasController::class , 'mapaCalorDeptoAPI'] );
+$router->post('/API/mapas/IndexDinero_y_armas/colores', [InfoDinero_y_armasController::class , 'coloresAPI'] );
+$router->post('/API/mapas/IndexDinero_y_armas/mapaCalorPorDeptoGrafica', [InfoDinero_y_armasController::class , 'mapaCalorPorDeptoGraficaAPI'] );
+$router->post('/API/mapas/IndexDinero_y_armas/GraficaTrimestralGeneral', [InfoDinero_y_armasController::class , 'GraficaTrimestralGeneralAPI'] );
+$router->post('/API/mapas/IndexDinero_y_armas/DelitosCantGrafica', [InfoDinero_y_armasController::class , 'DelitosCantGraficaAPI'] );
+$router->post('/API/mapas/IndexDinero_y_armas/DelitosDepartamentoGrafica', [InfoDinero_y_armasController::class , 'DelitosDepartamentoGraficaAPI'] );
+$router->post('/API/mapas/IndexDinero_y_armas/CapturasPorDiaGrafica', [InfoDinero_y_armasController::class , 'CapturasPorDiaGraficaAPI'] );
+$router->post('/API/mapas/IndexDinero_y_armas/GraficaTrimestral', [InfoDinero_y_armasController::class , 'GraficaTrimestralAPI'] );
 
 
 $router->get('/mapas/droga', [infoDrogaController::class , 'index']);

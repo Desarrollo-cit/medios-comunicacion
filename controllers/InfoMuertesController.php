@@ -540,7 +540,7 @@ class InfoMuertesController
     {
         getHeadersApi();
         try {
-            $sql = "SELECT * from amc_colores where topico = 1 and situacion = 1 order by nivel asc ";
+            $sql = "SELECT * from amc_colores where topico = 2 and situacion = 1 order by nivel asc ";
             $info = Capturadas::fetchArray($sql);
            echo json_encode($info);
             
@@ -628,7 +628,7 @@ class InfoMuertesController
     {
 
         try {
-            $sql = "SELECT * from amc_colores where topico = 1  ";
+            $sql = "SELECT * from amc_colores where topico = 2  ";
             $info = Capturadas::fetchArray($sql);
             return $info;
             

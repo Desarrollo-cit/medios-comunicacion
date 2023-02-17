@@ -247,7 +247,7 @@ window.ModalPersonal = async (id, tipo) => {
     }
     const respuesta = await fetch(url, config);
     const info = await respuesta.json();
-    // console.log(info)
+     //console.log(info)
 
     switch (tipo) {
 

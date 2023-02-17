@@ -27,11 +27,14 @@ $delito = $delito[0]['desc'];
 $mujeres = $mujeres[0]['cantidad'];
 $total_armas = $total_armas[0]['cantidad_arm'];
 $depto = $depto[0]['desc'];
-/* var_dump($depto);
-exit; */
+//  var_dump($depto);
+// exit; 
+
 $total_dinero = $total_dinero[0]['cantidad_din'];
-$incidencia_arma = $incidencia_arma[0]['descripcion'];
-$incidencia_arma1 = $incidencia_arma[0]['municion'];
+$incidencia_arma2 = $incidencia_arma[0]['descripcion'];
+$incidencia_arma1 = $incidencia_arma['municion'];
+$armas ;
+
 
 
 
@@ -146,12 +149,11 @@ $incidencia_arma1 = $incidencia_arma[0]['municion'];
                 <div class="row justify-content-center">
                     <div class="col-2 col-sm-4">
                         <img src="<?= asset('./images/iconos//reporte.png') ?>" class="w-100" alt="capturas">
-
                     </div>
                 </div>
                 <div class="row">
                     <div class="col">
-                        <p class="h3" id="delito_concurrente"><?= $incidencia_arma ." ".$incidencia_arma1  ?></p>
+                        <p class="h3" id="delito_concurrente"><?= $incidencia_arma2 ." ".$incidencia_arma1  ?></p>
                     </div>
                 </div>
             </div>
@@ -238,7 +240,7 @@ $incidencia_arma1 = $incidencia_arma[0]['municion'];
     <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header ">
-                <h5 class="modal-title " id="infoModalLabel">Informacion de las captura</h5>
+                <h5 class="modal-title " id="infoModalLabel">Informacion de las Incautaciones</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body container">
@@ -300,16 +302,16 @@ $incidencia_arma1 = $incidencia_arma[0]['municion'];
                     </form>
                 </div>
                 <hr>
-                <h2>Personas capturadas</h2>
+                <h2>Informacion de las Armas</h2>
                 <div class="row mb-2 justify-content-center text-center" id="tabla1">
                     <div class="col-sm-12 col-lg-12 table-responsive ">
                         <table id='dataTable3' class='table table-hover table-condensed table-bordered w-100'>
                             <thead class='table-dark'>
                                 <tr>
                                     <th>NO.</th>
-                                    <th>NOMBRE</th>
-                                    <th>SEXO</th>
-                                    <th>EDAD</th>
+                                    <th>TIPO DE ARMA</th>
+                                    <th>CALIBRE</th>
+                                    <th>CANTIDAD</th>
 
 
 
@@ -360,16 +362,11 @@ $incidencia_arma1 = $incidencia_arma[0]['municion'];
                                 <div class="col-lg-3">
                                     <label for="delitos_mapa_calor" style="color: white;">Delito</label>
                                     <!--  <select class="form-control" name="delitos_mapa_calor" id="delitos_mapa_calor"> -->
-                                    <select class="form-control" name="tipos_muerte_mapa_calor" id="tipos_muerte_mapa_calor">
+                                    <select class="form-control" name="tipos_arma_mapa_calor" id="tipos_arma_mapa_calor"  value="" selected readonly>
                                         <option value="">Seleccione...</option>
-                                        <option value="1">ASESINATO</option>
-                                        <option value="2">HOMICIDIO</option>
-                                        <option value="3">SICARIATO</option>
-                                        <option value="4">FEMICIDIO</option>
-                                        <option value="5">SUICIDIO</option>
-
-
-
+                                        <?php foreach ($armas as $arma) { ?>
+                                            <option value="<?= $arma['id']  ?>"><?= $arma['desc']  ?></option>
+                                        <?php  }  ?>
                                     </select>
                                 </div>
 
@@ -641,7 +638,7 @@ $incidencia_arma1 = $incidencia_arma[0]['municion'];
                         <div class="row mb-3">
                             <div class="col-lg-4 justify-content-start">
                                 <label for="depto">
-                                    <h3> Cantidad de muertes:</h3>
+                                    <h3> Tipo de fusil incautado:</h3>
                                 </label>
                             </div>
                             <div id="cantidad_capturas_depto" class="col-lg-2 justify-content-start">
@@ -651,13 +648,24 @@ $incidencia_arma1 = $incidencia_arma[0]['municion'];
                         <div class="row mb-1">
                             <div class="col-lg-2 ms-3 ">
                                 <label for="depto">
-                                    <h3 id="label_delito"><span> Tipo de muerte: </span></h3>
+                                    <h3 id="label_delito"><span> Armas Incautadas: </span></h3>
                                 </label>
                             </div>
                             <div id="incidencia_capturas_depto" class="col-lg-6 justify-content-start">
                                 <h4 name="deptoincidencia" id="deptoincidencia" style="color:#116189"></h4>
                             </div>
                         </div>
+                        <div class="row mb-1">
+                            <div class="col-lg-2 ms-3 ">
+                                <label for="depto">
+                                    <h3 id="label_delito"><span> Dinero Incautado: </span></h3>
+                                </label>
+                            </div>
+                            <div id="incidencia_capturas_depto" class="col-lg-6 justify-content-start">
+                                <h4 name="dinero" id="dinero" style="color:#116189"></h4>
+                            </div>
+                        </div>
+                       
                         <div class="row mb-1">
                             <div id="texto_no" style="display:none;">
                                 <h3> No se encontraron muertes</h3>
@@ -670,14 +678,11 @@ $incidencia_arma1 = $incidencia_arma[0]['municion'];
                                     </div> -->
                             <div id="grafica_depto1" class="col-lg-12 pt-5 ">
 
-                                <div class="col-lg-6 " style="width: 600px; height:400px; ">
+                                <div class="col-lg-6 " >
                                     <h2 style="color:black">Personas Asesinadas</h2>
                                     <canvas id="delitos_cant" width="50" height="50"></canvas>
                                 </div>
-                                <div class="col-lg-6  " style="width: 600px; height:400px; ">
-
-                                    <canvas id="delitos_cant2" width="50" height="50"></canvas>
-                                </div>
+                               
                             </div>
 
                         </div>

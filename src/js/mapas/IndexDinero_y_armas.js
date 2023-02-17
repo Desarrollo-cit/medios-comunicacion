@@ -62,12 +62,12 @@ const cambiarmes = async (evento) => {
         const respuesta = await fetch(url, config);
         const data = await respuesta.json();
 
-         console.log(data)
+         //console.log(data)
         if (data) {
             cantidad_incautaciones.innerText = data[0].cantidad
             total_dinero.innerText = data[4].cantidad_din
             total_armas.innerText = data[2].cantidad_arm
-            incidencia.innerText = data[1].descripcion
+            incidencia.innerText = data[1].descripcion+" "+data[1].municion
             depto_mayor.innerText = data[3].desc.trim()
         }
 
@@ -142,7 +142,7 @@ const Buscar_capturas = async (e) => {
 
         const respuesta = await fetch(url, config);
         const info = await respuesta.json();
-        console.log(info)
+      //  console.log(info)
 
         tablaregistro.destroy();
         tablaregistro = new Datatable('#dataTable2', {
@@ -192,7 +192,8 @@ window.ModalPersonal = async (id) => {
 
 
 
-    const url = `/medios-comunicacion/API/mapas/IndexMuertes/modal`
+
+    const url = `/medios-comunicacion/API/mapas/IndexDinero_y_armas/modal`
     const body = new FormData();
     body.append('id', id);
     const headers = new Headers();
@@ -206,9 +207,9 @@ window.ModalPersonal = async (id) => {
 
     const respuesta = await fetch(url, config);
     const info = await respuesta.json();
-   // console.log(info[0].fecha);
+   // console.log(info);
 
-    const url1 = `/medios-comunicacion/API/mapas/IndexMuertes/informacion`
+    const url1 = `/medios-comunicacion/API/mapas/IndexDinero_y_armas/informacion`
     const body1 = new FormData();
     body1.append('id', id);
     const headers2 = new Headers();
@@ -223,7 +224,7 @@ window.ModalPersonal = async (id) => {
     const respuesta1 = await fetch(url1, config1);
     const info1 = await respuesta1.json();
 
-//console.log(info);
+//console.log(info1);
    
             capturas.show();
             info.forEach(info1 => {
@@ -248,9 +249,9 @@ window.ModalPersonal = async (id) => {
                 data: info1,
                 columns: [
                     { data: "contador", "width": "10%" },
-                    { data: "nombre", "width": "20%" },
-                    { data: "sexo", "width": "15%" },
-                    { data: "edad", "width": "15%" },
+                    { data: "tipo_arma", "width": "20%" },
+                    { data: "calibre", "width": "15%" },
+                    { data: "cantidad", "width": "15%" },
           
                 ]
             })
@@ -376,7 +377,7 @@ const busquedad_mapa_Calor = async(e) => {
    
 
 
-    const url = `/medios-comunicacion/API/mapas/IndexMuertes/mapaCalor`
+    const url = `/medios-comunicacion/API/mapas/IndexDinero_y_armas/mapaCalor`
     const body = new FormData(formMapa);
     
     const headers = new Headers();
@@ -392,13 +393,13 @@ const busquedad_mapa_Calor = async(e) => {
     const respuesta = await fetch(url, config);
     const info = await respuesta.json();
    
-       //  console.log(info)
+      //   console.log(info)
    window.deptos = document.querySelectorAll('path');
     deptos.forEach(element => {
         element.setAttribute('fill', '#145A32 ')
 
     })
-    const url1 = `/medios-comunicacion/API/mapas/IndexMuertes/colores`
+    const url1 = `/medios-comunicacion/API/mapas/IndexDinero_y_armas/colores`
     const headers1 = new Headers();
     headers1.append("X-Requested-With", "fetch");
 
@@ -460,12 +461,13 @@ window.detalle = async(valor) => {
 
         valor = '0' + valor
     }
-    const muerte = formMapa.tipos_muerte_mapa_calor.value 
-    const url = `/medios-comunicacion/API/mapas/IndexMuertes/mapaCalorPorDepto`
+    const arma = formMapa.tipos_arma_mapa_calor.value 
+    const url = `/medios-comunicacion/API/mapas/IndexDinero_y_armas/mapaCalorPorDepto`
     const body = new FormData(formMapa);
     body.append('departamento', valor);
     const headers = new Headers();
     headers.append("X-Requested-With", "fetch");
+
 
     const config = {
         method: 'POST',
@@ -477,38 +479,17 @@ window.detalle = async(valor) => {
     const respuesta = await fetch(url, config);
     const info_depto1 = await respuesta.json();
    
-        //console.log(info_depto1)
+        // console.log(info_depto1)
     if (info_depto1) {
-        deptoinfo.innerText = info_depto1[0].cantidad_delito
-        deptoincidencia.innerText = info_depto1[1].desc
+        deptoinfo.innerText = info_depto1[0].descripcion+info_depto1[0].municion
+        deptoincidencia.innerText = info_depto1[1].cantidad_arm
+        dinero.innerText = info_depto1[2].cantidad_din
         
-        switch (info_depto1[1].situacion) {
-            case '1':
-                deptoincidencia.innerText = 'ASESINATO'
-                break;
-
-            case '2':
-                deptoincidencia.innerText = 'HOMICIDIO'
-                break;
-            case '3':
-                deptoincidencia.innerText = 'SICARIATO'
-                break;
-            case '4':
-                deptoincidencia.innerText = 'FEMICIDIO'
-                break;
-            case '5':
-                deptoincidencia.innerText = 'SUICIDIO'
-                break;
-        }
-        if (muerte != "") {
-            label_delito.innerText = 'Delito seleccionado:'
-        }
-        if (muerte == "") {
-            label_delito.innerText = 'Incidencia:'
-        }
+     
     } else {
         deptoinfo.innerText = ''
         deptoincidencia.innerText = ''
+        dinero.innerText = ''
         label_delito.innerText = 'Incidencia:'
 
     }
@@ -521,7 +502,7 @@ window.detalle = async(valor) => {
     modaldeptos.show();
     label.innerText = 'DEPARTAMENTO DE ' + name.toUpperCase();
 
-    const url_grafica = `/medios-comunicacion/API/mapas/IndexMuertes/mapaCalorPorDeptoGrafica`
+    const url_grafica = `/medios-comunicacion/API/mapas/IndexDinero_y_armas/mapaCalorPorDeptoGrafica`
     const bodyGrafica = new FormData(formMapa);
     bodyGrafica.append('departamento', valor);
     const headersGrafica = new Headers();
@@ -533,23 +514,24 @@ window.detalle = async(valor) => {
         body: bodyGrafica,
 
     }
-
+    const response = await fetch(url_grafica, configGrafica)
+    const datos = await response.json()
     try {
 
-        const response = await fetch(url_grafica, configGrafica)
-        const datos = await response.json()
+       
 
-       //  console.log(datos);
-        if (datos.length > 0) {
+        console.log(datos);
+       // console.log(datos.descripcion);
+        // console.log(datos.cantidades.armas.length);
+        
             document.getElementById('grafica_depto1').style.display = "block"
             document.getElementById('texto_no').style.display = "none"
 
 
-            let labels = [], cantidades = []
-            datos.forEach(d => {
-                labels = [...labels, d.descripcion]
-                cantidades = [...cantidades, d.cantidad]
-            })
+            let { descripcion, cantidades, } = datos;
+
+            let dataSetsLabels = Object.values(descripcion);
+            let dataSetsValues = Object.values(cantidades.armas); 
             // mostrar(datos)
             //  $("#delitos_cant").destroy();
             const ctx = document.getElementById('delitos_cant');
@@ -560,10 +542,10 @@ window.detalle = async(valor) => {
             window.grafica = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels,
+                    labels: dataSetsLabels,
                     datasets: [{
-                        label: 'MUERTES',
-                        data: cantidades,
+                        label: 'ARMAS',
+                        data: dataSetsValues,
                         backgroundColor: [
                             'rgba(255, 199, 132, 1)',
                             'rgba(54, 162, 235, 1)',
@@ -629,11 +611,7 @@ window.detalle = async(valor) => {
                 }
             });
 
-        } else {
-            // alert("hola")
-            document.getElementById('grafica_depto1').style.display = "none"
-            document.getElementById('texto_no').style.display = "block"
-        }
+       
     } catch (error) {
         console.log(error);
     }

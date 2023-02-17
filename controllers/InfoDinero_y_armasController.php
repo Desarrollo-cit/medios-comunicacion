@@ -20,9 +20,10 @@ class InfoDinero_y_armasController
         $total_dinero = static::total_dinero();
         $incidencia_arma = static::incidencia_arma();
         $total_armas = static::total_armas();
-        $depto = static::departamento_capturas();
+        $depto = static::departamento_con_mas_armas_incautadas();
         $colores = static::coloresAPI1();
         $delitos = static::delitosApi();
+        $armas = static::armas();
         $router->render('mapas/dinero_y_armas', [
             'incidencia_arma' => $incidencia_arma,
             'capturas' => $capturas,
@@ -31,6 +32,7 @@ class InfoDinero_y_armasController
             'total_armas' => $total_armas,
             'depto' => $depto,
             'colores' => $colores,
+            'armas' => $armas,
         ]);
     }
 
@@ -61,7 +63,7 @@ class InfoDinero_y_armasController
         }
     }
 
-    protected static function total_dinero($fecha1 = "", $fecha2 = "")
+    protected static function total_dinero($fecha1 = "", $fecha2 = "", $depto = "")
     {
 
 
@@ -74,8 +76,13 @@ class InfoDinero_y_armasController
 
             $sql .= " AND year(amc_topico.fecha) = year(current)  and  month(amc_topico.fecha) = month(current) ";
         }
+        if($depto != ''){
+
+            $sql.= " AND amc_topico.departamento = $depto";
+         }
+        
         $result = Muertes::fetchArray($sql);
-        if ($result) {
+        if ($result[0]["cantidad_din"]!= null) {
             return $result;
         } else {
 
@@ -88,7 +95,7 @@ class InfoDinero_y_armasController
     }
 
 
-    protected static function total_armas($fecha1 = "", $fecha2 = "")
+    protected static function total_armas($fecha1 = "", $fecha2 = "",$depto ="", $arma ="")
     {
 
 
@@ -101,6 +108,10 @@ class InfoDinero_y_armasController
 
             $sql .= " AND year(amc_topico.fecha) = year(current)  and  month(amc_topico.fecha) = month(current) ";
         }
+        if($depto != ''){
+
+            $sql.= " AND amc_topico.departamento = $depto";
+         }
         $result = Muertes::fetchArray($sql);
         if ($result[0]["cantidad_arm"] != null) {
             return $result;
@@ -115,7 +126,13 @@ class InfoDinero_y_armasController
     }
 
 
+    function armas()
+    {
 
+        $sql = "SELECT * from amc_tipo_armas where situacion = 1";
+        $result = Muertes::fetchArray($sql);
+        return $result;
+    }
 
 
 
@@ -123,7 +140,7 @@ class InfoDinero_y_armasController
     {
 
 
-        $sql = "  SELECT FIRST 1 amc_tipo_armas.desc as descripcion,  sum(amc_detalle_arma.cantidad), amc_calibre.desc as municion from amc_detalle_arma inner join amc_tipo_armas on amc_detalle_arma.tipo_arma = amc_tipo_armas.id inner join amc_calibre on amc_detalle_arma.calibre = amc_calibre.id inner join amc_topico on amc_detalle_arma.topico = amc_topico.id where  amc_detalle_arma.situacion = 1 and amc_topico.situacion = 1  ";
+        $sql = "  SELECT FIRST 1 amc_tipo_armas.desc as descripcion,  sum(amc_detalle_arma.cantidad) as cantidad, amc_calibre.desc as municion from amc_detalle_arma inner join amc_tipo_armas on amc_detalle_arma.tipo_arma = amc_tipo_armas.id inner join amc_calibre on amc_detalle_arma.calibre = amc_calibre.id inner join amc_topico on amc_detalle_arma.topico = amc_topico.id where  amc_detalle_arma.situacion = 1 and amc_topico.situacion = 1  ";
 
 
         if ($fecha1 != '' && $fecha2 != '') {
@@ -153,7 +170,7 @@ class InfoDinero_y_armasController
 
 
 
-    protected static function departamento_capturas($fecha1 = "", $fecha2 = "")
+    protected static function departamento_con_mas_armas_incautadas($fecha1 = "", $fecha2 = "")
     {
         $sql = "SELECT FIRST 1 amc_topico.departamento as departamento, sum(cantidad) as cantidad FROM amc_detalle_arma inner join amc_topico on amc_detalle_arma.topico = amc_topico.id  where   amc_topico.situacion = 1  and amc_topico.tipo= 6 ";
         if ($fecha1 != '' && $fecha2 != '') {
@@ -170,17 +187,18 @@ class InfoDinero_y_armasController
 
         $result1 = Muertes::fetchArray($sql);
 
-        if($result1){
-        
+        if ($result1) {
+
             $depto = $result1[0]['departamento'];
-    
-            $sql = "SELECT dm_desc_lg as desc from depmun where dm_codigo = $depto " ;
+
+            $sql = "SELECT dm_desc_lg as desc from depmun where dm_codigo = $depto ";
             $result1 = Muertes::fetchArray($sql);
             return $result1;
-        }else{
-    
-            $delito=[[
-                'desc' => "Sin datos"]];
+        } else {
+
+            $delito = [[
+                'desc' => "Sin datos"
+            ]];
             return $delito;
         }
     }
@@ -204,8 +222,10 @@ class InfoDinero_y_armasController
         $total_dinero = static::total_dinero($fecha1, $fecha2);
         $incidencia_arma = static::incidencia_arma($fecha1, $fecha2);
         $total_armas = static::total_armas($fecha1, $fecha2);
-        $depto = static::departamento_capturas($fecha1, $fecha2);
-        $array_resultante = array_merge($capturas,  $incidencia_arma, $total_armas, $depto, $total_dinero);
+        $depto = static::departamento_con_mas_armas_incautadas($fecha1, $fecha2);
+        $armas = static::armas();
+
+        $array_resultante = array_merge($capturas,  $incidencia_arma, $total_armas, $depto, $total_dinero, $armas);
 
         echo json_encode($array_resultante);
     }
@@ -240,25 +260,14 @@ class InfoDinero_y_armasController
 
                 switch ($tipo) {
 
-                    case "1":
 
-                        $tipo = "ASESINATO";
-                        break;
-                    case "2":
+                    case "6":
 
-                        $tipo = "HOMICIDIO";
-                        break;
-                    case "3":
-
-                        $tipo = "SICARIATO";
-                        break;
-                    case "4":
-
-                        $tipo = "FEMICIDIO";
+                        $tipo = "INCAUTACION DE DINERO";
                         break;
                     case "5":
 
-                        $tipo = "SUICIDIO";
+                        $tipo = "INCAUTACION DE ARMAS";
                         break;
                 }
 
@@ -304,8 +313,11 @@ class InfoDinero_y_armasController
             $id = $_POST['id'];
 
 
-            $sql = "SELECT amc_topico.id, fecha, lugar, departamento, municipio as muni, tipo,latitud,longitud,actividad, amc_topico.situacion, depmun.dm_desc_lg as departamento1, amc_actividad_vinculada.desc as act, amc_tipo_topics.desc as topico from amc_topico inner join depmun on amc_topico.departamento = depmun.dm_codigo inner join amc_actividad_vinculada on amc_topico.actividad = amc_actividad_vinculada.id inner join amc_tipo_topics on amc_topico.tipo = amc_tipo_topics.id where amc_topico.situacion = 1 and amc_topico.id =  $id";
-            $info = Capturadas::fetchArray($sql);
+            $sql = "     SELECT amc_topico.id, fecha, lugar, dm_desc_lg, departamento, municipio as muni, tipo,latitud,longitud,actividad, amc_topico.situacion, depmun.dm_desc_lg as departamento1, amc_actividad_vinculada.desc as act, amc_tipo_topics.desc as topico from amc_topico inner join depmun on depmun.dm_codigo=amc_topico.departamento 
+            inner join amc_actividad_vinculada on amc_actividad_vinculada.id=amc_topico.actividad
+            inner join amc_tipo_topics on amc_topico.tipo = amc_tipo_topics.id
+             where amc_topico.id = $id and amc_topico.situacion = 1";
+            $info = Muertes::fetchArray($sql);
             $data = [];
 
 
@@ -314,7 +326,7 @@ class InfoDinero_y_armasController
                 $id = $key['id'];
                 $lugar = $key['lugar'];
                 $fecha = $key['fecha'];
-                $depto = trim($key['departamento1']);
+                $depto = trim($key['dm_desc_lg']);
                 $depto1 = trim((string)$key['departamento']);
                 $muni = $key['muni'];
                 $latitud = $key['latitud'];
@@ -379,17 +391,22 @@ class InfoDinero_y_armasController
 
             $id = $_POST['id'];
 
-            $sql = "SELECT amc_per_asesinadas.id, amc_per_asesinadas.topico,  amc_sexo.desc as sexo, amc_per_asesinadas.nombre, amc_per_asesinadas.situacion, amc_per_asesinadas.edad  from amc_per_asesinadas inner join amc_sexo on amc_sexo.id = amc_per_asesinadas.sexo  where topico = $id and amc_per_asesinadas.situacion > 0";
+            $sql = "
+            SELECT amc_tipo_armas.desc as tipo_arma, amc_calibre.desc as calibre, amc_detalle_arma.cantidad as cantidad 
+             from amc_detalle_arma inner join amc_tipo_armas on amc_tipo_armas.id = amc_detalle_arma.tipo_arma 
+             inner join amc_calibre on amc_calibre.id = amc_detalle_arma.calibre  where amc_detalle_arma.topico = $id
+             and amc_detalle_arma.situacion > 0
+           ";
             $info = Capturadas::fetchArray($sql);
             $data = [];
 
             $i = 1;
             foreach ($info as $key) {
-                $id = $key['id'];
-                $sexo = $key['sexo'];
+
+                $tipo_arma = $key['tipo_arma'];
                 //$nacionalidad = utf8_encode($key['nacionalidad']);
-                $nombre = utf8_encode($key['nombre']);
-                $topico = $key['topico'];
+                $calibre = utf8_encode($key['calibre']);
+                $cantidad = $key['cantidad'];
                 // $delito = utf8_encode($key['delito']);
                 $edad = $key['edad'];
 
@@ -399,13 +416,12 @@ class InfoDinero_y_armasController
 
                 $arrayInterno = [[
                     "contador" => $i,
-                    "id" => $id,
-                    "sexo" => $sexo,
+
+                    "tipo_arma" => $tipo_arma,
                     //"nacionalidad" => $nacionalidad,
-                    "nombre" => $nombre,
-                    "topico" => $topico,
-                    // "delito" => $delito,
-                    "edad" => $edad,
+                    "calibre" => $calibre,
+                    "cantidad" => $cantidad,
+
 
 
 
@@ -458,18 +474,22 @@ class InfoDinero_y_armasController
         // echo json_encode($sql);
 
         try {
-            $muerte = $_POST['tipos_muerte_mapa_calor'];
+            $tipo_arma = $_POST['tipos_arma_mapa_calor'];
             $fecha1 = str_replace('T', ' ', $_POST['fecha_mapa']);
             $fecha2 = str_replace('T', ' ', $_POST['fecha2']);
 
 
-            $sql = "       SELECT distinct dm_desc_lg as descripcion, dm_codigo as codigo, count (*) as cantidad FROM amc_topico 
-            inner join depmun on departamento = dm_codigo 
-            inner join amc_per_asesinadas on topico = amc_topico.id  
-            where 1 = 1  and amc_topico.situacion = 1 and amc_per_asesinadas.situacion > 0 ";
-            if ($muerte != '') {
 
-                $sql .= "AND amc_per_asesinadas.situacion = $muerte";
+            $sql = " SELECT distinct dm_desc_lg as descripcion, dm_codigo as codigo, count (*) as cantidad FROM amc_topico inner join depmun on departamento = dm_codigo  ";
+
+            if ($tipo_arma != '') {
+
+                $sql .= " inner join amc_detalle_arma on amc_topico.id = amc_detalle_arma.topico where   amc_detalle_arma.tipo_arma = $tipo_arma and amc_topico.situacion = 1 and amc_detalle_arma.situacion = 1 ";
+            } else {
+
+
+                $sql .= " where  amc_topico.situacion = 1";
+                $sql .= " and amc_topico.tipo in (5,6) ";
             }
             if ($fecha1 != '' && $fecha2 == '') {
 
@@ -479,11 +499,12 @@ class InfoDinero_y_armasController
                 $sql .= " AND amc_topico.fecha   BETWEEN '$fecha1' AND  '$fecha2' ";
             }
             if ($fecha1 == '' && $fecha2 == '') {
-                $sql .= " AND year(fecha) = year(current) AND month(fecha) = month(current)  ";
+                $sql .= " AND year(fecha) = year(current) AND month(fecha) = month(current)";
             }
-            $sql .= " group by descripcion, codigo ";
 
-            $info = Capturadas::fetchArray($sql);
+            $sql .= " group by descripcion, codigo";
+
+            $info = Muertes::fetchArray($sql);
             echo json_encode($info);
         } catch (Exception $e) {
             echo json_encode([
@@ -515,61 +536,20 @@ class InfoDinero_y_armasController
         try {
 
             $depto = $_POST['departamento'];
-            $muerte = $_POST['tipos_muerte_mapa_calor'];
+            $arma = $_POST['tipos_arma_mapa_calor'];
+
             $fecha1 = str_replace('T', ' ', $_POST['fecha_mapa']);
             $fecha2 = str_replace('T', ' ', $_POST['fecha2']);
 
-
-            $sql = "  SELECT  count (*) as cantidad_delito from amc_per_asesinadas inner join amc_topico on amc_per_asesinadas.topico = amc_topico.id  where  amc_topico.situacion = 1 and amc_per_asesinadas.situacion > 0 AND amc_topico.departamento = $depto  ";
-
-            if ($muerte != '') {
-
-                $sql .= " AND amc_per_asesinadas.situacion = $muerte";
-            }
-
-            if ($fecha1 != '' && $fecha2 != '') {
-
-                $sql .= " AND amc_topico.fecha   BETWEEN '$fecha1' AND  '$fecha2' ";
-            } else {
-
-                $sql .= " AND year(amc_topico.fecha) = year(current) and  month(amc_topico.fecha) = month(current)";
-            }
-
-            $info = Capturadas::fetchArray($sql);
-
-
-            $consulta = "      SELECT FIRST 1 amc_per_asesinadas.situacion, count(*) as cantidad_max FROM amc_per_asesinadas inner join amc_topico on amc_per_asesinadas.topico = amc_topico.id  
-            where   amc_topico.situacion = 1 and amc_per_asesinadas.situacion > 0 AND amc_topico.departamento = $depto";
-
-            if ($muerte != '') {
-
-                $consulta .= "AND amc_per_asesinadas.situacion = $muerte";
-            }
-
-            if ($fecha1 != '' && $fecha2 != '') {
-
-                $consulta .= " AND amc_topico.fecha   BETWEEN '$fecha1' AND  '$fecha2' ";
-            } else {
-
-                $consulta .= " AND year(amc_topico.fecha) = year(current) and  month(amc_topico.fecha) = month(current)";
-            }
-
-            $consulta .= "   group by situacion ORDER by cantidad_max desc";
-
-            $info1 = Capturadas::fetchArray($consulta);
-            if ($info1) {
-
-                $array_resultante = array_merge($info, $info1);
-                echo json_encode($array_resultante);
-            } else {
-
-                $info1[1] = [
-                    "desc" => "sin registros",
-                    "cantidad_max" => 0
-                ];
-                $array_resultante = array_merge($info, $info1);
-                echo json_encode($array_resultante);
-            }
+            $incidencia_arma = static::incidencia_arma($fecha1, $fecha2,  $depto, $arma);
+            $total_armas = static::total_armas($fecha1, $fecha2,  $depto, $arma);
+            $total_dinero = static::total_dinero($fecha1, $fecha2,  $depto);
+         
+           
+            $array_resultante= array_merge($incidencia_arma, $total_armas, $total_dinero );
+         
+         echo json_encode($array_resultante);
+            
         } catch (Exception $e) {
             echo json_encode([
                 "detalle" => $e->getMessage(),
@@ -610,40 +590,45 @@ class InfoDinero_y_armasController
     {
         try {
 
+          
 
             $depto = $_POST['departamento'];
-            $muerte = $_POST['tipos_muerte_mapa_calor'];
+            $arma = $_POST['tipos_arma_mapa_calor'];
             $fecha1 = str_replace('T', ' ', $_POST['fecha_mapa']);
             $fecha2 = str_replace('T', ' ', $_POST['fecha2']);
-            // echo json_encode($_POST);
-            // exit;
 
-            $sql = "SELECT amc_per_asesinadas.situacion as descripcion, count(*) as cantidad FROM amc_per_asesinadas  inner join amc_topico on amc_per_asesinadas.topico = amc_topico.id where  amc_topico.situacion = 1 and amc_per_asesinadas.situacion > 0 ";
+            $armas = static::armas();
 
-
-            if ($depto != '') {
-
-                $sql .= "AND amc_topico.departamento = $depto ";
-            }
-            if ($muerte != '') {
-
-                $sql .= "AND amc_per_asesinadas.delito = $muerte";
+            foreach ($armas as $key => $tipo){
+                $arma= $tipo["id"];
+                $arma_n= $tipo["desc"];
+            
+              $total = static::total($depto, $arma,  $fecha1, $fecha2 );    
+              $dataset = 'armas';
+              $cantidades[$dataset][]= (int) $total[0]['cantidad'];
             }
 
-            if ($fecha1 != '' && $fecha2 != '') {
 
-                $sql .= " AND amc_topico.fecha   BETWEEN '$fecha1' AND  '$fecha2' ";
-            } else {
+            foreach ($armas as $key => $tipo ) {
 
-                $sql .= " AND year(amc_topico.fecha) = year(current)  and  month(amc_topico.fecha) = month(current) ";
-            }
+                $arma= $tipo["id"];
+                $arma_nom[]= $tipo["desc"];
+            
+                }
+           // $cantidades[$arma_n]=$total[0]["cantidad"];
 
-            $sql .= " group by descripcion ";
-            $info = Capturadas::fetchArray($sql);
+            //$descripcion = 'ARMAS';
+      //      $array_resultante=  array_merge($cantidades , $descripcion );
+      $data = [
+        'descripcion' => $arma_nom,
+        'cantidades' => $cantidades
+        ];
+        
+      
 
 
 
-            echo json_encode($info ? $info : []);
+            echo json_encode($data);
         } catch (Exception $e) {
             echo json_encode([
                 "detalle" => $e->getMessage(),
@@ -653,6 +638,48 @@ class InfoDinero_y_armasController
             ]);
         }
     }
+
+    protected static function total( $depto="", $arma ="", $fecha1 ="", $fecha2 =""){
+
+        try {
+        $sql = "SELECT sum(cantidad) as cantidad from amc_detalle_arma inner join amc_topico on amc_detalle_arma.topico = amc_topico.id  where  amc_topico.situacion = 1 and amc_detalle_arma.situacion = 1 and amc_topico.tipo = 6";
+
+        
+        if($depto != ''){
+
+            $sql.= " AND amc_topico.departamento = $depto";
+         }
+        if($arma != '' && $arma !=0){
+
+            $sql.= " AND amc_detalle_arma.tipo_arma = $arma";
+         }
+   
+      
+         if($fecha1 != '' && $fecha2 != ''){
+      
+            $sql.= " AND amc_topico.fecha   BETWEEN '$fecha1' AND  '$fecha2' ";
+         }
+         $result = Muertes::fetchArray($sql);
+        if($result[0]["cantidad"] != null){
+            return $result;
+        }else{
+
+            $result= [[
+                "cantidad" => 
+                "0"]];
+        return $result;
+        }
+    } catch (Exception $e) {
+        echo json_encode([
+            "detalle" => $e->getMessage(),
+            "mensaje" => "ocurrio un error en base de datos",
+
+            "codigo" => 4,
+        ]);
+    }
+    }  
+
+
 
 
     //// PARTE DE LAS GRAFICAS 
