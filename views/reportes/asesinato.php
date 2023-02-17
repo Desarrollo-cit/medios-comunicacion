@@ -10,7 +10,7 @@
     }
 
 </style>
-<h3>DETALLE DE LA CAPTURA</h3>
+<h3>DETALLE DE LAS MUERTES</h3>
 <table cellspacing = 0 border="1" width="100%">
     <thead>
         <tr>
@@ -18,19 +18,15 @@
             <th>NOMBRE</th>
             <th>SEXO</th>
             <th>EDAD</th>
-            <th>NACIONALIDAD</th>
-            <th>DELITO</th>
         </tr>
     </thead>
     <tbody>
-        <?php foreach ($capturados as $key => $capturado) : ?>
+        <?php foreach ($asesinados as $key => $asesinado) : ?>
             <tr>
                 <td><?= $key + 1 ?></td>
-                <td><?= $capturado['nombre'] ?></td>
-                <td><?= $capturado['sexo'] ?></td>
-                <td><?= $capturado['edad'] ?></td>
-                <td><?= $capturado['nacionalidad'] ?></td>
-                <td><?= $capturado['delito'] ?></td>
+                <td><?= $asesinado['nombre'] ?></td>
+                <td><?= $asesinado['sexo'] ?></td>
+                <td><?= $asesinado['edad'] ?></td>
             </tr>
         <?php endforeach ?>
     </tbody>

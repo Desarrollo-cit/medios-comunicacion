@@ -96,12 +96,6 @@
 
                                 <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/mapas/migrantes"><i class="ms-lg-0 ms-2 fa-solid fa-users-between-lines me-2"></i>Migrantes</a>
                             </li>
-                            <li>
-                                <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/mapas/droga"><i class="fas fa-user"></i>Drogas</a>
-
-                            </li>
-                        
-                    
                         
                         </ul>
                     </div> 

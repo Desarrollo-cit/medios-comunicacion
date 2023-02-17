@@ -255,7 +255,7 @@ const BuscarActividades = async (e) => {
                 },
                 {
                     data: "id",
-                    "render": (data, type, row, meta) => `<a target='blank' href='pdf.php?id=${row.id}&topico= ${row.tipo}'><button class='btn btn-outline-primary'  >REPORTE<i class="bi bi-printer"></i></button></a>`,
+                    "render": (data, type, row, meta) => `<a target='blank' href='/medios-comunicacion/reportes/topico?id=${row.id}'><button class='btn btn-outline-primary'  >REPORTE<i class="bi bi-printer"></i></button></a>`,
                     "searchable": false,
                     "width": "11%"
                 },
