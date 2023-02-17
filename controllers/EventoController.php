@@ -15,12 +15,20 @@ class EventoController {
         $topicos = Evento::fetchArray("SELECT * from amc_tipo_topics where situacion = 1");
         $departamentos = Evento::fetchArray("SELECT dm_codigo,dm_desc_lg FROM dep_mun WHERE dm_codigo BETWEEN 0100 AND 2200 AND substr(dm_codigo,3,4)=00 ORDER BY dm_desc_lg");
         $actividades = Evento::fetchArray("SELECT * from amc_actividad_vinculada where situacion = 1");
+        $tipos_desastres = Evento::fetchArray("SELECT * from amc_tipo_desastre_natural where situacion = 1");
+        $fenomenos = Evento::fetchArray("SELECT * from amc_fenomeno_natural where situacion = 1");
+        $tipo_movimiento = Evento::fetchArray("SELECT * from amc_tipo_movimiento_social where situacion = 1");
+        $movimiento = Evento::fetchArray("SELECT * from amc_organizacion_mov_social where situacion = 1");
         $drogas = Evento::fetchArray("SELECT * FROM amc_drogas where situacion = 1 ");
         $transportes = Evento::fetchArray("SELECT * FROM amc_transporte where situacion = 1 ");
         $router->render('eventos/index', [
             'topicos' => $topicos,
             'departamentos' => $departamentos,
             'actividades' => $actividades,
+            'tipos_desastres' => $tipos_desastres,
+            'fenomenos' => $fenomenos,
+            'tipo_movimiento' => $tipo_movimiento,
+            'movimiento' => $movimiento,
             'drogas' => $drogas,
             'transportes' => $transportes,
         ]);

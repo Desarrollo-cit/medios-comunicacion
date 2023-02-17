@@ -26,12 +26,19 @@ use Controllers\Desastre_naturalController;
 use Controllers\Fenomeno_naturalController;
 use Controllers\MonedaController;
 use Controllers\AsesinatosController;
+use Controllers\Des_naturalController;
+use Controllers\DineroController;
+use Controllers\MigrantesController;
+use Controllers\DesastresController;
+
 use Controllers\ReporteController;
 
 
 use Controllers\infoCapturaController;
 use Controllers\infoMuertesController;
 use Controllers\infoDrogaController;
+use Controllers\Mov_socialController;
+use Controllers\PistasController;
 use Controllers\infoMarasController;
 use Controllers\infoMigrantesController;
 
@@ -131,6 +138,40 @@ $router->post('/API/asesinatos/modificar', [AsesinatosController::class, 'modifi
 $router->get('/API/asesinatos/buscar', [AsesinatosController::class, 'buscarAsesinatosAPI']);
 $router->post('/API/asesinatos/asesinado/eliminar', [AsesinatosController::class, 'eliminarAsesinado']);
 $router->post('/API/asesinatos/eliminar', [AsesinatosController::class, 'eliminarAsesinato']);
+
+
+$router->post('/API/migrantes/guardar', [MigrantesController::class, 'guardar']);
+$router->post('/API/migrantes/modificar', [MigrantesController::class, 'modificar']);
+$router->get('/API/migrantes/buscar', [MigrantesController::class, 'buscarMigrantesAPI']);
+$router->get('/API/migrantes/buscarEdad', [MigrantesController::class, 'buscarEdadAPI']);
+$router->get('/API/migrantes/buscarPais', [MigrantesController::class, 'buscarPaisAPI']);
+
+$router->post('/API/migrantes/eliminar', [MigrantesController::class, 'eliminarMigrante']);
+
+$router->post('/API/migrantes/migrantes/eliminar', [MigrantesController::class, 'eliminarMigrantes']);
+
+
+$router->post('/API/dinero/guardar', [DineroController::class, 'guardar']);
+$router->post('/API/dinero/modificar', [DineroController::class, 'modificar']);
+$router->get('/API/dinero/buscar', [DineroController::class, 'buscarDineroAPI']);
+$router->post('/API/dinero/eliminar', [DineroController::class, 'eliminarDinero']);
+$router->post('/API/dinero/dinero/eliminar', [DineroController::class, 'eliminarDineros']);
+
+$router->post('/API/des_natural/guardar', [Des_naturalController::class, 'guardar']);
+$router->post('/API/des_natural/modificar', [Des_naturalController::class, 'modificar']);
+$router->get('/API/des_natural/buscar', [Des_naturalController::class, 'buscarDesastresAPI']);
+$router->post('/API/des_natural/eliminar', [Des_naturalController::class, 'eliminarDesastre']);
+
+$router->post('/API/pistas/guardar', [PistasController::class, 'guardar']);
+$router->post('/API/pistas/modificar', [PistasController::class, 'modificar']);
+$router->get('/API/pistas/buscar', [PistasController::class, 'buscarPistasAPI']);
+$router->post('/API/pistas/eliminar', [PistasController::class, 'eliminarPistas']);
+
+$router->post('/API/mov_social/guardar', [Mov_socialController::class, 'guardar']);
+$router->post('/API/mov_social/modificar', [Mov_socialController::class, 'modificar']);
+$router->get('/API/mov_social/buscar', [Mov_socialController::class, 'buscarMovimientoAPI']);
+$router->post('/API/mov_social/eliminar', [Mov_socialController::class, 'eliminarMovimiento']);
+
 
 
 

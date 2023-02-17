@@ -2,52 +2,60 @@
 
 namespace Controllers;
 
-use Model\Asesinatos;
-use Model\Asesinados;
+use Model\Dinero;
 use Model\Evento;
 use MVC\Router;
 use Exception;
 
-class AsesinatosController
-{
+class DineroController{
     public static function guardar(){
         getHeadersApi();
-                    
-        $cantidadasesinados = count($_POST['nombre']);
-        
+
+
+        $cantidaddinero = count($_POST['cantidad']);
+
+        if ($cantidaddinero == 0){
+
+            echo json_encode([
+                "mensaje" => "Debe llenar todos los campos de dinero",
+                "codigo" => 5,
+            ]);
+
+            exit;
+
+
+        }
+
+    
         try {
 
             $evento = Evento::find($_POST['topico']);
-            $evento->info = $_POST['info'];
+            $evento->info = $_POST['info5'];
             $evento->guardar();
- 
-            $asesinatos = new Asesinatos([
-                'topico' => $_POST['topico'],
-                'cant_per_asesinadas' => $cantidadasesinados,
-
-            ]);
-
-            if(!$asesinatos->validarExisteTopico()){
-                $guardado = $asesinatos->guardar();
-            }
+     
 
             $resultados = [];
-            for ($i=0; $i < $cantidadasesinados ; $i++) { 
-                $asesinados = new Asesinados([
-                    'id' =>  $_POST['id_per'][$i] != '' ? $_POST['id_per'][$i] : null ,
-                    'topico' => $_POST['topico'],
-                    'nombre' => $_POST['nombre'][$i],
-                    'sexo' => $_POST['sexo'][$i],
-                    'edad' => $_POST['edad'][$i],
+            for ($i=0; $i < $cantidaddinero ; $i++) { 
+                $migrantes = new Dinero([
+                    'id' =>  $_POST['id_din'][$i] != '' ? $_POST['id_din'][$i] : null ,
+                    'topic' => $_POST['topico'],
+                    'cantidad' => $_POST['cantidad'][$i],
+                    'moneda' => $_POST['moneda'][$i],
+                    'conversion' => $_POST['conversion'][$i],
+                  
                  
                 ]);
+                // break;
                 
-
-                $guardado = $asesinados->guardar();
+                $guardado = $migrantes->guardar();
+                
                 $resultados[] = $guardado['resultado'];
             }
+//             echo json_encode($migrantes);
 
+// exit;
             // echo json_encode($resultados);
+            // exit;
 
 
             if(!array_search(0, $resultados)){
@@ -73,24 +81,30 @@ class AsesinatosController
         }
     }
 
-    public static function buscarAsesinatosAPI(){
+public static function buscarDineroAPI(){
 
-     
 
-   
+
         getHeadersApi();
-     
+
         $topico = $_GET['topico'];
 
- 
+
         try{
+
+               
+     
             $evento = Evento::find($topico);
 
-            $asesinados = Asesinados::fetchArray("SELECT * FROM amc_per_asesinadas where topico = $topico and situacion = 1;");
+            $dinero = Dinero::fetchArray("SELECT * FROM amc_incautacion_dinero where topico = $topico and situacion = 1;");
 
-            echo json_encode([
-                "asesinatos" => $evento,
-                "asesinados" => $asesinados,
+
+            echo json_encode(  
+                ['info' =>$evento,
+                'dinero' => $dinero,
+
+            
+            
             ]);
 
         } catch (Exception $e) {
@@ -102,44 +116,62 @@ class AsesinatosController
             ]);
         }
     }
+
+
+
     public static function modificar(){
         getHeadersApi();
-        
-        
+
+ 
+        $cantidaddinero = count($_POST['cantidad']);
+
+        if ($cantidaddinero == 0){
+
+            echo json_encode([
+                "mensaje" => "Debe llenar todos los campos de dinero",
+                "codigo" => 5,
+            ]);
+
+            exit;
+
+
+        }
+
+    
         try {
 
-            $busquedaAsesinato = Asesinatos::where( 'topico' , $_POST['topico']);
-            $asesinato = array_shift($busquedaAsesinato);
- 
+            $evento = Evento::find($_POST['topico']);
+            $evento->info = $_POST['info5'];
+            $evento->guardar();
+     
 
-            $asesinato->info = $_POST['info'];
-            $asesinato->guardar();
-
-            // echo json_encode($resultado);
-            // exit;
-
-            $cantidadasesinados = count($_POST['nombre']);
             $resultados = [];
-            for ($i=0; $i < $cantidadasesinados ; $i++) { 
-                $asesinados = new Asesinados([
-                    'id' =>  $_POST['id_per'][$i] != '' ? $_POST['id_per'][$i] : null ,
-                    'topico' => $_POST['topico'],
-                    'nombre' => $_POST['nombre'][$i],
-                    'sexo' => $_POST['sexo'][$i],
-                    'edad' => $_POST['edad'][$i],
+            for ($i=0; $i < $cantidaddinero ; $i++) { 
+                $migrantes = new Dinero([
+                    'id' =>  $_POST['id_din'][$i] != '' ? $_POST['id_din'][$i] : null ,
+                    'topic' => $_POST['topico'],
+                    'cantidad' => $_POST['cantidad'][$i],
+                    'moneda' => $_POST['moneda'][$i],
+                    'conversion' => $_POST['conversion'][$i],
+                  
                  
                 ]);
+                // break;
                 
-
-                $guardado = $asesinados->guardar();
+                $guardado = $migrantes->guardar();
+                
                 $resultados[] = $guardado['resultado'];
             }
+//             echo json_encode($migrantes);
 
+// exit;
+            // echo json_encode($resultados);
+            // exit;
 
 
             if(!array_search(0, $resultados)){
                 echo json_encode([
-                    "mensaje" => "El registro se modificó.",
+                    "mensaje" => "El registro se modifico.",
                     "codigo" => 1,
                 ]);
                 
@@ -160,18 +192,21 @@ class AsesinatosController
         }
     }
 
-    public static function eliminarAsesinado(){
+    public static function eliminarDinero(){
         getHeadersApi();
+
+
+        
         
         
         try {
-            $asesinado = asesinados::find($_POST['id']);
-            $asesinado->situacion = 0;
-            $resultado = $asesinado->guardar();
+            $dinero = Dinero::find($_POST['id']);
+            $dinero->situacion = 0;
+            $resultado = $dinero->guardar();
     
             if($resultado['resultado'] == 1){
                 echo json_encode([
-                    "mensaje" => "El registro del asesinado se eliminó.",
+                    "mensaje" => "El registro del migrante se eliminó.",
                     "codigo" => 1,
                 ]);
                 
@@ -192,7 +227,7 @@ class AsesinatosController
         }
     } 
 
-    public static function eliminarAsesinato(){
+    public static function eliminarDineros(){
         getHeadersApi();
         
         
@@ -203,26 +238,18 @@ class AsesinatosController
             $evento = Evento::find($topico);
             $evento->situacion = 0;
             $evento->guardar();
-            // ELIMINA LA CAPTURA
-            $asesinatos = array_shift(asesinatos::where('topico', $topico));
 
-            if($asesinatos){
-                $asesinatos->situacion = 0;
-                $asesinatos->guardar();
-
-            }
-            // ELIMINA LOS asesinados
-            $asesinados = asesinados::where('topico', $topico);
+            $dinero = Dinero::where('topico', $topico);
             $resultados = [];
-            foreach($asesinados as $asesinado){
-                $asesinado->situacion = 0;
-                $resultados[] = $asesinado->guardar();
+            foreach($dinero as $din){
+                $din->situacion = 0;
+                $resultados[] = $din->guardar();
             }
 
     
             if(!array_search(0, $resultados)){
                 echo json_encode([
-                    "mensaje" => "La captura se eliminó.",
+                    "mensaje" => "El Incidente de Dinero se elimino",
                     "codigo" => 1,
                 ]);
                 
