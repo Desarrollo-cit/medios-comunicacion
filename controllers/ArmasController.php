@@ -17,7 +17,7 @@ class ArmasController{
         try {
             // $_POST["desc"] = strtoupper($_POST["desc"]);
             $armas = new Armas($_POST);
-            $valor = mb_strtoupper(trim($_POST["desc"]));
+            $valor = $armas->desc;
             $existe = Armas::SQL("SELECT * from amc_tipo_armas where situacion =1 AND desc = '$valor'");
             
             // echo json_encode($existe);
@@ -67,11 +67,11 @@ class ArmasController{
        try {
             // $_POST["desc"] = strtoupper($_POST["desc"]);
             $armas = new Armas($_POST);
-            $valor = $_POST["desc"];
+            $valor = $armas->desc;
             $existe = Armas::SQL("select * from amc_tipo_armas where situacion =1 AND desc = '$valor'");
             if (count($existe)>0){
                echo json_encode([
-                   "mensaje" => "El registro ya existe",
+                   "mensaje" => "El valor no se modificó.",
                    "codigo" => 2,
                ]);
                exit;

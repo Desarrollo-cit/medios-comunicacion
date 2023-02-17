@@ -17,7 +17,7 @@ class CalibresController{
         try {
             $_POST["desc"] = strtoupper($_POST["desc"]);
             $calibres = new Calibres($_POST);
-            $valor = $_POST["desc"];
+            $valor = $calibres->desc;
             $existe = Calibres::SQL("select * from amc_calibre where situacion =1 AND desc = '$valor'");
             if (count($existe)>0){
                echo json_encode([
@@ -64,11 +64,11 @@ class CalibresController{
        try {
             $_POST["desc"] = strtoupper($_POST["desc"]);
             $calibres = new Calibres($_POST);
-            $valor = $_POST["desc"];
+            $valor = $calibres->desc;
             $existe = Calibres::SQL("select * from amc_calibre where situacion =1 AND desc = '$valor'");
             if (count($existe)>0){
                echo json_encode([
-                   "mensaje" => "El registro ya existe",
+                   "mensaje" => "No se modificó el valor.",
                    "codigo" => 2,
                ]);
                exit;

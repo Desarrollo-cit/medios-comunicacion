@@ -22,7 +22,7 @@ class NacionalidadController{
 
         try {
             $tipo = new Nacionalidad($_POST);
-            $dato = $_POST["desc"];
+            $dato = $tipo->desc;
             $existe = Nacionalidad::SQL("SELECT * FROM amc_nacionalidad where desc = '$dato' and situacion = 1 ");
             if (count($existe)>0){
                echo json_encode([
@@ -74,9 +74,16 @@ class NacionalidadController{
     public function modificarAPI(){
         getHeadersApi();
         try {
-            $_POST["desc"] = strtoupper($_POST["desc"]);
             $Nacionalidad = new Nacionalidad($_POST);
-            
+            $dato = $Nacionalidad->desc;
+            $existe = Nacionalidad::SQL("SELECT * FROM amc_nacionalidad where desc = '$dato' and situacion = 1 ");
+            if (count($existe)>0){
+               echo json_encode([
+                   "mensaje" => "El registro ya existe.",
+                   "codigo" => 2,
+               ]);
+               exit;
+            }
             $resultado = $Nacionalidad->guardar();
          
     

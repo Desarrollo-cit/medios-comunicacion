@@ -277,24 +277,6 @@ window.eliminarRegistro = (id) => {
     })
 }
 
-function NumText(string){//solo letras y numeros
-    var out = '';
-    //Se añaden las letras validas
-    var filtro = 'áéíóúabcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZÁÉÍÓÚ';//Caracteres validos
-  
-    for (var i=0; i<string.length; i++)
-       if (filtro.indexOf(string.charAt(i)) != -1) 
-       out += string.charAt(i);
-    return out;
-  }
-
-  formDelitos.desc.addEventListener('keyup', e=>{
-    let out = NumText(e.target.value)
-    e.target.value = out 
-
-
-})
-
 
 formDelitos.addEventListener('submit', guardardelitos )
 btnModificar.addEventListener('click', modificardelitos);

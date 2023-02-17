@@ -17,7 +17,7 @@ class DelitosController{
         try {
             // $_POST["desc"] = strtoupper($_POST["desc"]);
             $delitos = new Delitos($_POST);
-            $valor = $_POST["desc"];
+            $valor = $delitos->desc;
             $existe = Delitos::SQL("select * from amc_delito where situacion =1 AND desc = '$valor'");
             if (count($existe)>0){
                echo json_encode([
@@ -64,7 +64,7 @@ class DelitosController{
        try {
             $_POST["desc"] = strtoupper($_POST["desc"]);
             $delitos = new Delitos($_POST);
-            $valor = $_POST["desc"];
+            $valor = $delitos->desc;
             $existe = Delitos::SQL("select * from amc_delito where situacion =1 AND desc = '$valor'");
             if (count($existe)>0){
                echo json_encode([
