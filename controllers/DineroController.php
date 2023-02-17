@@ -30,7 +30,7 @@ class DineroController{
         try {
 
             $evento = Evento::find($_POST['topico']);
-            $evento->info = $_POST['info5'];
+            $evento->setInfo($_POST['info5']);
             $evento->guardar();
      
 
@@ -141,7 +141,7 @@ public static function buscarDineroAPI(){
         try {
 
             $evento = Evento::find($_POST['topico']);
-            $evento->info = $_POST['info5'];
+            $evento->setInfo($_POST['info5']);
             $evento->guardar();
      
 

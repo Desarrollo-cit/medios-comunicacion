@@ -16,7 +16,7 @@ class IncautacionController
         try {
 
             $evento = Evento::find($_POST['topico']);
-            $evento->info = preg_replace("[\n|\r|\n\r]", "",$_POST['info']);
+            $evento->setInfo($_POST['info']);
             $evento->guardar();
 
             $incautacion = new Incautacion([
@@ -104,12 +104,13 @@ class IncautacionController
 
     public static function modificar(){
         getHeadersApi();
-        
+
         try {
 
             $evento = Evento::find($_POST['topico']);
             $evento->info = preg_replace("[\n|\r|\n\r]", "",$_POST['info']);
             $evento->guardar();
+
 
             $arrayBusqueda = Incautacion::where('topico', $_POST['topico']);
             $incautacion = array_shift($arrayBusqueda);
@@ -120,9 +121,10 @@ class IncautacionController
             $incautacion->cantidad = $_POST['cantidad'];
             $incautacion->tip_droga_plantacion = $_POST['tipo_droga_plantacion'];
             $incautacion->cantidad_plantacion = $_POST['cantidad_plantacion'];
-
+   
             $incautacion->guardar();
- 
+            // echo json_encode($incautacion);
+            // exit;
             $cantidadCapturados = count($_POST['nombre']);
             $resultados = [];
             for ($i=0; $i < $cantidadCapturados ; $i++) { 

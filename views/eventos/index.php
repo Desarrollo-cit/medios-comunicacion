@@ -531,7 +531,7 @@
 
                             <div class="col">
 
-                                <h2>Personas capturada en la incauación</h2>
+                                <h2>Personas capturada en la incautación</h2>
                             </div>
                             <div class="col-lg-1">
                                 <button type="button" id="agregarInputscapturaDroga" class="btn btn-success w-100"><i class="bi bi-plus-circle "></i></button>
@@ -583,7 +583,7 @@
                     <form id="formArmas" novalidate class="col">
                         <div class="row justify-content-center">
                             <div class="col p-1">
-                                <input type="text" name="topico" id="topico">
+                                <input type="hidden" name="topico" id="topico">
                                 <div class="row justify-content-center mb-5">
                                     <h4>Información de la incautación</h4>
                                     <div class="col-12 text-center">
@@ -664,7 +664,7 @@
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header ">
-                <h5 class="modal-title " id="modalcapturaLabel">DETALLE DE LOS DESASTRES NATURALES</h5>
+                <h5 class="modal-title " id="modalcapturaLabel">DETALLE DE LA INCAUTACIÓN DE DINERO </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body container ">

@@ -16,7 +16,7 @@ class IncautacionArmasController
         try {
 
             $evento = Evento::find($_POST['topico']);
-            $evento->info = preg_replace("[\n|\r|\n\r]", "",$_POST['info']);
+            $evento->setInfo($_POST['info']);
             $evento->guardar();
 
  
@@ -111,7 +111,7 @@ class IncautacionArmasController
         try {
 
             $evento = Evento::find($_POST['topico']);
-            $evento->info = preg_replace("[\n|\r|\n\r]", "",$_POST['info']);
+            $evento->setInfo($_POST['info']);
             $evento->guardar();
 
             // echo json_encode($resultado);

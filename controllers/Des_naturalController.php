@@ -13,12 +13,11 @@ class Des_naturalController{
         getHeadersApi();
 
 
-
     
         try {
 
             $evento = Evento::find($_POST['topico']);
-            $evento->info = $_POST['info6'];
+            $evento->setInfo($_POST['info6']);
             $evento->guardar();
      
 
@@ -117,12 +116,11 @@ public static function buscarDesastresAPI(){
     public static function modificar(){
         getHeadersApi();
 
- 
         
         try {
-
+            
             $evento = Evento::find($_POST['topico']);
-            $evento->info = $_POST['info6'];
+            $evento->setInfo($_POST['info6']);
             $evento->guardar();
      
 

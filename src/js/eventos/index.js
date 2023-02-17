@@ -1047,13 +1047,17 @@ const recargarModalDroga = async (id) => {
         //     // if(captura){
         evento && tinymce.get('info_incautacion').setContent(evento.info)
 
-        formDroga.cantidad.value = incautacion.cantidad
-        formDroga.cantidad_plantacion.value = incautacion.cantidad_plantacion
-        formDroga.matricula.value = incautacion.matricula
-        formDroga.tipo_droga_plantacion.value = incautacion.tip_droga_plantacion
-        formDroga.tipo_droga.value = incautacion.tipo_droga
-        formDroga.tipo_transporte.value = incautacion.tipo_transporte
-        formDroga.transporte.value = incautacion.transporte
+        if(incautacion){
+            formDroga.cantidad.value = incautacion.cantidad
+            formDroga.cantidad_plantacion.value = incautacion.cantidad_plantacion
+            formDroga.matricula.value = incautacion.matricula
+            formDroga.tipo_droga_plantacion.value = incautacion.tip_droga_plantacion
+            formDroga.tipo_droga.value = incautacion.tipo_droga
+            formDroga.tipo_transporte.value = incautacion.tipo_transporte
+            formDroga.transporte.value = incautacion.transporte
+
+        }
+
 
         //     // }
         if (capturados) {
@@ -3586,7 +3590,7 @@ const eliminarIncautacion = async (e) => {
             try {
 
                 const body = new FormData();
-                body.append('topic', formMigrantes.topic.value)
+                body.append('topico', formDroga.topico.value)
                 const headers = new Headers();
                 headers.append("X-Requested-With", "fetch");
 
@@ -3595,7 +3599,7 @@ const eliminarIncautacion = async (e) => {
                     headers,
                     body
                 }
-
+                const url = "/medios-comunicacion/API/incautacion/eliminar"
                 const respuesta = await fetch(url, config);
                 const data = await respuesta.json();
 
@@ -3607,12 +3611,12 @@ const eliminarIncautacion = async (e) => {
                 switch (codigo) {
                     case 1:
                         icon = "success"
-                        modalMigrantes.hide()
+                        modalDroga.hide()
                         buscarEventos()
                         break;
                     case 2:
                         icon = "warning"
-                        formMigrantes.reset();
+                        formDroga.reset();
 
                         break;
                     case 3:
@@ -4034,11 +4038,11 @@ const modificarIncautacion = async e => {
             switch (codigo) {
                 case 1:
                     icon = "success"
-                    recargarModalArmas(formDroga.topico.value)
+                    recargarModalDroga(formDroga.topico.value)
                     break;
                 case 2:
                     icon = "warning"
-                    formCaptura.reset();
+                    formDroga.reset();
 
                     break;
                 case 3:
@@ -4799,6 +4803,77 @@ const eliminarIncautacionArmamento = async (e) => {
     })
 }
 
+const eliminarMigrantes = async (e) => {
+    Swal.fire({
+        title: 'Confirmación',
+        text: "¿Esta seguro que desea eliminar estos migrantes?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, Eliminar'
+    }).then( async(result) => {
+        if (result.isConfirmed) {
+            try {
+
+                const url = '/medios-comunicacion/API/migrantes/migrantes/eliminar'
+    
+                const body = new FormData();
+                body.append('topic', formMigrantes.topic.value)
+                const headers = new Headers();
+                headers.append("X-Requested-With", "fetch");
+    
+                const config = {
+                    method: 'POST',
+                    headers,
+                    body
+                }
+    
+                const respuesta = await fetch(url, config);
+                const data = await respuesta.json();
+    
+                console.log(data);
+                // return 
+                const { mensaje, codigo, detalle } = data;
+                // const resultado = data.resultado;
+                let icon = "";
+                switch (codigo) {
+                    case 1:
+                        icon = "success"
+                        modalMigrantes.hide()
+                        buscarEventos()
+                        break;
+                    case 2:
+                        icon = "warning"
+                        formMigrantes.reset();
+    
+                        break;
+                    case 3:
+                        icon = "error"
+    
+                        break;
+                    case 4:
+                        icon = "error"
+                        console.log(detalle)
+    
+                        break;
+    
+                    default:
+                        break;
+                }
+    
+                Toast.fire({
+                    icon: icon,
+                    title: mensaje,
+                })
+    
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    })
+}
+
 
 map.on('click', abreModal)
 formInformacion.departamento.addEventListener('change', buscarMunicipio)
@@ -4817,7 +4892,7 @@ btnModificarArmas.addEventListener('click', modificarIncautacionArmamento)
 btnBorrarCaptura.addEventListener('click', eliminarCaptura);
 btnBorrarCapturaDroga.addEventListener('click', eliminarIncautacion);
 btnBorrarAsesinatos.addEventListener('click', eliminarAsesinato);
-btnBorrarMigrantes.addEventListener('click', eliminarMigrante);
+btnBorrarMigrantes.addEventListener('click', eliminarMigrantes);
 btnBorrarDinero.addEventListener('click', eliminarDineros);
 btnBorrarDesastres.addEventListener('click', eliminarDesastre);
 btnBorrarPistas.addEventListener('click', eliminarPistas);

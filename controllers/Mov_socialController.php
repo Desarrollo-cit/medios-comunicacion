@@ -18,7 +18,7 @@ class Mov_socialController{
         try {
 
             $evento = Evento::find($_POST['topico']);
-            $evento->info = $_POST['info8'];
+            $evento->setInfo($_POST['info8']);
             $evento->guardar();
      
 
@@ -113,7 +113,7 @@ public static function buscarMovimientoAPI(){
         try {
 
             $evento = Evento::find($_POST['topico']);
-            $evento->info = $_POST['info8'];
+            $evento->setInfo($_POST['info8']);
             $evento->guardar();
      
 
