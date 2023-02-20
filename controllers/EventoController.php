@@ -107,6 +107,7 @@ class EventoController {
         getHeadersApi();
         try {
             $topicos = $_GET['topicos'];
+            $dep_llave = $_GET['dep_llave'];
             $inicio = str_replace('T',' ',$_GET['inicio']);
             $fin = str_replace('T',' ',$_GET['fin']);
             // $fin= $_GET['fin'];
@@ -127,6 +128,13 @@ class EventoController {
 
                 if($_SESSION['AMC_COMANDO']){
                     $sql .= " and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
+                }else if($_SESSION['AMC_ADMIN'])
+                {
+                    if($dep_llave != ""){
+                    $sql .= " and amc_topico.dependencia = $dep_llave ";
+                    }else{
+                        $sql .= " and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
+                    }
                 }
                 
                 $eventos = Evento::fetchArray($sql);
