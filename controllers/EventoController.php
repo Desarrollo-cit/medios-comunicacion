@@ -83,6 +83,7 @@ class EventoController {
             if($resultado['resultado'] == 1){
                 echo json_encode([
                     "mensaje" => "El registro se guardó.",
+                    "id" => $resultado['id'],
                     "codigo" => 1,
                 ]);
                 
@@ -142,6 +143,23 @@ class EventoController {
             ]);
         }
       
+    }
+
+    public static function getEventoIdApi(){
+        getHeadersApi();
+        try {
+            $id = $_GET['id'];
+            $sql = "SELECT amc_topico.latitud as latitud, amc_topico.longitud as longitud, amc_actividad_vinculada.desc as actividad, amc_tipo_topics.desc as tipo, amc_tipo_topics.id as tipo_id, amc_topico.id as id , trim(dep_desc_ct) as dependencia from amc_topico inner join amc_actividad_vinculada on amc_topico.actividad = amc_actividad_vinculada.id inner join amc_tipo_topics on amc_topico.tipo = amc_tipo_topics.id inner join mdep on amc_topico.dependencia = dep_llave where amc_topico.situacion = 1 and amc_topico.id = $id ";
+            $eventos = array_shift(Evento::fetchArray($sql));
+            echo json_encode($eventos);
+        } catch (Exception $e) {
+            echo json_encode([
+                "detalle" => $e->getMessage(),       
+                "mensaje" => "Ocurrió  un error en base de datos.",
+
+                "codigo" => 4,
+            ]);
+        }
     }
 
 }

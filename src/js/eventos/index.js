@@ -228,9 +228,10 @@ const guardarEvento = async e => {
         const respuesta = await fetch(url, config);
         const data = await respuesta.json();
         // console.log(data);
-        seleccionarTopico(null, `divTopico${formInformacion.tipo.value}`, formInformacion.tipo.value);
+        // seleccionarTopico(null, `divTopico${formInformacion.tipo.value}`, formInformacion.tipo.value);
+        const { mensaje, codigo, detalle, id } = data;
+        buscarEventoId(id)
 
-        const { mensaje, codigo, detalle } = data;
         // const resultado = data.resultado;
         let icon = "";
         switch (codigo) {
@@ -405,6 +406,103 @@ const buscarEventos = async e => {
                 title: 'No hay datos registrados o seleccione un tópico'
             });
         }
+
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+const buscarEventoId = async (id) => {
+    
+
+    markers.clearLayers();
+    topicos = [];
+    document.querySelectorAll('[id^=divTopico]').forEach(d => {
+        d.classList.remove('bg-info')
+    })
+    
+    try {
+        const url = `/medios-comunicacion/API/eventos/find?id=${id}`
+        const headers = new Headers();
+        headers.append("X-Requested-With", "fetch");
+
+        const config = {
+            method: 'GET',
+            headers
+        }
+
+        const respuesta = await fetch(url, config);
+        const data = await respuesta.json();
+        console.log(data);
+
+
+        let latlng = [data.latitud, data.longitud]
+
+        const icon = crearIcono(`images/${iconos[data.tipo_id]}`);
+
+        let marker = L.marker(latlng, { icon }).addTo(markers);
+        marker.bindPopup(`
+            <p><b>Latitud: </b> ${data.latitud}</p>
+            <p><b>Longitud: </b> ${data.longitud}</p>
+            <p><b>Actividad vinculada: </b> ${data.actividad}</p>
+            <p><b>Tipo de topic: </b> ${data.tipo}</p>
+            <p><b>Ingresado por: </b> ${data.dependencia}</p>
+        `);
+
+        marker.addEventListener('contextmenu', e => {
+
+            switch (data.tipo_id) {
+                case '1':
+                    modal1(e, data)
+                    break;
+
+                case '2':
+                    modal2(e, data)
+                    break;
+                case '4':
+                    modal4(e, data)
+                    break;
+                case '6':
+                    modal6(e, data)
+                    break;
+
+                case '9':
+                    modal3(e, data)
+                    break;
+
+                case '4':
+                    modal4(e, data)
+                    break;
+
+                case '5':
+                    modal5(e, data)
+                    break;
+
+                case '6':
+                    modal6(e, data)
+                    break;
+
+                case '7':
+                    modal7(e, data)
+                    break;
+
+                case '8':
+                    modal8(e, data)
+                    break;
+
+                case '10':
+                    modal9(e, data)
+                    break;
+
+
+
+            }
+        })
+        markers.addTo(map)
+
+
+
+        
 
     } catch (error) {
         console.log(error);
