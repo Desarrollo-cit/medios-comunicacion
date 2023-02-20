@@ -21,6 +21,11 @@ class EventoController {
         $movimiento = Evento::fetchArray("SELECT * from amc_organizacion_mov_social where situacion = 1");
         $drogas = Evento::fetchArray("SELECT * FROM amc_drogas where situacion = 1 ");
         $transportes = Evento::fetchArray("SELECT * FROM amc_transporte where situacion = 1 ");
+        if($_SESSION['AMC_ADMIN']){ 
+            $dependencia = Evento::fetchArray("SELECT dep_llave,dep_desc_lg,dep_desc_md FROM mper, morg, mdep WHERE per_plaza=org_plaza AND org_dependencia=dep_llave AND per_situacion in ('11','TH','T0') GROUP BY dep_llave,dep_desc_lg,dep_desc_md Order by dep_desc_md");
+        }elseif($_SESSION['AMC_COMANDO']){
+            $dependencia = Evento::fetchArray("SELECT * FROM MPER FULL OUTER JOIN morg ON per_plaza = org_plaza FULL OUTER JOIN mdep ON dep_llave = org_dependencia WHERE per_catalogo = user");    
+        }
         $router->render('eventos/index', [
             'topicos' => $topicos,
             'departamentos' => $departamentos,
@@ -31,6 +36,7 @@ class EventoController {
             'movimiento' => $movimiento,
             'drogas' => $drogas,
             'transportes' => $transportes,
+            'dependencia' => $dependencia,
         ]);
     }
 
@@ -109,6 +115,8 @@ class EventoController {
             $topicos = $_GET['topicos'];
             $inicio = str_replace('T',' ',$_GET['inicio']);
             $fin = str_replace('T',' ',$_GET['fin']);
+            $dependencia = $_GET['dependencia'];
+             
             // $fin= $_GET['fin'];
             // echo json_encode($_GET);
             // exit;
@@ -124,10 +132,15 @@ class EventoController {
                 if($fin != ''){
                     $sql .= " and amc_topico.fecha <= '$fin'";
                 }
-
-                if($_SESSION['AMC_COMANDO']){
+                if($dependencia != ''){
+                    $sql .= " and amc_topico.dependencia = '$dependencia'";
+                }else if($_SESSION['AMC_ADMIN']){
+                    $sql .= " and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
+                }else if($_SESSION['AMC_COMANDO']){
                     $sql .= " and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
                 }
+                
+
                 
                 $eventos = Evento::fetchArray($sql);
             }

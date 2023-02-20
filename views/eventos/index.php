@@ -11,7 +11,16 @@
                     <div class="col">
                         <label for="fin">Fin</label>
                         <input type="datetime-local" class="form-control" name="fin" id="fin">
-                    </div>
+                    </div> 
+                    <label for="select_dependencia">Dependencia</label>
+                        <select class="form-control" name="dependencia" id="dependencia" >
+                            <option value="">Seleccione ...</option>
+                            <?php foreach ($dependencia as $dependencia) : ?>
+                                <option value="<?= $dependencia['dep_llave'] ?>">
+                                    <?= $dependencia['dep_desc_md'] ?>
+                                </option>
+                            <?php endforeach ?>
+                        </select>
                 </div>
             </div>
         </div>
