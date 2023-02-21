@@ -85,7 +85,7 @@ class AsesinatosController
  
         try{
             $evento = Evento::find($topico);
-
+            $evento->info = htmlspecialchars_decode($evento->info);
             $asesinados = Asesinados::fetchArray("SELECT * FROM amc_per_asesinadas where topico = $topico and situacion = 1;");
 
             echo json_encode([

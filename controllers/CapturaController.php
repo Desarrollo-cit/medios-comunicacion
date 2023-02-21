@@ -70,6 +70,7 @@ class CapturaController
 
         try{
             $evento = Evento::find($topico);
+            $evento->info = htmlspecialchars_decode($evento->info);
 
 
             $capturados = Capturados::fetchArray("SELECT * FROM amc_per_capturadas where topico = $topico and situacion = 1;");

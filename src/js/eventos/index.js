@@ -89,8 +89,8 @@ const btnGuardarMovimiento = document.getElementById('btnGuardarMovimiento');
 const btnModificarMovimiento = document.getElementById('btnModificarMovimiento');
 const btnBorrarMovimiento = document.getElementById('btnBorrarMovimiento');
 
-
-
+const divFenomenoFiltro = document.getElementById('divFenomenoFiltro');
+const inputFiltroFenomeno = document.getElementById('fenomeno');
 const inicioInput = document.getElementById('inicio');
 const finInput = document.getElementById('fin');
 const dependenciaInput = document.getElementById('dependencia');
@@ -229,9 +229,10 @@ const guardarEvento = async e => {
         const respuesta = await fetch(url, config);
         const data = await respuesta.json();
         // console.log(data);
-        seleccionarTopico(null, `divTopico${formInformacion.tipo.value}`, formInformacion.tipo.value);
+        // seleccionarTopico(null, `divTopico${formInformacion.tipo.value}`, formInformacion.tipo.value);
+        const { mensaje, codigo, detalle, id } = data;
+        buscarEventoId(id)
 
-        const { mensaje, codigo, detalle } = data;
         // const resultado = data.resultado;
         let icon = "";
         switch (codigo) {
@@ -277,6 +278,10 @@ const guardarEvento = async e => {
 let topicos = [];
 const seleccionarTopico = (e, iddiv, idregistro) => {
     // console.log(e);
+    if(idregistro == 7){
+        divFenomenoFiltro.classList.toggle('d-none')
+        inputFiltroFenomeno.disabled = !inputFiltroFenomeno.disabled
+    }
     const div = document.getElementById(iddiv);
     if (div.classList.contains('bg-info')) {
 
@@ -316,13 +321,13 @@ const buscarEventos = async e => {
     // map.removeLayer(markers)
     let inicio = inicioInput.value,
         fin = finInput.value,
-        dependencia = dependenciaInput.value;
-    //console.log(dependencia);
- 
+        dependencia = dependenciaInput.value,
+        fenomeno = inputFiltroFenomeno.value
+        ;
     // console.log(inicio, fin);
     markers.clearLayers();
     try {
-        const url = `/medios-comunicacion/API/eventos?topicos=${topicos}&fin=${fin}&inicio=${inicio}&dependencia=${dependencia}`
+        const url = `/medios-comunicacion/API/eventos?topicos=${topicos}&fin=${fin}&inicio=${inicio}&fenomeno=${fenomeno}&dependencia=${dependencia}`
         const headers = new Headers();
         headers.append("X-Requested-With", "fetch");
 
@@ -409,6 +414,103 @@ const buscarEventos = async e => {
                 title: 'No hay datos registrados o seleccione un tópico'
             });
         }
+
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+const buscarEventoId = async (id) => {
+    
+
+    markers.clearLayers();
+    topicos = [];
+    document.querySelectorAll('[id^=divTopico]').forEach(d => {
+        d.classList.remove('bg-info')
+    })
+    
+    try {
+        const url = `/medios-comunicacion/API/eventos/find?id=${id}`
+        const headers = new Headers();
+        headers.append("X-Requested-With", "fetch");
+
+        const config = {
+            method: 'GET',
+            headers
+        }
+
+        const respuesta = await fetch(url, config);
+        const data = await respuesta.json();
+        console.log(data);
+
+
+        let latlng = [data.latitud, data.longitud]
+
+        const icon = crearIcono(`images/${iconos[data.tipo_id]}`);
+
+        let marker = L.marker(latlng, { icon }).addTo(markers);
+        marker.bindPopup(`
+            <p><b>Latitud: </b> ${data.latitud}</p>
+            <p><b>Longitud: </b> ${data.longitud}</p>
+            <p><b>Actividad vinculada: </b> ${data.actividad}</p>
+            <p><b>Tipo de topic: </b> ${data.tipo}</p>
+            <p><b>Ingresado por: </b> ${data.dependencia}</p>
+        `);
+
+        marker.addEventListener('contextmenu', e => {
+
+            switch (data.tipo_id) {
+                case '1':
+                    modal1(e, data)
+                    break;
+
+                case '2':
+                    modal2(e, data)
+                    break;
+                case '4':
+                    modal4(e, data)
+                    break;
+                case '6':
+                    modal6(e, data)
+                    break;
+
+                case '9':
+                    modal3(e, data)
+                    break;
+
+                case '4':
+                    modal4(e, data)
+                    break;
+
+                case '5':
+                    modal5(e, data)
+                    break;
+
+                case '6':
+                    modal6(e, data)
+                    break;
+
+                case '7':
+                    modal7(e, data)
+                    break;
+
+                case '8':
+                    modal8(e, data)
+                    break;
+
+                case '10':
+                    modal9(e, data)
+                    break;
+
+
+
+            }
+        })
+        markers.addTo(map)
+
+
+
+        
 
     } catch (error) {
         console.log(error);
@@ -576,7 +678,7 @@ const recargarModalCaptura = async (id) => {
         const data = await respuesta.json();
         console.log(data);
         const { captura, capturados } = data;
-
+        console.log(captura.info);
         // if(captura){
         captura && tinymce.get('info').setContent(captura.info)
         // }
@@ -2473,7 +2575,7 @@ const guardarCaptura = async e => {
             const respuesta = await fetch(url, config);
             const data = await respuesta.json();
 
-            // console.log(data);
+            console.log(data);
             const { mensaje, codigo, detalle } = data;
             // const resultado = data.resultado;
             let icon = "";
@@ -4928,3 +5030,7 @@ formMovimiento.addEventListener('submit', guardarMovimiento)
 
 formDroga.addEventListener('submit', guardarIncautacion)
 formArmas.addEventListener('submit', guardarIncautacionArmamento)
+
+inputFiltroFenomeno.addEventListener('change', buscarEventos)
+inicioInput.addEventListener('change', buscarEventos)
+finInput.addEventListener('change', buscarEventos)
