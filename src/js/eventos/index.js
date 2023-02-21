@@ -89,8 +89,8 @@ const btnGuardarMovimiento = document.getElementById('btnGuardarMovimiento');
 const btnModificarMovimiento = document.getElementById('btnModificarMovimiento');
 const btnBorrarMovimiento = document.getElementById('btnBorrarMovimiento');
 
-
-
+const divFenomenoFiltro = document.getElementById('divFenomenoFiltro');
+const inputFiltroFenomeno = document.getElementById('fenomeno');
 const inicioInput = document.getElementById('inicio');
 const finInput = document.getElementById('fin');
 
@@ -277,6 +277,10 @@ const guardarEvento = async e => {
 let topicos = [];
 const seleccionarTopico = (e, iddiv, idregistro) => {
     // console.log(e);
+    if(idregistro == 7){
+        divFenomenoFiltro.classList.toggle('d-none')
+        inputFiltroFenomeno.disabled = !inputFiltroFenomeno.disabled
+    }
     const div = document.getElementById(iddiv);
     if (div.classList.contains('bg-info')) {
 
@@ -315,11 +319,13 @@ const buscarEventos = async e => {
     e && e.preventDefault();
     // map.removeLayer(markers)
     let inicio = inicioInput.value,
-        fin = finInput.value;
+        fin = finInput.value,
+        fenomeno = inputFiltroFenomeno.value
+        ;
     // console.log(inicio, fin);
     markers.clearLayers();
     try {
-        const url = `/medios-comunicacion/API/eventos?topicos=${topicos}&fin=${fin}&inicio=${inicio}`
+        const url = `/medios-comunicacion/API/eventos?topicos=${topicos}&fin=${fin}&inicio=${inicio}&fenomeno=${fenomeno}`
         const headers = new Headers();
         headers.append("X-Requested-With", "fetch");
 
@@ -5021,3 +5027,7 @@ formMovimiento.addEventListener('submit', guardarMovimiento)
 
 formDroga.addEventListener('submit', guardarIncautacion)
 formArmas.addEventListener('submit', guardarIncautacionArmamento)
+
+inputFiltroFenomeno.addEventListener('change', buscarEventos)
+inicioInput.addEventListener('change', buscarEventos)
+finInput.addEventListener('change', buscarEventos)
