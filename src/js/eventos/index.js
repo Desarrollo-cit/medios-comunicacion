@@ -93,6 +93,7 @@ const divFenomenoFiltro = document.getElementById('divFenomenoFiltro');
 const inputFiltroFenomeno = document.getElementById('fenomeno');
 const inicioInput = document.getElementById('inicio');
 const finInput = document.getElementById('fin');
+const dependenciaInput = document.getElementById('dependencia');
 
 const map = L.map('map', {
     center: [15.825158, -89.72959],
@@ -320,12 +321,13 @@ const buscarEventos = async e => {
     // map.removeLayer(markers)
     let inicio = inicioInput.value,
         fin = finInput.value,
+        dependencia = dependenciaInput.value,
         fenomeno = inputFiltroFenomeno.value
         ;
     // console.log(inicio, fin);
     markers.clearLayers();
     try {
-        const url = `/medios-comunicacion/API/eventos?topicos=${topicos}&fin=${fin}&inicio=${inicio}&fenomeno=${fenomeno}`
+        const url = `/medios-comunicacion/API/eventos?topicos=${topicos}&fin=${fin}&inicio=${inicio}&fenomeno=${fenomeno}&dependencia=${dependencia}`
         const headers = new Headers();
         headers.append("X-Requested-With", "fetch");
 
@@ -4984,6 +4986,7 @@ formInformacion.departamento.addEventListener('change', buscarMunicipio)
 formInformacion.addEventListener('submit', guardarEvento)
 inicioInput.addEventListener('change', buscarEventos)
 finInput.addEventListener('change', buscarEventos)
+
 btnModificarCaptura.addEventListener('click', modificarCaptura)
 btnModificarCapturaDroga.addEventListener('click', modificarIncautacion)
 btnModificarAsesinatos.addEventListener('click', modificarAsesinato)
