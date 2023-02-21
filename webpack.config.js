@@ -22,6 +22,7 @@ module.exports = {
     'js/mapas/infoMaras' : './src/js/mapas/infoMaras.js',
     'js/mapas/IndexMuertes' : './src/js/mapas/IndexMuertes.js',
     'js/mapas/infoMigrantes' : './src/js/mapas/infoMigrantes.js',
+    'js/mapas/infoDesastres' : './src/js/mapas/infoDesastres.js',
     
   },
   output: {

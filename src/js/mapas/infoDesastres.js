@@ -22,9 +22,9 @@ const btngrafica = document.querySelector("#ver_grafica");
 let tablaregistro = new Datatable('#dataTable2');
 let TablaInfoPer = new Datatable('#dataTable3');
 let TablaInfoPer1 = new Datatable('#dataTable4');
-const formmigrante = document.querySelector('#formInformacion1')
+const formcaptura = document.querySelector('#formInformacion1')
 const formdroga = document.querySelector('#formInformacion2')
-const modalmigrante = new Modal(document.getElementById('modalmigrante'), {
+const capturas = new Modal(document.getElementById('modaldesastre'), {
     keyboard: false
 })
 
@@ -37,21 +37,29 @@ const cambiarmes = async (evento) => {
     evento.preventDefault();
 
 
-    var cantidad_migrantes = document.getElementById('cantidad_migrantes');
-    var edad_concurrente = document.getElementById('edad_concurrente');
-    var cantidad_paises = document.getElementById('cantidad_paises');
-    var pais_migrante = document.getElementById('pais_migrante');
-    var infomujeres = document.getElementById('cantidad_mujeres');
-    var infohombres = document.getElementById('cantidad_hombres');
-    var infodepto = document.getElementById('depto_mayor');
+    var cantidadDesastres = document.getElementById('cantidadDesastres');
+    var desastresId = document.getElementById('desastresId');
+    var incurrenciaId = document.getElementById('incurrenciaId');
+    var IncurrenciaDesastres = document.getElementById('IncurrenciaDesastres');
+    var personasAfectadas = document.getElementById('personasAfectadas');
+    var personasEvacuadas = document.getElementById('personasEvacuadas');
+    var personasFallecidas = document.getElementById('personasFallecidas');
+    var estructurasColapsadas = document.getElementById('estructurasColapsadas');
+    var inundaciones = document.getElementById('inundaciones');
+    var derrumbes = document.getElementById('derrumbes');
+    var carreterasPuentesColapsados = document.getElementById('carreterasPuentesColapsados');
+    var hectareasQuemadas = document.getElementById('hectareasQuemadas');
+    var desbordamientosderios = document.getElementById('desbordamientosderios');
     var f1 = new Date(formBusqueda_resumen.fecha_resumen.value)
     var f2 = new Date(formBusqueda_resumen.fecha_resumen2.value)
+    var fecha1 = formBusqueda_resumen.fecha_resumen.value;
+    var fecha2 = formBusqueda_resumen.fecha_resumen2.value;
+    var fenomenoNatural = formBusqueda_resumen.fenomenos_naturales.value;
 
 
+    if (f1 < f2 || fecha1 =="" && fecha2=="" )  {
 
-    if (f1 < f2) {
-
-        const url = '/medios-comunicacion/API/mapas/infoMigrantes/resumen'
+        const url = '/medios-comunicacion/API/mapas/infoDesastres/resumen'
         const body = new FormData(formBusqueda_resumen);
         const headers = new Headers();
         headers.append("X-Requested-With", "fetch");
@@ -64,28 +72,42 @@ const cambiarmes = async (evento) => {
 
         const respuesta = await fetch(url, config);
         const data = await respuesta.json();
+        console.log(data);
+if(data[0].cantidad == 0){
+    Toast.fire({
+        icon: 'error',
+        title: 'Sin registros'
+    })
+    }else{
+        Toast.fire({
+            icon: 'success',
+            title: 'Se tienen los siguientes registros'
+        })
+    
 
-        if (data[0].cantidad > 0 ) {
-            Toast.fire({
-                icon: 'success',
-                title: 'Se tienen los siguientes registros'
-            })
-        } else {
-
-            Toast.fire({
-                icon: 'error',
-                title: 'Sin registros'
-            })
-
-        }
+}
+        
         if (data) {
-            cantidad_migrantes.innerText = data[0].cantidad
-            edad_concurrente.innerText = data[1].edades
-            cantidad_paises.innerText = data[2].cantidad
-            pais_migrante.innerText = data[3].pais
-            infomujeres.innerText = data[4].cantidad
-            infohombres.innerText = data[5].cantidad
-            infodepto.innerText = data[6].desc.trim()
+
+            cantidadDesastres.innerText = data[0].cantidad
+            IncurrenciaDesastres.innerText = data[1].desc
+            if(fenomenoNatural != "" ){
+                desastresId.style.display = "none"
+                incurrenciaId.style.display = "none"
+
+            }else{
+                desastresId.style.display = "block"
+                incurrenciaId.style.display = "block"
+            }
+            personasAfectadas.innerText = data[2].cantidad
+            personasEvacuadas.innerText = data[3].cantidad
+            personasFallecidas.innerText = data[4].cantidad
+            estructurasColapsadas.innerText = data[5].cantidad
+            inundaciones.innerText = data[6].cantidad
+            derrumbes.innerText = data[7].cantidad
+            carreterasPuentesColapsados.innerText = data[8].cantidad
+            hectareasQuemadas.innerText = data[9].cantidad
+            desbordamientosderios.innerText = data[10].cantidad
         }
 
     } else {
@@ -160,7 +182,7 @@ function ocultar_busquedad_mapa() {
 }
 
 
-const Buscar_migrantes = async (e) => {
+const Buscar_capturas = async (e) => {
 
     if (document.querySelector("#tabla").style.display === "none") {
         document.querySelector("#tabla").style.display = "block";
@@ -173,7 +195,7 @@ const Buscar_migrantes = async (e) => {
     try {
 
 
-        const url = `/medios-comunicacion/API/mapas/infoMigrantes/listado`
+        const url = `/medios-comunicacion/API/mapas/infoDesastres/listado`
         const headers = new Headers();
         headers.append("X-Requested-With", "fetch");
 
@@ -184,7 +206,8 @@ const Buscar_migrantes = async (e) => {
 
         const respuesta = await fetch(url, config);
         const info = await respuesta.json();
-// console.log(info);
+
+
         tablaregistro.destroy();
         tablaregistro = new Datatable('#dataTable2', {
             language: lenguaje,
@@ -195,9 +218,8 @@ const Buscar_migrantes = async (e) => {
                 { data: "departamento", "width": "11%" },
                 { data: "lugar", "width": "11%" },
                 { data: "topico", "width": "15%" },
-                { data: "nacionalidad", "width": "11%" },
-                { data: "edad", "width": "11%" },
-                { data: "cantidad", "width": "15%" },
+                { data: "delito", "width": "11%" },
+                { data: "actividad", "width": "15%" },
 
                 {
                     data: "id",
@@ -231,7 +253,7 @@ const Buscar_migrantes = async (e) => {
 window.ModalPersonal = async (id, tipo) => {
 
 
-    const url = `/medios-comunicacion/API/mapas/infoMigrantes/modal`
+    const url = `/medios-comunicacion/API/mapas/infoDesastres/modal`
     const body = new FormData();
     body.append('id', id);
     const headers = new Headers();
@@ -243,9 +265,9 @@ window.ModalPersonal = async (id, tipo) => {
     }
     const respuesta = await fetch(url, config);
     const info = await respuesta.json();
-   
+    console.log(info);
 
-    const url1 = `/medios-comunicacion/API/mapas/infoMigrantes/informacionMigrantes`
+    const url1 = `/medios-comunicacion/API/mapas/infoDesastres/informacion`
     const body1 = new FormData();
     body1.append('id', id);
     const headers2 = new Headers();
@@ -260,18 +282,20 @@ window.ModalPersonal = async (id, tipo) => {
     const respuesta1 = await fetch(url1, config1);
     const info1 = await respuesta1.json();
 
-    // console.log(info1);
-    
-            modalmigrante.show();
+
+    switch (tipo) {
+
+        case 1:
+            capturas.show();
             info.forEach(info1 => {
-                formmigrante.fecha1.value = info1.fecha
-                formmigrante.topico.value = info1.topico
-                formmigrante.latitud.value = info1.latitud
-                formmigrante.longitud.value = info1.longitud
-                formmigrante.departamentoBusqueda.value = info1.depto
-                formmigrante.municipio.value = info1.municipio[0]['dm_desc_lg']
-                formmigrante.actvidad_vinculada.value = info1.actividad
-                formmigrante.lugar.value = info1.lugar
+                formcaptura.fecha1.value = info1.fecha
+                formcaptura.topico.value = info1.topico
+                formcaptura.latitud.value = info1.latitud
+                formcaptura.longitud.value = info1.longitud
+                formcaptura.departamentoBusqueda.value = info1.depto
+                formcaptura.municipio.value = info1.municipio[0]['dm_desc_lg']
+                formcaptura.actvidad_vinculada.value = info1.actividad
+                formcaptura.lugar.value = info1.lugar
 
             });
 
@@ -283,13 +307,17 @@ window.ModalPersonal = async (id, tipo) => {
                 data: info1,
                 columns: [
                     { data: "contador", "width": "10%" },
-                    { data: "pais", "width": "20%" },
+                    { data: "nombre", "width": "20%" },
                     { data: "sexo", "width": "15%" },
                     { data: "edad", "width": "15%" },
-                    { data: "cantidad", "width": "15%" },
-                    { data: "destino", "width": "15%" }
+                    { data: "nacionalidad", "width": "25%" },
+                    { data: "delito", "width": "15%" }
                 ]
             })
+
+            break;
+     
+    }
 
 
 }
@@ -315,7 +343,7 @@ const busquedad_mapa_Calor = async (e) => {
 
     if ((f1 < f2 && valor == 2) || (valor == 1)) {
 
-        const url = `/medios-comunicacion/API/mapas/infoMigrantes/mapaCalor`
+        const url = `/medios-comunicacion/API/mapas/infoDesastres/mapaCalor`
         const body = new FormData(formMapa);
 
         const headers = new Headers();
@@ -330,26 +358,26 @@ const busquedad_mapa_Calor = async (e) => {
 
         const respuesta = await fetch(url, config);
         const info = await respuesta.json();
-        if ((fecha1 != "" && fecha2 != "") || formMapa.edades_mapa_calor.value != "") {
-            if (info.length == 0) {
-                Toast.fire({
-                    icon: 'error',
-                    title: 'Sin registros'
-                })
-            } else {
-                Toast.fire({
-                    icon: 'success',
-                    title: 'Se tienen siguientes registros'
-                })
-            }
-        }
+if( (fecha1 != "" && fecha2 != "") || formMapa.delitos_mapa_calor.value !="" ){
+if(info.length ==  0){
+Toast.fire({
+    icon: 'error',
+    title: 'Sin registros'
+})
+}else{
+    Toast.fire({
+        icon: 'success',
+        title: 'Se tienen siguientes registros'
+    })
+}
+}
         // console.log(info)
         window.deptos = document.querySelectorAll('path');
         deptos.forEach(element => {
             element.setAttribute('fill', '#145A32 ')
 
         })
-        const url1 = `/medios-comunicacion/API/mapas/infoMigrantes/colores`
+        const url1 = `/medios-comunicacion/API/mapas/infoDesastres/colores`
         const headers1 = new Headers();
         headers1.append("X-Requested-With", "fetch");
 
@@ -361,9 +389,9 @@ const busquedad_mapa_Calor = async (e) => {
         const respuesta1 = await fetch(url1, config1);
         const info1 = await respuesta1.json();
 
-  
+        // console.log(info1)
 
-       
+        info1.forEach(data1 => {
 
             window.cantidad_baja = parseInt(info1[0]['cantidad'])
             window.color_bajo = info1[0]['color']
@@ -372,7 +400,7 @@ const busquedad_mapa_Calor = async (e) => {
             window.cantidad_alta = parseInt(info1[2]['cantidad'])
             window.color_alta = info1[2]['color']
 
-        
+        })
 
 
 
@@ -418,12 +446,8 @@ window.detalle = async (valor) => {
 
         valor = '0' + valor
     }
-
-    var deptoinfo = document.getElementById('deptoinfo');
-    var deptoincidencia = document.getElementById('deptoincidencia');
-    var label_migrante = document.getElementById('label_migrante');
-    const delito = formMapa.edades_mapa_calor.value
-    const url = `/medios-comunicacion/API/mapas/infoMigrantes/mapaCalorPorDepto`
+    const delito = formMapa.delitos_mapa_calor.value
+    const url = `/medios-comunicacion/API/mapas/infoDesastres/mapaCalorPorDepto`
     const body = new FormData(formMapa);
     body.append('departamento', valor);
     const headers = new Headers();
@@ -438,24 +462,21 @@ window.detalle = async (valor) => {
 
     const respuesta = await fetch(url, config);
     const info_depto1 = await respuesta.json();
-// console.log(info_depto1);
 
+    
     if (info_depto1) {
-        deptoinfo.innerText = info_depto1[0].cantidad
-
-
-        deptoincidencia.innerText = info_depto1[1].edades
-
+        deptoinfo.innerText = info_depto1[0].cantidad_delito
+        deptoincidencia.innerText = info_depto1[1].desc
         if (delito != "") {
-            label_migrante.innerText = 'Rango de edad seleccionado:'
+            label_delito.innerText = 'Delito seleccionado:'
         }
         if (delito == "") {
-            label_migrante.innerText = 'Incidencia:'
+            label_delito.innerText = 'Incidencia:'
         }
     } else {
         deptoinfo.innerText = ''
         deptoincidencia.innerText = ''
-        label_migrante.innerText = 'Incidencia:'
+        label_delito.innerText = 'Incidencia:'
 
     }
 
@@ -467,7 +488,7 @@ window.detalle = async (valor) => {
     modaldeptos.show();
     label.innerText = 'DEPARTAMENTO DE ' + name.toUpperCase();
 
-    const url_grafica = `/medios-comunicacion/API/mapas/infoMigrantes/mapaCalorPorDeptoGrafica`
+    const url_grafica = `/medios-comunicacion/API/mapas/infoDesastres/mapaCalorPorDeptoGrafica`
     const bodyGrafica = new FormData(formMapa);
     bodyGrafica.append('departamento', valor);
     const headersGrafica = new Headers();
@@ -493,7 +514,7 @@ window.detalle = async (valor) => {
 
             let labels = [], cantidades = []
             datos.forEach(d => {
-                labels = [...labels, d.edades]
+                labels = [...labels, d.descripcion]
                 cantidades = [...cantidades, d.cantidad]
             })
             // mostrar(datos)
@@ -508,7 +529,7 @@ window.detalle = async (valor) => {
                 data: {
                     labels,
                     datasets: [{
-                        label: 'EDADES',
+                        label: 'DELITOS',
                         data: cantidades,
                         backgroundColor: [
                             'rgba(255, 199, 132, 1)',
@@ -584,6 +605,9 @@ window.detalle = async (valor) => {
         console.log(error);
     }
 
+
+
+
 }
 
 
@@ -592,19 +616,11 @@ window.detalle = async (valor) => {
 //________________________________________________________GRAFICA POR DELITOS __________________________________________________________________________________________________________
 
 
-const migrantes_por_edades_estadistica = async (e) => {
+const delitos_estadistica = async (e) => {
     e && e.preventDefault();
 
 
-    
-    var f1 = new Date(formBusqueda_grafica.fecha_grafica.value)
-    var f2 = new Date(formBusqueda_grafica.fecha_grafica2.value)
-
-    var fecha1 = formBusqueda_grafica.fecha_grafica.value
-    var fecha2 = formBusqueda_grafica.fecha_grafica2.value
-
-    if ((f1 < f2) || (fecha1 == "" && fecha2 == "")) {
-    const url_grafica1 = `/medios-comunicacion/API/mapas/infoMigrantes/MigrantesCantGrafica`
+    const url_grafica1 = `/medios-comunicacion/API/mapas/infoDesastres/DelitosCantGrafica`
     const bodyGrafica1 = new FormData(formBusqueda_grafica);
 
     const headersGrafica1 = new Headers();
@@ -620,19 +636,56 @@ const migrantes_por_edades_estadistica = async (e) => {
         const response1 = await fetch(url_grafica1, configGrafica1)
         const datos1 = await response1.json()
 
-        if (datos1.length > 0) {
-            document.getElementById('graficaDelitos').style.display = "block"
-            document.getElementById('texto_no1').style.display = "none"
-            if (fecha1 != "" && fecha2 != "") {
+
+        if(formBusqueda_grafica.fecha_grafica.value != "" && formBusqueda_grafica.fecha_grafica2.value != "" ){
+            const fecha1 = formBusqueda_grafica.fecha_grafica.value
+            const fecha2 = formBusqueda_grafica.fecha_grafica2.value
+            if (fecha1 == "" && fecha2 == "") {
+                var valor = 1
+            } else {
+        
+                var valor = 2
+            }
+            var f1 = new Date(formBusqueda_grafica.fecha_grafica.value)
+            var f2 = new Date(formBusqueda_grafica.fecha_grafica2.value)
+            if ((f1 > f2 && valor == 2) ){
+                Toast.fire({
+                    icon: 'error',
+                    title: 'Ingreso mal las fechas'
+                })
+                valor = 3;
+                
+            }
+
+            if(datos1.length > 0 ){
                 Toast.fire({
                     icon: 'success',
-                    title: 'Si  existen regristros'
+                    title: 'Se tienen los siguientes registros'
                 })
+
+                
+            }else{
+                Toast.fire({
+                    icon: 'error',
+                    title: 'Sin registros'
+                })
+
+
             }
+
+        }
+
+        if(datos1.length > 0 && valor !=3){
+
+               
+       
+            document.getElementById('graficaDelitos').style.display = "block"
+            document.getElementById('texto_no1').style.display = "none"
+
 
             let labels = [], cantidades = []
             datos1.forEach(d => {
-                labels = [...labels, d.edades]
+                labels = [...labels, d.descripcion]
                 cantidades = [...cantidades, d.cantidad]
             })
 
@@ -646,7 +699,7 @@ const migrantes_por_edades_estadistica = async (e) => {
                 data: {
                     labels,
                     datasets: [{
-                        label: 'Migrantes',
+                        label: 'DELITOS',
                         data: cantidades,
 
                         backgroundColor: [
@@ -717,36 +770,25 @@ const migrantes_por_edades_estadistica = async (e) => {
 
                 }
             });
+            
+        }else{
 
-        } else {
-            Toast.fire({
-                icon: 'error',
-                title: 'No  existen regristros'
-            })
             document.getElementById('texto_no1').style.display = "block";
             document.getElementById('graficaDelitos').style.display = "none";
         }
-
+        
     } catch (error) {
         console.log(error);
     }
-
     deptos_estadistica()
-    }else {
-        if (f1 > f2){
-            Toast.fire({
-                icon: 'error',
-                title: 'Ingreso mal las fechas'
-            })
-        }
-    }
+
 }
 
 
 const deptos_estadistica = async (e) => {
     e && e.preventDefault();
 
-    const url_grafica2 = `/medios-comunicacion/API/mapas/infoMigrantes/MigrantesDepartamentoGrafica`
+    const url_grafica2 = `/medios-comunicacion/API/mapas/infoDesastres/DelitosDepartamentoGrafica`
     const bodyGrafica2 = new FormData(formBusqueda_grafica);
 
     const headersGrafica2 = new Headers();
@@ -761,7 +803,7 @@ const deptos_estadistica = async (e) => {
 
         const response2 = await fetch(url_grafica2, configGrafica2)
         const datos2 = await response2.json()
-// console.log(datos2);
+
 
         if (datos2.length > 0) {
             document.getElementById('graficaDelitosDepartamento').style.display = "block"
@@ -781,7 +823,7 @@ const deptos_estadistica = async (e) => {
                 window.delitosDepartamento_grafica.destroy();
             }
 
-
+         
             window.delitosDepartamento_grafica = new Chart(ctx, {
                 type: 'doughnut',
                 data: {
@@ -839,9 +881,9 @@ const deptos_estadistica = async (e) => {
 
 
 
-const MigrantesPorDia = async () => {
+const CapturasPorDia = async () => {
 
-    const url_grafica2 = `/medios-comunicacion/API/mapas/infoMigrantes/MigrantesPorDiaGrafica`
+    const url_grafica2 = `/medios-comunicacion/API/mapas/infoDesastres/CapturasPorDiaGrafica`
     const headersGrafica2 = new Headers();
     headersGrafica2.append("X-Requested-With", "fetch");
 
@@ -855,7 +897,7 @@ const MigrantesPorDia = async () => {
         const response2 = await fetch(url_grafica2, configGrafica2)
         const datos2 = await response2.json()
 
-        // console.log(datos2);
+// console.log(datos2);
 
         const { dias, cantidades } = datos2;
 
@@ -869,7 +911,7 @@ const MigrantesPorDia = async () => {
         const data = {
             labels: dias,
             datasets: [{
-                label: 'Migrantes',
+                label: 'CAPTURAS',
                 data: cantidades,
                 fill: true,
                 borderColor: 'rgb(75, 192, 192)',
@@ -955,7 +997,7 @@ const MigrantesPorDia = async () => {
                         },
                         title: {
                             display: true,
-                            text: "Migraciones",
+                            text: "CAPTURAS",
                             fullSize: true,
                             color: 'black',
                             font: {
@@ -991,9 +1033,9 @@ const chartColors = [
 
 
 
-const trimestralesMigrantes = async () => {
+const trimestralesDelitos = async () => {
 
-    const url_grafica2 = `/medios-comunicacion/API/mapas/infoMigrantes/GraficaTrimestral`
+    const url_grafica2 = `/medios-comunicacion/API/mapas/infoDesastres/GraficaTrimestral`
     const headersGrafica2 = new Headers();
     headersGrafica2.append("X-Requested-With", "fetch");
 
@@ -1006,6 +1048,14 @@ const trimestralesMigrantes = async () => {
 
         const response2 = await fetch(url_grafica2, configGrafica2)
         const info = await response2.json()
+
+        // info.length < 1 && Toast.fire({
+        //     icon: 'warning',
+        //     title: 'Ingreso mal las fechas'
+        // })
+
+
+        // return
 
         const canvas = document.getElementById('myChart4');
         const ctx = canvas.getContext('2d');
@@ -1075,8 +1125,8 @@ const trimestralesMigrantes = async () => {
 
 
 
-const trimestral_migrantes_general = async () => {
-    const url_grafica2 = `/medios-comunicacion/API/mapas/infoMigrantes/GraficaTrimestralGeneral`
+const trimestral_capturas_general = async () => {
+   const url_grafica2 = `/medios-comunicacion/API/mapas/infoDesastres/GraficaTrimestralGeneral`
     const headersGrafica2 = new Headers();
     headersGrafica2.append("X-Requested-With", "fetch");
 
@@ -1090,137 +1140,140 @@ const trimestral_migrantes_general = async () => {
         const response2 = await fetch(url_grafica2, configGrafica2)
         const info = await response2.json()
 
-        
+        // info.length < 1 && Toast.fire({
+        //     icon: 'warning',
+        //     title: 'Ingreso mal las fechas'
+        // })
 
 
-        const { meses, cantidades } = info;
-        // console.log(info);
-        const canvas1 = document.getElementById('myChart5');
-        const ctx1 = canvas1.getContext('2d');
-        if (window.trimestral_MigranteGeneral) {
-            console.log(window.trimestral_MigranteGeneral);
-            window.trimestral_MigranteGeneral.destroy()
-        }
+    const { meses, cantidades } = info;
+    // console.log(info);
+    const canvas1 = document.getElementById('myChart5');
+    const ctx1 = canvas1.getContext('2d');
+    if (window.trimestral_capturaGeneral) {
+        console.log(window.trimestral_capturaGeneral);
+        window.trimestral_capturaGeneral.destroy()
+    }
 
-        const data = {
-            labels: meses,
-            datasets: [{
-                label: 'ESTADISTICA TRIMESTRAL',
-                data: cantidades,
-                fill: false,
-                borderColor: 'rgb(75, 192, 192)',
-                tension: 0.5,
-                borderColor: '#F10909',
-                backgroundColor: [
-                    'rgba(236, 26, 19  , 0.5)',
-                    'rgba(8, 144, 47 , 0.4)',
-                    'rgba(8, 14, 144 , 0.6)',
-                    'rgba(253, 253, 3, 1)',
-                    'rgba(8, 129, 144 , 1)',
-                    'rgba(255, 159, 64, 1)',
-                    'rgba(241, 9, 9 , 1)',
-                    'rgba(26, 50, 148,  1)',
-                    'rgba(18, 199, 29,  1)'
-                ],
-            }]
+    const data = {
+        labels: meses,
+        datasets: [{
+            label: 'ESTADISTICA TRIMESTRAL',
+            data: cantidades,
+            fill: false,
+            borderColor: 'rgb(75, 192, 192)',
+            tension: 0.5,
+            borderColor: '#F10909',
+            backgroundColor: [
+                'rgba(236, 26, 19  , 0.5)',
+                'rgba(8, 144, 47 , 0.4)',
+                'rgba(8, 14, 144 , 0.6)',
+                'rgba(253, 253, 3, 1)',
+                'rgba(8, 129, 144 , 1)',
+                'rgba(255, 159, 64, 1)',
+                'rgba(241, 9, 9 , 1)',
+                'rgba(26, 50, 148,  1)',
+                'rgba(18, 199, 29,  1)'
+            ],
+        }]
 
-        };
+    };
 
-        const configChart = {
-            type: 'bar',
-            data: data,
-            options: {
-                plugins: {
-                    legend: {
-                        position: "top",
-                        labels: {
-                            boxWidth: 100,
-                            usePointStyle: true,
-                            pointStyle: "line",
-                        }
+    const configChart = {
+        type: 'bar',
+        data: data,
+        options: {
+            plugins: {
+                legend: {
+                  position: "top",
+                  labels: {
+                    boxWidth: 100,
+                    usePointStyle: true,
+                    pointStyle: "line",
+                  }
+                }
+              },
+            indexAxis: 'x',
+            scales: {
+                x: {
+
+                    grid: {
+                        tickColor: "white",
+                        // borderDash: [5, 2],
+                        tickWidth: 25,
+                        color: "black",
+                        borderColor: "black",
+                        size: 25
+                    },
+
+                    ticks: {
+                        color: "black",
+                        font: {
+                            weight: "bold",
+                            size: 30
+                        },
+
                     }
-                },
-                indexAxis: 'x',
-                scales: {
-                    x: {
 
-                        grid: {
-                            tickColor: "white",
-                            // borderDash: [5, 2],
-                            tickWidth: 25,
-                            color: "black",
-                            borderColor: "black",
+                },
+                y: {
+                    grid: {
+                      color: "black",
+                      borderDash: [5, 2,],
+                      borderColor: "black",
+                      tickColor: "yellow",
+                      tickWidth: 5,
+                      size:10
+                    },
+                    ticks: {
+                        color: "black",
+                        font: {
+                            weight: "bold",
                             size: 25
                         },
-
-                        ticks: {
-                            color: "black",
-                            font: {
-                                weight: "bold",
-                                size: 30
-                            },
-
-                        }
-
+                        stepSize: 10,
+                        beginAtZero: true,
                     },
-                    y: {
-                        grid: {
-                            color: "black",
-                            borderDash: [5, 2,],
-                            borderColor: "black",
-                            tickColor: "yellow",
-                            tickWidth: 5,
-                            size: 10
-                        },
-                        ticks: {
-                            color: "black",
-                            font: {
-                                weight: "bold",
-                                size: 25
-                            },
-                            stepSize: 10,
-                            beginAtZero: true,
-                        },
-                        title: {
-                            display: true,
-                            text: "Migrantes",
-                            fullSize: true,
-                            color: 'White',
-                            font: {
-                                weight: "bold",
-                                size: 30
-                            }
+                    title: {
+                        display: true,
+                        text: "CAPTURAS",
+                        fullSize: true,
+                        color: 'White',
+                        font: {
+                            weight: "bold",
+                            size: 30
                         }
-
                     }
+
                 }
             }
-        };
-        window.trimestral_MigranteGeneral = new Chart(ctx1, configChart);
-        window.trimestral_MigranteGeneral.update()
-    } catch (error) {
+        }
+    };
+    window.trimestral_capturaGeneral = new Chart(ctx1, configChart);
+    window.trimestral_capturaGeneral.update()
+    }catch(error){
         console.log(error);
     }
 
-
+   
 
 
 }
 
 
 formBusqueda_resumen.addEventListener('submit', cambiarmes)
-formBusqueda_grafica.addEventListener('submit', migrantes_por_edades_estadistica)
-btnBuscar.addEventListener("click", Buscar_migrantes);
+formBusqueda_grafica.addEventListener('submit', delitos_estadistica)
+btnBuscar.addEventListener("click", Buscar_capturas);
 btnresumenbuscar.addEventListener("click", ocultar_select);
 btngraficabuscar.addEventListener("click", ocultar_busquedad_grafica);
 btnBuscarmapacalor.addEventListener("click", ocultar_busquedad_mapa);
 formBusqueda_mapa.addEventListener('submit', busquedad_mapa_Calor)
 btnmapa.addEventListener("click", ocultar_mapa);
 busquedad_mapa_Calor();
-migrantes_por_edades_estadistica();
-MigrantesPorDia();
-trimestralesMigrantes();
-trimestral_migrantes_general();
+delitos_estadistica();
+CapturasPorDia();
+trimestralesDelitos();
+trimestral_capturas_general();
 // deptos_estadistica();
 btngrafica.addEventListener("click", ocultar_graficas);
 

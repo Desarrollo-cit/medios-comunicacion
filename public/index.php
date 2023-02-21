@@ -37,6 +37,7 @@ use Controllers\ReporteController;
 use Controllers\infoCapturaController;
 use Controllers\infoMuertesController;
 use Controllers\infoDrogaController;
+use Controllers\infoDesastresController;
 use Controllers\Mov_socialController;
 use Controllers\PistasController;
 use Controllers\infoMarasController;
@@ -288,6 +289,22 @@ $router->post('/API/mapas/infoMigrantes/MigrantesDepartamentoGrafica', [infoMigr
 $router->post('/API/mapas/infoMigrantes/MigrantesPorDiaGrafica', [infoMigrantesController::class , 'MigrantesPorDiaGraficaAPI'] );
 $router->post('/API/mapas/infoMigrantes/GraficaTrimestral', [infoMigrantesController::class , 'GraficaTrimestralAPI'] );
 $router->post('/API/mapas/infoMigrantes/GraficaTrimestralGeneral', [infoMigrantesController::class , 'GraficaTrimestralGeneralAPI'] );
+
+
+$router->get('/mapas/desastres', [infoDesastresController::class , 'index']);
+$router->post('/API/mapas/infoDesastres/resumen', [infoDesastresController::class , 'resumenAPI'] );
+$router->get('/API/mapas/infoDesastres/listado', [infoDesastresController::class , 'listadoAPI'] );
+$router->post('/API/mapas/infoDesastres/modal', [infoDesastresController::class , 'modalAPI'] );
+$router->post('/API/mapas/infoDesastres/informacionMigrantes', [infoDesastresController::class , 'informacionMigrantesModalAPI'] );
+$router->post('/API/mapas/infoDesastres/mapaCalor', [infoDesastresController::class , 'mapaCalorAPI'] );
+$router->post('/API/mapas/infoDesastres/mapaCalorPorDepto', [infoDesastresController::class , 'mapaCalorDeptoAPI'] );
+$router->post('/API/mapas/infoDesastres/mapaCalorPorDeptoGrafica', [infoDesastresController::class , 'mapaCalorPorDeptoGraficaAPI'] );
+$router->post('/API/mapas/infoDesastres/colores', [infoDesastresController::class , 'coloresAPI'] );
+$router->post('/API/mapas/infoDesastres/MigrantesCantGrafica', [infoDesastresController::class , 'MigrantesCantGraficaAPI'] );
+$router->post('/API/mapas/infoDesastres/MigrantesDepartamentoGrafica', [infoDesastresController::class , 'MigrantesDepartamentoGraficaAPI'] );
+$router->post('/API/mapas/infoDesastres/MigrantesPorDiaGrafica', [infoDesastresController::class , 'MigrantesPorDiaGraficaAPI'] );
+$router->post('/API/mapas/infoDesastres/GraficaTrimestral', [infoDesastresController::class , 'GraficaTrimestralAPI'] );
+$router->post('/API/mapas/infoDesastres/GraficaTrimestralGeneral', [infoDesastresController::class , 'GraficaTrimestralGeneralAPI'] );
 
 
 
