@@ -670,7 +670,7 @@ const recargarModalCaptura = async (id) => {
         const data = await respuesta.json();
         console.log(data);
         const { captura, capturados } = data;
-
+        console.log(captura.info);
         // if(captura){
         captura && tinymce.get('info').setContent(captura.info)
         // }
@@ -2567,7 +2567,7 @@ const guardarCaptura = async e => {
             const respuesta = await fetch(url, config);
             const data = await respuesta.json();
 
-            // console.log(data);
+            console.log(data);
             const { mensaje, codigo, detalle } = data;
             // const resultado = data.resultado;
             let icon = "";
