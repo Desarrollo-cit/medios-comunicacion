@@ -276,59 +276,6 @@ window.eliminarRegistro = (id) => {
         }
     })
 }
-window.cambiarSituacion = (id, situacion, desc) => {
-   
-    Swal.fire({
-        title : 'Confirmación',
-        icon : 'warning',
-        text : '¿Esta seguro que desea cambiar situacion?',
-        showCancelButton : true,
-        confirmButtonColor : '#3085d6',
-        cancelButtonColor : '#d33',
-        confirmButtonText: 'Si, Cambiar'
-    }).then( async (result) => {
-        if(result.isConfirmed){
-            const url = '/medios-comunicacion/API/delitos/cambiarSituacion'
-            const body = new FormData();
-            body.append('id', id);
-            body.append('situacion', situacion);
-            body.append('desc', desc);
-            const headers = new Headers();
-            headers.append("X-Requested-With", "fetch");
-    
-            const config = {
-                method : 'POST',
-                headers,
-                body
-            }
-
-            const respuesta = await fetch(url, config);
-            const data = await respuesta.json();
-            // cosole.log(data)
-            const {resultado} = data;
-            // const resultado = data.resultado;
-            
-    
-            if(resultado == 1){
-                
-                Toast.fire({
-                    icon : 'success',
-                    title : 'Se cambió situación'
-                                       
-                })
-                formDelitos.reset();
-                
-                buscardelitos();
-            }else{
-                Toast.fire({
-                    icon : 'error',
-                    title : 'Ocurrió un error'
-                })
-            }
-           
-        }
-    })
-}
 
 formDelitos.addEventListener('submit', guardardelitos )
 btnModificar.addEventListener('click', modificardelitos);
