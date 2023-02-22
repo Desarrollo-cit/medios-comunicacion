@@ -4,7 +4,7 @@ import Datatable from 'datatables.net-bs5';
 import { lenguaje } from "../lenguaje";
 import Swal from "sweetalert2";
 
-const formTipos = document.getElementById('formTipos');
+const formFuentes = document.getElementById('formFuentes');
 const btnGuardar = document.getElementById('btnGuardar');
 const btnModificar = document.getElementById('btnModificar');
 const divTabla = document.getElementById('divTabla');
@@ -17,7 +17,7 @@ btnModificar.disabled = true;
 const guardarTipo = async (evento) => {
     evento.preventDefault();
     
-    let formularioValido = validarFormulario(formTipos, ['id']);
+    let formularioValido = validarFormulario(formFuentes, ['id']);
 
     if(!formularioValido){ 
         Toast.fire({
@@ -29,8 +29,8 @@ const guardarTipo = async (evento) => {
 
     try {
         //Crear el cuerpo de la consulta
-        const url = '/medios-comunicacion/API/tipo/guardar'
-        const body = new FormData(formTipos);
+        const url = '/medios-comunicacion/API/Fuentes/guardar'
+        const body = new FormData(formFuentes);
         body.delete('id');
         const headers = new Headers();
         headers.append("X-Requested-With", "fetch");
@@ -51,12 +51,12 @@ const guardarTipo = async (evento) => {
         switch (codigo) {
             case 1:
                 icon = "success"
-                formTipos.reset();
+                formFuentes.reset();
                 buscarTipo();
                 break;
             case 2:
                 icon = "warning"
-                formTipos.reset();
+                formFuentes.reset();
 
                 break;
             case 3:
@@ -91,7 +91,7 @@ const buscarTipo = async (evento) => {
     evento && evento.preventDefault();
 
     try {
-        const url = '/medios-comunicacion/API/tipo/buscar'
+        const url = '/medios-comunicacion/API/Fuentes/buscar'
         const headers = new Headers();
         headers.append("X-Requested-With", "fetch");
 
@@ -146,7 +146,7 @@ const buscarTipo = async (evento) => {
 const modificarTipo = async (evento) => {
     evento.preventDefault();
     
-    let formularioValido = validarFormulario(formTipos);
+    let formularioValido = validarFormulario(formFuentes);
 
     if(!formularioValido){ 
         Toast.fire({
@@ -158,8 +158,8 @@ const modificarTipo = async (evento) => {
 
     try {
         //Crear el cuerpo de la consulta
-        const url = '/medios-comunicacion/API/tipo/modificar'
-        const body = new FormData(formTipos);
+        const url = '/medios-comunicacion/API/Fuentes/modificar'
+        const body = new FormData(formFuentes);
         const headers = new Headers();
         headers.append("X-Requested-With", "fetch");
 
@@ -178,7 +178,7 @@ const modificarTipo = async (evento) => {
         switch (codigo) {
             case 1:
                 icon = "success"
-                formTipos.reset();
+                formFuentes.reset();
                 buscarTipo();
                 btnModificar.parentElement.style.display = 'none';
                 btnGuardar.parentElement.style.display = '';
@@ -219,8 +219,8 @@ buscarTipo();
 
 
 window.asignarValores = (id, desc) => {
-    formTipos.id.value = id;
-    formTipos.desc.value = desc;
+    formFuentes.id.value = id;
+    formFuentes.desc.value = desc;
     btnModificar.parentElement.style.display = '';
     btnGuardar.parentElement.style.display = 'none';
     btnGuardar.disabled = true;
@@ -240,7 +240,7 @@ window.eliminarRegistro = (id) => {
         confirmButtonText: 'Si, eliminar'
     }).then( async (result) => {
         if(result.isConfirmed){
-            const url = '/medios-comunicacion/API/tipo/eliminar'
+            const url = '/medios-comunicacion/API/Fuentes/eliminar'
             const body = new FormData();
             body.append('id', id);
             const headers = new Headers();
@@ -264,7 +264,7 @@ window.eliminarRegistro = (id) => {
                     title : 'Registro eliminado'
                 })
     
-                formTipos.reset();
+                formFuentes.reset();
                 buscarTipo();
             }else{
                 Toast.fire({
@@ -287,12 +287,11 @@ function NumText(string){//solo letras y numeros
     return out;
   }
 
-formTipos.desc.addEventListener('keyup', e=>{
+formFuentes.desc.addEventListener('keyup', e=>{
     let out = NumText(e.target.value)
     e.target.value = out 
 
 })
 
-formTipos.addEventListener('submit', guardarTipo )
+formFuentes.addEventListener('submit', guardarTipo )
 btnModificar.addEventListener('click', modificarTipo);
-

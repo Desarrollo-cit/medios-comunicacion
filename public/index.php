@@ -6,14 +6,13 @@ require_once __DIR__ . '/../includes/app.php';
 date_default_timezone_set('America/Guatemala');
 setlocale(LC_ALL, 'es_ES');
 
-use Controllers\ArmasController;
+use Controllers\FuentesController;
 use Controllers\CalibresController;
 use Controllers\CapturaController;
 use Controllers\DelitosController;
 
 
 use Controllers\EventoController;
-use Controllers\IncautacionArmasController;
 use Controllers\IncautacionController;
 use MVC\Router;
 use Controllers\AppController;
@@ -42,6 +41,8 @@ use Controllers\PistasController;
 use Controllers\infoMarasController;
 use Controllers\infoMigrantesController;
 
+
+
 $router = new Router();
 $router->setBaseURL('/medios-comunicacion');
 
@@ -53,15 +54,6 @@ $router->post('/API/colores/guardar', [ColoresController::class, 'guardarAPI'] )
 $router->get('/API/colores/buscar', [ColoresController::class, 'buscarAPI'] );
 $router->post('/API/colores/modificar', [ColoresController::class, 'modificarAPI'] );
 $router->post('/API/colores/eliminar', [ColoresController::class, 'eliminarAPI'] );
-
-
-
-
-$router->get('/armas', [ArmasController::class , 'index']);
-$router->post('/API/armas/guardar', [ArmasController::class, 'guardarAPI'] );
-$router->get('/API/armas/buscar', [ArmasController::class, 'buscarAPI'] );
-$router->post('/API/armas/modificar', [ArmasController::class, 'modificarAPI'] );
-$router->post('/API/armas/eliminar', [ArmasController::class, 'eliminarAPI'] );
 
 
 $router->get('/calibres', [CalibresController::class , 'index']);
@@ -76,6 +68,7 @@ $router->post('/API/delitos/guardar', [DelitosController::class, 'guardarAPI'] )
 $router->get('/API/delitos/buscar', [DelitosController::class, 'buscarAPI'] );
 $router->post('/API/delitos/modificar', [DelitosController::class, 'modificarAPI'] );
 $router->post('/API/delitos/eliminar', [DelitosController::class, 'eliminarAPI'] );
+$router->post('/API/delitos/situacion', [DelitosController::class, 'cambioSituacionAPI'] );
 
 //DESASTRES NATURALES
 $router->get('/desastre_natural', [Desastre_naturalController::class , 'index']);
@@ -196,12 +189,12 @@ $router->post('/API/incautacion/modificar', [IncautacionController::class, 'modi
 $router->get('/API/incautacion/buscar', [IncautacionController::class, 'buscarIncautacionAPI']);
 $router->post('/API/incautacion/eliminar', [IncautacionController::class, 'eliminarIncautacion']);
 
-$router->post('/API/incautacion_armas/guardar', [IncautacionArmasController::class, 'guardar']);
-$router->post('/API/incautacion_armas/modificar', [IncautacionArmasController::class, 'modificar']);
-$router->get('/API/incautacion_armas/buscar', [IncautacionArmasController::class, 'buscarIncautacionAPI']);
-$router->post('/API/incautacion_armas/eliminar', [IncautacionArmasController::class, 'eliminarIncautacion']);
-$router->post('/API/incautacion_armas/armas/eliminar', [IncautacionArmasController::class, 'eliminarArma']);
-$router->post('/API/incautacion_armas/municion/eliminar', [IncautacionArmasController::class, 'eliminarMunicion']);
+$router->post('/API/incautacion_Fuentes1/guardar', [IncautacionFuentes1Controller::class, 'guardar']);
+$router->post('/API/incautacion_Fuentes1/modificar', [IncautacionFuentes1Controller::class, 'modificar']);
+$router->get('/API/incautacion_Fuentes1/buscar', [IncautacionFuentes1Controller::class, 'buscarIncautacionAPI']);
+$router->post('/API/incautacion_Fuentes1/eliminar', [IncautacionFuentes1Controller::class, 'eliminarIncautacion']);
+$router->post('/API/incautacion_Fuentes1/Fuentes1/eliminar', [IncautacionFuentes1Controller::class, 'eliminarArma']);
+$router->post('/API/incautacion_Fuentes1/municion/eliminar', [IncautacionFuentes1Controller::class, 'eliminarMunicion']);
 
 
 // MAPA CALOR MUERTES
@@ -257,7 +250,7 @@ $router->post('/API/mapas/infoMaras/informacionCapturas', [infoMarasController::
 $router->post('/API/mapas/infoMaras/informacionDroga', [infoMarasController::class , 'informacionDrogaModalAPI'] );
 $router->post('/API/mapas/infoMaras/informacionMuerte', [infoMarasController::class , 'informacionMuerteModalAPI'] );
 $router->post('/API/mapas/infoMaras/informacionDinero', [infoMarasController::class , 'informacionDineroModalAPI'] );
-$router->post('/API/mapas/infoMaras/informacionArmas', [infoMarasController::class , 'informacionArmasModalAPI'] );
+$router->post('/API/mapas/infoMaras/informacionFuentes1', [infoMarasController::class , 'informacionFuentes1ModalAPI'] );
 $router->post('/API/mapas/infoMaras/informacionMunicion', [infoMarasController::class , 'informacionMunicionModalAPI'] );
 $router->post('/API/mapas/infoMaras/mapaCalor', [infoMarasController::class , 'mapaCalorAPI'] );
 $router->post('/API/mapas/infoMaras/mapaCalorPorDepto', [infoMarasController::class , 'mapaCalorDeptoAPI'] );
@@ -288,6 +281,16 @@ $router->post('/API/mapas/infoMigrantes/MigrantesDepartamentoGrafica', [infoMigr
 $router->post('/API/mapas/infoMigrantes/MigrantesPorDiaGrafica', [infoMigrantesController::class , 'MigrantesPorDiaGraficaAPI'] );
 $router->post('/API/mapas/infoMigrantes/GraficaTrimestral', [infoMigrantesController::class , 'GraficaTrimestralAPI'] );
 $router->post('/API/mapas/infoMigrantes/GraficaTrimestralGeneral', [infoMigrantesController::class , 'GraficaTrimestralGeneralAPI'] );
+
+////////Fuentes1
+
+$router->get('/Fuentes', [FuentesController::class , 'index']);
+$router->post('/API/Fuentes/guardar', [FuentesController::class, 'guardarAPI'] );
+$router->get('/API/Fuentes/buscar', [FuentesController::class, 'buscarAPI'] );
+$router->post('/API/Fuentes/modificar', [FuentesController::class, 'modificarAPI'] );
+$router->post('/API/Fuentes/eliminar', [FuentesController::class, 'eliminarAPI'] );
+$router->post('/API/Fuentes/situacion', [FuentesController::class, 'cambioSituacionAPI'] );
+$router->post('/API/Fuentes/estado', [FuentesController::class, 'cambioestadoAPI'] );
 
 
 
