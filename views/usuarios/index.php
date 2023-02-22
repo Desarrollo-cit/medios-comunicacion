@@ -24,7 +24,7 @@
             </div>
             <!-- <div class="col">
                 <button id="btnCancelar" class="btn btn-warning w-100" href="/medios-comunicacion/usuarios">Cancelar</button>
-            </div>
+            </div> 
              -->
         </div>
     </form>
