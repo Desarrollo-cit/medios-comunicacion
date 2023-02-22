@@ -1,24 +1,21 @@
 <?php
-
 namespace Controllers;
 
-use Model\Calibres;
 use MVC\Router;
-class CalibresController{
+use model\UnidadMedida;
+class UnidadMedidaController{
 
-    public function index(Router $router)
-    {
-        $router->render('calibres/index');
+    public static function index(Router $router){
+        $router->render('UnidadMedida/index');
     }
-
     public function guardarAPI(){
         getHeadersApi();
 
         try {
-            $_POST["desc"] = strtoupper($_POST["desc"]);
-            $calibres = new Calibres($_POST);
-            $valor = $calibres->desc;
-            $existe = Calibres::SQL("select * from amc_calibre where situacion =1 AND desc = '$valor'");
+            // $_POST["desc"] = strtoupper($_POST["desc"]);
+            $unidadmedida = new UnidadMedida($_POST);
+            $valor = $_POST["desc"];
+            $existe = UnidadMedida::SQL("select * from codemar_unidades_medida where uni_situacion = 1 AND uni_desc = '$valor'");
             if (count($existe)>0){
                echo json_encode([
                    "mensaje" => "El registro ya existe",
@@ -27,7 +24,7 @@ class CalibresController{
                exit;
             }
              
-            $resultado = $calibres->guardar();
+            $resultado = $unidadmedida->guardar();
     
             if($resultado['resultado'] == 1){
                 echo json_encode([
@@ -52,29 +49,28 @@ class CalibresController{
         }
         
     }
-
     public function buscarApi(){
         getHeadersApi();
-        $calibres = Calibres::where('situacion', '0','>');
-        echo json_encode($calibres);
+        $unidadmedida = UnidadMedida::where('situacion', '1');
+        echo json_encode($unidadmedida);
     }
 
     public function modificarAPI(){
         getHeadersApi();
        try {
-            $_POST["desc"] = strtoupper($_POST["desc"]);
-            $calibres = new Calibres($_POST);
-            $valor = $calibres->desc;
-            $existe = Calibres::SQL("select * from amc_calibre where situacion =1 AND desc = '$valor'");
+            // $_POST["desc"] = strtoupper($_POST["desc"]);
+            $unidadmedida = new UnidadMedida($_POST);
+            $valor = $_POST["desc"];
+            $existe = Armas::SQL("select * from codemar_unidades_medida where uni_situacion = 1 AND uni_desc = '$valor'");
             if (count($existe)>0){
                echo json_encode([
-                   "mensaje" => "No se modificó el valor.",
+                   "mensaje" => "El registro ya existe",
                    "codigo" => 2,
                ]);
                exit;
             }
              
-            $resultado = $calibres->guardar();
+            $resultado = $armas->guardar();
     
             if($resultado['resultado'] == 1){
                 echo json_encode([
@@ -102,9 +98,9 @@ class CalibresController{
     public function eliminarAPI(){
         getHeadersApi();
         $_POST['situacion'] = 0;
-        $calibres = new Calibres($_POST);
+        $armas = new Armas($_POST);
         
-        $resultado = $calibres->guardar();
+        $resultado = $armas->guardar();
 
         if($resultado['resultado'] == 1){
             echo json_encode([
@@ -118,27 +114,6 @@ class CalibresController{
 
         }
     }
-    public function cambiarSituacionAPI(){
-        getHeadersApi();
-        if($_POST['situacion'] == 1){
-            $_POST['situacion']=2;
-        }else{
-            $_POST['situacion']=1;
 
-        }
-        $calibres = new Calibres($_POST);
-        $resultado = $calibres->guardar();
-        if($resultado['resultado'] == 1){
-            echo json_encode([
-                "resultado" => 1
-            ]);
-            
-        }else{
-            echo json_encode([
-                "resultado" => 2
-            ]);
-
-        }
-    }
-} 
-
+}
+?>

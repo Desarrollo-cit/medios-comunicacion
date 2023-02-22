@@ -68,6 +68,9 @@
                             <li>
                                 <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/tipo"><i class="ms-lg-0 ms-2 bi bi-arrows-move me-2"></i>Tipos de Movimientos Sociales</a>
                             </li>
+                            <li>
+                                <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/usuarios"><i class="fa-sharp fa-solid fa-users"></i>Usuarios</a>
+                            </li>
                           
                     
                         
@@ -96,6 +99,7 @@
 
                                 <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/mapas/migrantes"><i class="ms-lg-0 ms-2 fa-solid fa-users-between-lines me-2"></i>Migrantes</a>
                             </li>
+                            
                         
                         </ul>
                     </div> 
