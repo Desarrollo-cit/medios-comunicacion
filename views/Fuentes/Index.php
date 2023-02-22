@@ -40,9 +40,6 @@
                 </tr>
             </thead>
             <head>
-            <script
-            defender
-            src="https://app.embed.im/snow.js"></script>
             <tbody>
 
             </tbody>
