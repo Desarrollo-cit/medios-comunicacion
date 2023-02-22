@@ -24,7 +24,7 @@
                         <div class="row mb-3">
                             <div class="col-lg-12">
                                 <label for="modelo">Cantidad de Inicio de Color</label>
-                                <input type="number" name="cantidad" id="cantidad" class="form-control">
+                                <input type="text" name="cantidad" id="cantidad" class="form-control">
                             </div>
                         </div>
 
@@ -36,7 +36,7 @@
                         <div class="row mb-3">
                             <div class="col-lg-12">
                                 <label for="modelo">Nivel</label>
-                                <input type="number" name="nivel" id="nivel" class="form-control">
+                                <input type="hidden" name="nivel" id="nivel" class="form-control">
                             </div>
                         </div>
                         <div class="row mb-3">

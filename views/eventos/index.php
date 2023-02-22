@@ -6,7 +6,8 @@
                 <div class="row py-4">
                     <div class="col">
                         <label for="inicio">Inicio</label>
-                        <input type="datetime-local" class="form-control" name="inicio" id="inicio">
+                        <input type="datetime-local" class="form-control" name="inicio" id="inicio" value="<?php echo str_replace(' ', 'T', date('Y-m-d 00:00'))?>">
+
                     </div>
                     <div class="col">
                         <label for="fin">Fin</label>
@@ -110,11 +111,24 @@
                         </div>
                     </div>
 
+                    <div class="col-2 col-lg-12 justify-content-center justify-content-lg-between border rounded-pill p-2 px-3" data-id="11" id="divTopico11" aria-current="true" style="cursor: pointer;">
+                        <div class="row h-100 align-items-center" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Movimiento social">
+                            <div class="col-lg-9 d-none d-lg-block">
+                                <p class="display-6 ">Maras</p>
+                            </div>
+                            <div class="col col-lg-2">
+                                <img src="./images/11.png" width="100%" />
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
         </div>
     </div>
+
+
     <div class="col-lg-9 pt-2">
         <div class="border border-2  mb-4 rounded  pt-3" id="map" style=" height: 87vh;min-height:auto;">
 
