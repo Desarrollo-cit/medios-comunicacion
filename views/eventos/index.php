@@ -12,8 +12,11 @@
                         <label for="fin">Fin</label>
                         <input type="datetime-local" class="form-control" name="fin" id="fin">
                     </div> 
-                    <label for="select_dependencia">Dependencia</label>
-                        <select class="form-control" name="dependencia" id="dependencia" >
+                </div> 
+                <div class="row mb-3">
+                    <div class="col">
+                        <label for="select_dependencia">Dependencia</label>
+                        <select class="form-control" name="dependencia" id="dependencia"  <?= isset($_SESSION['AMC_ADMIN']) ? '' : 'disabled' ?> >
                             <option value="">Seleccione ...</option>
                             <?php foreach ($dependencia as $dependencia) : ?>
                                 <option value="<?= $dependencia['dep_llave'] ?>">
@@ -21,6 +24,7 @@
                                 </option>
                             <?php endforeach ?>
                         </select>
+                    </div>
                 </div>
                 <div id="divFenomenoFiltro" class="row d-none">
                     <div class="col">
