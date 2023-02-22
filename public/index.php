@@ -41,6 +41,7 @@ use Controllers\Mov_socialController;
 use Controllers\PistasController;
 use Controllers\infoMarasController;
 use Controllers\infoMigrantesController;
+use Controllers\FuentesController;
 
 $router = new Router();
 $router->setBaseURL('/medios-comunicacion');
@@ -81,7 +82,7 @@ $router->post('/API/delitos/guardar', [DelitosController::class, 'guardarAPI'] )
 $router->get('/API/delitos/buscar', [DelitosController::class, 'buscarAPI'] );
 $router->post('/API/delitos/modificar', [DelitosController::class, 'modificarAPI'] );
 $router->post('/API/delitos/eliminar', [DelitosController::class, 'eliminarAPI'] );
-$router->post('/API/delitos/cambiarSituacion', [DelitosController::class, 'cambioSituacionAPI'] );
+$router->post('/API/delitos/situacion', [DelitosController::class, 'cambioSituacionAPI'] );
 
 //DESASTRES NATURALES
 $router->get('/desastre_natural', [Desastre_naturalController::class , 'index']);
@@ -129,6 +130,7 @@ $router->post('/API/nacionalidad/eliminar', [NacionalidadController::class, 'eli
 
 $router->get('/eventos', [EventoController::class,'index']);
 $router->get('/API/eventos', [EventoController::class,'eventos']);
+$router->get('/API/eventos/find', [EventoController::class,'getEventoIdApi']);
 $router->get('/API/eventos/municipios', [EventoController::class, 'municipios']);
 $router->post('/API/eventos/guardar', [EventoController::class, 'guardar']);
 $router->get('/API/eventos/sexo', [EventoController::class, 'sexos']);
@@ -296,6 +298,13 @@ $router->post('/API/mapas/infoMigrantes/GraficaTrimestral', [infoMigrantesContro
 $router->post('/API/mapas/infoMigrantes/GraficaTrimestralGeneral', [infoMigrantesController::class , 'GraficaTrimestralGeneralAPI'] );
 
 
+$router->get('/Fuentes', [FuentesController::class , 'index']);
+$router->post('/API/Fuentes/guardar', [FuentesController::class, 'guardarAPI'] );
+$router->get('/API/Fuentes/buscar', [FuentesController::class, 'buscarAPI'] );
+$router->post('/API/Fuentes/modificar', [FuentesController::class, 'modificarAPI'] );
+$router->post('/API/Fuentes/eliminar', [FuentesController::class, 'eliminarAPI'] );
+$router->post('/API/Fuentes/situacion', [FuentesController::class, 'cambioSituacionAPI'] );
+$router->post('/API/Fuentes/estado', [FuentesController::class, 'cambioestadoAPI'] );
 
 // Comprueba y valida las rutas, que existan y les asigna las funciones del Controlador
 $router->comprobarRutas();

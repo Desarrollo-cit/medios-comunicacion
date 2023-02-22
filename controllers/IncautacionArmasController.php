@@ -17,6 +17,9 @@ class IncautacionArmasController
 
             $evento = Evento::find($_POST['topico']);
             $evento->setInfo($_POST['info']);
+            $evento->fuente = $_POST['fuente'];
+            $evento->link = $_POST['link'];
+            $evento->usuario = $_POST['usuario'];
             $evento->guardar();
 
  
@@ -82,7 +85,7 @@ class IncautacionArmasController
 
         try{
             $evento = Evento::find($topico);
-
+            $evento->info = htmlspecialchars_decode($evento->info);
             $armas = IncautacionArmas::consultarSQL("SELECT * FROM amc_detalle_arma where topico = $topico and situacion = 1 ");
             $municion = IncautacionMunicion::consultarSQL("SELECT * FROM amc_detalle_municion where topico = $topico and situacion = 1 ");
             // $capturados = Capturados::fetchArray("SELECT * FROM amc_per_capturadas where topico = $topico and situacion = 1;");
@@ -112,6 +115,9 @@ class IncautacionArmasController
 
             $evento = Evento::find($_POST['topico']);
             $evento->setInfo($_POST['info']);
+            $evento->fuente = $_POST['fuente'];
+            $evento->link = $_POST['link'];
+            $evento->usuario = $_POST['usuario'];
             $evento->guardar();
 
             // echo json_encode($resultado);
