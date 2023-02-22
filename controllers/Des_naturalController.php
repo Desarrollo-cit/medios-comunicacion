@@ -18,6 +18,9 @@ class Des_naturalController{
 
             $evento = Evento::find($_POST['topico']);
             $evento->setInfo($_POST['info6']);
+            $evento->fuente = $_POST['fuente'];
+            $evento->link = $_POST['link'];
+            $evento->usuario = $_POST['usuario'];
             $evento->guardar();
      
 
@@ -121,6 +124,9 @@ public static function buscarDesastresAPI(){
             
             $evento = Evento::find($_POST['topico']);
             $evento->setInfo($_POST['info6']);
+            $evento->fuente = $_POST['fuente'];
+            $evento->link = $_POST['link'];
+            $evento->usuario = $_POST['usuario'];
             $evento->guardar();
      
 

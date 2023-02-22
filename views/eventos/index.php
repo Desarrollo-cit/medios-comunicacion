@@ -263,18 +263,48 @@
                 <!-- <form>
 
                 </form> -->
-                <div class="row justify-content-center mb-3">
+                <div class="row justify-content-center ">
                     <form id="formCaptura" novalidate>
-                        <div class="col p-1">
-                            <input type="hidden" name="topico" id="topico">
-                            <div class="row justify-content-center mb-5">
-                                <h4>Información de la captura</h4>
-                                <div class="col-12 text-center">
-                                    <label class="h3 " for="info">Noticia</label>
-                                    <textarea name="info" id="info" class="form-control"></textarea>
+                        <div class="row justify-content-center">
+                            <div class="col p-1">
+                                <input type="hidden" name="topico" id="topico">
+                                <div class="row justify-content-center mb-5">
+                                    <h4>Información de la captura</h4>
+                                    <div class="col-12 text-center">
+                                        <label class="h3 " for="info">Noticia</label>
+                                        <textarea name="info" id="info" class="form-control"></textarea>
 
 
+                                    </div>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="row justify-content-center mb-3">
+                            <div class="col-lg-4">
+                                <label for="fuenteCaptura">Fuente de la noticia</label>
+                                <select class=" form-control " name="fuente" id="fuenteCaptura" required>
+                                    <option value="">Seleccione</option>
+                                    <?php foreach ($fuentes as $fuente) : ?>
+                                        <option value="<?= $fuente->id ?>">
+                                            <?= $fuente->desc ?>
+                                        </option>
+                                    <?php endforeach ?>
+                                </select>
+                            </div>
+                            <div class="col-lg-4">
+                                <label for="usuarioCaptura">Usuario de la noticia</label>
+                                <select class=" form-control " name="usuario" id="usuarioCaptura" required>
+                                    <option value="">Seleccione</option>
+                                    <?php foreach ($usuarios as $usuario):?>
+                                        <option value="<?= $usuario['id'] ?>">
+                                            <?= $usuario['desc'] ?>
+                                        </option>
+                                    <?php endforeach ?>
+                                </select>
+                            </div>
+                            <div class="col-lg-4">
+                                <label for="linkCaptura">Link de la noticia</label>
+                                <input type="text" class="form-control" name="link" id="linkCaptura">
                             </div>
                         </div>
                         <div class="row justify-content-center">
@@ -347,6 +377,34 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row justify-content-center mb-3">
+                        <div class="col-lg-4">
+                            <label for="fuenteAsesinato">Fuente de la noticia</label>
+                            <select class=" form-control " name="fuente" id="fuenteAsesinato" required>
+                                <option value="">Seleccione</option>
+                                <?php foreach ($fuentes as $fuente) : ?>
+                                    <option value="<?= $fuente->id ?>">
+                                        <?= $fuente->desc ?>
+                                    </option>
+                                <?php endforeach ?>
+                            </select>
+                        </div>
+                        <div class="col-lg-4">
+                            <label for="usuarioAsesinato">Usuario de la noticia</label>
+                            <select class=" form-control " name="usuario" id="usuarioAsesinato" required>
+                                <option value="">Seleccione</option>
+                                <?php foreach ($usuarios as $usuario):?>
+                                    <option value="<?= $usuario['id'] ?>">
+                                        <?= $usuario['desc'] ?>
+                                    </option>
+                                <?php endforeach ?>
+                            </select>
+                        </div>
+                        <div class="col-lg-4">
+                            <label for="linkAsesinato">Link de la noticia</label>
+                            <input type="text" class="form-control" name="link" id="linkAsesinato">
+                        </div>
+                    </div>
                     <div class="row justify-content-center">
 
                         <div class="col">
@@ -405,15 +463,45 @@
                 </form> -->
                 <div class="row justify-content-center mb-3">
                     <form id="formMigrantes" novalidate>
-                        <div class="col p-1">
-                            <input type="hidden" name="topic" id="topic">
-                            <div class="row justify-content-center mb-5">
-                                <h4>Información de los Migrantes</h4>
-                                <div class="col-12 text-center">
-                                    <label class="h3 " for="info3">Noticia</label>
-                                    <textarea name="info3" id="info3" class="form-control"></textarea>
+                        <div class="row justify-content-center">
+                            <div class="col p-1">
+                                <input type="hidden" name="topic" id="topic">
+                                <div class="row justify-content-center mb-5">
+                                    <h4>Información de los Migrantes</h4>
+                                    <div class="col-12 text-center">
+                                        <label class="h3 " for="info3">Noticia</label>
+                                        <textarea name="info3" id="info3" class="form-control"></textarea>
 
+                                    </div>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="row justify-content-center mb-3">
+                            <div class="col-lg-4">
+                                <label for="fuenteMigrante">Fuente de la noticia</label>
+                                <select class=" form-control " name="fuente" id="fuenteMigrante" required>
+                                    <option value="">Seleccione</option>
+                                    <?php foreach ($fuentes as $fuente) : ?>
+                                        <option value="<?= $fuente->id ?>">
+                                            <?= $fuente->desc ?>
+                                        </option>
+                                    <?php endforeach ?>
+                                </select>
+                            </div>
+                            <div class="col-lg-4">
+                                <label for="usuarioMigrante">Usuario de la noticia</label>
+                                <select class=" form-control " name="usuario" id="usuarioMigrante" required>
+                                    <option value="">Seleccione</option>
+                                    <?php foreach ($usuarios as $usuario):?>
+                                        <option value="<?= $usuario['id'] ?>">
+                                            <?= $usuario['desc'] ?>
+                                        </option>
+                                    <?php endforeach ?>
+                                </select>
+                            </div>
+                            <div class="col-lg-4">
+                                <label for="linkMigrante">Link de la noticia</label>
+                                <input type="text" class="form-control" name="link" id="linkMigrante">
                             </div>
                         </div>
                         <div class="row justify-content-center">
@@ -482,6 +570,34 @@
 
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="row justify-content-center mb-3">
+                            <div class="col-lg-4">
+                                <label for="fuenteDrogas">Fuente de la noticia</label>
+                                <select class=" form-control " name="fuente" id="fuenteDrogas" required>
+                                    <option value="">Seleccione</option>
+                                    <?php foreach ($fuentes as $fuente) : ?>
+                                        <option value="<?= $fuente->id ?>">
+                                            <?= $fuente->desc ?>
+                                        </option>
+                                    <?php endforeach ?>
+                                </select>
+                            </div>
+                            <div class="col-lg-4">
+                                <label for="usuarioDrogas">Usuario de la noticia</label>
+                                <select class=" form-control " name="usuario" id="usuarioDrogas" required>
+                                    <option value="">Seleccione</option>
+                                    <?php foreach ($usuarios as $usuario):?>
+                                        <option value="<?= $usuario['id'] ?>">
+                                            <?= $usuario['desc'] ?>
+                                        </option>
+                                    <?php endforeach ?>
+                                </select>
+                            </div>
+                            <div class="col-lg-4">
+                                <label for="linkDrogas">Link de la noticia</label>
+                                <input type="text" class="form-control" name="link" id="linkDrogas">
                             </div>
                         </div>
                         <div class="row justify-content-center  mb-3">
@@ -621,6 +737,34 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row justify-content-center mb-3">
+                            <div class="col-lg-4">
+                                <label for="fuenteArmas">Fuente de la noticia</label>
+                                <select class=" form-control " name="fuente" id="fuenteArmas" required>
+                                    <option value="">Seleccione</option>
+                                    <?php foreach ($fuentes as $fuente) : ?>
+                                        <option value="<?= $fuente->id ?>">
+                                            <?= $fuente->desc ?>
+                                        </option>
+                                    <?php endforeach ?>
+                                </select>
+                            </div>
+                            <div class="col-lg-4">
+                                <label for="usuarioArmas">Usuario de la noticia</label>
+                                <select class=" form-control " name="usuario" id="usuarioArmas" required>
+                                    <option value="">Seleccione</option>
+                                    <?php foreach ($usuarios as $usuario):?>
+                                        <option value="<?= $usuario['id'] ?>">
+                                            <?= $usuario['desc'] ?>
+                                        </option>
+                                    <?php endforeach ?>
+                                </select>
+                            </div>
+                            <div class="col-lg-4">
+                                <label for="linkArmas">Link de la noticia</label>
+                                <input type="text" class="form-control" name="link" id="linkArmas">
+                            </div>
+                        </div>
                         <div class="row justify-content-center">
 
                             <div class="col">
@@ -700,15 +844,45 @@
                 </form> -->
                 <div class="row justify-content-center mb-3">
                     <form id="formDinero" novalidate>
-                        <div class="col p-1">
-                            <input type="hidden" name="topico" id="topico">
-                            <div class="row justify-content-center mb-5">
-                                <h4>Información del Dinero</h4>
-                                <div class="col-12 text-center">
-                                    <label class="h3 " for="info5">Noticia</label>
-                                    <textarea name="info5" id="info5" class="form-control"></textarea>
+                        <div class="row justify-content-center mb-3">
+                            <div class="col p-1">
+                                <input type="hidden" name="topico" id="topico">
+                                <div class="row justify-content-center mb-5">
+                                    <h4>Información del Dinero</h4>
+                                    <div class="col-12 text-center">
+                                        <label class="h3 " for="info5">Noticia</label>
+                                        <textarea name="info5" id="info5" class="form-control"></textarea>
 
+                                    </div>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="row justify-content-center mb-3">
+                            <div class="col-lg-4">
+                                <label for="fuenteDinero">Fuente de la noticia</label>
+                                <select class=" form-control " name="fuente" id="fuenteDinero" required>
+                                    <option value="">Seleccione</option>
+                                    <?php foreach ($fuentes as $fuente) : ?>
+                                        <option value="<?= $fuente->id ?>">
+                                            <?= $fuente->desc ?>
+                                        </option>
+                                    <?php endforeach ?>
+                                </select>
+                            </div>
+                            <div class="col-lg-4">
+                                <label for="usuarioDinero">Usuario de la noticia</label>
+                                <select class=" form-control " name="usuario" id="usuarioDinero" required>
+                                    <option value="">Seleccione</option>
+                                    <?php foreach ($usuarios as $usuario):?>
+                                        <option value="<?= $usuario['id'] ?>">
+                                            <?= $usuario['desc'] ?>
+                                        </option>
+                                    <?php endforeach ?>
+                                </select>
+                            </div>
+                            <div class="col-lg-4">
+                                <label for="linkDinero">Link de la noticia</label>
+                                <input type="text" class="form-control" name="link" id="linkDinero">
                             </div>
                         </div>
                         <div class="row justify-content-center">
@@ -765,15 +939,45 @@
                 </form> -->
                 <div class="row justify-content-center mb-3">
                     <form id="formDesastres" novalidate>
-                        <div class="col p-1">
-                            <input type="hidden" name="topico" id="topico">
-                            <div class="row justify-content-center mb-5">
-                                <h4>Información del Desastre</h4>
-                                <div class="col-12 text-center">
-                                    <label class="h3 " for="info6">Noticia</label>
-                                    <textarea name="info6" id="info6" class="form-control"></textarea>
+                        <div class="row justify-content-center mb-3">
+                            <div class="col p-1">
+                                <input type="hidden" name="topico" id="topico">
+                                <div class="row justify-content-center mb-5">
+                                    <h4>Información del Desastre</h4>
+                                    <div class="col-12 text-center">
+                                        <label class="h3 " for="info6">Noticia</label>
+                                        <textarea name="info6" id="info6" class="form-control"></textarea>
 
+                                    </div>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="row justify-content-center mb-3">
+                            <div class="col-lg-4">
+                                <label for="fuenteDesastres">Fuente de la noticia</label>
+                                <select class=" form-control " name="fuente" id="fuenteDesastres" required>
+                                    <option value="">Seleccione</option>
+                                    <?php foreach ($fuentes as $fuente) : ?>
+                                        <option value="<?= $fuente->id ?>">
+                                            <?= $fuente->desc ?>
+                                        </option>
+                                    <?php endforeach ?>
+                                </select>
+                            </div>
+                            <div class="col-lg-4">
+                                <label for="usuarioDesastres">Usuario de la noticia</label>
+                                <select class=" form-control " name="usuario" id="usuarioDesastres" required>
+                                    <option value="">Seleccione</option>
+                                    <?php foreach ($usuarios as $usuario):?>
+                                        <option value="<?= $usuario['id'] ?>">
+                                            <?= $usuario['desc'] ?>
+                                        </option>
+                                    <?php endforeach ?>
+                                </select>
+                            </div>
+                            <div class="col-lg-4">
+                                <label for="linkDesastres">Link de la noticia</label>
+                                <input type="text" class="form-control" name="link" id="linkDesastres">
                             </div>
                         </div>
                         <div class="row justify-content-center">
@@ -929,21 +1133,46 @@
                 </form> -->
                 <div class="row justify-content-center mb-3">
                     <form id="formPistas" novalidate>
-                        <div class="col p-1">
-                            <input type="hidden" name="topico" id="topico">
-                            <div class="row justify-content-center mb-5">
-                                <h4>Información de la Pista</h4>
-                                <div class="col-12 text-center">
-                                    <label class="h3 " for="info7">Noticia</label>
-                                    <textarea name="info7" id="info7" class="form-control"></textarea>
+                        <div class="row justify-content-center">
+                            <div class="col p-1">
+                                <input type="hidden" name="topico" id="topico">
+                                <div class="row justify-content-center mb-5">
+                                    <h4>Información de la Pista</h4>
+                                    <div class="col-12 text-center">
+                                        <label class="h3 " for="info7">Noticia</label>
+                                        <textarea name="info7" id="info7" class="form-control"></textarea>
 
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="row justify-content-center">
-
-
-
+                        <div class="row justify-content-center mb-3">
+                            <div class="col-lg-4">
+                                <label for="fuentePistas">Fuente de la noticia</label>
+                                <select class=" form-control " name="fuente" id="fuentePistas" required>
+                                    <option value="">Seleccione</option>
+                                    <?php foreach ($fuentes as $fuente) : ?>
+                                        <option value="<?= $fuente->id ?>">
+                                            <?= $fuente->desc ?>
+                                        </option>
+                                    <?php endforeach ?>
+                                </select>
+                            </div>
+                            <div class="col-lg-4">
+                                <label for="usuarioPistas">Usuario de la noticia</label>
+                                <select class=" form-control " name="usuario" id="usuarioPistas" required>
+                                    <option value="">Seleccione</option>
+                                    <?php foreach ($usuarios as $usuario):?>
+                                        <option value="<?= $usuario['id'] ?>">
+                                            <?= $usuario['desc'] ?>
+                                        </option>
+                                    <?php endforeach ?>
+                                </select>
+                            </div>
+                            <div class="col-lg-4">
+                                <label for="linkPistas">Link de la noticia</label>
+                                <input type="text" class="form-control" name="link" id="linkPistas">
+                            </div>
                         </div>
 
 
@@ -998,23 +1227,47 @@
                 </form> -->
                 <div class="row justify-content-center mb-3">
                     <form id="formMovimiento" novalidate>
-                        <div class="col p-1">
-                            <input type="hidden" name="topico" id="topico">
-                            <div class="row justify-content-center mb-5">
-                                <h4>Información del Movimiento</h4>
-                                <div class="col-12 text-center">
-                                    <label class="h3 " for="info6">Noticia</label>
-                                    <textarea name="info8" id="info8" class="form-control"></textarea>
+                        <div class="row justify-content-center">
+                            <div class="col p-1">
+                                <input type="hidden" name="topico" id="topico">
+                                <div class="row justify-content-center mb-5">
+                                    <h4>Información del Movimiento</h4>
+                                    <div class="col-12 text-center">
+                                        <label class="h3 " for="info6">Noticia</label>
+                                        <textarea name="info8" id="info8" class="form-control"></textarea>
 
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="row justify-content-center">
-
-
-
+                        <div class="row justify-content-center mb-3">
+                            <div class="col-lg-4">
+                                <label for="fuenteMovimiento">Fuente de la noticia</label>
+                                <select class=" form-control " name="fuente" id="fuenteMovimiento" required>
+                                    <option value="">Seleccione</option>
+                                    <?php foreach ($fuentes as $fuente) : ?>
+                                        <option value="<?= $fuente->id ?>">
+                                            <?= $fuente->desc ?>
+                                        </option>
+                                    <?php endforeach ?>
+                                </select>
+                            </div>
+                            <div class="col-lg-4">
+                                <label for="usuarioMovimiento">Usuario de la noticia</label>
+                                <select class=" form-control " name="usuario" id="usuarioMovimiento" required>
+                                    <option value="">Seleccione</option>
+                                    <?php foreach ($usuarios as $usuario):?>
+                                        <option value="<?= $usuario['id'] ?>">
+                                            <?= $usuario['desc'] ?>
+                                        </option>
+                                    <?php endforeach ?>
+                                </select>
+                            </div>
+                            <div class="col-lg-4">
+                                <label for="linkMovimiento">Link de la noticia</label>
+                                <input type="text" class="form-control" name="link" id="linkMovimiento">
+                            </div>
                         </div>
-
 
                         <div id='divMovimiento' class="row">
 

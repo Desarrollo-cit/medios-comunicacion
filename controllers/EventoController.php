@@ -9,6 +9,7 @@ use Model\Nacionalidad;
 use MVC\Router;
 // use PDOException;
 use Exception;
+use Model\Fuentes;
 
 class EventoController {
     public static function index(Router $router){
@@ -21,6 +22,8 @@ class EventoController {
         $movimiento = Evento::fetchArray("SELECT * from amc_organizacion_mov_social where situacion = 1");
         $drogas = Evento::fetchArray("SELECT * FROM amc_drogas where situacion = 1 ");
         $transportes = Evento::fetchArray("SELECT * FROM amc_transporte where situacion = 1 ");
+        $fuentes = Fuentes::where('situacion','1');
+        $usuarios = Evento::fetchArray("SELECT * FROM amc_usuarios where situacion = 1");
         if($_SESSION['AMC_ADMIN']){ 
             $dependencia = Evento::fetchArray("SELECT dep_llave,dep_desc_lg,dep_desc_md FROM mper, morg, mdep WHERE per_plaza=org_plaza AND org_dependencia=dep_llave AND per_situacion in ('11','TH','T0') GROUP BY dep_llave,dep_desc_lg,dep_desc_md Order by dep_desc_md");
         }elseif($_SESSION['AMC_COMANDO']){
@@ -37,6 +40,8 @@ class EventoController {
             'drogas' => $drogas,
             'transportes' => $transportes,
             'dependencia' => $dependencia,
+            'fuentes' => $fuentes,
+            'usuarios' => $usuarios,
         ]);
     }
 

@@ -18,6 +18,9 @@ class CapturaController
 
             $evento = Evento::find($_POST['topico']);
             $evento->setInfo($_POST['info']);
+            $evento->fuente = $_POST['fuente'];
+            $evento->link = $_POST['link'];
+            $evento->usuario = $_POST['usuario'];
             $evento->guardar();
  
             $cantidadCapturados = count($_POST['nombre']);
@@ -100,6 +103,9 @@ class CapturaController
             $evento = Evento::find($_POST['topico']);
 
             $evento->setInfo($_POST['info']);
+            $evento->fuente = $_POST['fuente'];
+            $evento->link = $_POST['link'];
+            $evento->usuario = $_POST['usuario'];
             $evento->guardar();
 
             // echo json_encode($resultado);

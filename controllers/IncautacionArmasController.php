@@ -17,6 +17,9 @@ class IncautacionArmasController
 
             $evento = Evento::find($_POST['topico']);
             $evento->setInfo($_POST['info']);
+            $evento->fuente = $_POST['fuente'];
+            $evento->link = $_POST['link'];
+            $evento->usuario = $_POST['usuario'];
             $evento->guardar();
 
  
@@ -112,6 +115,9 @@ class IncautacionArmasController
 
             $evento = Evento::find($_POST['topico']);
             $evento->setInfo($_POST['info']);
+            $evento->fuente = $_POST['fuente'];
+            $evento->link = $_POST['link'];
+            $evento->usuario = $_POST['usuario'];
             $evento->guardar();
 
             // echo json_encode($resultado);

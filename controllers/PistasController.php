@@ -19,6 +19,9 @@ class PistasController{
 
             $evento = Evento::find($_POST['topico']);
             $evento->setInfo($_POST['info7']);
+            $evento->fuente = $_POST['fuente'];
+            $evento->link = $_POST['link'];
+            $evento->usuario = $_POST['usuario'];
             $evento->guardar();
      
 
@@ -112,6 +115,9 @@ public static function buscarPistasAPI(){
 
             $evento = Evento::find($_POST['topico']);
             $evento->setInfo($_POST['info7']);
+            $evento->fuente = $_POST['fuente'];
+            $evento->link = $_POST['link'];
+            $evento->usuario = $_POST['usuario'];
             $evento->guardar();
      
 

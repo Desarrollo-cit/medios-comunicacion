@@ -4,7 +4,7 @@ namespace Model;
 
 class Evento extends ActiveRecord{
     protected static $tabla = 'amc_topico'; //nombre de la tablaX
-    protected static $columnasDB = ['ID','FECHA','LUGAR', 'DEPARTAMENTO','MUNICIPIO','TIPO','LATITUD','LONGITUD','ACTIVIDAD','SITUACION','INFO', 'DEPENDENCIA','FUENTE','LINK','USUARIO'];
+    protected static $columnasDB = ['ID','FECHA','LUGAR', 'DEPARTAMENTO','MUNICIPIO','TIPO','LATITUD','LONGITUD','ACTIVIDAD','SITUACION','INFO', 'DEPENDENCIA','FUENTE','USUARIO','LINK'];
 
     public $id;
     public $fecha;
@@ -36,9 +36,9 @@ class Evento extends ActiveRecord{
         $this->situacion = $args['situacion'] ?? '1';
         $this->info = utf8_decode( preg_replace("[\n|\r|\n\r]", "", htmlspecialchars($args['info']))) ?? '';
         $this->dependencia = $args['dependencia'] ?? '';
-        $this->dependencia = $args['fuente'] ?? '';
-        $this->dependencia = $args['usuario'] ?? '';
-        $this->dependencia = $args['link'] ?? '';
+        $this->fuente = $args['fuente'] ?? '';
+        $this->usuario = $args['usuario'] ?? '';
+        $this->link = $args['link'] ?? '';
     }
 
     public function setInfo($info){

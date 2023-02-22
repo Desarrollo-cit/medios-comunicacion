@@ -31,6 +31,9 @@ class MigrantesController{
 
             $evento = Evento::find($_POST['topic']);
             $evento->setInfo($_POST['info3']);
+            $evento->fuente = $_POST['fuente'];
+            $evento->link = $_POST['link'];
+            $evento->usuario = $_POST['usuario'];
             $evento->guardar();
      
 
@@ -178,6 +181,9 @@ class MigrantesController{
 
             $evento = Evento::find($_POST['topic']);
             $evento->setInfo($_POST['info3']);
+            $evento->fuente = $_POST['fuente'];
+            $evento->link = $_POST['link'];
+            $evento->usuario = $_POST['usuario'];
             $evento->guardar();
      
 

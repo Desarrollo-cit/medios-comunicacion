@@ -17,6 +17,9 @@ class IncautacionController
 
             $evento = Evento::find($_POST['topico']);
             $evento->setInfo($_POST['info']);
+            $evento->fuente = $_POST['fuente'];
+            $evento->link = $_POST['link'];
+            $evento->usuario = $_POST['usuario'];
             $evento->guardar();
 
             $incautacion = new Incautacion([
@@ -109,6 +112,9 @@ class IncautacionController
 
             $evento = Evento::find($_POST['topico']);
             $evento->setInfo($_POST['info']);
+            $evento->fuente = $_POST['fuente'];
+            $evento->link = $_POST['link'];
+            $evento->usuario = $_POST['usuario'];
             $evento->guardar();
 
 

@@ -681,6 +681,9 @@ const recargarModalCaptura = async (id) => {
         console.log(captura.info);
         // if(captura){
         captura && tinymce.get('info').setContent(captura.info)
+        formCaptura.linkCaptura.value = captura.link
+        formCaptura.fuenteCaptura.value = captura.fuente
+        formCaptura.usuarioCaptura.value = captura.usuario
         // }
         if (capturados) {
             // console.log(data);
@@ -745,6 +748,9 @@ const recargarModalAsesinatos = async (id) => {
         const { asesinatos, asesinados } = data;
         // if(captura){
         asesinatos && tinymce.get('info2').setContent(asesinatos.info)
+        formAsesinatos.linkAsesinato.value = asesinatos.link
+        formAsesinatos.fuenteAsesinato.value = asesinatos.fuente
+        formAsesinatos.usuarioAsesinato.value = asesinatos.usuario
         // }
         if (asesinados) {
             // console.log(data);
@@ -810,6 +816,9 @@ const recargarModalMigrantes = async (id) => {
         console.log(migrantes.info);
 
         migrantes && tinymce.get('info3').setContent(migrantes.info)
+        formMigrantes.linkMigrante.value = migrantes.link
+        formMigrantes.fuenteMigrante.value = migrantes.fuente
+        formMigrantes.usuarioMigrante.value = migrantes.usuario
         // }
         if (migrante) {
             // console.log(data);
@@ -876,6 +885,9 @@ const recargarModalDinero = async (id) => {
 
 
         info && tinymce.get('info5').setContent(info.info)
+        formDinero.linkDinero.value = info.link
+        formDinero.fuenteDinero.value = info.fuente
+        formDinero.usuarioDinero.value = info.usuario
         // }
         if (dinero) {
             // console.log(data);
@@ -936,6 +948,9 @@ const recargarModalDesastres = async (id) => {
 
 
         info && tinymce.get('info6').setContent(info.info)
+        formDesastres.linkDesastres.value = info.link
+        formDesastres.fuenteDesastres.value = info.fuente
+        formDesastres.usuarioDesastres.value = info.usuario
         // }
         if (desastre) {
 
@@ -1014,6 +1029,9 @@ const recargarModalPistas = async (id) => {
 
 
         info && tinymce.get('info7').setContent(info.info)
+        formPistas.linkPistas.value = info.link
+        formPistas.fuentePistas.value = info.fuente
+        formPistas.usuarioPistas.value = info.usuario
         // }
         if (pista) {
 
@@ -1084,6 +1102,9 @@ const recargarModalMovimiento = async (id) => {
 
 
         info && tinymce.get('info8').setContent(info.info)
+        formMovimiento.linkMovimiento.value = info.link
+        formMovimiento.fuenteMovimiento.value = info.fuente
+        formMovimiento.usuarioMovimiento.value = info.usuario
         // }
         if (movimiento) {
 
@@ -1152,7 +1173,9 @@ const recargarModalDroga = async (id) => {
 
         //     // if(captura){
         evento && tinymce.get('info_incautacion').setContent(evento.info)
-
+        formDroga.linkDrogas.value = evento.link
+        formDroga.fuenteDrogas.value = evento.fuente
+        formDroga.usuarioDrogas.value = evento.usuario
         if(incautacion){
             formDroga.cantidad.value = incautacion.cantidad
             formDroga.cantidad_plantacion.value = incautacion.cantidad_plantacion
@@ -1227,6 +1250,9 @@ const recargarModalArmas = async (id) => {
         const { evento, armas, municion } = data;
 
         evento && tinymce.get('info_incautacion_armas').setContent(evento.info)
+        formArmas.linkArmas.value = evento.link
+        formArmas.fuenteArmas.value = evento.fuente
+        formArmas.usuarioArmas.value = evento.usuario
 
         if (armas) {
             // console.log(data);
