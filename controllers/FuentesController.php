@@ -2,13 +2,13 @@
 
 namespace Controllers;
 
-use Model\Delitos;
+use Model\Fuentes;
 use MVC\Router;
-class DelitosController{
+class FuentesController{
 
     public function index(Router $router)
     {
-        $router->render('delitos/index');
+        $router->render('Fuentes/index');
     }
 
     public function guardarAPI(){
@@ -16,9 +16,11 @@ class DelitosController{
 
         try {
             // $_POST["desc"] = strtoupper($_POST["desc"]);
-            $delitos = new Delitos($_POST);
-            $valor = $delitos->desc;
-            $existe = Delitos::SQL("select * from amc_delito where situacion =1 AND desc = '$valor'");
+            $Fuentes = new Fuentes($_POST);
+            $valor = $Fuentes->desc;
+            $existe = Fuentes::SQL("SELECT * from amc_fuentes where situacion = 1 AND desc = '$valor'");
+            
+            // 
             if (count($existe)>0){
                echo json_encode([
                    "mensaje" => "El registro ya existe",
@@ -27,8 +29,10 @@ class DelitosController{
                exit;
             }
              
-            $resultado = $delitos->guardar();
-    
+            $resultado = $Fuentes->guardar();
+            // echo json_encode($resultado);
+            // exit;
+
             if($resultado['resultado'] == 1){
                 echo json_encode([
                     "mensaje" => "El registro se guardo",
@@ -55,26 +59,26 @@ class DelitosController{
 
     public function buscarApi(){
         getHeadersApi();
-        $delitos = Delitos::where('situacion', '1');
-        echo json_encode($delitos);
+        $Fuentes = Fuentes::where('situacion', '0', '>');
+        echo json_encode($Fuentes);
     }
 
     public function modificarAPI(){
         getHeadersApi();
        try {
-            $_POST["desc"] = strtoupper($_POST["desc"]);
-            $delitos = new Delitos($_POST);
-            $valor = $delitos->desc;
-            $existe = Delitos::SQL("select * from amc_delito where situacion =1 AND desc = '$valor'");
+            // $_POST["desc"] = strtoupper($_POST["desc"]);
+            $Fuentes = new Fuentes($_POST);
+            $valor = $Fuentes->desc;
+            $existe = Fuentes::SQL("select * from amc_fuentes where situacion =1 AND desc = '$valor'");
             if (count($existe)>0){
                echo json_encode([
-                   "mensaje" => "El registro ya existe",
+                   "mensaje" => "El valor no se modificó.",
                    "codigo" => 2,
                ]);
                exit;
             }
              
-            $resultado = $delitos->guardar();
+            $resultado = $Fuentes->guardar();
     
             if($resultado['resultado'] == 1){
                 echo json_encode([
@@ -102,9 +106,9 @@ class DelitosController{
     public function eliminarAPI(){
         getHeadersApi();
         $_POST['situacion'] = 0;
-        $delitos = new Delitos($_POST);
+        $Fuentes = new Fuentes($_POST);
         
-        $resultado = $delitos->guardar();
+        $resultado = $Fuentes->guardar();
 
         if($resultado['resultado'] == 1){
             echo json_encode([
@@ -119,6 +123,7 @@ class DelitosController{
         }
     }
 
+
     public function cambioSituacionAPI(){
         getHeadersApi();
         // echo($_POST['situacion']);
@@ -128,8 +133,8 @@ class DelitosController{
         $_POST['situacion'] = 1;
 
         }
-        $delitos = new delitos($_POST);
-        $resultado = $delitos->guardar();
+        $Fuentes = new Fuentes($_POST);
+        $resultado = $Fuentes->guardar();
         if($resultado['resultado'] == 1){
             echo json_encode([
                 "resultado" => 1
@@ -142,5 +147,4 @@ class DelitosController{
 
         }
     }
-} 
-
+}
