@@ -58,7 +58,7 @@ class ArmasController{
 
     public function buscarApi(){
         getHeadersApi();
-        $armas = Armas::where('situacion', '1');
+        $armas = Armas::where('situacion', '0','>');
         echo json_encode($armas);
     }
 
@@ -117,6 +117,28 @@ class ArmasController{
         }else{
             echo json_encode([
                 "resultado" => 0
+            ]);
+
+        }
+    }
+    public function cambioSituacionAPI(){
+        getHeadersApi();
+    if ($_POST['situacion'] == 1){
+        $_POST['situacion'] = 2;
+    }else{
+        $_POST['situacion'] = 1;
+
+        }
+        $armas = new Armas($_POST);
+        $resultado = $armas->guardar();
+        if($resultado['resultado'] == 1){
+            echo json_encode([
+                "resultado" => 1
+            ]);
+            
+        }else{
+            echo json_encode([
+                "resultado" => 2
             ]);
 
         }

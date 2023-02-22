@@ -19,6 +19,9 @@
             <div class="col">
                 <button id="btnModificar" type="button" class="btn btn-warning w-100">Modificar</button>
             </div>
+            <div class="col">
+                <a id="btnCancelar" type="button" class="btn btn-warning w-100" href="/medios-comunicacion/armas">Cancelar</a>
+            </div>
         </div>
     </form>
 </div>
@@ -31,6 +34,7 @@
                     <th>NOMBRE</th>
                     <th>MODIFICAR</th>
                     <th>ELIMINAR</th>
+                    <th>ESTADO</th>
                 </tr>
             </thead>
             <tbody>

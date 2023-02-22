@@ -5,7 +5,7 @@
 require_once __DIR__ . '/../includes/app.php';
 date_default_timezone_set('America/Guatemala');
 setlocale(LC_ALL, 'es_ES');
-
+use Controllers\usuariosController;
 use Controllers\ArmasController;
 use Controllers\CalibresController;
 use Controllers\CapturaController;
@@ -49,20 +49,25 @@ $router->setBaseURL('/medios-comunicacion');
 $router->get('/', [AppController::class,'index']);
 
 
+$router->get('/usuarios',[usuariosController::class,'index']);
+$router->post('/API/usuarios/guardar', [usuariosController::class, 'guardarAPI'] );
+$router->get('/API/usuarios/buscar', [usuariosController::class, 'buscarAPI'] );
+$router->post('/API/usuarios/modificar', [usuariosController::class, 'modificarAPI'] );
+$router->post('/API/usuarios/eliminar', [usuariosController::class, 'eliminarAPI'] );
+$router->post('/API/usuarios/cambiarSituacion', [usuariosController::class, 'cambioSituacionAPI'] );
+
 $router->get('/colores',[ColoresController::class,'index']);
 $router->post('/API/colores/guardar', [ColoresController::class, 'guardarAPI'] );
 $router->get('/API/colores/buscar', [ColoresController::class, 'buscarAPI'] );
 $router->post('/API/colores/modificar', [ColoresController::class, 'modificarAPI'] );
 $router->post('/API/colores/eliminar', [ColoresController::class, 'eliminarAPI'] );
 
-
-
-
 $router->get('/armas', [ArmasController::class , 'index']);
 $router->post('/API/armas/guardar', [ArmasController::class, 'guardarAPI'] );
 $router->get('/API/armas/buscar', [ArmasController::class, 'buscarAPI'] );
 $router->post('/API/armas/modificar', [ArmasController::class, 'modificarAPI'] );
 $router->post('/API/armas/eliminar', [ArmasController::class, 'eliminarAPI'] );
+$router->post('/API/armas/cambiarSituacion', [ArmasController::class, 'cambioSituacionAPI'] );
 
 
 $router->get('/calibres', [CalibresController::class , 'index']);
@@ -78,6 +83,7 @@ $router->get('/API/delitos/buscar', [DelitosController::class, 'buscarAPI'] );
 $router->post('/API/delitos/modificar', [DelitosController::class, 'modificarAPI'] );
 $router->post('/API/delitos/eliminar', [DelitosController::class, 'eliminarAPI'] );
 $router->post('/API/delitos/situacion', [DelitosController::class, 'cambioSituacionAPI'] );
+
 //DESASTRES NATURALES
 $router->get('/desastre_natural', [Desastre_naturalController::class , 'index']);
 $router->post('/API/desastre_natural/guardar', [Desastre_naturalController::class, 'guardarAPI'] );
