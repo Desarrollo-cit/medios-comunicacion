@@ -649,7 +649,7 @@ window.detalle = async(valor) => {
 const delitos_estadistica = async (e) => {
     e && e.preventDefault();
 
-    const url_grafica1 = `/medios-comunicacion/API/mapas/IndexMuertes/DelitosCantGrafica`
+    const url_grafica1 = `/medios-comunicacion/API/mapas/IndexDinero_y_armas/DelitosCantGrafica`
     const bodyGrafica1 = new FormData(formBusqueda_grafica);
 
     const headersGrafica1 = new Headers();
@@ -664,53 +664,20 @@ const delitos_estadistica = async (e) => {
 
         const response1 = await fetch(url_grafica1, configGrafica1)
         const datos1 = await response1.json()
-       // console.log(datos1)
+        console.log(datos1)
 
         
-        if(datos1.length > 0){
+  
             document.getElementById('graficaDelitos').style.display = "block"
             document.getElementById('texto_no1').style.display = "none"
 
 
-            let labels = [], cantidades = []
-            datos1.forEach(d => {
-//console.log(d.descripcion)
+         
+            let { descripcion, cantidades, } = datos1;
 
- 
-switch (d.descripcion) {
-    case '1':
-        labels = [...labels, 'ASESINATO' ]
-
-        break;
-
-    case '2':
-        labels = [...labels, 'HOMICIDIO' ]
-  
-        break;
-    case '3':
-        labels = [...labels, 'SICARIATO' ]
-
-        break;
-    case '4':
-        labels = [...labels, 'FEMICIDIO' ]
-
-        break;
-    case '5':
-        labels = [...labels, 'SUICIDIO' ]
-
-        break;
-}
-
-
-
-
-     
-
-                
-          
-                cantidades = [...cantidades, d.cantidad]
-            })
-
+         
+            let dataSetsLabels = Object.values(descripcion);
+            let dataSetsValues = Object.values(cantidades.armas); 
             const ctx = document.getElementById('myChart1');
             if (window.delitos_grafica) {
                 window.delitos_grafica.clear();
@@ -719,10 +686,10 @@ switch (d.descripcion) {
             window.delitos_grafica = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels,
+                    labels: dataSetsLabels,
                     datasets: [{
-                        label: 'MUERTES',
-                        data: cantidades,
+                        label: 'ARMAS',
+                        data: dataSetsValues,
 
                         backgroundColor: [
                             'rgba(252, 100, 7 , 1)',
@@ -793,18 +760,19 @@ switch (d.descripcion) {
                 }
             });
 
-        }else{
+        /* }else{
 
             document.getElementById('texto_no1').style.display = "block";
             document.getElementById('graficaDelitos').style.display = "none";
         }
-        
+         */
     } catch (error) {
         console.log(error);
     }
     deptos_estadistica()
 
 }
+
 
 
 
