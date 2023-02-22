@@ -31,11 +31,11 @@ class Evento extends ActiveRecord{
         $this->longitud = $args['longitud'] ?? '';
         $this->actividad = $args['actividad'] ?? '';
         $this->situacion = $args['situacion'] ?? '1';
-        $this->info = utf8_decode( preg_replace("[\n|\r|\n\r]", "", $args['info'])) ?? '';
+        $this->info = utf8_decode( preg_replace("[\n|\r|\n\r]", "", htmlspecialchars($args['info']))) ?? '';
         $this->dependencia = $args['dependencia'] ?? '';
     }
 
     public function setInfo($info){
-        $this->info = utf8_decode( preg_replace("[\n|\r|\n\r]", "", $info));
+        $this->info = utf8_decode( preg_replace("[\n|\r|\n\r]", "", htmlspecialchars($info)));
     }
 }

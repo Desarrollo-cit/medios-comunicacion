@@ -1,9 +1,9 @@
 <div class="row">
     <div class="col-lg-3 border pt-3 ">
         <div class="row">
-            <div class="col text-center">
+            <div class="col text-center py-4">
                 <h3>Filtros</h3>
-                <div class="row py-4">
+                <div class="row mb-3">
                     <div class="col">
                         <label for="inicio">Inicio</label>
                         <input type="datetime-local" class="form-control" name="inicio" id="inicio">
@@ -11,6 +11,33 @@
                     <div class="col">
                         <label for="fin">Fin</label>
                         <input type="datetime-local" class="form-control" name="fin" id="fin">
+                    </div> 
+                </div> 
+                <div class="row mb-3">
+                    <div class="col">
+                        <label for="select_dependencia">Dependencia</label>
+                        <select class="form-control" name="dependencia" id="dependencia"  <?= isset($_SESSION['AMC_ADMIN']) ? '' : 'disabled' ?> >
+                            <option value="">Seleccione ...</option>
+                            <?php foreach ($dependencia as $dependencia) : ?>
+                                <option value="<?= $dependencia['dep_llave'] ?>">
+                                    <?= $dependencia['dep_desc_md'] ?>
+                                </option>
+                            <?php endforeach ?>
+                        </select>
+                    </div>
+                </div>
+                <div id="divFenomenoFiltro" class="row d-none">
+                    <div class="col">
+                        <label for="fenomeno">Fenomeno Natural</label>
+                        <select name="fenomeno" id="fenomeno" class="form-control" disabled>
+                            <option value="">Seleccionar</option>
+                            <?php
+                            foreach ($fenomenos as $fila) : ?>
+
+                                <option value="<?= $fila['id'] ?>"> <?= $fila['desc'] ?></option>
+
+                            <?php endforeach ?>
+                        </select>
                     </div>
                 </div>
             </div>
@@ -783,7 +810,7 @@
                                 <div class="col-lg-6 text-center">
                                     <label for="tipo">Nombre del fenomeno</label>
                                     <select name="nombre_desastre" id="nombre_desastre" class="form-control">
-                                        <option value="0">Seleccionar</option>
+                                        <option value="">Seleccionar</option>
                                         <?php
                                         foreach ($fenomenos as $fila) : ?>
 

@@ -82,7 +82,7 @@ class IncautacionController
 
         try{
             $evento = Evento::find($topico);
-
+            $evento->info = htmlspecialchars_decode($evento->info);
             $incautacion = Incautacion::where('topico', $topico);
             $capturados = Capturados::fetchArray("SELECT * FROM amc_per_capturadas where topico = $topico and situacion = 1;");
 
@@ -108,7 +108,7 @@ class IncautacionController
         try {
 
             $evento = Evento::find($_POST['topico']);
-            $evento->info = preg_replace("[\n|\r|\n\r]", "",$_POST['info']);
+            $evento->setInfo($_POST['info']);
             $evento->guardar();
 
 

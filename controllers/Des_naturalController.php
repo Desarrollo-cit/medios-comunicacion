@@ -89,7 +89,7 @@ public static function buscarDesastresAPI(){
                
      
             $evento = Evento::find($topico);
-
+            $evento->info = htmlspecialchars_decode($evento->info);
             $desastre = Des_natural::fetchArray("SELECT * FROM amc_desastre_natural where topico = $topico and situacion = 1;");
 
 

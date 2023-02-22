@@ -115,6 +115,7 @@ $router->post('/API/nacionalidad/eliminar', [NacionalidadController::class, 'eli
 
 
 $router->get('/eventos', [EventoController::class,'index']);
+$router->get('/API/eventos/find', [EventoController::class,'getEventoIdApi']);
 $router->get('/API/eventos', [EventoController::class,'eventos']);
 $router->get('/API/eventos/municipios', [EventoController::class, 'municipios']);
 $router->post('/API/eventos/guardar', [EventoController::class, 'guardar']);

@@ -95,7 +95,7 @@ public static function buscarDineroAPI(){
                
      
             $evento = Evento::find($topico);
-
+            $evento->info = htmlspecialchars_decode($evento->info);
             $dinero = Dinero::fetchArray("SELECT * FROM amc_incautacion_dinero where topico = $topico and situacion = 1;");
 
 

@@ -81,7 +81,7 @@ public static function buscarMovimientoAPI(){
                
      
             $evento = Evento::find($topico);
-
+            $evento->info = htmlspecialchars_decode($evento->info);
             $movimiento = Mov_social::fetchArray("SELECT * FROM amc_movimiento_social where topico = $topico and situacion = 1;");
 
 
