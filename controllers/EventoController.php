@@ -123,6 +123,7 @@ class EventoController
         getHeadersApi();
         try {
             $topicos = $_GET['topicos'];
+
             $arrayTopicos = explode(',', $topicos);
             $fenomeno = $_GET['fenomeno'];
             $tipo_movimiento = $_GET['tipo_movimiento'];
@@ -130,6 +131,7 @@ class EventoController
             $inicio = str_replace('T', ' ', $_GET['inicio']);
             $fin = str_replace('T', ' ', $_GET['fin']);
             $dependencia = $_GET['dependencia'];
+
 
 
             $eventos = null;
@@ -183,8 +185,19 @@ class EventoController
                     $sql .= " and amc_desastre_natural.nombre_desastre = $fenomeno ";
                 }
 
+
+                if($_SESSION['AMC_COMANDO']){
+                    $sql .= " and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
+                }else if($_SESSION['AMC_ADMIN']){
+                    if($dep_llave != ""){
+                    $sql .= " and amc_topico.dependencia = $dep_llave ";
+                    }else{
+                        $sql .= " and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
+                    }
+                }
                 if (is_int(array_search(10, $arrayTopicos)) && $tipo_movimiento != '') {
                     $sql .= " and amc_movimiento_social.tipo_movimiento = $tipo_movimiento ";
+
                 }
 
                 if (is_int(array_search(10, $arrayTopicos)) && $organizacion != '') {

@@ -89,6 +89,19 @@ const cambiarmes = async (evento) => {
         const respuesta = await fetch(url, config);
         const info = await respuesta.json();
 // console.log(info);
+if (info[0].cantidad > 0 ) {
+    Toast.fire({
+        icon: 'success',
+        title: 'Se tienen los siguientes registros'
+    })
+} else {
+
+    Toast.fire({
+        icon: 'error',
+        title: 'Sin registros'
+    })
+
+}
         
         if (info) {
             maras_actividades.innerText = info[0].cantidad
