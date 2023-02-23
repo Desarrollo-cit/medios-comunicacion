@@ -90,7 +90,11 @@ const btnModificarMovimiento = document.getElementById('btnModificarMovimiento')
 const btnBorrarMovimiento = document.getElementById('btnBorrarMovimiento');
 
 const divFenomenoFiltro = document.getElementById('divFenomenoFiltro');
+const divTipoMovimientoFiltro = document.getElementById('divTipoMovimientoFiltro');
+const divOrganizacionFiltro = document.getElementById('divOrganizacionFiltro');
 const inputFiltroFenomeno = document.getElementById('fenomeno');
+const inputFiltroTipoMovimiento = document.getElementById('tipo_movimiento');
+const inputFiltroOrganizacion = document.getElementById('organizacion');
 const inicioInput = document.getElementById('inicio');
 const finInput = document.getElementById('fin');
 const dependenciaInput = document.getElementById('dependencia');
@@ -282,6 +286,14 @@ const seleccionarTopico = (e, iddiv, idregistro) => {
         divFenomenoFiltro.classList.toggle('d-none')
         inputFiltroFenomeno.disabled = !inputFiltroFenomeno.disabled
     }
+
+    if(idregistro == 10){
+        divTipoMovimientoFiltro.classList.toggle('d-none'),
+        inputFiltroTipoMovimiento.disabled = !inputFiltroTipoMovimiento.disabled
+        divOrganizacionFiltro.classList.toggle('d-none'),
+        inputFiltroOrganizacion.disabled = !inputFiltroOrganizacion.disabled
+
+    }
     const div = document.getElementById(iddiv);
     if (div.classList.contains('bg-info')) {
 
@@ -322,12 +334,14 @@ const buscarEventos = async e => {
     let inicio = inicioInput.value,
         fin = finInput.value,
         dependencia = dependenciaInput.value,
-        fenomeno = inputFiltroFenomeno.value
-        ;
+        fenomeno = inputFiltroFenomeno.value,
+        tipo_movimiento = inputFiltroTipoMovimiento.value,
+        organizacion = inputFiltroOrganizacion.value
+        
     // console.log(inicio, fin);
     markers.clearLayers();
     try {
-        const url = `/medios-comunicacion/API/eventos?topicos=${topicos}&fin=${fin}&inicio=${inicio}&fenomeno=${fenomeno}&dependencia=${dependencia}`
+        const url = `/medios-comunicacion/API/eventos?topicos=${topicos}&fin=${fin}&inicio=${inicio}&fenomeno=${fenomeno}&dependencia=${dependencia}&tipo_movimiento=${tipo_movimiento}&organizacion=${organizacion}`
         const headers = new Headers();
         headers.append("X-Requested-With", "fetch");
 
@@ -5058,5 +5072,7 @@ formDroga.addEventListener('submit', guardarIncautacion)
 formArmas.addEventListener('submit', guardarIncautacionArmamento)
 
 inputFiltroFenomeno.addEventListener('change', buscarEventos)
+inputFiltroTipoMovimiento.addEventListener('change', buscarEventos)
+inputFiltroOrganizacion.addEventListener('change', buscarEventos)
 inicioInput.addEventListener('change', buscarEventos)
 finInput.addEventListener('change', buscarEventos)
