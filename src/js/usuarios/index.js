@@ -4,59 +4,68 @@ import Datatable from 'datatables.net-bs5';
 import { lenguaje } from "../lenguaje";
 import Swal from "sweetalert2";
 
-const formTipos = document.getElementById('formTipos');
+const formUsuarios = document.getElementById('formUsuario');
 const btnGuardar = document.getElementById('btnGuardar');
 const btnModificar = document.getElementById('btnModificar');
+const btnSituacion = document.getElementById('btnSituacion');
+const btnCancelar = document.getElementById('btnCancelar');
 const divTabla = document.getElementById('divTabla');
-let tablaTipos = new Datatable('#tiposTabla');
+let tablaUsuarios = new Datatable('#usuariosTabla');
 
 btnModificar.parentElement.style.display = 'none';
+btnSituacion.parentElement.style.display = 'none';
+// btnCancelar.parentElement.style.display = 'none';
 btnGuardar.disabled = false;
 btnModificar.disabled = true;
+btnSituacion.disabled = true;
+// btnCancelar.disabled = true;
 
-const guardarTipo = async (evento) => { 
+
+const guardarusuarios = async (evento) => {
     evento.preventDefault();
-    
-    let formularioValido = validarFormulario(formTipos, ['id']);
 
-    if(!formularioValido){ 
+    let formularioValido = validarFormulario(formUsuarios, ['id']);
+    if (!formularioValido) {
         Toast.fire({
-            icon : 'warning',
-            title : 'Debe llenar todos los campos.'
+            icon: 'warning',
+            title: 'Debe llenar todos los campos'
         })
         return;
     }
 
+
+
     try {
         //Crear el cuerpo de la consulta
-        const url = '/medios-comunicacion/API/tipo/guardar'
-        const body = new FormData(formTipos);
+        const url = '/medios-comunicacion/API/usuarios/guardar'
+
+        const body = new FormData(formUsuarios);
         body.delete('id');
         const headers = new Headers();
         headers.append("X-Requested-With", "fetch");
 
         const config = {
-            method : 'POST',
+            method: 'POST',
             headers,
             body
         }
 
         const respuesta = await fetch(url, config);
         const data = await respuesta.json();
-
+        // console.log(data);
+        
         const { mensaje, codigo, detalle } = data;
-        console.log(data)
         // const resultado = data.resultado;
         let icon = "";
         switch (codigo) {
             case 1:
                 icon = "success"
-                formTipos.reset();
-                buscarTipo();
+                formUsuarios.reset();
+               
                 break;
             case 2:
                 icon = "warning"
-                formTipos.reset();
+                formUsuarios.reset();
 
                 break;
             case 3:
@@ -66,7 +75,6 @@ const guardarTipo = async (evento) => {
             case 4:
                 icon = "error"
                 console.log(detalle)
-                buscarTipo();
 
                 break;
 
@@ -80,34 +88,39 @@ const guardarTipo = async (evento) => {
         })
 
 
-        //buscarProducto();
+        buscarusuarios()
 
     } catch (error) {
         console.log(error);
     }
 }
 
-const buscarTipo = async (evento) => {
+
+
+
+
+const buscarusuarios = async (evento) => {
     evento && evento.preventDefault();
 
     try {
-        const url = '/medios-comunicacion/API/tipo/buscar'
+        const url = '/medios-comunicacion/API/usuarios/buscar'
         const headers = new Headers();
         headers.append("X-Requested-With", "fetch");
 
         const config = {
             method : 'GET',
+            headers
         }
 
         const respuesta = await fetch(url, config);
         const data = await respuesta.json();
-        console.log(data);
 
+        // console.log(data);
 
         
-        tablaTipos.destroy();
+        tablaUsuarios.destroy();
         let contador = 1;
-        tablaTipos = new Datatable('#tiposTabla', {
+        tablaUsuarios = new Datatable('#usuariosTabla', {
             language : lenguaje,
             data : data,
             columns : [
@@ -118,9 +131,8 @@ const buscarTipo = async (evento) => {
                     }
                 },
                 { data : 'desc'},
-
-             
-
+                // { data : 'situacion'},
+                
                 { 
                     data : 'id',
                     'render': (data, type, row, meta) => {
@@ -133,61 +145,70 @@ const buscarTipo = async (evento) => {
                         return `<button class="btn btn-danger" onclick="eliminarRegistro('${row.id}')">Eliminar</button>`
                     } 
                 },
+                { 
+                    data : 'id',
+                    'render': (data, type, row, meta) => {
+                        if(row.situacion == 1){
+                        return `<button class="btn btn-danger" onclick="cambiarSituacion('${row.id}',' ${row.situacion}',' ${row.desc}')">Desactivar</button>`
+                    }else{
+                        return `<button class="btn btn-success" onclick="cambiarSituacion('${row.id}', '${row.situacion}',' ${row.desc}')">Activar</button>`
+                    }
+                    } 
+                },
             ]
         })
 
     } catch (error) {
         console.log(error);
-        
-        
     }
 }
 
-const modificarTipo = async (evento) => {
-    evento.preventDefault();
-    
-    let formularioValido = validarFormulario(formTipos);
 
-    if(!formularioValido){ 
+
+const modificarusuarios = async (evento) => {
+    evento.preventDefault();
+
+    let formularioValido = validarFormulario(formUsuarios);
+    if (!formularioValido) {
         Toast.fire({
-            icon : 'warning',
-            title : 'Debe llenar todos los campos'
+            icon: 'warning',
+            title: 'Debe llenar todos los campos'
         })
         return;
     }
 
+
+
     try {
         //Crear el cuerpo de la consulta
-        const url = '/medios-comunicacion/API/tipo/modificar'
-        const body = new FormData(formTipos);
+        const url = '/medios-comunicacion/API/usuarios/modificar'
+
+        const body = new FormData(formUsuarios);
+        
         const headers = new Headers();
         headers.append("X-Requested-With", "fetch");
 
         const config = {
-            method : 'POST',
+            method: 'POST',
             headers,
             body
         }
 
         const respuesta = await fetch(url, config);
-        const data = await respuesta.json();
-
+        const data = await respuesta.text();
+        // console.log(data);
         const { mensaje, codigo, detalle } = data;
         // const resultado = data.resultado;
         let icon = "";
         switch (codigo) {
             case 1:
                 icon = "success"
-                formTipos.reset();
-                buscarTipo();
-                btnModificar.parentElement.style.display = 'none';
-                btnGuardar.parentElement.style.display = '';
-                btnGuardar.disabled = false;
-                btnModificar.disabled = true;
-                divTabla.style.display = ''
+                formUsuarios.reset();
+               
                 break;
             case 2:
                 icon = "warning"
+                formUsuarios.reset();
 
                 break;
             case 3:
@@ -210,21 +231,36 @@ const modificarTipo = async (evento) => {
         })
 
 
+        buscarusuarios()
+        btnModificar.parentElement.style.display = 'none';
+        btnCancelar.parentElement.style.display = 'none';
+        btnGuardar.parentElement.style.display = '';
+        btnGuardar.disabled = false;
+        btnCancelar.disabled = true;
+        btnModificar.disabled = true;
+        formUsuarios.reset();
+        
+        
+            divTabla.style.display = ''
+
     } catch (error) {
         console.log(error);
     }
 }
 
-buscarTipo();
 
+
+buscarusuarios();
 
 window.asignarValores = (id, desc) => {
-    formTipos.id.value = id;
-    formTipos.desc.value = desc;
+    formUsuarios.id.value = id;
+    formUsuarios.desc.value = desc;
     btnModificar.parentElement.style.display = '';
     btnGuardar.parentElement.style.display = 'none';
+    btnCancelar.parentElement.style.display = '';
     btnGuardar.disabled = true;
     btnModificar.disabled = false;
+    btnCancelar.disabled = false;
 
     divTabla.style.display = 'none'
 }
@@ -240,7 +276,7 @@ window.eliminarRegistro = (id) => {
         confirmButtonText: 'Si, eliminar'
     }).then( async (result) => {
         if(result.isConfirmed){
-            const url = '/medios-comunicacion/API/tipo/eliminar'
+            const url = '/medios-comunicacion/API/usuarios/eliminar'
             const body = new FormData();
             body.append('id', id);
             const headers = new Headers();
@@ -255,7 +291,6 @@ window.eliminarRegistro = (id) => {
             const respuesta = await fetch(url, config);
             const data = await respuesta.json();
             const {resultado} = data;
-            console.log(data);
             // const resultado = data.resultado;
     
             if(resultado == 1){
@@ -264,8 +299,56 @@ window.eliminarRegistro = (id) => {
                     title : 'Registro eliminado'
                 })
     
-                formTipos.reset();
-                buscarTipo();
+                formUsuarios.reset();
+                buscarusuarios();
+            }else{
+                Toast.fire({
+                    icon : 'error',
+                    title : 'Ocurrió un error'
+                })
+            }
+        }
+    })
+}
+window.cambiarSituacion = (id, situacion,desc) => {
+   
+    Swal.fire({
+        title : 'Confirmación',
+        icon : 'warning',
+        text : '¿Esta seguro que desea cambiar situacion?',
+        showCancelButton : true,
+        confirmButtonColor : '#3085d6',
+        cancelButtonColor : '#d33',
+        confirmButtonText: 'Si, Cambiar'
+    }).then( async (result) => {
+        if(result.isConfirmed){
+            const url = '/medios-comunicacion/API/usuarios/cambiarSituacion'
+            const body = new FormData();
+            body.append('id', id);
+            body.append('situacion', situacion);
+            body.append('desc', desc);
+            const headers = new Headers();
+            headers.append("X-Requested-With", "fetch");
+    
+            const config = {
+                method : 'POST',
+                headers,
+                body
+            }
+    
+            const respuesta = await fetch(url, config);
+            const data = await respuesta.json();
+            const {resultado} = data;
+            // const resultado = data.resultado;
+    
+            if(resultado == 1){
+                Toast.fire({
+                    icon : 'success',
+                    title : 'Se cambió situación'
+                })
+    
+                formUsuarios.reset();
+                buscarusuarios();
             }else{
                 Toast.fire({
                     icon : 'error',
@@ -276,23 +359,6 @@ window.eliminarRegistro = (id) => {
     })
 }
 
-function NumText(string){//solo letras y numeros
-    var out = '';
-    //Se añaden las letras validas
-    var filtro = 'abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZÁÉÍÓÚáéíóú  ';//Caracteres validos
-  
-    for (var i=0; i<string.length; i++)
-       if (filtro.indexOf(string.charAt(i)) != -1) 
-       out += string.charAt(i);
-    return out;
-  }
 
-formTipos.desc.addEventListener('keyup', e=>{
-    let out = NumText(e.target.value)
-    e.target.value = out 
-
-})
-
-formTipos.addEventListener('submit', guardarTipo )
-btnModificar.addEventListener('click', modificarTipo);
-
+formUsuarios.addEventListener('submit', guardarusuarios)
+btnModificar.addEventListener('click', modificarusuarios);
