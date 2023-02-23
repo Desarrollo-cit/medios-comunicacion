@@ -123,8 +123,7 @@ class EventoController
         getHeadersApi();
         try {
             $topicos = $_GET['topicos'];
-
-            $arrayTopicos = explode(',', $topicos);
+            $arrayTopicos = $topicos != '' ? explode(',', $topicos) : [];
             $fenomeno = $_GET['fenomeno'];
             $tipo_movimiento = $_GET['tipo_movimiento'];
             $organizacion = $_GET['organizacion'];
@@ -135,10 +134,6 @@ class EventoController
 
 
             $eventos = null;
-            $arrayTopicos = explode(',', $topicos);
-
-
-
 
             // $busqueda = array_search('11',$arrayTopicos);
             // echo json_encode($arrayTopicos);
@@ -166,7 +161,7 @@ class EventoController
                 unset($arrayTopicos[$posicion]);
             }
 
-            if (count($arrayTopicos) > 0) {
+            if (count($arrayTopicos) > 0 && $arrayTopicos !=  null ) {
                 $sql = "SELECT amc_topico.latitud as latitud, amc_topico.longitud as longitud, amc_actividad_vinculada.desc as actividad, amc_tipo_topics.desc as tipo, amc_tipo_topics.id as tipo_id, amc_topico.id as id , trim(dep_desc_ct) as dependencia from amc_topico inner join amc_actividad_vinculada on amc_topico.actividad = amc_actividad_vinculada.id inner join amc_tipo_topics on amc_topico.tipo = amc_tipo_topics.id inner join mdep on amc_topico.dependencia = dep_llave left join amc_desastre_natural on amc_desastre_natural.topico = amc_topico.id left join amc_movimiento_social on amc_movimiento_social.topico = amc_topico.id where amc_topico.situacion = 1 and amc_tipo_topics.id in ($topicos) ";
 
                 if ($inicio != '') {
@@ -176,25 +171,19 @@ class EventoController
                     $sql .= " and amc_topico.fecha <= '$fin'";
                 }
                 if ($dependencia != '') {
-                    $sql .= " and amc_topico.dependencia = '$dependencia'";
+                    
+                    $sql .= " and amc_topico.dependencia = $dependencia";
+                }else{
+
+                    $sql .= " and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
                 }
    
-                $sql .= " and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
               
                 if (is_int(array_search(7, $arrayTopicos)) && $fenomeno != '') {
                     $sql .= " and amc_desastre_natural.nombre_desastre = $fenomeno ";
                 }
 
 
-                if($_SESSION['AMC_COMANDO']){
-                    $sql .= " and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
-                }else if($_SESSION['AMC_ADMIN']){
-                    if($dep_llave != ""){
-                    $sql .= " and amc_topico.dependencia = $dep_llave ";
-                    }else{
-                        $sql .= " and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
-                    }
-                }
                 if (is_int(array_search(10, $arrayTopicos)) && $tipo_movimiento != '') {
                     $sql .= " and amc_movimiento_social.tipo_movimiento = $tipo_movimiento ";
 
@@ -204,10 +193,9 @@ class EventoController
                     $sql .= " and amc_movimiento_social.organizacion = $organizacion ";
                 }
 
-
                 $eventos = Evento::fetchArray($sql);
 
-                
+                    
                 echo json_encode($eventos);
                 exit;
 

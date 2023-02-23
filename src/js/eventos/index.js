@@ -33,6 +33,7 @@ const formDinero = document.querySelector('#formDinero')
 const formDesastres = document.querySelector('#formDesastres')
 const formPistas = document.querySelector('#formPistas')
 const formMovimiento = document.querySelector('#formMovimiento')
+const formFiltro = document.querySelector('#formFiltro')
 const buttonAgregarInputsCaptura = document.getElementById('agregarInputscaptura');
 const buttonQuitarInputsCaptura = document.getElementById('quitarInputscaptura');
 const buttonAgregarInputsCapturaDroga = document.getElementById('agregarInputscapturaDroga');
@@ -354,7 +355,7 @@ const buscarEventos = async e => {
         const data = await respuesta.json();
         console.log(data);
 
-        if (data) {
+        if (data.length > 0) {
             data.forEach(p => {
                 let latlng = [p.latitud, p.longitud]
 
@@ -5024,8 +5025,7 @@ const eliminarMigrantes = async (e) => {
 map.on('click', abreModal)
 formInformacion.departamento.addEventListener('change', buscarMunicipio)
 formInformacion.addEventListener('submit', guardarEvento)
-inicioInput.addEventListener('change', buscarEventos)
-finInput.addEventListener('change', buscarEventos)
+
 
 btnModificarCaptura.addEventListener('click', modificarCaptura)
 btnModificarCapturaDroga.addEventListener('click', modificarIncautacion)
@@ -5070,9 +5070,4 @@ formMovimiento.addEventListener('submit', guardarMovimiento)
 
 formDroga.addEventListener('submit', guardarIncautacion)
 formArmas.addEventListener('submit', guardarIncautacionArmamento)
-
-inputFiltroFenomeno.addEventListener('change', buscarEventos)
-inputFiltroTipoMovimiento.addEventListener('change', buscarEventos)
-inputFiltroOrganizacion.addEventListener('change', buscarEventos)
-inicioInput.addEventListener('change', buscarEventos)
-finInput.addEventListener('change', buscarEventos)
+formFiltro.addEventListener('change', buscarEventos);

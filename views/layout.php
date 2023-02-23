@@ -127,7 +127,7 @@
     <div class="progress fixed-bottom" style="height: 6px;">
         <div class="progress-bar progress-bar-animated bg-danger" id="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
     </div>
-    <div class="container-fluid pt-5 mb-4" style="min-height: 85vh">
+    <div class="container-fluid pt-3" style="min-height: 85vh">
         
         <?php echo $contenido; ?>
     </div>

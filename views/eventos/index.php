@@ -1,7 +1,127 @@
 <div class="row">
-    <div class="col-lg-3 border pt-3 ">
+    <div class="col-lg-3 border">
+        <h3 class="text-center">Leyenda</h3>
+        <div class="row justify-content-center">
+            <div class="list-group col-lg-12 p-3">
+                <div class="row justify-content-around" id="divPills">
+                    <div class="col-2 col-lg-12 justify-content-center justify-content-lg-between border rounded-pill p-1 px-3" data-id="1" id="divTopico1" aria-current="true" style="cursor: pointer;">
+                        <div class="row h-100 align-items-center" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Capturas">
+                            <div class="col-lg-9 d-none d-lg-block">
+                                <p class="display-6 align-middle">Capturas</p>
+                            </div>
+                            <div class="col col-lg-2">
+                                <img src="./images/1.png" width="100%" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-2 col-lg-12 justify-content-center justify-content-lg-between border rounded-pill p-1 px-3" data-id="2" id="divTopico2" aria-current="true" style="cursor: pointer;">
+                        <div class="row h-100 align-items-center px-2" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Asesinato">
+                            <div class="col-lg-9 d-none d-lg-block">
+                                <p class="display-6 ">Asesinato</p>
+                            </div>
+                            <div class="col col-lg-2">
+                                <img src="./images/2.png" width="100%" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-2 col-lg-12 justify-content-center justify-content-lg-between border rounded-pill p-1 px-3" data-id="9" id="divTopico9" aria-current="true" style="cursor: pointer;">
+                        <div class="row h-100 align-items-center" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Migrantes">
+                            <div class="col-lg-9 d-none d-lg-block">
+                                <p class="display-6 ">Migrantes</p>
+                            </div>
+                            <div class="col col-lg-2">
+                                <img src="./images/9.png" width="100%" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-2 col-lg-12 justify-content-center justify-content-lg-between border rounded-pill p-1 px-3" data-id="4" id="divTopico4" aria-current="true" style="cursor: pointer;">
+                        <div class="row h-100 align-items-center" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Incautación de droga">
+                            <div class="col-lg-9 d-none d-lg-block">
+                                <p class="display-6 ">Inc. Droga</p>
+                            </div>
+                            <div class="col col-lg-2">
+                                <img src="./images/4.png" width="100%" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-2 col-lg-12 justify-content-center justify-content-lg-between border rounded-pill p-1 px-3" data-id="5" id="divTopico5" aria-current="true" style="cursor: pointer;">
+                        <div class="row h-100 align-items-center" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Incautación de dinero">
+                            <div class="col-lg-9 d-none d-lg-block">
+                                <p class="display-6 ">Inc. Dinero</p>
+                            </div>
+                            <div class="col col-lg-2">
+                                <img src="./images/5.png" width="100%" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-2 col-lg-12 justify-content-center justify-content-lg-between border rounded-pill p-1 px-3" data-id="6" id="divTopico6" aria-current="true" style="cursor: pointer;">
+                        <div class="row h-100 align-items-center" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Incautación de armas">
+                            <div class="col-lg-9 d-none d-lg-block">
+                                <p class="display-6 ">Inc. Armas</p>
+                            </div>
+                            <div class="col col-lg-2">
+                                <img src="./images/6.png" width="100%" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-2 col-lg-12 justify-content-center justify-content-lg-between border rounded-pill p-1 px-3" data-id="7" id="divTopico7" aria-current="true" style="cursor: pointer;">
+                        <div class="row h-100 align-items-center" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Desastres naturales">
+                            <div class="col-lg-9 d-none d-lg-block">
+                                <p class="display-6 ">D. Naturales</p>
+                            </div>
+                            <div class="col col-lg-2">
+                                <img src="./images/7.png" width="100%" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-2 col-lg-12 justify-content-center justify-content-lg-between border rounded-pill p-1 px-3" data-id="8" id="divTopico8" aria-current="true" style="cursor: pointer;">
+                        <div class="row h-100 align-items-center" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Destrucción de pistas">
+                            <div class="col-lg-9 d-none d-lg-block">
+                                <p class="display-6 ">D. de pistas</p>
+                            </div>
+                            <div class="col col-lg-2">
+                                <img src="./images/8.png" width="100%" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-2 col-lg-12 justify-content-center justify-content-lg-between border rounded-pill p-1 px-3" data-id="10" id="divTopico10" aria-current="true" style="cursor: pointer;">
+                        <div class="row h-100 align-items-center" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Movimiento social">
+                            <div class="col-lg-9 d-none d-lg-block">
+                                <p class="display-6 ">Mov. Social</p>
+                            </div>
+                            <div class="col col-lg-2">
+                                <img src="./images/10.png" width="100%" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-2 col-lg-12 justify-content-center justify-content-lg-between border rounded-pill p-1 px-3" data-id="11" id="divTopico11" aria-current="true" style="cursor: pointer;">
+                        <div class="row h-100 align-items-center" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Movimiento social">
+                            <div class="col-lg-9 d-none d-lg-block">
+                                <p class="display-6 ">Maras</p>
+                            </div>
+                            <div class="col col-lg-2">
+                                <img src="./images/11.png" width="100%" />
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="col-lg-6 pt-2">
+        <div class="border border-2  mb-4 rounded  pt-3" id="map" style=" height: 87vh;min-height:auto;">
+
+
+        </div>
+    </div>
+    <div class="col-lg-3 border">
         <div class="row">
-            <div class="col text-center py-4">
+            <form class="col text-center " id="formFiltro">
                 <h3>Filtros</h3>
                 <div class="row mb-3">
                     <div class="col">
@@ -73,125 +193,7 @@
                         </select>
                     </div>
                 </div>
-            </div>
-        </div>
-        <h3 class="text-center">Leyenda</h3>
-        <div class="row justify-content-center">
-            <div class="list-group col-lg-12 p-3">
-                <div class="row justify-content-around" id="divPills">
-                    <div class="col-2 col-lg-12 justify-content-center justify-content-lg-between border rounded-pill p-2 px-3" data-id="1" id="divTopico1" aria-current="true" style="cursor: pointer;">
-                        <div class="row h-100 align-items-center" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Capturas">
-                            <div class="col-lg-9 d-none d-lg-block">
-                                <p class="display-6 align-middle">Capturas</p>
-                            </div>
-                            <div class="col col-lg-2">
-                                <img src="./images/1.png" width="100%" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-2 col-lg-12 justify-content-center justify-content-lg-between border rounded-pill p-2 px-3" data-id="2" id="divTopico2" aria-current="true" style="cursor: pointer;">
-                        <div class="row h-100 align-items-center px-2" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Asesinato">
-                            <div class="col-lg-9 d-none d-lg-block">
-                                <p class="display-6 ">Asesinato</p>
-                            </div>
-                            <div class="col col-lg-2">
-                                <img src="./images/2.png" width="100%" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-2 col-lg-12 justify-content-center justify-content-lg-between border rounded-pill p-2 px-3" data-id="9" id="divTopico9" aria-current="true" style="cursor: pointer;">
-                        <div class="row h-100 align-items-center" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Migrantes">
-                            <div class="col-lg-9 d-none d-lg-block">
-                                <p class="display-6 ">Migrantes</p>
-                            </div>
-                            <div class="col col-lg-2">
-                                <img src="./images/9.png" width="100%" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-2 col-lg-12 justify-content-center justify-content-lg-between border rounded-pill p-2 px-3" data-id="4" id="divTopico4" aria-current="true" style="cursor: pointer;">
-                        <div class="row h-100 align-items-center" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Incautación de droga">
-                            <div class="col-lg-9 d-none d-lg-block">
-                                <p class="display-6 ">Inc. Droga</p>
-                            </div>
-                            <div class="col col-lg-2">
-                                <img src="./images/4.png" width="100%" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-2 col-lg-12 justify-content-center justify-content-lg-between border rounded-pill p-2 px-3" data-id="5" id="divTopico5" aria-current="true" style="cursor: pointer;">
-                        <div class="row h-100 align-items-center" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Incautación de dinero">
-                            <div class="col-lg-9 d-none d-lg-block">
-                                <p class="display-6 ">Inc. Dinero</p>
-                            </div>
-                            <div class="col col-lg-2">
-                                <img src="./images/5.png" width="100%" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-2 col-lg-12 justify-content-center justify-content-lg-between border rounded-pill p-2 px-3" data-id="6" id="divTopico6" aria-current="true" style="cursor: pointer;">
-                        <div class="row h-100 align-items-center" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Incautación de armas">
-                            <div class="col-lg-9 d-none d-lg-block">
-                                <p class="display-6 ">Inc. Armas</p>
-                            </div>
-                            <div class="col col-lg-2">
-                                <img src="./images/6.png" width="100%" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-2 col-lg-12 justify-content-center justify-content-lg-between border rounded-pill p-2 px-3" data-id="7" id="divTopico7" aria-current="true" style="cursor: pointer;">
-                        <div class="row h-100 align-items-center" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Desastres naturales">
-                            <div class="col-lg-9 d-none d-lg-block">
-                                <p class="display-6 ">D. Naturales</p>
-                            </div>
-                            <div class="col col-lg-2">
-                                <img src="./images/7.png" width="100%" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-2 col-lg-12 justify-content-center justify-content-lg-between border rounded-pill p-2 px-3" data-id="8" id="divTopico8" aria-current="true" style="cursor: pointer;">
-                        <div class="row h-100 align-items-center" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Destrucción de pistas">
-                            <div class="col-lg-9 d-none d-lg-block">
-                                <p class="display-6 ">D. de pistas</p>
-                            </div>
-                            <div class="col col-lg-2">
-                                <img src="./images/8.png" width="100%" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-2 col-lg-12 justify-content-center justify-content-lg-between border rounded-pill p-2 px-3" data-id="10" id="divTopico10" aria-current="true" style="cursor: pointer;">
-                        <div class="row h-100 align-items-center" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Movimiento social">
-                            <div class="col-lg-9 d-none d-lg-block">
-                                <p class="display-6 ">Mov. Social</p>
-                            </div>
-                            <div class="col col-lg-2">
-                                <img src="./images/10.png" width="100%" />
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-2 col-lg-12 justify-content-center justify-content-lg-between border rounded-pill p-2 px-3" data-id="11" id="divTopico11" aria-current="true" style="cursor: pointer;">
-                        <div class="row h-100 align-items-center" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Movimiento social">
-                            <div class="col-lg-9 d-none d-lg-block">
-                                <p class="display-6 ">Maras</p>
-                            </div>
-                            <div class="col col-lg-2">
-                                <img src="./images/11.png" width="100%" />
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-
-    <div class="col-lg-9 pt-2">
-        <div class="border border-2  mb-4 rounded  pt-3" id="map" style=" height: 87vh;min-height:auto;">
-
-
+            </form>
         </div>
     </div>
     <!-- MODAL PRINCIPAL -->
