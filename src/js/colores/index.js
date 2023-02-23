@@ -132,7 +132,10 @@ const modificarColores = async (evento) => {
 
         const respuesta = await fetch(url, config);
         const data = await respuesta.json();
-
+        console.log(data
+            
+            
+            );
         // const {resultado} = data;
         // const resultado = data.resultado;
 
@@ -160,6 +163,12 @@ const modificarColores = async (evento) => {
 
                 break;
 
+                case 6:
+                    icon = "warning"
+                    console.log(detalle)
+    
+                    break;
+
             default:
                 break;
         }
@@ -176,11 +185,7 @@ const modificarColores = async (evento) => {
 
         buscarColores();
 
-        btnModificar.parentElement.style.display = 'none';
-        btnGuardar.parentElement.style.display = '';
-        btnGuardar.disabled = false;
-        btnModificar.disabled = true;
-        divTabla.style.display = ''
+
 
 
 

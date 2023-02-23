@@ -11,4 +11,12 @@ class AppController {
         $router->render('pages/index', []);
     }
 
+    public static function cerrarSesion(){
+        session_start();
+        $_SESSION = [];
+        session_destroy();
+        header('location: /');
+        exit;
+    }
+
 }

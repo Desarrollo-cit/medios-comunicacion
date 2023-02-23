@@ -102,7 +102,7 @@ const buscarcalibres = async (evento) => {
         headers.append("X-Requested-With", "fetch");
 
         const config = {
-            method : 'GET',
+            method : 'GET', headers
         }
 
         const respuesta = await fetch(url, config);
@@ -137,6 +137,18 @@ const buscarcalibres = async (evento) => {
                         return `<button class="btn btn-danger" onclick="eliminarRegistro('${row.id}')">Eliminar</button>`
                     } 
                 },
+                {
+                    data : 'id',
+                    'render':(data, type, row, meta)=>{
+                        if(row.situacion == 1){
+                            return `<button class="btn btn-danger" onclick="cambiarSituacion('${row.id}','${row.situacion}','${row.desc}')">DESACTIVAR</button>`
+                        }else{
+                            return `<button class="btn btn-success" onclick="cambiarSituacion('${row.id}','${row.situacion}','${row.desc}')">ACTIVAR</button>`
+                        }
+
+                    }
+                },
+
             ]
         })
 
@@ -281,6 +293,57 @@ window.eliminarRegistro = (id) => {
                 })
             }
         }
+    })
+}
+window.cambiarSituacion = (id, situacion, desc) => {
+   
+    Swal.fire({
+        title : 'Confirmación',
+        icon : 'warning',
+        text : '¿Esta seguro que desea cambiar situacion?',
+        showCancelButton : true,
+        confirmButtonColor : '#3085d6',
+        cancelButtonColor : '#d33',
+        confirmButtonText: 'Si, Cambiar'
+    }).then( async (result) => {
+        if(result.isConfirmed){
+            const url = '/medios-comunicacion/API/calibres/cambiarSituacion'
+            const body = new FormData();
+            body.append('id', id);
+            body.append('situacion', situacion);
+            body.append('desc', desc);
+            const headers = new Headers();
+            headers.append("X-Requested-With", "fetch");
+    
+            const config = {
+                method : 'POST',
+                headers,
+                body
+            }
+
+            const respuesta = await fetch(url, config);
+            const data = await respuesta.json();
+            // cosole.log(data)
+            const {resultado} = data;
+            // const resultado = data.resultado;
+            
+            if(resultado == 1){
+                
+                Toast.fire({
+                    icon : 'success',
+                    title : 'Se cambió situación'
+                                       
+                })
+                formCalibres.reset();
+                
+                buscarcalibres();
+            }else{
+                Toast.fire({
+                    icon : 'error',
+                    title : 'Ocurrió un error'
+                })
+            }
+            }
     })
 }
 

@@ -131,6 +131,17 @@ const buscardelitos = async (evento) => {
                         return `<button class="btn btn-danger" onclick="eliminarRegistro('${row.id}')">Eliminar</button>`
                     } 
                 },
+                { 
+                    data : 'id',
+                    'render': (data, type, row, meta) => {
+                        if(row.situacion==1){
+                            return `<button class="btn btn-warning" onclick="cambiarSituacion('${row.id}', '${row.desc}', '${row.situacion}')">DESACTIVAR</button>`
+                        }else{
+                            return `<button class="btn btn-success" onclick="cambiarSituacion('${row.id}', '${row.desc}', '${row.situacion}')">ACTIVAR</button>`
+
+                        }
+                    } 
+                },
             ]
         })
 
@@ -275,9 +286,114 @@ window.eliminarRegistro = (id) => {
             }
         }
     })
-}
+    
+    }
+
+    window.cambiarSituacion = (id,desc, situacion) => {
+   
+        Swal.fire({
+            title : 'Confirmación',
+            icon : 'warning',
+            text : '¿Esta seguro que desea cambiar situacion?',
+            showCancelButton : true,
+            confirmButtonColor : '#3085d6',
+            cancelButtonColor : '#d33',
+            confirmButtonText: 'Si, Cambiar'
+        }).then( async (result) => {
+            if(result.isConfirmed){
+                const url = '/medios-comunicacion/API/delitos/situacion'
+                const body = new FormData();
+                body.append('id', id);
+                body.append('desc', desc);
+                body.append('situacion', situacion);
+                const headers = new Headers();
+                headers.append("X-Requested-With", "fetch");
+        
+                const config = {
+                    method : 'POST',
+                    headers,
+                    body
+                }
+        
+                const respuesta = await fetch(url, config);
+                const data = await respuesta.json();
+                const {resultado} = data;
+                // const resultado = data.resultado;
+        
+                if(resultado == 1){
+                    Toast.fire({
+                        icon : 'success',
+                        title : 'Se cambió situación'
+                    })
+        
+                    formDelitos.reset();
+                    buscardelitos();
+                }else{
+                    Toast.fire({
+                        icon : 'error',
+                        title : 
+                        'Ocurrió un error'
+                    })
+                    formFuentes.reset();
+                    buscardelitos();
+                }
+            }
+        })
+    }
+    
+//     ////////Estados
+//     window.cambiarestados = (id,desc, estados) => {
+       
+//         Swal.fire({
+//             title : 'Confirmación',
+//             icon : 'warning',
+//             text : '¿Esta seguro que desea cambiar situacion?',
+//             showCancelButton : true,
+//             confirmButtonColor : '#3085d6',
+//             cancelButtonColor : '#d33',
+//             confirmButtonText: 'Si, Cambiar'
+//         }).then( async (result) => {
+//             if(result.isConfirmed){
+//                 const url = '/medios-comunicacion/API/estados/situacion'
+//                 const body = new FormData();
+//                 body.append('id', id);
+//                 body.append('desc', desc);
+//                 body.append('estados', situacion);
+//                 const headers = new Headers();
+//                 headers.append("X-Requested-With", "fetch");
+        
+//                 const config = {
+//                     method : 'POST',
+//                     headers,
+//                     body
+//                 }
+        
+//                 const respuesta = await fetch(url, config);
+//                 const data = await respuesta.json();
+//                 const {resultado} = data;
+//                 // const resultado = data.resultado;
+        
+//                 if(resultado == 1){
+//                     Toast.fire({
+//                         icon : 'success',
+//                         title : 'Se cambió Estado'
+//                     })
+        
+//                     formestados.reset();
+//                     buscarestados();
+//                 }else{
+//                     Toast.fire({
+//                         icon : 'error',
+//                         title : 
+//                         'Ocurrió un error'
+//                     })
+//                     formestados.reset();
+//                     buscarFuentes();
+//                 }
+//             }
+//         })
+// }
 
 
 formDelitos.addEventListener('submit', guardardelitos )
 btnModificar.addEventListener('click', modificardelitos);
-

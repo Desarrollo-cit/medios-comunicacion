@@ -31,6 +31,9 @@ class MigrantesController{
 
             $evento = Evento::find($_POST['topic']);
             $evento->setInfo($_POST['info3']);
+            $evento->fuente = $_POST['fuente'];
+            $evento->link = $_POST['link'];
+            $evento->usuario = $_POST['usuario'];
             $evento->guardar();
      
 
@@ -96,7 +99,7 @@ class MigrantesController{
                
      
             $evento = Evento::find($topico);
-
+            $evento->info = htmlspecialchars_decode($evento->info);
             $migrante = Migrantes::fetchArray("SELECT * FROM amc_migrantes where topic = $topico and situacion = 1;");
 
 
@@ -178,6 +181,9 @@ class MigrantesController{
 
             $evento = Evento::find($_POST['topic']);
             $evento->setInfo($_POST['info3']);
+            $evento->fuente = $_POST['fuente'];
+            $evento->link = $_POST['link'];
+            $evento->usuario = $_POST['usuario'];
             $evento->guardar();
      
 

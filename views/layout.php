@@ -68,8 +68,16 @@
                             <li>
                                 <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/tipo"><i class="ms-lg-0 ms-2 bi bi-arrows-move me-2"></i>Tipos de Movimientos Sociales</a>
                             </li>
-                          
-                    
+                            <li>
+
+                                <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/usuarios"><i class="fa-sharp fa-solid fa-users"></i>Usuarios</a>
+                            </li>
+                            <li>
+
+                                <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/Fuentes"><i class="ms-lg-0 ms-2 bi bi-arrows-move me-2"></i>Fuentes</a>
+                            </li>
+                            
+
                         
                         </ul>
                     </div> 
@@ -100,6 +108,7 @@
 
                                 <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/mapas/desastres"><i class="ms-lg-0 ms-2 fa-solid fa-house-chimney-crack me-2"></i>Desastres</a>
                             </li>
+
                         
                         </ul>
                     </div> 
@@ -107,7 +116,7 @@
                 </ul> 
                 <div class="col-lg-1 d-grid mb-lg-0 mb-2">
                     <!-- Ruta relativa desde el archivo donde se incluye menu.php -->
-                    <a href="/menu/" class="btn btn-danger"><i class="bi bi-arrow-bar-left"></i>MENÚ</a>
+                    <a href="/medios-comunicacion/cerrar-sesion" class="btn btn-danger"><i class="bi bi-arrow-bar-left"></i>MENÚ</a>
                 </div>
 
             

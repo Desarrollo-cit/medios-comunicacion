@@ -21,6 +21,7 @@ function isAuth() {
     }
 }
 function isAuthApi() {
+    getHeadersApi();
     session_start();
     if(!isset($_SESSION['auth_user'])) {
         echo json_encode([    
@@ -54,6 +55,7 @@ function hasPermission(array $permisos){
 }
 
 function hasPermissionApi(array $permisos){
+    getHeadersApi();
     $comprobaciones = [];
     foreach ($permisos as $permiso) {
 

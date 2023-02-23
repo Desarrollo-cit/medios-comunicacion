@@ -1,24 +1,25 @@
 <?php
-
 namespace Controllers;
-
-use Model\Calibres;
 use MVC\Router;
-class CalibresController{
-
-    public function index(Router $router)
-    {
-        $router->render('calibres/index');
+use Model\Usuarios;
+class usuariosController{
+    public static function index(Router $router){
+        $router->render('usuarios/index',[]);
     }
-
+// Inicio de la funcion guardar usuarios
     public function guardarAPI(){
         getHeadersApi();
 
         try {
-            $_POST["desc"] = strtoupper($_POST["desc"]);
-            $calibres = new Calibres($_POST);
-            $valor = $calibres->desc;
-            $existe = Calibres::SQL("select * from amc_calibre where situacion =1 AND desc = '$valor'");
+            // $_POST["desc"] = strtoupper($_POST["desc"]);
+            // echo json_encode($_POST);
+            // exit;
+            $usuarios = new Usuarios($_POST);
+            
+            $valor = $usuarios->desc;
+            $existe = Usuarios::SQL("SELECT * from amc_usuarios where situacion = 1 AND desc = '$valor'");
+            
+            
             if (count($existe)>0){
                echo json_encode([
                    "mensaje" => "El registro ya existe",
@@ -27,7 +28,7 @@ class CalibresController{
                exit;
             }
              
-            $resultado = $calibres->guardar();
+            $resultado = $usuarios->guardar();
     
             if($resultado['resultado'] == 1){
                 echo json_encode([
@@ -52,29 +53,37 @@ class CalibresController{
         }
         
     }
+    
+    // fin de la funcion guardar usuarios
 
+
+
+    // inicio de la funcion
     public function buscarApi(){
         getHeadersApi();
-        $calibres = Calibres::where('situacion', '0','>');
-        echo json_encode($calibres);
+        // echo json_encode("hola");
+        //     exit;
+        $usuarios = Usuarios::where('situacion', '0','>');
+        echo json_encode($usuarios);
     }
 
     public function modificarAPI(){
         getHeadersApi();
        try {
-            $_POST["desc"] = strtoupper($_POST["desc"]);
-            $calibres = new Calibres($_POST);
-            $valor = $calibres->desc;
-            $existe = Calibres::SQL("select * from amc_calibre where situacion =1 AND desc = '$valor'");
+            // $_POST["desc"] = strtoupper($_POST["desc"]);
+            $usuarios = new Usuarios($_POST);
+            $valor = $usuarios->desc;
+            $existe = Usuarios::SQL("select * from amc_usuarios where situacion =1 AND desc = '$valor'");
+
             if (count($existe)>0){
                echo json_encode([
-                   "mensaje" => "No se modificó el valor.",
+                   "mensaje" => "El valor no se modificó.",
                    "codigo" => 2,
                ]);
                exit;
             }
-             
-            $resultado = $calibres->guardar();
+    
+            $resultado = $usuarios->guardar();
     
             if($resultado['resultado'] == 1){
                 echo json_encode([
@@ -102,9 +111,9 @@ class CalibresController{
     public function eliminarAPI(){
         getHeadersApi();
         $_POST['situacion'] = 0;
-        $calibres = new Calibres($_POST);
+        $usuarios = new Usuarios($_POST);
         
-        $resultado = $calibres->guardar();
+        $resultado = $usuarios->guardar();
 
         if($resultado['resultado'] == 1){
             echo json_encode([
@@ -118,16 +127,19 @@ class CalibresController{
 
         }
     }
-    public function cambiarSituacionAPI(){
+
+    public function cambioSituacionAPI(){
         getHeadersApi();
-        if($_POST['situacion'] == 1){
-            $_POST['situacion']=2;
-        }else{
-            $_POST['situacion']=1;
+        
+
+    if ($_POST['situacion'] == 1){
+        $_POST['situacion'] = 2;
+    }else{
+        $_POST['situacion'] = 1;
 
         }
-        $calibres = new Calibres($_POST);
-        $resultado = $calibres->guardar();
+        $usuarios = new Usuarios($_POST);
+        $resultado = $usuarios->guardar();
         if($resultado['resultado'] == 1){
             echo json_encode([
                 "resultado" => 1
@@ -140,5 +152,5 @@ class CalibresController{
 
         }
     }
-} 
-
+}
+?>

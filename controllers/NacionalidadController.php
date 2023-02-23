@@ -23,8 +23,10 @@ class NacionalidadController{
         try {
             $tipo = new Nacionalidad($_POST);
             $dato = $tipo->desc;
+            $dato_pais = $tipo->pais;
+            $existe_pais = Nacionalidad::SQL("SELECT * FROM amc_nacionalidad where pais = '$dato_pais' and situacion = 1 ");
             $existe = Nacionalidad::SQL("SELECT * FROM amc_nacionalidad where desc = '$dato' and situacion = 1 ");
-            if (count($existe)>0){
+            if (count($existe)>0 || count($existe_pais)>0){
                echo json_encode([
                    "mensaje" => "El registro ya existe.",
                    "codigo" => 2,

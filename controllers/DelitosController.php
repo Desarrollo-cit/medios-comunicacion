@@ -118,5 +118,29 @@ class DelitosController{
 
         }
     }
+
+    public function cambioSituacionAPI(){
+        getHeadersApi();
+        // echo($_POST['situacion']);
+    if ($_POST['situacion'] == 1){
+        $_POST['situacion'] = 2;
+    }else{
+        $_POST['situacion'] = 1;
+
+        }
+        $delitos = new delitos($_POST);
+        $resultado = $delitos->guardar();
+        if($resultado['resultado'] == 1){
+            echo json_encode([
+                "resultado" => 1
+            ]);
+            
+        }else{
+            echo json_encode([
+                "resultado" => 2
+            ]);
+
+        }
+    }
 } 
 
