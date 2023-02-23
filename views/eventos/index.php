@@ -41,6 +41,38 @@
                         </select>
                     </div>
                 </div>
+
+                <div id="divTipoMovimientoFiltro" class="row d-none">
+                    <div class="col">
+                        <label for="tipo_movimiento">Tipo de Movimiento</label>
+                        <select name="tipo_movimiento" id="tipo_movimiento" class="form-control" disabled>
+                            <option value="">Seleccionar</option>
+                            <?php
+                            foreach ($tipo_movimiento as $fila) : ?>
+
+
+
+                                <option value="<?= $fila['id'] ?>"> <?= $fila['desc'] ?></option>
+
+                            <?php endforeach ?>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="divOrganizacionFiltro" class="row d-none">
+                    <div class="col">
+                        <label for="organizacion">Organización</label>
+                        <select name="organizacion" id="organizacion" class="form-control" disabled>
+                            <option value="">Seleccionar</option>
+                            <?php
+                            foreach ($movimiento as $fila) : ?>
+
+                                <option value="<?= $fila['id'] ?>"> <?= $fila['desc'] ?></option>
+
+                            <?php endforeach ?>
+                        </select>
+                    </div>
+                </div>
             </div>
         </div>
         <h3 class="text-center">Leyenda</h3>
