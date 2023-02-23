@@ -11,8 +11,10 @@ use MVC\Router;
 use Exception;
 use Model\Fuentes;
 
-class EventoController {
-    public static function index(Router $router){
+class EventoController
+{
+    public static function index(Router $router)
+    {
         $topicos = Evento::fetchArray("SELECT * from amc_tipo_topics where situacion = 1");
         $departamentos = Evento::fetchArray("SELECT dm_codigo,dm_desc_lg FROM dep_mun WHERE dm_codigo BETWEEN 0100 AND 2200 AND substr(dm_codigo,3,4)=00 ORDER BY dm_desc_lg");
         $actividades = Evento::fetchArray("SELECT * from amc_actividad_vinculada where situacion = 1");
@@ -45,23 +47,25 @@ class EventoController {
         ]);
     }
 
-    public static function municipios(){
+    public static function municipios()
+    {
         getHeadersApi();
         try {
-            $departamento = substr($_GET['departamento'], 0,2);
+            $departamento = substr($_GET['departamento'], 0, 2);
             $municipios = Evento::fetchArray("SELECT dm_codigo as codigo, trim(dm_desc_lg) as descripcion from depmun WHERE dm_codigo[1,2] = $departamento AND dm_codigo[3,4] > 00");
             echo json_encode($municipios);
         } catch (Exception $e) {
             echo json_encode([
-                "detalle" => $e->getMessage(),       
+                "detalle" => $e->getMessage(),
                 "mensaje" => "Ocurrió  un error en base de datos.",
 
                 "codigo" => 4,
             ]);
         }
     }
-    
-    public static function sexos(){
+
+    public static function sexos()
+    {
         getHeadersApi();
         try {
 
@@ -69,7 +73,7 @@ class EventoController {
             echo json_encode($sexos);
         } catch (Exception $e) {
             echo json_encode([
-                "detalle" => $e->getMessage(),       
+                "detalle" => $e->getMessage(),
                 "mensaje" => "Ocurrió  un error en base de datos.",
 
                 "codigo" => 4,
@@ -77,12 +81,13 @@ class EventoController {
         }
     }
 
-    public static function guardar(){
+    public static function guardar()
+    {
         getHeadersApi();
         $_POST['fecha'] = str_replace('T', ' ', $_POST['fecha']);
 
         try {
-            
+
 
 
             $evento = new Evento($_POST);
@@ -91,23 +96,21 @@ class EventoController {
             $resultado = $evento->guardar();
 
 
-            if($resultado['resultado'] == 1){
+            if ($resultado['resultado'] == 1) {
                 echo json_encode([
                     "mensaje" => "El registro se guardó.",
                     "id" => $resultado['id'],
                     "codigo" => 1,
                 ]);
-                
-            }else{
+            } else {
                 echo json_encode([
                     "mensaje" => "Ocurrió  un error.",
                     "codigo" => 0,
                 ]);
-    
             }
         } catch (Exception $e) {
             echo json_encode([
-                "detalle" => $e->getMessage(),       
+                "detalle" => $e->getMessage(),
                 "mensaje" => "Ocurrió  un error en base de datos.",
 
                 "codigo" => 4,
@@ -115,7 +118,8 @@ class EventoController {
         }
     }
 
-    public static function eventos(){
+    public static function eventos()
+    {
         getHeadersApi();
         try {
             $topicos = $_GET['topicos'];
@@ -124,10 +128,7 @@ class EventoController {
             $inicio = str_replace('T',' ',$_GET['inicio']);
             $fin = str_replace('T',' ',$_GET['fin']);
             $dependencia = $_GET['dependencia'];
-             
-            // $fin= $_GET['fin'];
-            // echo json_encode($_GET);
-            // exit;
+
 
             $eventos = null;
             if(strlen($topicos) > 0){
@@ -146,6 +147,53 @@ class EventoController {
                     $sql .= " and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
                 }else if($_SESSION['AMC_COMANDO']){
                     $sql .= " and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
+
+
+            $arrayTopicos = explode(',', $topicos);
+            // $busqueda = array_search('11',$arrayTopicos);
+            // echo json_encode($arrayTopicos);
+            // exit;
+
+
+            $eventos = [];
+            $data = [];
+
+            if (count($arrayTopicos) > 0) {
+                
+                $posicion = array_search('11', $arrayTopicos);
+                $maras = [];
+
+                if (is_int($posicion)) {
+
+                    $sqlMaras = "SELECT amc_topico.latitud as latitud, amc_topico.longitud as longitud, amc_actividad_vinculada.desc as actividad, amc_tipo_topics.desc as tipo, amc_tipo_topics.id as tipo_id, amc_topico.id as id , trim(dep_desc_ct) as dependencia from amc_topico inner join amc_actividad_vinculada on amc_topico.actividad = amc_actividad_vinculada.id inner join amc_tipo_topics on amc_topico.tipo = amc_tipo_topics.id inner join mdep on amc_topico.dependencia = dep_llave where amc_topico.situacion = 1 and amc_topico.actividad in ('5', '1')";
+
+                    if ($inicio != '') {
+                        $sqlMaras .= " and amc_topico.fecha >= '$inicio'";
+                    }
+                    if ($fin != '') {
+                        $sqlMaras .= " and amc_topico.fecha <= '$fin'";
+                    }
+
+                    $maras = Evento::fetchArray($sqlMaras);
+                    unset($arrayTopicos[$posicion]);
+                }  
+          
+                if (count($arrayTopicos) > 0) {
+
+                    $sql = "SELECT amc_topico.latitud as latitud, amc_topico.longitud as longitud, amc_actividad_vinculada.desc as actividad, amc_tipo_topics.desc as tipo, amc_tipo_topics.id as tipo_id, amc_topico.id as id , trim(dep_desc_ct) as dependencia from amc_topico inner join amc_actividad_vinculada on amc_topico.actividad = amc_actividad_vinculada.id inner join amc_tipo_topics on amc_topico.tipo = amc_tipo_topics.id inner join mdep on amc_topico.dependencia = dep_llave where amc_topico.situacion = 1 and amc_tipo_topics.id in ($topicos) ";
+
+                    if ($inicio != '') {
+                        $sql .= " and amc_topico.fecha >= '$inicio'";
+                    }
+                    if ($fin != '') {
+                        $sql .= " and amc_topico.fecha <= '$fin'";
+                    }
+
+                    if ($_SESSION['AMC_COMANDO']) {
+                        $sql .= " and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
+                    }
+                    $eventos = Evento::fetchArray($sql);
+
                 }
 
                 if( is_int(array_search(7,$arrayTopicos)) && $fenomeno != ''){
@@ -154,20 +202,22 @@ class EventoController {
                 
 
                 
-                $eventos = Evento::fetchArray($sql);
+                $data = array_merge($maras, $eventos);
+
+
             }
-            
-            echo json_encode($eventos);
+
+            echo json_encode($data);
         } catch (Exception $e) {
             echo json_encode([
-                "detalle" => $e->getMessage(),       
+                "detalle" => $e->getMessage(),
                 "mensaje" => "Ocurrió  un error en base de datos.",
 
                 "codigo" => 4,
             ]);
         }
-      
     }
+
 
     public static function getEventoIdApi(){
         getHeadersApi();
@@ -187,3 +237,4 @@ class EventoController {
     }
 
 }
+
