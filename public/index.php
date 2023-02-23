@@ -47,6 +47,7 @@ $router = new Router();
 $router->setBaseURL('/medios-comunicacion');
 
 $router->get('/', [AppController::class,'index']);
+$router->get('/cerrar-sesion', [AppController::class,'cerrarSesion']);
 
 
 $router->get('/usuarios',[usuariosController::class,'index']);
