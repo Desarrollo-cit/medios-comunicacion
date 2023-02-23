@@ -7,7 +7,7 @@ date_default_timezone_set('America/Guatemala');
 setlocale(LC_TIME, "es_ES");
 
 $fechaLarga = strftime(" %B ");
-// var_dump($totalPersonaAfectada);
+// var_dump($departamentoAfectado);
 
 
 
@@ -185,13 +185,13 @@ $fechaLarga = strftime(" %B ");
 
                 <div class="row justify-content-center">
                     <div class="col-2 col-sm-4">
-                        <img src="<?= asset('./images/iconos/calendario.png') ?>" class="w-100" alt="operaciones">
+                        <img src="<?= asset('./images/iconos/desastres/mundo.png') ?>" class="w-100" alt="operaciones">
 
                     </div>
                 </div>
                 <div class="row">
                     <div class="col">
-                        <p class="h3" id="mes_selecionado"><?php echo strtoupper($fechaLarga); ?></p>
+                        <p class="h3" id="Departamento_afectado"><?= $departamentoAfectado[0]['departamento'] ?></p>
                     </div>
                 </div>
 

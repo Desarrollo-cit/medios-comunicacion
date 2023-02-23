@@ -50,6 +50,7 @@ const cambiarmes = async (evento) => {
     var carreterasPuentesColapsados = document.getElementById('carreterasPuentesColapsados');
     var hectareasQuemadas = document.getElementById('hectareasQuemadas');
     var desbordamientosderios = document.getElementById('desbordamientosderios');
+    var Departamento_afectado = document.getElementById('Departamento_afectado');
     var f1 = new Date(formBusqueda_resumen.fecha_resumen.value)
     var f2 = new Date(formBusqueda_resumen.fecha_resumen2.value)
     var fecha1 = formBusqueda_resumen.fecha_resumen.value;
@@ -108,6 +109,7 @@ if(data[0].cantidad == 0){
             carreterasPuentesColapsados.innerText = data[8].cantidad
             hectareasQuemadas.innerText = data[9].cantidad
             desbordamientosderios.innerText = data[10].cantidad
+            Departamento_afectado.innerText = data[11].departamento
         }
 
     } else {
@@ -145,11 +147,11 @@ function ocultar_graficas() {
 function ocultar_select() {
     if (document.querySelector("#cuadro_busquedad_resumen").style.display === "none") {
         document.querySelector("#cuadro_busquedad_resumen").style.display = "block";
-        document.querySelector("#mes_elegido").style.display = "none";
+    
 
     } else {
         document.querySelector("#cuadro_busquedad_resumen").style.display = "none";
-        document.querySelector("#mes_elegido").style.display = "block";
+  
 
 
     }
@@ -207,7 +209,7 @@ const Buscar_capturas = async (e) => {
         const respuesta = await fetch(url, config);
         const info = await respuesta.json();
 
-
+console.log(info);
         tablaregistro.destroy();
         tablaregistro = new Datatable('#dataTable2', {
             language: lenguaje,
@@ -217,9 +219,10 @@ const Buscar_capturas = async (e) => {
                 { data: "fecha", "width": "11%" },
                 { data: "departamento", "width": "11%" },
                 { data: "lugar", "width": "11%" },
-                { data: "topico", "width": "15%" },
-                { data: "delito", "width": "11%" },
-                { data: "actividad", "width": "15%" },
+                { data: "tipo", "width": "11%" },
+                { data: "fenomeno", "width": "15%" },
+                { data: "muertes", "width": "11%" },
+                { data: "promedio", "width": "15%" },
 
                 {
                     data: "id",
