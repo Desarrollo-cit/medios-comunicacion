@@ -12,7 +12,8 @@ class Des_naturalController{
     public static function guardar(){
         getHeadersApi();
 
-
+        // echo json_encode($_POST);
+        // exit;
     
         try {
 
@@ -27,7 +28,6 @@ class Des_naturalController{
             $resultados = [];
 
                 $desastres = new Des_natural([
-                    'id' =>  $_POST['id']!= '' ? $_POST['id']: null ,
                     'topico' => $_POST['topico'],
                     'tipo' => $_POST['tipo'],
                     'nombre_desastre' => $_POST['nombre_desastre'],
