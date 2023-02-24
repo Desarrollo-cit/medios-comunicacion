@@ -305,7 +305,7 @@ $router->get('/mapas/desastres', [infoDesastresController::class , 'index']);
 $router->post('/API/mapas/infoDesastres/resumen', [infoDesastresController::class , 'resumenAPI'] );
 $router->get('/API/mapas/infoDesastres/listado', [infoDesastresController::class , 'listadoAPI'] );
 $router->post('/API/mapas/infoDesastres/modal', [infoDesastresController::class , 'modalAPI'] );
-$router->post('/API/mapas/infoDesastres/informacionMigrantes', [infoDesastresController::class , 'informacionMigrantesModalAPI'] );
+$router->post('/API/mapas/infoDesastres/informacion', [infoDesastresController::class , 'informacionModalAPI'] );
 $router->post('/API/mapas/infoDesastres/mapaCalor', [infoDesastresController::class , 'mapaCalorAPI'] );
 $router->post('/API/mapas/infoDesastres/mapaCalorPorDepto', [infoDesastresController::class , 'mapaCalorDeptoAPI'] );
 $router->post('/API/mapas/infoDesastres/mapaCalorPorDeptoGrafica', [infoDesastresController::class , 'mapaCalorPorDeptoGraficaAPI'] );
