@@ -37,29 +37,74 @@ public function buscarApi(){
 public function modificarAPI(){
     try {
         getHeadersApi();
-        // $_POST["descripcion"] = strtoupper($_POST["descripcion"]);
-        $colores = new Colores($_POST);
 
         // echo json_encode($_POST);
         // exit;
 
-        
-        $resultado = $colores->guardar();
+        // $_POST["descripcion"] = strtoupper($_POST["descripcion"]);
+        $colores = new Colores($_POST);
 
-        if($resultado['resultado'] == 1){
-            echo json_encode([
-                "mensaje" => "El registro se modificó.",
-                "codigo" => 1,
-            ]);
-            
-        }else{
-            echo json_encode([
-                "mensaje" => "Ocurrio un error.",
-                "codigo" => 0,
-            ]);
+        $cantidad = $_POST['cantidad'];
 
+        $topico = $_POST['topico'];
+        $id = $_POST['id'];
+        $nivel = $_POST['nivel'];
+
+
+
+        $cantidades = Colores::fetchArray("SELECT cantidad from amc_colores where topico = $topico and nivel > $nivel ");
+        $cantidadesMenores = Colores::fetchArray("SELECT cantidad from amc_colores where topico = $topico and nivel < $nivel ");
+        // echo json_encode($cantidades);
+        // exit;
+
+        $validaciones = true;
+        foreach ($cantidades as $key => $c) {
+            if( $cantidad >= $c['cantidad'] ){
+                $validaciones = false;
+                break;
+
+                echo json_encode([
+                    "mensaje" => "NO SE PUEDE MODIFICAR, NO RESPETA LOS NIVELES.",
+                    "codigo" => 6,
+                ]);
+            }
         }
-        //code...
+
+        foreach ($cantidadesMenores as $key => $c) {
+            if( $cantidad <= $c['cantidad'] ){
+                $validaciones = false;
+
+                echo json_encode([
+                    "mensaje" => "NO SE PUEDE MODIFICAR, NO RESPETA LOS NIVELES.",
+                    "codigo" => 6,
+                ]);
+                break;
+            }
+        }
+
+        if($validaciones == true){
+
+                $resultado = $colores->guardar();
+    
+                if($resultado['resultado'] == 1){
+                    echo json_encode([
+                        "mensaje" => "El registro se modificó.",
+                        "codigo" => 1,
+                    ]);
+                    
+                }else{
+                    echo json_encode([
+                        "mensaje" => "Ocurrio un error.",
+                        "codigo" => 0,
+                    ]);
+        
+                }
+    
+            }
+    
+
+
+    
     } catch (Exception $e) {
         echo json_encode([
             "detalle" => $e->getMessage(),       

@@ -15,7 +15,7 @@ class Fenomeno_naturalController{
 
         try {
             $fenomeno = new Fenomeno_natural($_POST);
-            $valor = $_POST["desc"];
+            $valor = $fenomeno->desc;
             $existe = Fenomeno_natural::SQL("select * from amc_fenomeno_natural where situacion =1 AND desc = '$valor'
             ");
 
@@ -67,9 +67,21 @@ class Fenomeno_naturalController{
 
     public function modificarAPI(){
         getHeadersApi();
-        $_POST["desc"] = strtoupper($_POST["desc"]);
         $fenomeno = new Fenomeno_natural($_POST);
-        
+        $valor = $fenomeno->desc;
+        $existe = Fenomeno_natural::SQL("select * from amc_fenomeno_natural where situacion =1 AND desc = '$valor'
+        ");
+
+
+
+
+        if (count($existe)>0){
+           echo json_encode([
+               "mensaje" => "El registro ya existe.",
+               "codigo" => 2,
+           ]);
+           exit;
+        }
         $resultado = $fenomeno->guardar();
 
         if($resultado['resultado'] == 1){

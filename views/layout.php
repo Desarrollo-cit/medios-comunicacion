@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="<?= asset('build/js/app.js') ?>"></script>
-    <link rel="shortcut icon" href="<?= asset('images/cit.png') ?>" type="image/x-icon">
+    <link rel="shortcut icon" href="<?= asset('images/emdn.png') ?>" type="image/x-icon">
     <link rel="stylesheet" href="<?= asset('build/styles.css') ?>">
     <title>Medios</title>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark  bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark  bg-dark " style="z-index: 1005">
         
         <div class="container-fluid">
 
@@ -18,7 +18,7 @@
             </button>
             <a class="navbar-brand" href="/medios-comunicacion/">
 
-                <img src="<?= asset('./images/cit.png') ?>" width="35px'" alt="cit" >
+                <img src="<?= asset('./images/emdn.png') ?>" width="35px'" alt="cit" >
 
                 Medios
             </a>
@@ -31,7 +31,7 @@
                     <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="/medios-comunicacion/eventos"><i class="bi bi-plus-circle me-2"></i>Nuevo evento</a>
                     </li>
-  
+                    <?php if(isset($_SESSION['AMC_ADMIN'])) : ?>
                     <div class="nav-item dropdown " >
                         <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
                             <i class="bi bi-tools me-2"></i>Mantenimientos
@@ -68,8 +68,16 @@
                             <li>
                                 <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/tipo"><i class="ms-lg-0 ms-2 bi bi-arrows-move me-2"></i>Tipos de Movimientos Sociales</a>
                             </li>
-                          
-                    
+                            <li>
+
+                                <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/usuarios"><i class="fa-sharp fa-solid fa-users"></i>Usuarios</a>
+                            </li>
+                            <li>
+
+                                <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/Fuentes"><i class="ms-lg-0 ms-2 bi bi-arrows-move me-2"></i>Fuentes</a>
+                            </li>
+                            
+
                         
                         </ul>
                     </div> 
@@ -81,29 +89,40 @@
                             <!-- <h6 class="dropdown-header">Información</h6> -->
                            
                             <li>
-                                <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/mapas/capturas"><i class="ms-lg-0 ms-2 bi bi-plus-circle me-2"></i>Capturas</a>
+                                <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/mapas/capturas"><i class="ms-lg-0 ms-2  fa-solid fa-handcuffs me-2"></i>Capturas</a>
                             </li>
                             <li>
-                                <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/mapas/droga"><i class="ms-lg-0 ms-2 bi bi-plus-circle me-2"></i>Drogas</a>
+                                <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/mapas/droga"><i class="ms-lg-0 ms-2 fa-solid fa-cannabis me-2"> </i>Drogas</a>
                             </li>
                             <li>
-                                <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/mapas/muertes"><i class="ms-lg-0 ms-2 bi bi-plus-circle me-2"></i>Muertes</a>
+                                <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/mapas/muertes"><i class="ms-lg-0 ms-2 fa-solid fa-skull me-2"></i>Muertes</a>
                             </li>
                             <li>
+
                                 <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/mapas/dinero_y_armas"><i class="ms-lg-0 ms-2 bi bi-plus-circle me-2"></i>Dinero</a>
                             </li>
                             <li>
+
+                                <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/mapas/maras"><i class="ms-lg-0 ms-2 fa-solid fa-user-ninja me-2"></i>Maras</a>
+
                             </li>
-                        
-                    
+                            <li>
+
+                                <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/mapas/migrantes"><i class="ms-lg-0 ms-2 fa-solid fa-users-between-lines me-2"></i>Migrantes</a>
+                            </li>
+                            <li>
+
+                                <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/mapas/desastres"><i class="ms-lg-0 ms-2 fa-solid fa-house-chimney-crack me-2"></i>Desastres</a>
+                            </li>
+
                         
                         </ul>
                     </div> 
-
+                    <?php endif ?>
                 </ul> 
                 <div class="col-lg-1 d-grid mb-lg-0 mb-2">
                     <!-- Ruta relativa desde el archivo donde se incluye menu.php -->
-                    <a href="/menu/" class="btn btn-danger"><i class="bi bi-arrow-bar-left"></i>MENÚ</a>
+                    <a href="/medios-comunicacion/cerrar-sesion" class="btn btn-danger"><i class="bi bi-arrow-bar-left"></i>MENÚ</a>
                 </div>
 
             
@@ -114,7 +133,7 @@
     <div class="progress fixed-bottom" style="height: 6px;">
         <div class="progress-bar progress-bar-animated bg-danger" id="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
     </div>
-    <div class="container-fluid pt-5 mb-4" style="min-height: 85vh">
+    <div class="container-fluid pt-3" style="min-height: 85vh">
         
         <?php echo $contenido; ?>
     </div>
@@ -127,5 +146,6 @@
             </div>
         </div>
     </div>
+    <script src="https://kit.fontawesome.com/ae0feae7c7.js" crossorigin="anonymous"></script>
 </body>
 </html>

@@ -64,7 +64,19 @@ const cambiarmes = async (evento) => {
 
         const respuesta = await fetch(url, config);
         const data = await respuesta.json();
+if(data[0].cantidad == 0){
+    Toast.fire({
+        icon: 'error',
+        title: 'Sin registros'
+    })
+    }else{
+        Toast.fire({
+            icon: 'success',
+            title: 'Se tienen los siguientes registros'
+        })
+    
 
+}
         
         if (data) {
             infocapturas.innerText = data[0].cantidad
@@ -196,7 +208,7 @@ const Buscar_capturas = async (e) => {
                 },
                 {
                     data: "id",
-                    "render": (data, type, row, meta) => `<a target='blank' href='pdf.php?id=${row.id}&topico= ${row.tipo}'><button class='btn btn-outline-primary'  >REPORTE<i class="bi bi-printer"></i></button></a>`,
+                    "render": (data, type, row, meta) => `<a target='blank' href='/medios-comunicacion/reportes/topico?id=${row.id}'><button class='btn btn-outline-primary'  >REPORTE<i class="bi bi-printer"></i></button></a>`,
                     "searchable": false,
                     "width": "11%"
                 },
@@ -634,6 +646,7 @@ window.detalle = async (valor) => {
 const delitos_estadistica = async (e) => {
     e && e.preventDefault();
 
+
     const url_grafica1 = `/medios-comunicacion/API/mapas/infoCapturas/DelitosCantGrafica`
     const bodyGrafica1 = new FormData(formBusqueda_grafica);
 
@@ -650,8 +663,49 @@ const delitos_estadistica = async (e) => {
         const response1 = await fetch(url_grafica1, configGrafica1)
         const datos1 = await response1.json()
 
+
+        if(formBusqueda_grafica.fecha_grafica.value != "" && formBusqueda_grafica.fecha_grafica2.value != "" ){
+            const fecha1 = formBusqueda_grafica.fecha_grafica.value
+            const fecha2 = formBusqueda_grafica.fecha_grafica2.value
+            if (fecha1 == "" && fecha2 == "") {
+                var valor = 1
+            } else {
         
-        if(datos1.length > 0){
+                var valor = 2
+            }
+            var f1 = new Date(formBusqueda_grafica.fecha_grafica.value)
+            var f2 = new Date(formBusqueda_grafica.fecha_grafica2.value)
+            if ((f1 > f2 && valor == 2) ){
+                Toast.fire({
+                    icon: 'error',
+                    title: 'Ingreso mal las fechas'
+                })
+                valor = 3;
+                
+            }
+
+            if(datos1.length > 0 ){
+                Toast.fire({
+                    icon: 'success',
+                    title: 'Se tienen los siguientes registros'
+                })
+
+                
+            }else{
+                Toast.fire({
+                    icon: 'error',
+                    title: 'Sin registros'
+                })
+
+
+            }
+
+        }
+
+        if(datos1.length > 0 && valor !=3){
+
+               
+       
             document.getElementById('graficaDelitos').style.display = "block"
             document.getElementById('texto_no1').style.display = "none"
 
@@ -743,7 +797,7 @@ const delitos_estadistica = async (e) => {
 
                 }
             });
-
+            
         }else{
 
             document.getElementById('texto_no1').style.display = "block";

@@ -4,8 +4,8 @@
   </div>
 </div>
 <div class="row justify-content-center">
-  <div class="col-lg-4">
-    <img src="./images/cit.png" width="100%" alt="">
+  <div class="col-lg-3">
+    <img src="./images/emdn.png" width="100%" alt="">
   </div>
 </div>
 <script src="build/js/inicio.js"></script>

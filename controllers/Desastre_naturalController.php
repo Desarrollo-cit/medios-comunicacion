@@ -15,7 +15,7 @@ class Desastre_naturalController{
 
         try {
             $desastre = new Desastre_natural($_POST);
-            $valor = $_POST["desc"];
+            $valor = $desastre->desc;
             $existe = Desastre_natural::SQL("select * from amc_tipo_desastre_natural where situacion =1 AND desc = '$valor'
             ");
 
@@ -67,9 +67,20 @@ class Desastre_naturalController{
 
     public function modificarAPI(){
         getHeadersApi();
-        $_POST["desc"] = strtoupper($_POST["desc"]);
         $desastre = new Desastre_natural($_POST);
-        
+        $valor = $desastre->desc;
+        $existe = Desastre_natural::SQL("select * from amc_tipo_desastre_natural where situacion =1 AND desc = '$valor'");
+
+
+
+
+        if (count($existe)>0){
+            echo json_encode([
+                "mensaje" => "El valor no se modificó.",
+                "codigo" => 2,
+            ]);
+            exit;
+        }
         $resultado = $desastre->guardar();
 
         if($resultado['resultado'] == 1){
@@ -89,7 +100,6 @@ class Desastre_naturalController{
         getHeadersApi();
         $_POST['situacion'] = 0;
         $desastre = new Desastre_natural($_POST);
-     
         
         $resultado = $desastre->eliminar();
 
@@ -105,6 +115,4 @@ class Desastre_naturalController{
 
         }
     }
-} 
-
-?>
+}

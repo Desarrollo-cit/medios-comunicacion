@@ -3,11 +3,11 @@
 namespace Controllers;
 
 use Exception;
-use utf8_encode;
+
 use DateTime;
 use Model\Captura;
 use Model\Capturadas;
-use Model\Delito;
+
 use Model\DepMun;
 // use Model\Delito;
 use MVC\Router;
@@ -598,29 +598,6 @@ class InfoMarasController
     }
 
 
-    public function informacionModalAPI1()
-    {
-        getHeadersApi();
-
-        // echo json_encode($sql);
-
-        try {
-
-            $id = $_POST['id'];
-
-            $sql = "SELECT amc_incautacion_droga.cantidad as cantidad, amc_incautacion_droga.tipo_transporte as tipo_t, amc_incautacion_droga.id, amc_incautacion_droga.tipo_droga, matricula, amc_drogas.desc as droga, amc_transporte.desc as transporte   from amc_incautacion_droga inner join amc_drogas on amc_incautacion_droga.tipo_droga = amc_drogas.id inner join amc_transporte on amc_incautacion_droga.transporte = amc_transporte.id where amc_incautacion_droga.topico =$id and  amc_incautacion_droga.situacion = 1";
-            $info = Capturadas::fetchArray($sql);
-            echo json_encode($info);
-        } catch (Exception $e) {
-            echo json_encode([
-                "detalle" => $e->getMessage(),
-                "mensaje" => "ocurrio un error en base de datos",
-
-                "codigo" => 4,
-            ]);
-        }
-    }
-
 
     public function informacionDineroModalAPI()
     {
@@ -823,8 +800,8 @@ class InfoMarasController
 
             $depto = $_POST['departamento'];
             $topico = $_POST['topico_mapa_calor'];
-            $fecha1 = str_replace('T', ' ', $_POST['fecha_mapa']);
-            $fecha2 = str_replace('T', ' ', $_POST['fecha2']);
+            $fecha1 = str_replace('T', ' ', $_POST['fecha_grafica']);
+            $fecha2 = str_replace('T', ' ', $_POST['fecha_grafica2']);
         
             $tipo_topic = static::tiposTopicos();
            
@@ -930,8 +907,8 @@ class InfoMarasController
 
             $depto = $_POST['departamento'];
             $topico = $_POST['topico_mapa_calor'];
-            $fecha1 = str_replace('T', ' ', $_POST['fecha_mapa']);
-            $fecha2 = str_replace('T', ' ', $_POST['fecha2']);
+            $fecha1 = str_replace('T', ' ', $_POST['fecha_grafica']);
+            $fecha2 = str_replace('T', ' ', $_POST['fecha_grafica2']);
         
             $tipo_topic = static::tiposTopicos();
            
@@ -1015,7 +992,7 @@ class InfoMarasController
 
   
 
-    public function CapturasPorDiaGraficaAPI()
+    public function ActividadesPorDiaGraficaAPI()
     {
         try {
 
@@ -1024,7 +1001,7 @@ class InfoMarasController
             $data = [];
             for ($i = 0; $i <=  $diasMes; $i++) {
                 // $main = new Main();
-                $sql = "SELECT count(*) as  cantidad  From amc_per_capturadas inner join amc_topico on amc_per_capturadas.topico = amc_topico.id where year(amc_topico.fecha) = year(current) and month(amc_topico.fecha) = month(current) and day(amc_topico.fecha) = day($i) and amc_topico.situacion = 1 and amc_per_capturadas.situacion = 1";
+                $sql ="SELECT count(*) as  cantidad  From amc_topico  where year(amc_topico.fecha) = year(current) and month(amc_topico.fecha) = month(current) and day(amc_topico.fecha) = day($i) and amc_topico.situacion = 1 and amc_topico.actividad in (1,5)";
                 $info = Capturadas::fetchArray($sql);
                 $data['dias'][] = $i;
                 if ($info[0]['cantidad'] == null) {
@@ -1047,7 +1024,72 @@ class InfoMarasController
         }
     }
 
-    public function GraficaTrimestralAPI()
+    public function Mara18PorDiaGraficaAPI()
+    {
+        try {
+
+
+            $diasMes =  date('t');
+            $data = [];
+            for ($i = 0; $i <=  $diasMes; $i++) {
+                // $main = new Main();
+                $sql ="SELECT count(*) as  cantidad  From amc_topico  where year(amc_topico.fecha) = year(current) and month(amc_topico.fecha) = month(current) and day(amc_topico.fecha) = day($i) and amc_topico.situacion = 1 and amc_topico.actividad = 1";
+                $info = Capturadas::fetchArray($sql);
+                $data['dias'][] = $i;
+                if ($info[0]['cantidad'] == null) {
+
+                    $valor = 0;
+                } else {
+                    $valor = $info[0]['cantidad'];
+                }
+                $data['mara18'][] = $valor;
+            }
+            echo json_encode($data);
+            exit;
+        } catch (Exception $e) {
+            echo json_encode([
+                "detalle" => $e->getMessage(),
+                "mensaje" => "ocurrio un error en base de datos",
+
+                "codigo" => 4,
+            ]);
+        }
+    }
+
+
+    public function SalvatruchaPorDiaGraficaAPI()
+    {
+        try {
+
+
+            $diasMes =  date('t');
+            $data = [];
+            for ($i = 0; $i <=  $diasMes; $i++) {
+                // $main = new Main();
+                $sql ="SELECT count(*) as  cantidad  From amc_topico  where year(amc_topico.fecha) = year(current) and month(amc_topico.fecha) = month(current) and day(amc_topico.fecha) = day($i) and amc_topico.situacion = 1 and amc_topico.actividad = 5";
+                $info = Capturadas::fetchArray($sql);
+                $data['dias'][] = $i;
+                if ($info[0]['cantidad'] == null) {
+
+                    $valor = 0;
+                } else {
+                    $valor = $info[0]['cantidad'];
+                }
+                $data['salvatrucha'][] = $valor;
+            }
+            echo json_encode($data);
+            exit;
+        } catch (Exception $e) {
+            echo json_encode([
+                "detalle" => $e->getMessage(),
+                "mensaje" => "ocurrio un error en base de datos",
+
+                "codigo" => 4,
+            ]);
+        }
+    }
+
+    public function GraficaTrimestralMara18API()
     {
         try {
 
@@ -1074,7 +1116,7 @@ class InfoMarasController
                     break;
             }
 
-            $tipos = static::delitosApi();
+            $tipos = static::tiposTopicos();
 
             $data = [];
             $labels = [];
@@ -1088,7 +1130,7 @@ class InfoMarasController
                 for ($i = 0; $i < 3; $i++) {
                     $dateObj = DateTime::createFromFormat('!m', $meses[$i]);
                     $mes = strftime("%B", $dateObj->getTimestamp());
-                    $operaciones = static::capturas_por_mes_y_delito($meses[$i], $tipo_id, $años[$i]);
+                    $operaciones = static::ActividadesMara18_por_mes_y_delito($meses[$i], $tipo_id, $años[$i]);
                     $cantidades[$mes][] = $operaciones['cantidad'];
                 }
             }
@@ -1108,102 +1150,120 @@ class InfoMarasController
         }
     }
 
+
+    public function GraficaTrimestralSalvatruchaAPI()
+    {
+        try {
+
+            $mes = date("n");
+            // $mes = 1;
+            $año = date("Y");
+
+            $meses = [];
+
+            switch ($mes) {
+                case '1':
+                    $meses = [11, 12, 1];
+                    $años = [$año - 1, $año - 1, $año];
+                    break;
+                case '2':
+                    $meses = [12, 1, 2];
+                    $años = [$año - 1, $año, $año];
+
+                    break;
+                default:
+
+                    $meses = [$mes - 2, $mes - 1, $mes];
+                    $años = [$año, $año, $año];
+                    break;
+            }
+
+            $tipos = static::tiposTopicos();
+
+            $data = [];
+            $labels = [];
+            $cantidades = [];
+            $i = 0;
+
+            foreach ($tipos as $tipo) {
+                $tipo_id = (int)$tipo['id'];
+                $labels[] = $tipo['desc'];
+
+                for ($i = 0; $i < 3; $i++) {
+                    $dateObj = DateTime::createFromFormat('!m', $meses[$i]);
+                    $mes = strftime("%B", $dateObj->getTimestamp());
+                    $operaciones = static::ActividadesSalvatrucha_por_mes_y_delito($meses[$i], $tipo_id, $años[$i]);
+                    $cantidades[$mes][] = $operaciones['cantidad'];
+                    
+                }
+            }
+            $data = [
+                'labels' => $labels,
+                'cantidades' => $cantidades
+            ];
+            echo json_encode($data);          
+        } catch (Exception $e) {
+            echo json_encode([
+                "detalle" => $e->getMessage(),
+                "mensaje" => "ocurrio un error en base de datos",
+
+                "codigo" => 4,
+            ]);
+        }
+    }
+
     public function GraficaTrimestralGeneralAPI()
     {
         try {
 
 
-            $monthNum = date("n");
-            //   $monthNum = 12;
+            $mes = date("n");
+            // $mes = 1;
             $año = date("Y");
-            $año_anterior = 0;
-            if ($monthNum == 1) {
-                $mes_en_query = 11;
-                $valor_final = 11;
-                $fechainicial = 12;
-                $año_anterior = $año - 1;
+
+            $meses = [];
+
+            switch ($mes) {
+                case '1':
+                    $meses = [11, 12, 1];
+                    $años = [$año - 1, $año - 1 , $año];
+                    break;
+                    case '2':
+                    $meses = [12, 1, 2];
+                    $años = [$año - 1, $año, $año];
+                    
+                    break;
+                    default:
+                    
+                    $meses = [$mes - 2, $mes - 1, $mes];
+                    $años = [$año, $año, $año];
+                    break;
             }
-            if ($monthNum == 2) {
-                $mes_en_query = 12;
-                $valor_final = 12;
-                $fechainicial = 13;
-                $año_anterior = $año - 1;
-            }
-
-            if ($monthNum > 2) {
-                $mes_en_query =  $monthNum - 2;
-                $valor_final = $monthNum - 2;
-                $fechainicial = $monthNum;
-            }
-
-
-
 
             $data = [];
-            $meses = [];
             $cantidades = [];
             $i = 0;
-            $vuelta = 0;
-            $ronda = 0;
+            $meses1 =[];
+           
 
-
-
-            for ($i = $valor_final; $i <= $fechainicial; $i++) {
-
-                $dateObj = DateTime::createFromFormat('!m', $mes_en_query);
-                $mes = strftime("%B", $dateObj->getTimestamp());
-                $sql = " SELECT  count (*) as cantidad from amc_per_capturadas inner join amc_topico on amc_per_capturadas.topico = amc_topico.id  where month(amc_topico.fecha) = $mes_en_query and amc_topico.situacion = 1 and amc_per_capturadas.situacion = 1";
-
-                if ($monthNum == 1 && $vuelta < 2 && $monthNum < 11) {
-                    $sql .= " AND year(amc_topico.fecha) =   $año_anterior ";
-                    $vuelta = $vuelta + 1;
+                for($i = 0 ; $i < 3 ; $i++){
+                    $dateObj = DateTime::createFromFormat('!m', $meses[$i]);
+                    $mes1 = strftime("%B", $dateObj->getTimestamp());
+                    $sql=" SELECT  count (*) as cantidad from amc_topico   where  year(amc_topico.fecha) = $años[$i] and month(amc_topico.fecha) =$meses[$i] and amc_topico.situacion = 1 and amc_topico.situacion = 1 and amc_topico.actividad in(1,5)";
+                    $info = Capturadas::fetchArray($sql);
+                    // $valor = $info[0]['cantidad'];
+                    $meses1[]= $mes1;
+                    $cantidades[$mes1]= (int) $info[0]['cantidad'];
                 }
-                if ($monthNum == 2 && $vuelta == 0 && $monthNum < 11) {
-                    $sql .= " AND year(amc_topico.fecha) =   $año_anterior ";
-                    $vuelta = $vuelta + 1;
-                }
-                if ($monthNum > 2) {
-                    $sql .= " AND year(amc_topico.fecha) =   $año ";
-                }
-
-                //  echo json_encode($sql);
-                //  exit;
-                $info = Capturadas::fetchArray($sql);
-                $meses[] = $mes;
-                $cantidades[$mes][] = (int) $info[0]['cantidad'];
-
-
-
-
-
-                if ($mes_en_query < 13 && $mes_en_query > 10 && $monthNum < 11) {
-
-                    if ($mes_en_query == 12) {
-                        $mes_en_query = 0;
-                    }
-                    if ($mes_en_query == 11) {
-                        $mes_en_query = 11;
-                    }
-                    $i = 0;
-                    $ronda = $ronda + 1;
-                    if ($ronda == 2) {
-                        $fechainicial = 1;
-                    }
-                    if ($ronda == 1) {
-                        $fechainicial = 2;
-                    }
-                }
-                $mes_en_query = $mes_en_query + 1;
-            }
-
-
-            $data = [
-
-                'cantidades' => $cantidades,
-                'meses' => $meses
-            ];
-            echo json_encode($data);
-            exit;
+                $data = [
+                    'meses' => $meses1,
+                    'cantidades' => $cantidades
+                ];
+                
+                
+                echo json_encode($data);
+                
+           
         } catch (Exception $e) {
             echo json_encode([
                 "detalle" => $e->getMessage(),
@@ -1222,10 +1282,21 @@ class InfoMarasController
         return $result;
     }
 
-    function capturas_por_mes_y_delito($mes, $delito, $año)
+    function ActividadesMara18_por_mes_y_delito($mes, $topico, $año)
     {
 
-        $sentencia = "SELECT count(*) as  cantidad  from amc_per_capturadas inner join amc_topico on amc_per_capturadas.topico = amc_topico.id where  month(amc_topico.fecha) = $mes  and amc_topico.situacion = 1 and amc_per_capturadas.situacion = 1 and amc_per_capturadas.delito = $delito AND year(amc_topico.fecha) = $año";
+        $sentencia = "SELECT count(*) as  cantidad  from amc_topico  where year(amc_topico.fecha) = $año and month(amc_topico.fecha) = $mes  and amc_topico.situacion = 1 and amc_topico.situacion = 1 and amc_topico.tipo = $topico and amc_topico.actividad = 1";
+        
+        $result = Capturadas::fetchArray($sentencia);
+        return array_shift($result);
+    }
+
+
+
+    function ActividadesSalvatrucha_por_mes_y_delito($mes, $topico, $año)
+    {
+
+        $sentencia = "SELECT count(*) as  cantidad  from amc_topico  where year(amc_topico.fecha) = $año and month(amc_topico.fecha) = $mes  and amc_topico.situacion = 1 and amc_topico.situacion = 1 and amc_topico.tipo = $topico and amc_topico.actividad = 5";
         
         $result = Capturadas::fetchArray($sentencia);
         return array_shift($result);
@@ -1237,25 +1308,15 @@ class InfoMarasController
         try {
 
 
-            $depto = $_POST['depto'];
-            $delito = $_POST['delito'];
             $fecha1 = str_replace('T', ' ', $_POST['fecha_grafica']);
             $fecha2 = str_replace('T', ' ', $_POST['fecha_grafica2']);
 
 
 
-            $sql = "SELECT depmun.dm_desc_lg as descripcion, count(*) as cantidad FROM amc_per_capturadas  inner join amc_delito on amc_per_capturadas.delito = amc_delito.id inner join amc_topico on amc_per_capturadas.topico = amc_topico.id inner join depmun on amc_topico.departamento = depmun.dm_codigo where  amc_topico.situacion = 1 ";
+            $sql ="SELECT depmun.dm_desc_lg as descripcion, count(*) as cantidad FROM amc_topico  inner join depmun on amc_topico.departamento = depmun.dm_codigo where amc_topico.situacion = 1 and amc_topico.actividad in (1,5) ";
 
 
-            if ($depto != '') {
-
-                $sql .= "AND amc_topico.departamento = $depto ";
-            }
-            if ($delito != '') {
-
-                $sql .= "AND amc_per_capturadas.delito = $delito";
-            }
-
+            
             if ($fecha1 != '' && $fecha2 != '') {
 
                 $sql .= " AND amc_topico.fecha   BETWEEN '$fecha1' AND  '$fecha2' ";
@@ -1310,15 +1371,5 @@ class InfoMarasController
     }
 
 
-    public function delitosApi()
-    {
-
-        try {
-            $sql = "SELECT * from amc_delito where situacion = 1  ";
-            $info = Delito::fetchArray($sql);
-            return $info;
-        } catch (Exception $e) {
-            return [];
-        }
-    }
+   
 }

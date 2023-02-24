@@ -401,6 +401,8 @@ class InfoCapturaController
             ]);
         }
     }
+
+    
     public function informacionModalAPI1()
     {
         getHeadersApi();
@@ -810,7 +812,7 @@ class InfoCapturaController
                 //  exit;
                 $info = Capturadas::fetchArray($sql);
                 $meses[] = $mes;
-                $cantidades[$mes][] = (int) $info[0]['cantidad'];
+                $cantidades[$mes] = (int) $info[0]['cantidad'];
 
 
 

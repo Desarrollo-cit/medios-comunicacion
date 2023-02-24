@@ -16,7 +16,7 @@ class MonedaController{
         try {
 
             $moneda = new Moneda($_POST);
-            $valor = $_POST["desc"];
+            $valor = $moneda->desc;
             $existe = Moneda::SQL("select * from amc_moneda where situacion =1 AND desc = '$valor'
             ");
 
@@ -70,7 +70,20 @@ class MonedaController{
         getHeadersApi();
         $_POST["desc"] = strtoupper($_POST["desc"]);
         $moneda = new Moneda($_POST);
-        
+        $valor = $moneda->desc;
+        $existe = Moneda::SQL("select * from amc_moneda where situacion =1 AND desc = '$valor'
+        ");
+
+
+
+
+        if (count($existe)>0){
+           echo json_encode([
+               "mensaje" => "El valor no se modificó.",
+               "codigo" => 2,
+           ]);
+           exit;
+        }
         $resultado = $moneda->guardar();
 
         if($resultado['resultado'] == 1){

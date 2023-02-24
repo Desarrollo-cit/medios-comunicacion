@@ -89,6 +89,19 @@ const cambiarmes = async (evento) => {
         const respuesta = await fetch(url, config);
         const info = await respuesta.json();
 // console.log(info);
+if (info[0].cantidad > 0 ) {
+    Toast.fire({
+        icon: 'success',
+        title: 'Se tienen los siguientes registros'
+    })
+} else {
+
+    Toast.fire({
+        icon: 'error',
+        title: 'Sin registros'
+    })
+
+}
         
         if (info) {
             maras_actividades.innerText = info[0].cantidad
@@ -255,7 +268,7 @@ const BuscarActividades = async (e) => {
                 },
                 {
                     data: "id",
-                    "render": (data, type, row, meta) => `<a target='blank' href='pdf.php?id=${row.id}&topico= ${row.tipo}'><button class='btn btn-outline-primary'  >REPORTE<i class="bi bi-printer"></i></button></a>`,
+                    "render": (data, type, row, meta) => `<a target='blank' href='/medios-comunicacion/reportes/topico?id=${row.id}'><button class='btn btn-outline-primary'  >REPORTE<i class="bi bi-printer"></i></button></a>`,
                     "searchable": false,
                     "width": "11%"
                 },
@@ -743,8 +756,7 @@ window.detalle = async (valor) => {
         const response = await fetch(url_grafica, configGrafica)
         const datos = await response.json()
 
-        console.log(datos);
-        // if (datos.dato > 0) {
+      
             document.getElementById('actividades_cant').style.display = "block"
             document.getElementById('texto_no').style.display = "none"
 
@@ -832,8 +844,25 @@ window.detalle = async (valor) => {
 //________________________________________________________GRAFICA POR DELITOS __________________________________________________________________________________________________________
 
 
-const delitos_estadistica = async (e) => {
+const actividad_estadistica = async (e) => {
     e && e.preventDefault();
+    
+
+
+    var f1 = new Date(formBusqueda_grafica.fecha_grafica.value)
+    var f2 = new Date(formBusqueda_grafica.fecha_grafica2.value)
+
+var fecha1 = formBusqueda_grafica.fecha_grafica.value
+var fecha2 = formBusqueda_grafica.fecha_grafica2.value
+if(f1 > f2 ){
+    Toast.fire({
+        icon: 'warning',
+        title: 'Ingrese bien las fechas'
+    })
+
+}
+    if ((f1 < f2) || (fecha1 == "" && fecha2 == "")) {
+
 
     const url_grafica1 = `/medios-comunicacion/API/mapas/infoMaras/DelitosCantGrafica`
     const bodyGrafica1 = new FormData(formBusqueda_grafica);
@@ -850,25 +879,16 @@ const delitos_estadistica = async (e) => {
 
         const response1 = await fetch(url_grafica1, configGrafica1)
         const datos1 = await response1.json()
-
-        
-   
-          
+ 
             const canvas = document.getElementById('myChart9');
             const ctx = canvas.getContext('2d');
             window.grafica_1 && window.grafica_1.destroy()
         
             let { labels, cantidades } = datos1;
         
-            console.log(datos1);
-        
             let dataSetsLabels = Object.keys(cantidades);
             let dataSetsValues = Object.values(cantidades)
-        
-            // console.log(dataSetsLabels);
-            // console.log(dataSetsValues);
-        
-        
+       
         
             let datasets = []
         
@@ -921,13 +941,21 @@ const delitos_estadistica = async (e) => {
     }
     deptos_estadistica()
 
+}else{
+
+
+}
+
 }
 
 
 const deptos_estadistica = async (e) => {
     e && e.preventDefault();
+    
+var fecha1 = formBusqueda_grafica.fecha_grafica.value
+var fecha2 = formBusqueda_grafica.fecha_grafica2.value
 
-    const url_grafica2 = `/medios-comunicacion/API/mapas/infoCapturas/DelitosDepartamentoGrafica`
+    const url_grafica2 = `/medios-comunicacion/API/mapas/infoMaras/DelitosDepartamentoGrafica`
     const bodyGrafica2 = new FormData(formBusqueda_grafica);
 
     const headersGrafica2 = new Headers();
@@ -945,8 +973,15 @@ const deptos_estadistica = async (e) => {
 
 
         if (datos2.length > 0) {
-            document.getElementById('graficaDelitosDepartamento').style.display = "block"
-            document.getElementById('texto_no2').style.display = "none"
+            if(fecha1 != "" && fecha2 != ""){
+            Toast.fire({
+                icon: 'success',
+                title: 'Si  existen regristros'
+            })
+        }
+            document.getElementById('graficaActividades').style.display = "block"
+            document.getElementById('graficaActividadesDepartamento').style.display = "block"
+            document.getElementById('texto_no1').style.display = "none"
 
 
             let labels = [], cantidades = []
@@ -954,8 +989,7 @@ const deptos_estadistica = async (e) => {
                 labels = [...labels, d.descripcion]
                 cantidades = [...cantidades, d.cantidad]
             })
-            // mostrar(datos)
-            //  $("#delitos_cant").destroy();
+            
             const ctx = document.getElementById('myChart2');
             if (window.delitosDepartamento_grafica) {
                 window.delitosDepartamento_grafica.clear();
@@ -968,7 +1002,7 @@ const deptos_estadistica = async (e) => {
                 data: {
                     labels,
                     datasets: [{
-                        label: 'DELITOS',
+                        label: 'ACTIVIDADES',
                         data: cantidades,
 
                         backgroundColor: [
@@ -1007,9 +1041,16 @@ const deptos_estadistica = async (e) => {
                 }
             });
         } else {
-
-            document.getElementById('texto_no2').style.display = "block";
-            document.getElementById('graficaDelitosDepartamento').style.display = "none";
+            document.getElementById('graficaActividades').style.display = "none"
+            document.getElementById('graficaActividadesDepartamento').style.display = "none"
+            document.getElementById('texto_no1').style.display = "block"
+           
+                if(fecha1 != "" && fecha2 != ""){
+                Toast.fire({
+                    icon: 'error',
+                    title: 'No  existen regristros'
+                })
+            }
 
         }
     } catch (error) {
@@ -1022,36 +1063,63 @@ const deptos_estadistica = async (e) => {
 
 const CapturasPorDia = async () => {
 
-    const url_grafica2 = `/medios-comunicacion/API/mapas/infoCapturas/CapturasPorDiaGrafica`
+    const url_grafica2 = `/medios-comunicacion/API/mapas/infoMaras/ActividadesPorDiaGrafica`
     const headersGrafica2 = new Headers();
     headersGrafica2.append("X-Requested-With", "fetch");
 
     const configGrafica2 = {
         method: 'POST',
         headers: headersGrafica2,
+        
+    }    
+    const response2 = await fetch(url_grafica2, configGrafica2)
+    const datos2 = await response2.json()
+   
+   
+    const url_graficaBarrio18 = `/medios-comunicacion/API/mapas/infoMaras/Mara18PorDiaGrafica`
+    const headersGraficaBarrio18 = new Headers();
+    headersGraficaBarrio18.append("X-Requested-With", "fetch");
 
-    }
+    const configGraficaBarrio18 = {
+        method: 'POST',
+        headers: headersGraficaBarrio18,
+        
+    }    
+    const responseBarrio18 = await fetch(url_graficaBarrio18, configGraficaBarrio18)
+    const datosBarrio18 = await responseBarrio18.json()
+
+
+    const url_graficaSalvatrucha = `/medios-comunicacion/API/mapas/infoMaras/SalvatruchaPorDiaGrafica`
+    const headersGraficaSalvatrucha = new Headers();
+    headersGraficaSalvatrucha.append("X-Requested-With", "fetch");
+
+    const configGraficaSalvatrucha = {
+        method: 'POST',
+        headers: headersGraficaSalvatrucha,
+        
+    }    
+    const responseSalvatrucha = await fetch(url_graficaSalvatrucha, configGraficaSalvatrucha)
+    const datosSalvatrucha = await responseSalvatrucha.json()
+
     try {
 
-        const response2 = await fetch(url_grafica2, configGrafica2)
-        const datos2 = await response2.json()
-
-// console.log(datos2);
 
         const { dias, cantidades } = datos2;
+        const {mara18} = datosBarrio18;
+        const {salvatrucha} = datosSalvatrucha;
 
         const canvas = document.getElementById('myChart3');
         const ctx = canvas.getContext('2d');
-        if (window.CapturasPorDia) {
-            // console.log(window.CapturasPorDia);
-            window.CapturasPorDia.destroy()
+        if (window.ActividadesPorDia) {
+            // console.log(window.ActividadesPorDia);
+            window.ActividadesPorDia.destroy()
         }
 
         const data = {
             labels: dias,
             datasets: [{
-                label: 'CAPTURAS',
-                data: cantidades,
+                label: 'MARA 18',
+                data: mara18,
                 fill: true,
                 borderColor: 'rgb(75, 192, 192)',
                 tension: 0.5,
@@ -1064,7 +1132,40 @@ const CapturasPorDia = async () => {
                 pointHitRadius: 30,
                 pointBorderWidth: 2,
                 pointStyle: 'rectRounded',
-            }]
+            },
+            {
+                label: 'MARA SALVATRUCHA',
+                data: salvatrucha,
+                fill: true,
+                borderColor: 'rgb(75, 192, 192)',
+                tension: 0.5,
+                borderColor: '#F10909',
+                backgroundColor: '#52A00F',
+                pointBorderColor: 'white',
+                pointBackgroundColor: 'blue',
+                pointRadius: 10,
+                pointHoverRadius: 20,
+                pointHitRadius: 30,
+                pointBorderWidth: 2,
+                pointStyle: 'rectRounded',
+            },
+            {
+                label: 'ACTIVIDADES',
+                data: cantidades,
+                fill: true,
+                borderColor: 'rgb(75, 192, 192)',
+                tension: 0.5,
+                borderColor: '#F10909',
+                backgroundColor: '#E6F805',
+                pointBorderColor: 'white',
+                pointBackgroundColor: 'black',
+                pointRadius: 10,
+                pointHoverRadius: 20,
+                pointHitRadius: 30,
+                pointBorderWidth: 2,
+                pointStyle: 'rectRounded',
+            }
+        ]
 
         };
 
@@ -1136,7 +1237,7 @@ const CapturasPorDia = async () => {
                         },
                         title: {
                             display: true,
-                            text: "CAPTURAS",
+                            text: "ACTIVIDADES",
                             fullSize: true,
                             color: 'black',
                             font: {
@@ -1151,8 +1252,8 @@ const CapturasPorDia = async () => {
         };
 
 
-        window.CapturasPorDia = new Chart(ctx, configChart);
-        window.CapturasPorDia.update()
+        window.ActividadesPorDia = new Chart(ctx, configChart);
+        window.ActividadesPorDia.update()
     } catch (e) {
         console.log(error)
 
@@ -1172,9 +1273,9 @@ const chartColors = [
 
 
 
-const trimestralesDelitos = async () => {
+const trimestralesMara18 = async () => {
 
-    const url_grafica2 = `/medios-comunicacion/API/mapas/infoCapturas/GraficaTrimestral`
+    const url_grafica2 = `/medios-comunicacion/API/mapas/infoMaras/GraficaTrimestralMara18`
     const headersGrafica2 = new Headers();
     headersGrafica2.append("X-Requested-With", "fetch");
 
@@ -1188,13 +1289,7 @@ const trimestralesDelitos = async () => {
         const response2 = await fetch(url_grafica2, configGrafica2)
         const info = await response2.json()
 
-        // info.length < 1 && Toast.fire({
-        //     icon: 'warning',
-        //     title: 'Ingreso mal las fechas'
-        // })
-
-
-        // return
+       
 
         const canvas = document.getElementById('myChart4');
         const ctx = canvas.getContext('2d');
@@ -1202,15 +1297,8 @@ const trimestralesDelitos = async () => {
 
         let { labels, cantidades } = info;
 
-        // console.log(cantidades);
-
         let dataSetsLabels = Object.keys(cantidades);
         let dataSetsValues = Object.values(cantidades)
-
-        // console.log(dataSetsLabels);
-        // console.log(dataSetsValues);
-
-
 
         let datasets = []
 
@@ -1237,7 +1325,7 @@ const trimestralesDelitos = async () => {
                 plugins: {
                     title: {
                         display: true,
-                        text: 'Cantidad de Capturas'
+                        text: 'Cantidad de Actividades'
                     },
                     scales: {
 
@@ -1261,11 +1349,9 @@ const trimestralesDelitos = async () => {
     }
     // console.log(info);
 }
+const trimestralesSalvatrucha = async () => {
 
-
-
-const trimestral_capturas_general = async () => {
-   const url_grafica2 = `/medios-comunicacion/API/mapas/infoCapturas/GraficaTrimestralGeneral`
+    const url_grafica2 = `/medios-comunicacion/API/mapas/infoMaras/GraficaTrimestralSalvatrucha`
     const headersGrafica2 = new Headers();
     headersGrafica2.append("X-Requested-With", "fetch");
 
@@ -1279,18 +1365,93 @@ const trimestral_capturas_general = async () => {
         const response2 = await fetch(url_grafica2, configGrafica2)
         const info = await response2.json()
 
-        // info.length < 1 && Toast.fire({
-        //     icon: 'warning',
-        //     title: 'Ingreso mal las fechas'
-        // })
+       
+// console.log(info);
+        const canvas = document.getElementById('myChart11');
+        const ctx = canvas.getContext('2d');
+        window.trimestralGraficaSalvatrucha && window.trimestralGraficaSalvatrucha.destroy()
+
+        let { labels, cantidades } = info;
+
+        let dataSetsLabels = Object.keys(cantidades);
+        let dataSetsValues = Object.values(cantidades)
+
+        let datasets = []
+
+        for (let index = 0; index < dataSetsLabels.length; index++) {
+            datasets = [...datasets, {
+                label: dataSetsLabels[index],
+                data: dataSetsValues[index],
+                backgroundColor: chartColors[index],
+                borderColor: chartColors[index],
+                borderWidth: 1
+            }]
+
+        }
+
+        // console.log(datasets);
+        let chartInfo = {
+            type: 'bar',
+            data: {
+                labels,
+                datasets
+            },
+            options: {
+                indexAxis: 'y',
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Cantidad de Actividades'
+                    },
+                    scales: {
+
+                        stepSize: 1,
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(255, 199, 132, 1)'
+                        }
 
 
-    const { meses, cantidades } = info;
+                    }
+                }
+            }
+        }
+
+
+        window.trimestralGraficaSalvatrucha = new Chart(ctx, chartInfo);
+        window.trimestralGraficaSalvatrucha.update()
+    } catch (error) {
+        console.log(error)
+    }
     // console.log(info);
+}
+
+
+
+const trimestral_capturas_general = async () => {
+   const url_grafica2 = `/medios-comunicacion/API/mapas/infoMaras/GraficaTrimestralGeneral`
+    const headersGrafica2 = new Headers();
+    headersGrafica2.append("X-Requested-With", "fetch");
+
+    const configGrafica2 = {
+        method: 'POST',
+        headers: headersGrafica2,
+
+    }
+    try {
+
+        const response2 = await fetch(url_grafica2, configGrafica2)
+        const info = await response2.json()
+        // console.log(info);
+        const { meses, cantidades } = info;
+   
+    let dataSetsValues = Object.values(cantidades)
+    // console.log(dataSetsValues);
+
     const canvas1 = document.getElementById('myChart5');
     const ctx1 = canvas1.getContext('2d');
     if (window.trimestral_capturaGeneral) {
-        console.log(window.trimestral_capturaGeneral);
+        // console.log(window.trimestral_capturaGeneral);
         window.trimestral_capturaGeneral.destroy()
     }
 
@@ -1298,7 +1459,7 @@ const trimestral_capturas_general = async () => {
         labels: meses,
         datasets: [{
             label: 'ESTADISTICA TRIMESTRAL',
-            data: cantidades,
+            data: dataSetsValues,
             fill: false,
             borderColor: 'rgb(75, 192, 192)',
             tension: 0.5,
@@ -1375,7 +1536,7 @@ const trimestral_capturas_general = async () => {
                     },
                     title: {
                         display: true,
-                        text: "CAPTURAS",
+                        text: "ACTIVIDADES",
                         fullSize: true,
                         color: 'White',
                         font: {
@@ -1401,7 +1562,7 @@ const trimestral_capturas_general = async () => {
 
 
 formBusqueda_resumen.addEventListener('submit', cambiarmes)
-formBusqueda_grafica.addEventListener('submit', delitos_estadistica)
+formBusqueda_grafica.addEventListener('submit', actividad_estadistica)
 btnBuscar.addEventListener("click", BuscarActividades);
 btnresumenbuscar.addEventListener("click", ocultar_select);
 btngraficabuscar.addEventListener("click", ocultar_busquedad_grafica);
@@ -1409,10 +1570,11 @@ btnBuscarmapacalor.addEventListener("click", ocultar_busquedad_mapa);
 formBusqueda_mapa.addEventListener('submit', busquedad_mapa_Calor)
 btnmapa.addEventListener("click", ocultar_mapa);
 busquedad_mapa_Calor();
-delitos_estadistica();
-// CapturasPorDia();
-// trimestralesDelitos();
-// trimestral_capturas_general();
-// deptos_estadistica();
+actividad_estadistica();
+CapturasPorDia();
+trimestralesMara18();
+trimestralesSalvatrucha();
+trimestral_capturas_general();
+
 btngrafica.addEventListener("click", ocultar_graficas);
 

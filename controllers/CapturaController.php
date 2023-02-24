@@ -15,15 +15,14 @@ class CapturaController
         
         
         try {
-            $captura = new Captura([
-                'topico' => $_POST['topico'],
-                'info' => $_POST['info'],
-            ]);
 
-            if(!$captura->validarExisteTopico()){
-                $guardado = $captura->guardar();
-            }
-            
+            $evento = Evento::find($_POST['topico']);
+            $evento->setInfo($_POST['info']);
+            $evento->fuente = $_POST['fuente'];
+            $evento->link = $_POST['link'];
+            $evento->usuario = $_POST['usuario'];
+            $evento->guardar();
+ 
             $cantidadCapturados = count($_POST['nombre']);
             $resultados = [];
             for ($i=0; $i < $cantidadCapturados ; $i++) { 
@@ -73,13 +72,14 @@ class CapturaController
         $topico = $_GET['topico'];
 
         try{
-            $captura = Captura::fetchArray("SELECT * FROM amc_capturas where topico = $topico and situacion = 1;");
+            $evento = Evento::find($topico);
+            $evento->info = htmlspecialchars_decode($evento->info);
 
 
             $capturados = Capturados::fetchArray("SELECT * FROM amc_per_capturadas where topico = $topico and situacion = 1;");
 
             echo json_encode([
-                "captura" => array_shift($captura),
+                "captura" => $evento,
                 "capturados" => $capturados,
             ]);
 
@@ -100,10 +100,13 @@ class CapturaController
         
         try {
 
-            $busquedaCaptura = Captura::where( 'topico' , $_POST['topico']);
-            $captura = array_shift($busquedaCaptura);
-            $captura->info = $_POST['info'];
-            $captura->guardar();
+            $evento = Evento::find($_POST['topico']);
+
+            $evento->setInfo($_POST['info']);
+            $evento->fuente = $_POST['fuente'];
+            $evento->link = $_POST['link'];
+            $evento->usuario = $_POST['usuario'];
+            $evento->guardar();
 
             // echo json_encode($resultado);
             // exit;

@@ -17,7 +17,7 @@ class OrganizacionController{
         try {
 
             $tipo = new Organizacion($_POST);
-            $dato = $_POST["desc"];
+            $dato = $tipo->desc;
             $existe = Organizacion::SQL("SELECT * FROM amc_organizacion_mov_social where desc = '$dato' and situacion = 1 ");
             if (count($existe)>0){
                echo json_encode([
@@ -68,10 +68,17 @@ class OrganizacionController{
 
     public function modificarAPI(){
         try {
-            $_POST["desc"] = strtoupper($_POST["desc"]);
             getHeadersApi();
             $Organizacion = new Organizacion($_POST);
-            
+            $dato = $Organizacion->desc;
+            $existe = Organizacion::SQL("SELECT * FROM amc_organizacion_mov_social where desc = '$dato' and situacion = 1 ");
+            if (count($existe)>0){
+               echo json_encode([
+                   "mensaje" => "El registro ya existe.",
+                   "codigo" => 2,
+               ]);
+               exit;
+            }
             $resultado = $Organizacion->guardar();
             
             if($resultado['resultado'] == 1){

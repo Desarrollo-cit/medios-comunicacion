@@ -1344,7 +1344,7 @@ class InfoDrogaController
                     $sql=" SELECT  count (*) as cantidad from amc_topico  where  year(amc_topico.fecha) = $años[$i] and month(amc_topico.fecha) = $meses[$i] and amc_topico.situacion = 1 and amc_topico.tipo = 8";
                     $info = Droga::fetchArray($sql);
                     $meses1[]= $mes1;
-                    $cantidades[$mes1][]= (int) $info[0]['cantidad'];
+                    $cantidades[$mes1]= (int) $info[0]['cantidad'];
                 }
                 
                 $data = [
@@ -1401,10 +1401,12 @@ class InfoDrogaController
                 for($i = 0 ; $i < 3 ; $i++){
                     $dateObj = DateTime::createFromFormat('!m', $meses[$i]);
                     $mes1 = strftime("%B", $dateObj->getTimestamp());
-                    $sql=" SELECT  sum (cantidad) as cantidad from amc_incautacion_droga inner join amc_topico on amc_incautacion_droga.topico = amc_topico.id  where  year(amc_topico.fecha) = $años[$i] and month(amc_topico.fecha) = $meses[$i] and amc_topico.situacion = 1 and amc_incautacion_droga.situacion = 1";
+                    $sql=" SELECT  sum (cantidad) as cantidad from amc_incautacion_droga  inner join amc_topico on amc_incautacion_droga.topico = amc_topico.id  where  year(amc_topico.fecha) = $años[$i] and month(amc_topico.fecha) = $meses[$i] and amc_topico.situacion = 1 and amc_incautacion_droga.situacion = 1";
                     $info = Droga::fetchArray($sql);
+                    $valor = $info[0]['cantidad'];
+                    
                     $meses1[]= $mes1;
-                    $cantidades[$mes1][]= (int) $info[0]['cantidad'];
+                    $cantidades[$mes1]= (int) $info[0]['cantidad'];
                 }
                 
                 $data = [

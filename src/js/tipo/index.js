@@ -14,7 +14,7 @@ btnModificar.parentElement.style.display = 'none';
 btnGuardar.disabled = false;
 btnModificar.disabled = true;
 
-const guardarTipo = async (evento) => {
+const guardarTipo = async (evento) => { 
     evento.preventDefault();
     
     let formularioValido = validarFormulario(formTipos, ['id']);

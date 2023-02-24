@@ -74,7 +74,19 @@ const cambiarmes = async (evento) => {
 
         const respuesta = await fetch(url, config);
         const data = await respuesta.json();
+        if (data[0].cantidad > 0 || data[8].cantidad > 0) {
+            Toast.fire({
+                icon: 'success',
+                title: 'Se tienen los siguientes registros'
+            })
+        } else {
 
+            Toast.fire({
+                icon: 'error',
+                title: 'Sin registros'
+            })
+
+        }
         // console.log(data)
         if (data) {
             cantidadIncautaciones.innerText = data[0].cantidad
@@ -212,7 +224,7 @@ const Buscar_capturas = async (e) => {
                 },
                 {
                     data: "id",
-                    "render": (data, type, row, meta) => `<a target='blank' href='pdf.php?id=${row.id}&topico= ${row.tipo}'><button class='btn btn-outline-primary'  >REPORTE<i class="bi bi-printer"></i></button></a>`,
+                    "render": (data, type, row, meta) => `<a target='blank' href='/medios-comunicacion/reportes/topico?id=${row.id}'><button class='btn btn-outline-primary'  >REPORTE<i class="bi bi-printer"></i></button></a>`,
                     "searchable": false,
                     "width": "11%"
                 },
@@ -393,7 +405,7 @@ window.ModalPersonal = async (id, tipo) => {
             const pista_dato = await responsePista.json();
 
 
-            console.log(pista_dato)
+            // console.log(pista_dato)
             if (pista_dato != null) {
                 pista_dato.forEach(pista1 => {
                     forminfo.longitud_pista.value = pista1.cantidad
@@ -454,7 +466,7 @@ const busquedad_mapa_Calor = async (e) => {
             } else {
                 Toast.fire({
                     icon: 'success',
-                    title: 'Se tienen siguientes registros'
+                    title: 'Se tienen los siguientes registros'
                 })
             }
         }
@@ -594,9 +606,9 @@ window.detalle = async (valor) => {
     const datos = await response.json()
     try {
 
-       
 
-        
+
+
         if (datos) {
             document.getElementById('grafica_depto1').style.display = "block"
             document.getElementById('texto_no').style.display = "none"
@@ -608,7 +620,7 @@ window.detalle = async (valor) => {
             }
 
             let { labels, cantidades } = datos;
-            
+
             let dataSetsLabels = Object.keys(cantidades);
             let dataSetsValues = Object.values(cantidades)
             let datasets = []
@@ -658,7 +670,7 @@ window.detalle = async (valor) => {
 
         }
         else {
-          
+
             document.getElementById('grafica_depto1').style.display = "none"
             document.getElementById('texto_no').style.display = "block"
         }
@@ -671,63 +683,90 @@ window.detalle = async (valor) => {
 
 }
 
-window.pistas_clandestinas = async(e) => {
+window.pistas_clandestinas = async (e) => {
     e && e.preventDefault();
     // tipo_droga = $('#incautaciondroga_mapa_calor').val()
+    const fecha1 = formMapa.fecha_mapa.value
+    const fecha2 = formMapa.fecha2.value
+    if (fecha1 == "" && fecha2 == "") {
+        var valor = 1
+    } else {
 
-   
-    const url = `/medios-comunicacion/API/mapas/infoDroga/mapaCalorPorDeptoPistas`
-    const body = new FormData(formMapa);
-    
-    const headers = new Headers();
-    headers.append("X-Requested-With", "fetch");
-
-    const config = {
-        method: 'POST',
-        headers,
-        body,
-
+        var valor = 2
     }
+    var f1 = new Date(formMapa.fecha_mapa.value)
+    var f2 = new Date(formMapa.fecha2.value)
 
-    const respuesta = await fetch(url, config);
-    const info = await respuesta.json();
+    if ((f1 < f2 && valor == 2) || (valor == 1)) {
 
-    deptos = document.querySelectorAll('path');
-   
-        // console.log(info)
 
-    deptos.forEach(element => {
-        element.setAttribute('fill', '#145A32 ')
+        const url = `/medios-comunicacion/API/mapas/infoDroga/mapaCalorPorDeptoPistas`
+        const body = new FormData(formMapa);
+
+        const headers = new Headers();
+        headers.append("X-Requested-With", "fetch");
+
+        const config = {
+            method: 'POST',
+            headers,
+            body,
+
+        }
+
+        const respuesta = await fetch(url, config);
+        const info = await respuesta.json();
+
+        if (info.length == 0) {
+            Toast.fire({
+                icon: 'error',
+                title: 'Sin registros'
+            })
+        } else {
+            Toast.fire({
+                icon: 'success',
+                title: 'Se tienen los siguientes registros'
+            })
+        }
+
+        deptos = document.querySelectorAll('path');
+        deptos.forEach(element => {
+            element.setAttribute('fill', '#145A32 ')
             // console.log(element)
-    })
-
-    if (info != null) {
-        info.forEach(data => {
-            // console.log(parseInt(data.CANTIDAD), cantidad_alta, cantidad_baja, cantidad_medio)
-            data.fill = 'gray'
-            let color = '#145A32 '
-
-            if (parseInt(data.cantidad) >= cantidad_baja && parseInt(data.cantidad) <= cantidad_medio) {
-
-                color = color_bajo;
-            }
-            if (parseInt(data.cantidad) >= cantidad_medio && parseInt(data.cantidad) < cantidad_alta) {
-                // console.log(color_medio)
-                color = color_medio;
-            }
-            if (parseInt(data.cantidad) >= cantidad_alta) {
-
-                color = color_alta;
-            }
-
-            document.getElementById(data.codigo).setAttribute('fill', color);
-
-
         })
 
+        if (info != null) {
+            info.forEach(data => {
+                // console.log(parseInt(data.CANTIDAD), cantidad_alta, cantidad_baja, cantidad_medio)
+                data.fill = 'gray'
+                let color = '#145A32 '
+
+                if (parseInt(data.cantidad) >= cantidad_baja && parseInt(data.cantidad) <= cantidad_medio) {
+
+                    color = color_bajo;
+                }
+                if (parseInt(data.cantidad) >= cantidad_medio && parseInt(data.cantidad) < cantidad_alta) {
+                    // console.log(color_medio)
+                    color = color_medio;
+                }
+                if (parseInt(data.cantidad) >= cantidad_alta) {
+
+                    color = color_alta;
+                }
+
+                document.getElementById(data.codigo).setAttribute('fill', color);
+
+
+            })
+
+
+        }
+    } else {
+        Toast.fire({
+            icon: 'warning',
+            title: 'Ingreso mal las fechas'
+        })
 
     }
-
 }
 
 
@@ -739,116 +778,163 @@ window.pistas_clandestinas = async(e) => {
 const drogas_estadistica = async (e) => {
     e && e.preventDefault();
 
-    const url_grafica1 = `/medios-comunicacion/API/mapas/infoDroga/DrogasCantGrafica`
-    const bodyGrafica1 = new FormData(formBusqueda_grafica);
 
-    const headersGrafica1 = new Headers();
-    headersGrafica1.append("X-Requested-With", "fetch");
+    var f1 = new Date(formBusqueda_grafica.fecha_grafica.value)
+    var f2 = new Date(formBusqueda_grafica.fecha_grafica2.value)
 
-    const configGrafica1 = {
-        method: 'POST',
-        headers: headersGrafica1,
-        body: bodyGrafica1,
-    }
-    try {
+    var fecha1 = formBusqueda_grafica.fecha_grafica.value
+    var fecha2 = formBusqueda_grafica.fecha_grafica2.value
 
-        const response1 = await fetch(url_grafica1, configGrafica1)
-        const datos1 = await response1.json()
-        // console.log(datos1);
-        if (window.drogas_grafica) {
-            window.drogas_grafica.clear();
-            window.drogas_grafica.destroy();
+    if ((f1 < f2) || (fecha1 == "" && fecha2 == "")) {
+
+        const url_grafica1 = `/medios-comunicacion/API/mapas/infoDroga/DrogasCantGrafica`
+        const bodyGrafica1 = new FormData(formBusqueda_grafica);
+
+        const headersGrafica1 = new Headers();
+        headersGrafica1.append("X-Requested-With", "fetch");
+
+        const configGrafica1 = {
+            method: 'POST',
+            headers: headersGrafica1,
+            body: bodyGrafica1,
         }
-        let { labels, cantidades, informacion } = datos1;
+        try {
+
+            const response1 = await fetch(url_grafica1, configGrafica1)
+            const datos1 = await response1.json()
+            // console.log(datos1);
+            if (window.drogas_grafica) {
+                // window.drogas_grafica.clear();
+                window.drogas_grafica.destroy();
+            }
+            let { labels, cantidades, informacion } = datos1;
 
             let dataSetsLabels = Object.keys(cantidades);
-            let dataSetsValues = Object.values(cantidades); 
-           
-        if (informacion > 0 ) {
-            document.getElementById('graficaDroga').style.display = "block"
-            document.getElementById('texto_no1').style.display = "none"
+            let dataSetsValues = Object.values(cantidades);
 
-                 
-        
-            let datasets = []
-        
-            for (let index = 0; index < dataSetsLabels.length; index++) {
-                datasets = [...datasets, {
-                    label: dataSetsLabels[index],
-                    data: dataSetsValues[index],
-                    backgroundColor: chartColors[index],
-                    borderColor: chartColors[index],
-                    borderWidth: 1
-                }]
-        
-            }
+            if (informacion > 0) {
 
-            const ctx = document.getElementById('myChart9');
-           
-            let chartInfo = {
-                type: 'bar',
-                data: {
-                    labels,
-                    datasets
-                },
-                options: {
-                    indexAxis: 'y',
-                    plugins: {
-                        title: {
-                            display: true,
-                            text: 'Cantidad de Droga'
-                        },
-                        scales: {
-        
-                            stepSize: 1,
-                            beginAtZero: true,
-                            grid: {
-                                color: 'rgba(255, 199, 132, 1)'
+                if (fecha1 != "" && fecha2 != "") {
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Si  existen regristros'
+                    })
+                }
+                document.getElementById('graficaDroga').style.display = "block"
+                document.getElementById('texto_no1').style.display = "none"
+
+
+
+                let datasets = []
+
+                for (let index = 0; index < dataSetsLabels.length; index++) {
+                    datasets = [...datasets, {
+                        label: dataSetsLabels[index],
+                        data: dataSetsValues[index],
+                        backgroundColor: chartColors[index],
+                        borderColor: chartColors[index],
+                        borderWidth: 1
+                    }]
+
+                }
+
+                const canvas = document.getElementById('myChart9');
+                const ctx = canvas.getContext('2d');
+
+                let chartInfo = {
+                    type: 'bar',
+                    data: {
+                        labels,
+                        datasets
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'Cantidad de Droga'
+                            },
+                            scales: {
+
+                                stepSize: 1,
+                                beginAtZero: true,
+                                grid: {
+                                    color: 'rgba(255, 199, 132, 1)'
+                                }
+
+
                             }
-        
-        
                         }
                     }
                 }
+                window.drogas_grafica = new Chart(ctx, chartInfo);
+                window.drogas_grafica.update()
             }
-            window.drogas_grafica = new Chart(ctx, chartInfo);
-            window.drogas_grafica.update()
-        } 
-   
-        else {
 
-            document.getElementById('texto_no1').style.display = "block";
-            document.getElementById('graficaDroga').style.display = "none";
+            else {
 
+                if (fecha1 != "" && fecha2 != "") {
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'No  existen regristros de droga incautada'
+                    })
+                }
+
+                document.getElementById('texto_no1').style.display = "block";
+                document.getElementById('graficaDroga').style.display = "none";
+
+            }
+        } catch (error) {
+            console.log(error);
         }
-    } catch (error) {
-        console.log(error);
+        deptos_estadistica();
+    } else {
+        if (f1 > f2){
+            Toast.fire({
+                icon: 'error',
+                title: 'Ingreso mal las fechas'
+            })
+        }
     }
-    deptos_estadistica();
 }
 
 
 const deptos_estadistica = async (e) => {
     e && e.preventDefault();
 
-    const url_grafica2 = `/medios-comunicacion/API/mapas/infoDroga/DrogasDepartamentoGrafica`
-    const bodyGrafica2 = new FormData(formBusqueda_grafica);
 
-    const headersGrafica2 = new Headers();
-    headersGrafica2.append("X-Requested-With", "fetch");
+    var f1 = new Date(formBusqueda_grafica.fecha_grafica.value)
+    var f2 = new Date(formBusqueda_grafica.fecha_grafica2.value)
 
-    const configGrafica2 = {
-        method: 'POST',
-        headers: headersGrafica2,
-        body: bodyGrafica2,
-    }
-    const response2 = await fetch(url_grafica2, configGrafica2)
-    const datos2 = await response2.json()
+    var fecha1 = formBusqueda_grafica.fecha_grafica.value
+    var fecha2 = formBusqueda_grafica.fecha_grafica2.value
+
+    if ((f1 < f2) || (fecha1 == "" && fecha2 == "")) {
+        
+        const url_grafica2 = `/medios-comunicacion/API/mapas/infoDroga/DrogasDepartamentoGrafica`
+        const bodyGrafica2 = new FormData(formBusqueda_grafica);
+        
+        const headersGrafica2 = new Headers();
+        headersGrafica2.append("X-Requested-With", "fetch");
+        
+        const configGrafica2 = {
+            method: 'POST',
+            headers: headersGrafica2,
+            body: bodyGrafica2,
+        }
+        const response2 = await fetch(url_grafica2, configGrafica2)
+        const datos2 = await response2.json()
         // console.log(datos2)
-    try {
+        try {
 
-       
+
         if (datos2.length > 0) {
+            if (fecha1 != "" && fecha2 != "") {
+                Toast.fire({
+                    icon: 'success',
+                    title: 'Si  existen operaciones '
+                })
+            }
             document.getElementById('graficaDrogaDepartamento').style.display = "block"
             document.getElementById('texto_no2').style.display = "none"
 
@@ -861,7 +947,7 @@ const deptos_estadistica = async (e) => {
             // mostrar(datos)
             //  $("#delitos_cant").destroy();
             const ctx = document.getElementById('myChart2');
-          
+
 
             if (window.DrogaDepartamento_grafica) {
                 window.DrogaDepartamento_grafica.clear();
@@ -910,15 +996,26 @@ const deptos_estadistica = async (e) => {
 
                 }
             });
+        
         } else {
 
             document.getElementById('texto_no2').style.display = "block";
             document.getElementById('graficaDrogaDepartamento').style.display = "none";
 
         }
+        
     } catch (error) {
         console.log(error);
     }
+}else{
+    if (f1 > f2){
+        Toast.fire({
+            icon: 'error',
+            title: 'Ingreso mal las fechas'
+        })
+    }
+
+}
 
 }
 
@@ -948,7 +1045,7 @@ const IncautacionesPorDia = async () => {
     }
     const response = await fetch(url_grafica, configGrafica)
     const datos = await response.json()
-   
+
 
 
     const url_grafica1 = `/medios-comunicacion/API/mapas/infoDroga/MatasPorDiaGrafica`
@@ -962,14 +1059,14 @@ const IncautacionesPorDia = async () => {
     const datos1 = await response1.json()
     // console.log(datos1);
 
-    try { 
+    try {
 
 
 
 
         const { dias, cantidades } = datos2;
-        const {matas} = datos1;
-        const {kilos} = datos;
+        const { matas } = datos1;
+        const { kilos } = datos;
 
         const canvas = document.getElementById('myChart3');
         const ctx = canvas.getContext('2d');
@@ -1028,7 +1125,7 @@ const IncautacionesPorDia = async () => {
                 pointBorderWidth: 2,
                 pointStyle: 'rectRounded',
             }
-        ]
+            ]
 
         };
 
@@ -1136,7 +1233,7 @@ const chartColors = [
 
 
 
-const trimestralKilos= async () => {
+const trimestralKilos = async () => {
 
     const url_grafica2 = `/medios-comunicacion/API/mapas/infoDroga/GraficatrimestralKilos`
     const headersGrafica2 = new Headers();
@@ -1152,7 +1249,7 @@ const trimestralKilos= async () => {
         const response2 = await fetch(url_grafica2, configGrafica2)
         const info = await response2.json()
 
-       
+
         const canvas = document.getElementById('myChart4');
         const ctx = canvas.getContext('2d');
         window.trimestralGrafica && window.trimestralGrafica.destroy()
@@ -1178,7 +1275,7 @@ const trimestralKilos= async () => {
 
         }
 
-     
+
         let chartInfo = {
             type: 'bar',
             data: {
@@ -1212,11 +1309,11 @@ const trimestralKilos= async () => {
     } catch (error) {
         console.log(error)
     }
- 
+
 }
 
 
-const trimestralMatas= async () => {
+const trimestralMatas = async () => {
 
     const url_grafica2 = `/medios-comunicacion/API/mapas/infoDroga/GraficatrimestralMatas`
     const headersGrafica2 = new Headers();
@@ -1243,7 +1340,7 @@ const trimestralMatas= async () => {
         let dataSetsLabels = Object.keys(cantidades);
         let dataSetsValues = Object.values(cantidades)
 
-      
+
 
 
 
@@ -1260,7 +1357,7 @@ const trimestralMatas= async () => {
 
         }
 
-       
+
         let chartInfo = {
             type: 'bar',
             data: {
@@ -1294,11 +1391,11 @@ const trimestralMatas= async () => {
     } catch (error) {
         console.log(error)
     }
-  
+
 }
 
 
-const trimestralPistas= async () => {
+const trimestralPistas = async () => {
 
     const url_grafica2 = `/medios-comunicacion/API/mapas/infoDroga/GraficatrimestralPistas`
     const headersGrafica2 = new Headers();
@@ -1318,14 +1415,15 @@ const trimestralPistas= async () => {
         const canvas = document.getElementById('pista_clandestina');
         const ctx = canvas.getContext('2d');
         window.trimestralGraficaPistas && window.trimestralGraficaPistas.destroy()
-
         let { meses, cantidades } = info;
+        let dataSetsValues = Object.values(cantidades)
+
 
         const data = {
             labels: meses,
             datasets: [{
                 label: 'Pistas inhabilitadas',
-                data: cantidades,
+                data: dataSetsValues,
                 fill: false,
                 borderColor: 'rgb(75, 192, 192)',
                 tension: 0.5,
@@ -1342,38 +1440,38 @@ const trimestralPistas= async () => {
                     'rgba(18, 199, 29,  1)'
                 ],
             }]
-    
+
         };
         const configChart = {
             type: 'bar',
             data: data,
             options: {
-               
+
                 indexAxis: 'x',
                 scales: {
                     x: {
-    
+
                         grid: {
                             tickColor: "white",
-                        
+
                             tickWidth: 25,
                             color: "black",
                             borderColor: "black",
                             size: 25
                         },
-    
+
                         ticks: {
                             color: "black",
                             font: {
                                 weight: "bold",
                                 size: 30
                             },
-    
+
                         }
-    
+
                     },
                     y: {
-                        
+
                         ticks: {
                             color: "black",
                             font: {
@@ -1393,7 +1491,7 @@ const trimestralPistas= async () => {
                                 size: 30
                             }
                         }
-    
+
                     }
                 }
             }
@@ -1423,13 +1521,16 @@ const trimestral_incautaciones_general = async () => {
         const response2 = await fetch(url_grafica2, configGrafica2)
         const info = await response2.json()
 
-      
+        //   console.log(info);
         const { meses, cantidades } = info;
-    
+
+        let dataSetsValues1 = Object.values(cantidades)
+        // console.log(dataSetsValues1);
+
         const canvas1 = document.getElementById('myChart5');
         const ctx1 = canvas1.getContext('2d');
         if (window.trimestralIncautacionesGeneral) {
-            console.log(window.trimestralIncautacionesGeneral);
+            // console.log(window.trimestralIncautacionesGeneral);
             window.trimestralIncautacionesGeneral.destroy()
         }
 
@@ -1437,7 +1538,7 @@ const trimestral_incautaciones_general = async () => {
             labels: meses,
             datasets: [{
                 label: 'ESTADISTICA TRIMESTRAL',
-                data: cantidades,
+                data: dataSetsValues1,
                 fill: false,
                 borderColor: 'rgb(75, 192, 192)',
                 tension: 0.5,

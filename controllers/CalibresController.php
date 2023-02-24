@@ -17,7 +17,7 @@ class CalibresController{
         try {
             $_POST["desc"] = strtoupper($_POST["desc"]);
             $calibres = new Calibres($_POST);
-            $valor = $_POST["desc"];
+            $valor = $calibres->desc;
             $existe = Calibres::SQL("select * from amc_calibre where situacion =1 AND desc = '$valor'");
             if (count($existe)>0){
                echo json_encode([
@@ -55,7 +55,7 @@ class CalibresController{
 
     public function buscarApi(){
         getHeadersApi();
-        $calibres = Calibres::where('situacion', '1');
+        $calibres = Calibres::where('situacion', '0','>');
         echo json_encode($calibres);
     }
 
@@ -64,11 +64,11 @@ class CalibresController{
        try {
             $_POST["desc"] = strtoupper($_POST["desc"]);
             $calibres = new Calibres($_POST);
-            $valor = $_POST["desc"];
+            $valor = $calibres->desc;
             $existe = Calibres::SQL("select * from amc_calibre where situacion =1 AND desc = '$valor'");
             if (count($existe)>0){
                echo json_encode([
-                   "mensaje" => "El registro ya existe",
+                   "mensaje" => "No se modificó el valor.",
                    "codigo" => 2,
                ]);
                exit;
@@ -114,6 +114,28 @@ class CalibresController{
         }else{
             echo json_encode([
                 "resultado" => 0
+            ]);
+
+        }
+    }
+    public function cambiarSituacionAPI(){
+        getHeadersApi();
+        if($_POST['situacion'] == 1){
+            $_POST['situacion']=2;
+        }else{
+            $_POST['situacion']=1;
+
+        }
+        $calibres = new Calibres($_POST);
+        $resultado = $calibres->guardar();
+        if($resultado['resultado'] == 1){
+            echo json_encode([
+                "resultado" => 1
+            ]);
+            
+        }else{
+            echo json_encode([
+                "resultado" => 2
             ]);
 
         }
