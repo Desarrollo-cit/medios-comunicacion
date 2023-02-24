@@ -47,7 +47,7 @@ $armas;
         <div class=" col-lg-12  justify-content-center">
             <div class="row mb-2 ">
                 <div class="justify-content-center d-flex ">
-                    <h1> Resumen de Asesinatos de <?php echo     $fechaLarga; ?>
+                    <h1> Resumen de Armas y Dinero de <?php echo     $fechaLarga; ?>
                         <a type="button" id="buscarresumen"> <img src="<?= asset('./images/iconos/lupa.png') ?>" style="width:40px; height:40px;" alt="capturas"></a>
                         <a type="button" id="buscarcapturas"> <img src="<?= asset('./images/iconos/reporte.png') ?>" style="width:40px; height:40px;" alt="capturas"></a>
                         <a type="button" id="ver_mapa"> <img src="<?= asset('./images/iconos/mapa_calor.png ') ?>" style="width:40px; height:40px;" alt="capturas"></a>
@@ -94,7 +94,7 @@ $armas;
                 </div>
                 <div class="row justify-content-center">
                     <div class="col-2 col-sm-4">
-                        <img src="<?= asset('./images/iconos//rifle.png') ?>" class="w-100" alt="capturas">
+                        <img src="<?= asset('./images/iconos/capturas/delito.png') ?>" class="w-100" alt="capturas">
 
                     </div>
                 </div>
