@@ -27,7 +27,7 @@ class Des_naturalController{
             $resultados = [];
 
                 $desastres = new Des_natural([
-                    'id' =>  $_POST['id']!= '' ? $_POST['id']: null ,
+                    
                     'topico' => $_POST['topico'],
                     'tipo' => $_POST['tipo'],
                     'nombre_desastre' => $_POST['nombre_desastre'],

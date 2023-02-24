@@ -310,7 +310,7 @@ $router->post('/API/mapas/infoDesastres/mapaCalor', [infoDesastresController::cl
 $router->post('/API/mapas/infoDesastres/mapaCalorPorDepto', [infoDesastresController::class , 'mapaCalorDeptoAPI'] );
 $router->post('/API/mapas/infoDesastres/mapaCalorPorDeptoGrafica', [infoDesastresController::class , 'mapaCalorPorDeptoGraficaAPI'] );
 $router->post('/API/mapas/infoDesastres/colores', [infoDesastresController::class , 'coloresAPI'] );
-$router->post('/API/mapas/infoDesastres/MigrantesCantGrafica', [infoDesastresController::class , 'MigrantesCantGraficaAPI'] );
+$router->post('/API/mapas/infoDesastres/DesatresCantGrafica', [infoDesastresController::class , 'DesastresCantGraficaAPI'] );
 $router->post('/API/mapas/infoDesastres/MigrantesDepartamentoGrafica', [infoDesastresController::class , 'MigrantesDepartamentoGraficaAPI'] );
 $router->post('/API/mapas/infoDesastres/MigrantesPorDiaGrafica', [infoDesastresController::class , 'MigrantesPorDiaGraficaAPI'] );
 $router->post('/API/mapas/infoDesastres/GraficaTrimestral', [infoDesastresController::class , 'GraficaTrimestralAPI'] );

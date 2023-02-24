@@ -1016,79 +1016,45 @@ class InfoDesastresController
         echo json_encode($info);
     }
 
-    function DrogasCantGraficaAPI(){
-        
+    function DesastresCantGraficaAPI(){
+        getHeadersApi();
 
+
+    
+
+        $fenomeno_natural = $_POST['select_grafica'];
         $fecha1 = str_replace('T', ' ', $_POST['fecha_grafica']);
-            $fecha2 = str_replace('T', ' ', $_POST['fecha_grafica2']);
-   
+        $fecha2 = str_replace('T', ' ', $_POST['fecha_grafica2']);
 
-      $tipos = static::fenomeno_natural();
-     
-      $data = [];
-      $labels = [];
-      $drogas = [];
-      $cantidades = [];
-      $i = 0;
-      $datos= 0;
-  
-     
-        for($i = 13; $i <=14 ; $i++  ){
-     $a = 0;
-     $b = 0;
-           foreach ($tipos as $key => $tipo ) {
-     
-              $droga = $tipo['id'];
-              
-              $labels[]= $tipo['desc'];
-     
-              $operaciones = static::departamental_grafica($i ,  $fecha1 , $fecha2, $depto="", $droga );
-         
-      if($i == 13){
-     $dataset = 'KILOS';
+        if($fenomeno_natural != ""){
 
-     if((int) $operaciones[0]['cantidad'] > 0){
-        $b = $b +1;
+            if($fecha1 != "" && $fecha2 != "" ){
 
-      }
-        
-      }else{
-        if($i == 14){
-        $dataset = 'MATAS';
-        if((int) $operaciones[0]['cantidad'] > 0){
-            $a = $a +1;
-    
-          }
-       
+                $grafica = Des_natural::fetchArray("SELECT sum(per_fallecida) as per_fallecida, sum(per_evacuada) as per_evacuada,sum(per_afectada) as per_afectada,sum(albergues) as albergues,sum(est_colapsadas) as est_colapsadas,
+                sum(inundaciones) as inundaciones,sum(derrumbes) as derrumbes,sum(carre_colap) as carre_colap,sum(hectareas_quemadas) as hectareas_quemadas,sum(rios) as rios
+                from amc_desastre_natural  inner join amc_topico on amc_desastre_natural.topico = amc_topico.id
+                where nombre_desastre = $fenomeno_natural and amc_topico.fecha BETWEEN '$fecha1' AND '$fecha2'  ");
+                echo json_encode($grafica);
+               
+            }else{
+                $grafica = Des_natural::fetchArray("select sum(per_fallecida) as per_fallecida, sum(per_evacuada) as per_evacuada,sum(per_afectada) as per_afectada,sum(albergues) as albergues,sum(est_colapsadas) as est_colapsadas,sum(inundaciones) as inundaciones,sum(derrumbes) as derrumbes,sum(carre_colap) as carre_colap,sum(hectareas_quemadas) as hectareas_quemadas,sum(rios) as rios from amc_desastre_natural where nombre_desastre = $fenomeno_natural");
+
+                echo json_encode($grafica);
+
+            }
+      
+        }elseif($fecha1 != "" && $fecha2 != ""){
+
+            $grafica = Des_natural::fetchArray("SELECT sum(per_fallecida) as per_fallecida, sum(per_evacuada) as per_evacuada,sum(per_afectada) as per_afectada,sum(albergues) as albergues,sum(est_colapsadas) as est_colapsadas,
+            sum(inundaciones) as inundaciones,sum(derrumbes) as derrumbes,sum(carre_colap) as carre_colap,sum(hectareas_quemadas) as hectareas_quemadas,sum(rios) as rios
+            from amc_desastre_natural  inner join amc_topico on amc_desastre_natural.topico = amc_topico.id
+            where amc_topico.fecha BETWEEN '$fecha1' AND '$fecha2'  ");
+            echo json_encode($grafica);
+
         }
-      }
-      $cantidades[$dataset][]= (int) $operaciones[0]['cantidad'];
-      
 
-      
-     }
-     if($a > 0 || $b > 0){
-        $datos = $datos +1;
 
-     }
-    
-     }
-     
-     foreach ($tipos as $key => $tipo ) {
-     
-     $droga = $tipo['id'];
-     
-     $drogas[]= $tipo['desc'];
-     }
-     
-     $data = [
-     'labels' => $drogas,
-     'cantidades' => $cantidades,
-     'informacion' => $datos,
-     ];
-     
-     echo json_encode($data);
-     
+
      
      
 

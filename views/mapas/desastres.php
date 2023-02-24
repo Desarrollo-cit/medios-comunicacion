@@ -831,19 +831,32 @@ $fechaLarga = strftime(" %B ");
                 <div class="col-lg-12 text-center ">
 
                     <form class=" ms-5  col-lg-11 justify-content-center border border-2 border-dark rounded bg-dark pt-3  " id="formBusqueda_grafica">
+
+                    
                         <div class="row mb-3">
                             <div class="col">
                                 <h2 style="color: white;">Ingrese los criterios de busqueda</h2>
                             </div>
                         </div>
                         <div class="row mb-3 justify-content-center">
+                        <div class="col-lg-3">
+                                <label for="select_grafica" style="color: white;">TIPO DE DESASTRE</label>
+                                <select class="form-control" name="select_grafica" id="select_grafica">
+                                        <option value="">Seleccione...</option>
+                                        <?php foreach ($fenomeno_natural as $ca3) { ?>
+                                            <option value="<?= $ca3['id']  ?>"><?= $ca3['desc']  ?></option>
+                                        <?php  }  ?>
+                                    </select>
+                                
+                            </div>
+
                             <div class="col-lg-3">
                                 <label for="fecha_grafica" style="color: white;">DE</label>
-                                <input type="datetime-local" id="fecha_grafica" name="fecha_grafica" class="form-control" required>
+                                <input type="datetime-local" id="fecha_grafica" name="fecha_grafica" class="form-control" >
                             </div>
                             <div class="col-lg-3">
                                 <label for="fecha_grafica2" style="color: white;">HASTA</label>
-                                <input type="datetime-local" id="fecha_grafica2" name="fecha_grafica2" class="form-control" required>
+                                <input type="datetime-local" id="fecha_grafica2" name="fecha_grafica2" class="form-control">
                             </div>
                             <div class="col-lg-2 pt-4">
                                 <button type="submit" class="btn btn-info w-100"><i class="bi bi-search me-2"></i>Buscar</button>
