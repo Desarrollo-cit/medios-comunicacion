@@ -176,9 +176,15 @@ $router->post('/API/mapas/IndexDinero_y_armas/colores', [InfoDinero_y_armasContr
 $router->post('/API/mapas/IndexDinero_y_armas/mapaCalorPorDeptoGrafica', [InfoDinero_y_armasController::class , 'mapaCalorPorDeptoGraficaAPI'] );
 $router->post('/API/mapas/IndexDinero_y_armas/GraficaTrimestralGeneral', [InfoDinero_y_armasController::class , 'GraficaTrimestralGeneralAPI'] );
 $router->post('/API/mapas/IndexDinero_y_armas/DelitosCantGrafica', [InfoDinero_y_armasController::class , 'DelitosCantGraficaAPI'] );
+$router->post('/API/mapas/IndexDinero_y_armas/DineroCantGrafica', [InfoDinero_y_armasController::class , 'DineroCantGraficaAPI'] );
 $router->post('/API/mapas/IndexDinero_y_armas/DelitosDepartamentoGrafica', [InfoDinero_y_armasController::class , 'DelitosDepartamentoGraficaAPI'] );
+
+$router->post('/API/mapas/IndexDinero_y_armas/DineroDepartamentoGrafica', [InfoDinero_y_armasController::class , 'DineroDepartamentoGraficaAPI'] );
 $router->post('/API/mapas/IndexDinero_y_armas/CapturasPorDiaGrafica', [InfoDinero_y_armasController::class , 'CapturasPorDiaGraficaAPI'] );
+$router->post('/API/mapas/IndexDinero_y_armas/CapturasPorDiaGrafica_armas', [InfoDinero_y_armasController::class , 'CapturasPorDiaGrafica_armasAPI'] );
 $router->post('/API/mapas/IndexDinero_y_armas/GraficaTrimestral', [InfoDinero_y_armasController::class , 'GraficaTrimestralAPI'] );
+$router->post('/API/mapas/IndexDinero_y_armas/GraficaTrimestralGeneral', [InfoDinero_y_armasController::class , 'GraficaTrimestralGeneralAPI'] );
+
 
 
 $router->get('/mapas/droga', [infoDrogaController::class , 'index']);

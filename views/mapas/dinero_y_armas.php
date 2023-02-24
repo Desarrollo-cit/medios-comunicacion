@@ -33,7 +33,7 @@ $depto = $depto[0]['desc'];
 $total_dinero = $total_dinero[0]['cantidad_din'];
 $incidencia_arma2 = $incidencia_arma[0]['descripcion'];
 $incidencia_arma1 = $incidencia_arma['municion'];
-$armas ;
+$armas;
 
 
 
@@ -153,7 +153,7 @@ $armas ;
                 </div>
                 <div class="row">
                     <div class="col">
-                        <p class="h3" id="delito_concurrente"><?= $incidencia_arma2 ." ".$incidencia_arma1  ?></p>
+                        <p class="h3" id="delito_concurrente"><?= $incidencia_arma2 . " " . $incidencia_arma1  ?></p>
                     </div>
                 </div>
             </div>
@@ -216,7 +216,7 @@ $armas ;
                                 <th>FECHA</th>
                                 <th>DEPARTAMENTO</th>
                                 <th>LUGAR</th>
-                                <th>TIPO DE MUERTE</th>
+                                <th>DELITO</th>
                                 <th>ACTIVIDAD VINCULADA</th>
                                 <th>DETALLE</th>
                                 <th>REPORTE</th>
@@ -338,6 +338,108 @@ $armas ;
 <!-- ____________________________________________________________________________________________________________________________ -->
 <!-- ____________________________________________________________________________________________________________________________ -->
 
+<div class="modal fade" id="modalPersonal13" name="modalPersonal" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header ">
+                <h5 class="modal-title " id="infoModalLabel">Informacion de las capturax</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body container">
+
+                <div class="modal-body container ">
+                    <form id="formInformacion2" class="badge-light p-1 was-validated">
+
+                        <!-- <input type="hidden" name="codigo" id="codigo"> -->
+
+                        <div class="row mb-3">
+                            <div class='col-lg-6'>
+                                <label for="fecha">
+                                    Fecha
+                                </label>
+                                <input type="datetime-local" id="fecha1" name="fecha1" class="form-control" required readonly>
+
+                            </div>
+                            <div class='col-lg-6'>
+                                <label>
+                                    Topico
+                                </label>
+
+                                <input type="text" name="topico" id="topico" class="form-control" readonly novalidate>
+
+
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label for="latitud">Latitud</label>
+                                <input type="text" name="latitud" id="latitud" class="form-control" readonly novalidate>
+                            </div>
+                            <div class="col">
+                                <label for="longitud">Longitud</label>
+                                <input type="text" name="longitud" id="longitud" class="form-control" readonly novalidate>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label for="departamentoBusqueda">Departamento</label>
+                                <input type="text" name="departamentoBusqueda" id="departamentoBusqueda" class="form-control" readonly novalidate>
+
+                            </div>
+                            <div class="col">
+                                <label for="municipio">Municipio</label>
+                                <input type="text" id="municipio" name="municipio" class="form-control" required readonly>
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <label> direccion </label>
+                            <input type="text" id="lugar" name="lugar" class="form-control" required readonly>
+                        </div>
+                        <div>
+                            <label for="actvidad_vinculada"> Actividad vinculada</label>
+                            <input type="text" id="actvidad_vinculada" name="actvidad_vinculada" class="form-control" required readonly>
+
+                        </div>
+
+                    </form>
+
+
+                </div>
+                <hr>
+                <!-- <h1>Personas captuSradas</h1> -->
+                <div class="row mb-2 justify-content-center text-center" id="tabla1">
+                    <div class="col-sm-12 col-lg-12 table-responsive ">
+                        <table id='dataTable4' class='table table-hover table-condensed table-bordered w-100'>
+                            <thead class='table-dark'>
+                                <tr>
+                                    <th>NO.</th>
+                                    <th>MONEDA</th>
+                                    <th>CANTIDAD</th>
+                                  
+
+
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <!-- <button type="submit" form="formIngreso" class="btn btn-primary" id="buttonGuardar">Guardar información</button> -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 
 <div class="  container-fluid text-center pt-2 rounded bg-secondary" id="mapa_calor">
 
@@ -362,7 +464,7 @@ $armas ;
                                 <div class="col-lg-3">
                                     <label for="delitos_mapa_calor" style="color: white;">Delito</label>
                                     <!--  <select class="form-control" name="delitos_mapa_calor" id="delitos_mapa_calor"> -->
-                                    <select class="form-control" name="tipos_arma_mapa_calor" id="tipos_arma_mapa_calor"  value="" selected readonly>
+                                    <select class="form-control" name="tipos_arma_mapa_calor" id="tipos_arma_mapa_calor" value="" selected readonly>
                                         <option value="">Seleccione...</option>
                                         <?php foreach ($armas as $arma) { ?>
                                             <option value="<?= $arma['id']  ?>"><?= $arma['desc']  ?></option>
@@ -665,7 +767,7 @@ $armas ;
                                 <h4 name="dinero" id="dinero" style="color:#116189"></h4>
                             </div>
                         </div>
-                       
+
                         <div class="row mb-1">
                             <div id="texto_no" style="display:none;">
                                 <h3> No se encontraron muertes</h3>
@@ -678,11 +780,11 @@ $armas ;
                                     </div> -->
                             <div id="grafica_depto1" class="col-lg-12 pt-5 ">
 
-                                <div class="col-lg-6 " >
-                                    <h2 style="color:black">Personas Asesinadas</h2>
+                                <div class="col-lg-6 ">
+                                    <h2 style="color:black">DINERO INCAUTADO</h2>
                                     <canvas id="delitos_cant" width="50" height="50"></canvas>
                                 </div>
-                               
+
                             </div>
 
                         </div>
@@ -740,26 +842,52 @@ $armas ;
 
             <hr style="color:#0B3254; height:10px;">
             <div class="row mb-1">
-                <div class="col-lg-6 ">
+                <div class="col-lg-5 ">
 
-                    <h2 style="color:black">ASESINATOS COMETIDOS</h2>
+                    <h2 style="color:black">ARMAS INCAUTADAS</h2>
                     <div id="texto_no1" style="display:none;">
-                        <h3> No se encontraron delitos</h3>
+                        <h3> No se encontraron registros</h3>
                     </div>
-                    <div id="graficaDelitos" style="width: 800px; height:900px; ">
+                    <div id="graficaDelitos" style="width: 750px; height:900px; ">
 
                         <canvas id="myChart1" width="50" height="50"></canvas>
                     </div>
 
                 </div>
                 <div class="col-lg-6 ">
-                    <h2 style="color:black">Asesinatos cometidos por departamentos</h2>
-                    <div id="texto_no2" style="display:none;">
-                        <h3> No se encontraron Asesinatos</h3>
+
+                    <h2 style="color:black">DINERO INCAUTADO</h2>
+                    <div id="texto_no1" style="display:none;">
+                        <h3> No se encontraron registros</h3>
                     </div>
-                    <div id="graficaDelitosDepartamento" style="width: 800px; height:900px; ">
+                    <div id="graficaDinero" style="width: 750px; height:900px; ">
+
+                        <canvas id="myChart55" width="50" height="50"></canvas>
+                    </div>
+
+                </div>
+                <div class="col-lg-6 ">
+                    <h2 style="color:black">Armas incuautadas por departamentos</h2>
+                    <div id="texto_no2" style="display:none;">
+                        <h3> No se encontraron Armas
+
+                        </h3>
+                    </div>
+                    <div id="graficaDelitosDepartamento" style="width: 700px; height:800px; ">
 
                         <canvas id="myChart2" width="50" height="50"></canvas>
+                    </div>
+                </div>
+                <div class="col-lg-6 ">
+                    <h2 style="color:black">Dinero incuautadas por departamentos</h2>
+                    <div id="texto_no2" style="display:none;">
+                        <h3> No se encontraron Armas
+
+                        </h3>
+                    </div>
+                    <div id="graficaDinerDepartamento" style="width: 700px; height:800px; ">
+
+                        <canvas id="myChart99" width="50" height="50"></canvas>
                     </div>
                 </div>
 
@@ -772,14 +900,22 @@ $armas ;
                 <div class="col-lg-12 ">
 
                     <div class="col-lg-12 " style="height:800px;">
-                        <h2 style="color:black">Asesinatos en el mes de <?= strtoupper($fechaLarga) ?></h2>
+                        <h2 style="color:black">Incautaciuones de Dinero en el mes de <?= strtoupper($fechaLarga) ?></h2>
                         <canvas id="myChart3" height="100" width="300"></canvas>
                     </div>
                 </div>
 
 
+                <div class="col-lg-12 ">
+
+                    <div class="col-lg-12 " style="height:800px;">
+                        <h2 style="color:black">Incautaciuones de Armas en el mes de <?= strtoupper($fechaLarga) ?></h2>
+                        <canvas id="myChart33" height="100" width="300"></canvas>
+                    </div>
+                </div>
+
             </div>
-            <hr style="color:#0B3254; height:10px;">
+            <!--   <hr style="color:#0B3254; height:10px;"> -->
             <div class="row mb-1">
 
 
@@ -794,7 +930,7 @@ $armas ;
 
 
             </div>
-            <hr style="color:#0B3254; height:10px;">
+            <!--             <hr style="color:#0B3254; height:10px;"> -->
             <div class="row mb-1">
 
 

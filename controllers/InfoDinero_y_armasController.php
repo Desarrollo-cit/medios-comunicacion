@@ -255,17 +255,18 @@ class InfoDinero_y_armasController
                 $departamento = $key['departamento'];
                 $topico = $key['topico'];
                 $tipo = $key['tipo'];
+                $tipo1 = $key['tipo'];
                 $situacion = $key['tipo'];
                 $actividad = $key['actividad'];
 
                 switch ($tipo) {
 
 
-                    case "6":
+                    case "5":
 
                         $tipo = "INCAUTACION DE DINERO";
                         break;
-                    case "5":
+                    case "6":
 
                         $tipo = "INCAUTACION DE ARMAS";
                         break;
@@ -281,6 +282,7 @@ class InfoDinero_y_armasController
                     "departamento" => $departamento,
                     "topico" => $topico,
                     "tipo" => $tipo,
+                    "tipo1"=> $tipo1,
                     "situacion" => $situacion,
                     "actividad" => $actividad,
 
@@ -381,7 +383,7 @@ class InfoDinero_y_armasController
 
 
 
-    public function informacionModalAPI()
+    public function informacionModalAPI1()
     {
         getHeadersApi();
 
@@ -392,10 +394,11 @@ class InfoDinero_y_armasController
             $id = $_POST['id'];
 
             $sql = "
-            SELECT amc_tipo_armas.desc as tipo_arma, amc_calibre.desc as calibre, amc_detalle_arma.cantidad as cantidad 
-             from amc_detalle_arma inner join amc_tipo_armas on amc_tipo_armas.id = amc_detalle_arma.tipo_arma 
-             inner join amc_calibre on amc_calibre.id = amc_detalle_arma.calibre  where amc_detalle_arma.topico = $id
-             and amc_detalle_arma.situacion > 0
+            SELECT amc_moneda.desc as tipo_dinero,  amc_incautacion_dinero.moneda as tipo_moneda,  amc_incautacion_dinero.cantidad as cantidad1  
+            from amc_incautacion_dinero inner join amc_moneda on amc_incautacion_dinero.moneda = amc_moneda.id  
+            
+            where amc_incautacion_dinero.topico =$id 
+            and  amc_incautacion_dinero.situacion = 1
            ";
             $info = Capturadas::fetchArray($sql);
             $data = [];
@@ -403,12 +406,12 @@ class InfoDinero_y_armasController
             $i = 1;
             foreach ($info as $key) {
 
-                $tipo_arma = $key['tipo_arma'];
+                $tipo_dinero = utf8_encode($key['tipo_dinero']);
                 //$nacionalidad = utf8_encode($key['nacionalidad']);
-                $calibre = utf8_encode($key['calibre']);
+
                 $cantidad = $key['cantidad'];
                 // $delito = utf8_encode($key['delito']);
-                $edad = $key['edad'];
+             
 
 
 
@@ -417,9 +420,9 @@ class InfoDinero_y_armasController
                 $arrayInterno = [[
                     "contador" => $i,
 
-                    "tipo_arma" => $tipo_arma,
+               
                     //"nacionalidad" => $nacionalidad,
-                    "calibre" => $calibre,
+                    "dinero" => $tipo_dinero,
                     "cantidad" => $cantidad,
 
 
@@ -443,7 +446,7 @@ class InfoDinero_y_armasController
             ]);
         }
     }
-    public function informacionModalAPI1()
+    public function informacionModalAPI()
     {
         getHeadersApi();
 
@@ -453,9 +456,39 @@ class InfoDinero_y_armasController
 
             $id = $_POST['id'];
 
-            $sql = "SELECT amc_incautacion_droga.cantidad as cantidad, amc_incautacion_droga.tipo_transporte as tipo_t, amc_incautacion_droga.id, amc_incautacion_droga.tipo_droga, matricula, amc_drogas.desc as droga, amc_transporte.desc as transporte   from amc_incautacion_droga inner join amc_drogas on amc_incautacion_droga.tipo_droga = amc_drogas.id inner join amc_transporte on amc_incautacion_droga.transporte = amc_transporte.id where amc_incautacion_droga.topico =$id and  amc_incautacion_droga.situacion = 1";
+            $sql = "SELECT amc_tipo_armas.desc as tipo_arma, amc_calibre.desc as calibre, amc_detalle_arma.cantidad as cantidad  from amc_detalle_arma inner join amc_tipo_armas on amc_tipo_armas.id = amc_detalle_arma.tipo_arma inner join amc_calibre on amc_calibre.id = amc_detalle_arma.calibre  where amc_detalle_arma.topico = $id and amc_detalle_arma.situacion = 1";
             $info = Capturadas::fetchArray($sql);
-            echo json_encode($info);
+            $data = [];
+
+            $i = 1;
+            if($info){
+                foreach($info as $key){ 
+                     $tipo_arma = $key['tipo_arma'];
+                   $calibre = $key['calibre'];
+                   $cantidad = $key['cantidad'];
+                  
+                    $arrayInterno = [[
+                       "contador" => $i,
+                       "tipo_arma" => $tipo_arma,
+                       "calibre" => $calibre,
+                       "cantidad" => $cantidad  
+                    
+                   ]];
+                   $i++;
+                   $data = array_merge($data,$arrayInterno);
+                
+                
+                }}
+                
+                $arrayreturn = ["data" => $data];
+                
+                echo json_encode($data);
+
+
+
+
+
+
         } catch (Exception $e) {
             echo json_encode([
                 "detalle" => $e->getMessage(),
@@ -521,7 +554,7 @@ class InfoDinero_y_armasController
     {
         getHeadersApi();
         try {
-            $sql = "SELECT * from amc_colores where topico = 1 and situacion = 1 order by nivel asc ";
+            $sql = "SELECT * from amc_colores where topico = 5 and situacion = 1 order by nivel asc ";
             $info = Capturadas::fetchArray($sql);
             echo json_encode($info);
         } catch (Exception $e) {
@@ -564,7 +597,7 @@ class InfoDinero_y_armasController
     {
 
         try {
-            $sql = "SELECT * from amc_colores where topico = 1  ";
+            $sql = "SELECT * from amc_colores where topico = 5  ";
             $info = Capturadas::fetchArray($sql);
             return $info;
         } catch (Exception $e) {
@@ -697,47 +730,46 @@ class InfoDinero_y_armasController
                 $arma = $_POST['tipos_arma_mapa_calor'];
                 $fecha1 = str_replace('T', ' ', $_POST['fecha_mapa']);
                 $fecha2 = str_replace('T', ' ', $_POST['fecha2']);
-    
+
                 $armas = static::armas();
-    
+
                 foreach ($armas as $key => $tipo) {
                     $arma = $tipo["id"];
                     $arma_n = $tipo["desc"];
-    
+
                     $total = static::total($depto, $arma,  $fecha1, $fecha2);
                     $dataset = 'armas';
                     $cantidades[$dataset][] = (int) $total[0]['cantidad'];
                 }
-    
-    
+
+
                 foreach ($armas as $key => $tipo) {
-    
+
                     $arma = $tipo["id"];
                     $arma_nom[] = $tipo["desc"];
                 }
                 // $cantidades[$arma_n]=$total[0]["cantidad"];
-    
+
                 //$descripcion = 'ARMAS';
                 //      $array_resultante=  array_merge($cantidades , $descripcion );
                 $data = [
                     'descripcion' => $arma_nom,
                     'cantidades' => $cantidades
                 ];
-    
-    
-    
-    
-    
+
+
+
+
+
                 echo json_encode($data);
             } catch (Exception $e) {
                 echo json_encode([
                     "detalle" => $e->getMessage(),
                     "mensaje" => "ocurrio un error en base de datos",
-    
+
                     "codigo" => 4,
                 ]);
             }
-
         } catch (Exception $e) {
             echo json_encode([
                 "detalle" => $e->getMessage(),
@@ -749,31 +781,94 @@ class InfoDinero_y_armasController
     }
 
 
+    public function DineroCantGraficaAPI()
+    {
+        try {
+
+            try {
+
+
+
+                $depto = $_POST['departamento'];
+                $arma = $_POST['tipos_arma_mapa_calor'];
+                $fecha1 = str_replace('T', ' ', $_POST['fecha_mapa']);
+                $fecha2 = str_replace('T', ' ', $_POST['fecha2']);
+
+                // $armas = static::armas();
+
+
+                $sql = "SELECT cantidad, desc  From amc_incautacion_dinero inner join amc_topico on amc_incautacion_dinero.topico = amc_topico.id inner join amc_moneda on moneda=amc_moneda.id
+                where  amc_topico.situacion = 1 and amc_topico.tipo IN (5,6)
+              ";
+
+
+
+
+                if ($fecha1 != '' && $fecha2 != '') {
+
+                    $sql .= " AND amc_topico.fecha   BETWEEN '$fecha1' AND  '$fecha2' ";
+                } else {
+
+                    $sql .= " AND year(amc_topico.fecha) = year(current)  and  month(amc_topico.fecha) = month(current) ";
+                }
+
+
+
+
+                $info = Capturadas::fetchArray($sql);
+                $cantidades = [];
+
+                foreach ($info as $row) {
+                    $labels[] = $row['desc'];
+                    $cantidades[] = $row['cantidad'];
+                }
+
+                echo json_encode([
+                    'cantidades' => $cantidades,
+                    'labels' => $labels,
+                ]);
+            } catch (Exception $e) {
+                echo json_encode([
+                    "detalle" => $e->getMessage(),
+                    "mensaje" => "ocurrio un error en base de datos",
+
+                    "codigo" => 4,
+                ]);
+            }
+        } catch (Exception $e) {
+            echo json_encode([
+                "detalle" => $e->getMessage(),
+                "mensaje" => "ocurrio un error en base de datos",
+
+                "codigo" => 4,
+            ]);
+        }
+    }
 
 
     public function CapturasPorDiaGraficaAPI()
     {
         try {
-
+            /* SELECT sum(cantidad) as  cantidad  From amc_incautacion_dineros inner join amc_topico on amc_incautacion_dinero.topico = amc_topico.id   where year(amc_topico.fecha) = year(current) and month(amc_topico.fecha) = month(current) and day(amc_topico.fecha) = day($i) and amc_topico.situacion = 1 and amc_topico.tipo IN (5,6) */
 
             $diasMes =  date('t');
             $data = [];
             for ($i = 0; $i <=  $diasMes; $i++) {
                 // $main = new Main();
-                $sql = " SELECT sum(cantidad) as  cantidad  From amc_incautacion_dineros inner join amc_topico on amc_incautacion_dinero.topico = amc_topico.id   where year(amc_topico.fecha) = year(current) and month(amc_topico.fecha) = month(current) and day(amc_topico.fecha) = day($i) and amc_topico.situacion = 1 and amc_topico.tipo IN (5,6)";
+                $sql = "SELECT count(*) as  cantidad  From amc_incautacion_dinero inner join amc_topico on amc_incautacion_dinero.topico = amc_topico.id where year(amc_topico.fecha) = year(current) and month(amc_topico.fecha) = month(current) and day(amc_topico.fecha) = day($i) and amc_topico.situacion = 1 and amc_incautacion_dinero.situacion = 1";
                 $info = Capturadas::fetchArray($sql);
                 $data['dias'][] = $i;
-
                 if ($info[0]['cantidad'] == null) {
 
                     $valor = 0;
                 } else {
                     $valor = $info[0]['cantidad'];
                 }
-                $data['dinero'][] = $valor;
+                $data['cantidades'][] = $valor;
             }
-            echo json_encode($sql);
+            echo json_encode($data);
             exit;
+         
         } catch (Exception $e) {
             echo json_encode([
                 "detalle" => $e->getMessage(),
@@ -783,6 +878,44 @@ class InfoDinero_y_armasController
             ]);
         }
     }
+
+
+
+
+    public function CapturasPorDiaGrafica_armasAPI()
+    {
+        try {
+            /* SELECT sum(cantidad) as  cantidad  From amc_incautacion_dineros inner join amc_topico on amc_incautacion_dinero.topico = amc_topico.id   where year(amc_topico.fecha) = year(current) and month(amc_topico.fecha) = month(current) and day(amc_topico.fecha) = day($i) and amc_topico.situacion = 1 and amc_topico.tipo IN (5,6) */
+
+            $diasMes =  date('t');
+            $data = [];
+            for ($i = 0; $i <=  $diasMes; $i++) {
+                // $main = new Main();
+                $sql = "SELECT count(*) as  cantidad  From amc_incautacion_armas inner join amc_topico on amc_incautacion_armas.topico = amc_topico.id where year(amc_topico.fecha) = year(current) and month(amc_topico.fecha) = month(current) and day(amc_topico.fecha) = day($i) and amc_topico.situacion = 1 and amc_incautacion_armas.situacion = 1";
+                $info = Capturadas::fetchArray($sql);
+                $data['dias'][] = $i;
+                if ($info[0]['cantidad'] == null) {
+
+                    $valor = 0;
+                } else {
+                    $valor = $info[0]['cantidad'];
+                }
+                $data['cantidades'][] = $valor;
+            }
+            echo json_encode($data);
+            exit;
+         
+        } catch (Exception $e) {
+            echo json_encode([
+                "detalle" => $e->getMessage(),
+                "mensaje" => "ocurrio un error en base de datos",
+
+                "codigo" => 4,
+            ]);
+        }
+    }
+
+
 
     public function GraficaTrimestralAPI()
     {
@@ -818,11 +951,24 @@ class InfoDinero_y_armasController
             $cantidades = [];
             $i = 0;
             $a = 0;
+        
+            $armas = static::armas();
+
+          
+
+
+            foreach ($armas as $key => $tipo) {
+
+                $arma = $tipo["id"];
+                $labels[] = $tipo["desc"];
+            }
+
+
             for ($a = 1; $a <= 5; $a++) {
 
                 $tipo_id = $a;
 
-                switch ($a) {
+        /*         switch ($a) {
                     case "1":
                         $labels[] = "ASESINATO";
                         break;
@@ -838,7 +984,9 @@ class InfoDinero_y_armasController
                     case "5":
                         $labels[] = "SUICIDIO";
                         break;
-                }
+                } */
+
+        
 
                 for ($i = 0; $i < 3; $i++) {
                     $dateObj = DateTime::createFromFormat('!m', $meses[$i]);
@@ -863,6 +1011,9 @@ class InfoDinero_y_armasController
         }
     }
 
+
+
+    
     public function GraficaTrimestralGeneralAPI()
     {
         try {
@@ -907,7 +1058,7 @@ class InfoDinero_y_armasController
 
                 $dateObj = DateTime::createFromFormat('!m', $mes_en_query);
                 $mes = strftime("%B", $dateObj->getTimestamp());
-                $sql = " SELECT  count (*) as cantidad from amc_per_asesinadas inner join amc_topico on amc_per_asesinadas.topico = amc_topico.id  where month(amc_topico.fecha) = $mes_en_query and amc_topico.situacion = 1 and amc_per_asesinadas.situacion > 0";
+                $sql = " SELECT  count (*) as cantidad from amc_incautacion_armas inner join amc_topico on amc_incautacion_armas.topico = amc_topico.id  where month(amc_topico.fecha) = $mes_en_query and amc_topico.situacion = 1 and amc_incautacion_armas.situacion > 0";
 
                 if ($monthNum == 1 && $vuelta < 2 && $monthNum < 11) {
                     $sql .= " AND year(amc_topico.fecha) =   $año_anterior ";
@@ -968,10 +1119,29 @@ class InfoDinero_y_armasController
             ]);
         }
     }
+
+
+
+    
     function capturas_por_mes_y_delito($mes, $delito, $año)
     {
 
-        $sentencia = "select count(*) as  cantidad  from amc_per_asesinadas inner join amc_topico on amc_per_asesinadas.topico = amc_topico.id where month(amc_topico.fecha) = $mes  and amc_topico.situacion = 1 and amc_per_asesinadas.situacion = $delito";
+        $sentencia = "SELECT sum(cantidad) as  cantidad  from amc_detalle_arma inner join amc_topico on amc_detalle_arma.topico = amc_topico.id where year(amc_topico.fecha) = year(current) and month(amc_topico.fecha) = $mes  and amc_topico.situacion = 1 and amc_detalle_arma.situacion = 1 and amc_detalle_arma.tipo_arma = $delito";
+        // if($año != ""){
+        //         $sentencia .= " AND year(amc_topico.fecha) = $año   ";
+        // }else{
+
+        //     $sentencia .= " AND year(amc_topico.fecha) = year(current) ";
+        // }
+        $result = Capturadas::fetchArray($sentencia);
+        return array_shift($result);
+    }
+
+
+    function capturas_por_mes_y_dinero($mes, $delito, $año)
+    {
+
+        $sentencia = "SELECT sum(cantidad) as  cantidad  from amc_detalle_municion inner join amc_topico on amc_detalle_municion.topico = amc_topico.id where year(amc_topico.fecha) = year(current) and month(amc_topico.fecha) = $mes  and amc_topico.situacion = 1 and amc_detalle_municion.situacion = 1 and amc_detalle_municion.calibre = $delito";
         // if($año != ""){
         //         $sentencia .= " AND year(amc_topico.fecha) = $año   ";
         // }else{
@@ -994,8 +1164,9 @@ class InfoDinero_y_armasController
 
 
 
-            $sql = "   SELECT depmun.dm_desc_lg as descripcion, count(*) as cantidad FROM amc_per_asesinadas   inner join amc_topico on amc_per_asesinadas.topico = amc_topico.id inner join depmun on amc_topico.departamento = depmun.dm_codigo
-            where amc_topico.situacion = 1 and amc_per_asesinadas.situacion > 0 ";
+            $sql = "SELECT trim(depmun.dm_desc_lg) as descripcion, sum(cantidad) as cantidad 
+            FROM amc_detalle_arma inner join amc_topico on amc_detalle_arma.topico = amc_topico.id  
+            inner join depmun on amc_topico.departamento = depmun.dm_codigo where amc_topico.situacion = 1 and amc_topico.tipo = 6  ";
 
 
 
@@ -1010,6 +1181,63 @@ class InfoDinero_y_armasController
 
 
             $sql .= "group by dm_desc_lg";
+            $info = Capturadas::fetchArray($sql);
+
+            if ($info) {
+
+
+                $info[1]["codigo"] = [
+
+                    1,
+                ];
+                echo json_encode($info);
+            } else {
+
+                $info[1] = [
+                    "descripcion" => "",
+                    "cantidad" => 0,
+                    "codigo" => 2,
+                ];
+
+                echo json_encode($info);
+            }
+        } catch (Exception $e) {
+            echo json_encode([
+                "detalle" => $e->getMessage(),
+                "mensaje" => "ocurrio un error en base de datos",
+
+                "codigo" => 4,
+            ]);
+        }
+    }
+
+    public function DineroDepartamentoGraficaAPI()
+    {
+        try {
+
+
+
+            $fecha1 = str_replace('T', ' ', $_POST['fecha_grafica']);
+            $fecha2 = str_replace('T', ' ', $_POST['fecha_grafica2']);
+
+
+
+            $sql = "select trim(dm_desc_lg) as departamento, count(*) as cantidad from amc_topico inner join amc_incautacion_dinero on amc_topico.id = amc_incautacion_dinero.topico 
+            inner join depmun on amc_topico.departamento = depmun.dm_codigo where amc_topico.situacion = 1  ";
+
+
+
+
+            if ($fecha1 != '' && $fecha2 != '') {
+
+                $sql .= " AND amc_topico.fecha   BETWEEN '$fecha1' AND  '$fecha2' ";
+            } else {
+
+                $sql .= " AND year(amc_topico.fecha) = year(current)  and  month(amc_topico.fecha) = month(current) ";
+            }
+
+
+            $sql .= "  group by dm_desc_lg";
             $info = Capturadas::fetchArray($sql);
 
             if ($info) {

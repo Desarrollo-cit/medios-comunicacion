@@ -22,15 +22,16 @@ let tablaregistro = new Datatable('#dataTable2');
 let TablaInfoPer = new Datatable('#dataTable3');
 let TablaInfoPer1 = new Datatable('#dataTable4');
 const formcaptura = document.querySelector('#formInformacion1')
-const formdroga = document.querySelector('#formInformacion2')
+const formarmas = document.querySelector('#formInformacion2')
 const capturas = new Modal(document.getElementById('modalPersonal12'), {
     keyboard: false
 })
-
+const modaldroga1 = new Modal(document.getElementById('modalPersonal13'), {
+    keyboard: false
+})
 const modaldeptos = new Modal(document.getElementById('modaldepto'), {
     keyboard: false
 })
-
 
 const cambiarmes = async (evento) => {
     evento.preventDefault();
@@ -162,7 +163,7 @@ const Buscar_capturas = async (e) => {
 
                     "render": (data, type, row, meta) =>
 
-                        ` <button class='btn btn-success'     onclick='ModalPersonal(${row.id})'><i class="bi bi-info-circle"></i></button>`,
+                    ` <button class='btn btn-success'     onclick='ModalPersonal(${row.id}, ${row.tipo1})'><i class="bi bi-info-circle"></i></button>`,
                     "searchable": false,
                     "width": "10%"
                 },
@@ -188,10 +189,74 @@ const Buscar_capturas = async (e) => {
 
 
 
-window.ModalPersonal = async (id) => {
+window.ModalPersonal = async (id, tipo1) => {
+console.log(tipo1)
+if (tipo1 == 6){
+    const url = `/medios-comunicacion/API/mapas/IndexDinero_y_armas/modal`
+    const body = new FormData();
+    body.append('id', id);
+    const headers = new Headers();
+    headers.append("X-Requested-With", "fetch");
+
+    const config = {
+        method: 'POST',
+        body,
+
+    }
+
+    const respuesta = await fetch(url, config);
+    const info = await respuesta.json();
+   console.log(info);
+   capturas.show();
+   info.forEach(info1 => {
+       
+
+      formcaptura.fecha1.value = info1.fecha
+       formcaptura.topico.value = info1.topico
+       formcaptura.latitud.value = info1.latitud
+       formcaptura.longitud.value = info1.longitud
+       formcaptura.departamentoBusqueda.value = info1.depto
+       formcaptura.municipio.value = info1.municipio[0]['dm_desc_lg']
+       formcaptura.actvidad_vinculada.value = info1.actividad
+       formcaptura.lugar.value = info1.lugar
+
+   });
+
+   const url1 = `/medios-comunicacion/API/mapas/IndexDinero_y_armas/informacion`
+   const body1 = new FormData();
+   body1.append('id', id);
+   const headers2 = new Headers();
+   headers2.append("X-Requested-With", "fetch");
+
+   const config1 = {
+       method: 'POST',
+       body,
+
+   }
+
+   const respuesta1 = await fetch(url1, config1);
+   const info1 = await respuesta1.json();
+console.log(info1);
+
+     
+  
+  
+
+           TablaInfoPer.destroy();
+           TablaInfoPer = new Datatable('#dataTable3', {
+               language: lenguaje,
+               data: info1,
+               columns: [
+                   { data: "contador", "width": "10%" },
+                   { data: "tipo_arma", "width": "20%" },
+                   { data: "calibre", "width": "15%" },
+                   { data: "cantidad", "width": "15%" },
+         
+               ]
+           })
 
 
-
+}else if (tipo1==5){
 
     const url = `/medios-comunicacion/API/mapas/IndexDinero_y_armas/modal`
     const body = new FormData();
@@ -207,62 +272,61 @@ window.ModalPersonal = async (id) => {
 
     const respuesta = await fetch(url, config);
     const info = await respuesta.json();
-   // console.log(info);
+   console.log(info);
+   modaldroga1.show();
+   info.forEach(info1 => {
+     //  alert(info1.fecha)
 
-    const url1 = `/medios-comunicacion/API/mapas/IndexDinero_y_armas/informacion`
-    const body1 = new FormData();
-    body1.append('id', id);
-    const headers2 = new Headers();
-    headers2.append("X-Requested-With", "fetch");
+      formarmas.fecha1.value = info1.fecha
+       formarmas.topico.value = info1.topico
+       formarmas.latitud.value = info1.latitud
+       formarmas.longitud.value = info1.longitud
+       formarmas.departamentoBusqueda.value = info1.depto
+       formarmas.municipio.value = info1.municipio[0]['dm_desc_lg']
+       formarmas.actvidad_vinculada.value = info1.actividad
+       formarmas.lugar.value = info1.lugar
 
-    const config1 = {
-        method: 'POST',
-        body,
+   });
 
-    }
 
-    const respuesta1 = await fetch(url1, config1);
-    const info1 = await respuesta1.json();
+   modaldroga1.show();
+   const url2 = `/medios-comunicacion/API/mapas/IndexDinero_y_armas/informacion1`
+   const body2 = new FormData();
+   body2.append('id', id);
+   const headers1 = new Headers();
+   headers1.append("X-Requested-With", "fetch");
 
-//console.log(info1);
+   const config2 = {
+       method: 'POST',
+       body,
+
+   }
+
+   const respuesta1 = await fetch(url2, config2);
+   const dinero = await respuesta1.json();
+console.log(dinero);
+
+TablaInfoPer1.destroy();
+TablaInfoPer1 = new Datatable('#dataTable4', {
+    language: lenguaje,
+    data: dinero,
+    columns: [
+        { data: "contador", "width": "10%" },
+        { data: "dinero", "width": "20%" },
+        { data: "cantidad", "width": "15%" },
    
-            capturas.show();
-            info.forEach(info1 => {
-                
+    ]
+})
+   
 
-               formcaptura.fecha1.value = info1.fecha
-                formcaptura.topico.value = info1.topico
-                formcaptura.latitud.value = info1.latitud
-                formcaptura.longitud.value = info1.longitud
-                formcaptura.departamentoBusqueda.value = info1.depto
-                formcaptura.municipio.value = info1.municipio[0]['dm_desc_lg']
-                formcaptura.actvidad_vinculada.value = info1.actividad
-                formcaptura.lugar.value = info1.lugar
+}
 
-            });
-
-
-
-            TablaInfoPer.destroy();
-            TablaInfoPer = new Datatable('#dataTable3', {
-                language: lenguaje,
-                data: info1,
-                columns: [
-                    { data: "contador", "width": "10%" },
-                    { data: "tipo_arma", "width": "20%" },
-                    { data: "calibre", "width": "15%" },
-                    { data: "cantidad", "width": "15%" },
-          
-                ]
-            })
-
-
-          
+              
+        }
     
-
-
+    
          
-    }
+    
 
 
 
@@ -272,7 +336,7 @@ window.ModalPersonal = async (id) => {
     const deptos_estadistica = async (e) => {
         e && e.preventDefault();
     
-        const url_grafica2 = `/medios-comunicacion/API/mapas/IndexMuertes/DelitosDepartamentoGrafica`
+        const url_grafica2 = `/medios-comunicacion/API/mapas/IndexDinero_y_armas/DelitosDepartamentoGrafica`
         const bodyGrafica2 = new FormData(formBusqueda_grafica);
     
         const headersGrafica2 = new Headers();
@@ -287,7 +351,7 @@ window.ModalPersonal = async (id) => {
     
             const response2 = await fetch(url_grafica2, configGrafica2)
             const datos2 = await response2.json()
-    //console.log(datos2)
+   // console.log(datos2)
     
             if (datos2.length > 0) {
                 document.getElementById('graficaDelitosDepartamento').style.display = "block"
@@ -298,6 +362,7 @@ window.ModalPersonal = async (id) => {
                 datos2.forEach(d => {
                     labels = [...labels, d.descripcion]
                     cantidades = [...cantidades, d.cantidad]
+                  //  alert(labels)
                 })
                 // mostrar(datos)
                 //  $("#delitos_cant").destroy();
@@ -363,6 +428,103 @@ window.ModalPersonal = async (id) => {
     
     }
     
+
+
+
+    const deptos_estadistica_dinero = async (e) => {
+        e && e.preventDefault();
+    
+        const url_grafica2 = `/medios-comunicacion/API/mapas/IndexDinero_y_armas/DineroDepartamentoGrafica`
+        const bodyGrafica2 = new FormData(formBusqueda_grafica);
+    
+        const headersGrafica2 = new Headers();
+        headersGrafica2.append("X-Requested-With", "fetch");
+    
+        const configGrafica2 = {
+            method: 'POST',
+            headers: headersGrafica2,
+            body: bodyGrafica2,
+        }
+        try {
+    
+            const response2 = await fetch(url_grafica2, configGrafica2)
+            const datos2 = await response2.json()
+   // console.log(datos2)
+    
+            if (datos2.length > 0) {
+                document.getElementById('graficaDinerDepartamento').style.display = "block"
+                document.getElementById('texto_no2').style.display = "none"
+    
+    
+                let labels = [], cantidades = []
+                datos2.forEach(d => {
+                    labels = [...labels, d.departamento]
+                    cantidades = [...cantidades, d.cantidad]
+                   // console.log(labels)
+                })
+                // mostrar(datos)
+                //  $("#delitos_cant").destroy();
+                const ctx = document.getElementById('myChart99');
+                if (window.dineroDepartamento_grafica) {
+                    window.dineroDepartamento_grafica.clear();
+                    window.dineroDepartamento_grafica.destroy();
+                }
+    
+             
+                window.dineroDepartamento_grafica = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels,
+                        datasets: [{
+                            label: 'DELITOS',
+                            data: cantidades,
+    
+                            backgroundColor: [
+                                'red',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(153, 102, 255, 1)',
+                                'blue',
+                                'rgba(255, 159, 64, 1)'
+                            ],
+                            borderColor: [
+                                'rgba(255, 236, 0, 1)',
+                                'rgba(255, 236, 0, 1)',
+                                'rgba(255, 236, 0, 1)',
+                                'rgba(255, 236, 0, 1)',
+                                'rgba(255, 236, 0, 1)',
+                                'rgba(255, 236, 0, 1)'
+                            ],
+                            borderWidth: 5
+                        }]
+                    },
+                    options: {
+                        plugins: {
+                            legend: {
+                                position: 'left',
+    
+                                font: {
+                                    size: 45, // 'size' now within object 'font {}'
+                                },
+    
+    
+                            },
+                        }
+    
+                    }
+                });
+            } else {
+    
+                document.getElementById('texto_no2').style.display = "block";
+                document.getElementById('graficaDineroDepartamento').style.display = "none";
+    
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    
+    }    
 
 
 
@@ -664,7 +826,7 @@ const delitos_estadistica = async (e) => {
 
         const response1 = await fetch(url_grafica1, configGrafica1)
         const datos1 = await response1.json()
-        console.log(datos1)
+       // console.log(datos1)
 
         
   
@@ -774,12 +936,154 @@ const delitos_estadistica = async (e) => {
 }
 
 
+// dinero estadsitica
+
+
+const dinero_estadistica = async (e) => {
+    e && e.preventDefault();
+
+    const url_grafica1 = `/medios-comunicacion/API/mapas/IndexDinero_y_armas/DineroCantGrafica`
+    const bodyGrafica1 = new FormData(formBusqueda_grafica);
+
+    const headersGrafica1 = new Headers();
+    headersGrafica1.append("X-Requested-With", "fetch");
+
+    const configGrafica1 = {
+        method: 'POST',
+        headers: headersGrafica1,
+        body: bodyGrafica1,
+    }
+    try {
+
+        const response1 = await fetch(url_grafica1, configGrafica1)
+        const datos2 = await response1.json()
+        
+        
+        
+        document.getElementById('graficaDinero').style.display = "block"
+        document.getElementById('texto_no1').style.display = "none"
+        
+        
+        
+        let {cantidades, labels} = datos2;
+        
+
+        
+            //let dataSetsLabels = Object.values(descripcion);
+           // let dataSetsValues = Object.values(cantidad); 
+            // alert(cantidad)
+            
+
+            const ctx = document.getElementById('myChart55');
+            if (window.dinero_grafica) {
+                window.dinero_grafica.clear();
+                window.dinero_grafica.destroy();
+            }
+            window.dinero_grafica = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'DINERO',
+                        data: cantidades,
+
+                        backgroundColor: [
+                            'rgba(252, 100, 7 , 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(46, 148, 26 , 1)',
+                            'rgba(255, 159, 64, 1)',
+                            'rgba(241, 9, 9 , 1)',
+                            'rgba(26, 50, 148,  1)',
+                            'rgba(18, 199, 29,  1)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 236, 0, 1)',
+                            'rgba(255, 236, 0, 1)',
+                            'rgba(255, 236, 0, 1)',
+                            'rgba(255, 236, 0, 1)',
+                            'rgba(255, 236, 0, 1)',
+                            'rgba(255, 236, 0, 1)'
+                        ],
+                        borderWidth: 7
+                    }],
+                },
+                options: {
+                    indexAxis: 'y',
+                    scales: {
+                        y: { // not 'yAxes: [{' anymore (not an array anymore)
+                            ticks: {
+                                color: "black", // not 'fontColor:' anymore
+                                // fontSize: 18,
+                                font: {
+                                    size: 16, // 'size' now within object 'font {}'
+                                },
+                                stepSize: 1,
+                                beginAtZero: true,
+                                grid: {
+                                    color: 'rgba(255, 199, 132, 1)'
+                                }
+                            }
+                        },
+                        x: { // not 'xAxes: [{' anymore (not an array anymore)
+                            ticks: {
+                                color: "black", // not 'fontColor:' anymore
+                                //fontSize: 14,
+                                font: {
+                                    size: 14 // 'size' now within object 'font {}'
+                                },
+                                stepSize: 1,
+                                beginAtZero: true,
+
+                            }
+                        }
+
+                    },
+                    legend: {
+                        labels: {
+                            color: "black",
+                            labels: {
+                                color: "blue", // not 'fontColor:' anymore
+                                // fontSize: 18  // not 'fontSize:' anymore
+                                font: {
+                                    size: 18 // 'size' now within object 'font {}'
+                                }
+                            }
+                        }
+                    },
+
+                }
+            });
+
+        /* }else{
+
+            document.getElementById('texto_no1').style.display = "block";
+            document.getElementById('graficaDelitos').style.display = "none";
+        }
+         */
+    } catch (error) {
+        console.log(error);
+    }
+    deptos_estadistica()
+
+}
+
+
+
+
+
+
+
+
+
+
 
 
 
 const CapturasPorDia = async () => {
 
-    const url_grafica2 = `/medios-comunicacion/API/mapas/IndexMuertes/CapturasPorDiaGrafica`
+    const url_grafica2 = `/medios-comunicacion/API/mapas/IndexDinero_y_armas/CapturasPorDiaGrafica`
     const headersGrafica2 = new Headers();
     headersGrafica2.append("X-Requested-With", "fetch");
 
@@ -793,7 +1097,7 @@ const CapturasPorDia = async () => {
         const response2 = await fetch(url_grafica2, configGrafica2)
         const datos2 = await response2.json()
 
-//console.log(datos2);
+// console.log(datos2);
 
         const { dias, cantidades } = datos2;
 
@@ -807,7 +1111,7 @@ const CapturasPorDia = async () => {
         const data = {
             labels: dias,
             datasets: [{
-                label: 'ASESINATOS',
+                label: 'INCAUTACIONES',
                 data: cantidades,
                 fill: true,
                 borderColor: 'rgb(75, 192, 192)',
@@ -893,7 +1197,7 @@ const CapturasPorDia = async () => {
                         },
                         title: {
                             display: true,
-                            text: "CAPTURAS",
+                            text: "INCAUTACIONES DE DINERO",
                             fullSize: true,
                             color: 'black',
                             font: {
@@ -919,6 +1223,146 @@ const CapturasPorDia = async () => {
 
 
 
+const CapturasPorDia_armas = async () => {
+
+    const url_grafica2 = `/medios-comunicacion/API/mapas/IndexDinero_y_armas/CapturasPorDiaGrafica_armas`
+    const headersGrafica2 = new Headers();
+    headersGrafica2.append("X-Requested-With", "fetch");
+
+    const configGrafica2 = {
+        method: 'POST',
+        headers: headersGrafica2,
+
+    }
+    try {
+
+        const response2 = await fetch(url_grafica2, configGrafica2)
+        const datos2 = await response2.json()
+
+ //console.log(datos2);
+
+        const { dias, cantidades } = datos2;
+
+        const canvas = document.getElementById('myChart33');
+        const ctx = canvas.getContext('2d');
+        if (window.DineroPorDia) {
+            // console.log(window.CapturasPorDia);
+            window.DineroPorDia.destroy()
+        }
+
+        const data = {
+            labels: dias,
+            datasets: [{
+                label: 'INCAUTACIONES',
+                data: cantidades,
+                fill: true,
+                borderColor: 'rgb(75, 192, 192)',
+                tension: 0.5,
+                borderColor: '#F10909',
+                backgroundColor: '#34495E',
+                pointBorderColor: 'white',
+                pointBackgroundColor: 'black',
+                pointRadius: 10,
+                pointHoverRadius: 20,
+                pointHitRadius: 30,
+                pointBorderWidth: 2,
+                pointStyle: 'rectRounded',
+            }]
+
+        };
+
+        const configChart = {
+            type: 'line',
+            data: data,
+            options: {
+                plugins: {
+                    legend: {
+                        position: "top",
+                        labels: {
+                            boxWidth: 100,
+                            usePointStyle: true,
+                            pointStyle: "line",
+                        }
+                    }
+                },
+                indexAxis: 'x',
+                scales: {
+                    x: {
+
+                        grid: {
+                            tickColor: "white",
+                            borderDash: [5, 2],
+                            tickWidth: 25,
+                            color: "black",
+                            borderColor: "black",
+                            size: 25
+                        },
+
+                        ticks: {
+                            color: "black",
+                            font: {
+                                weight: "bold",
+                                size: 30
+                            },
+
+
+                        },
+                        title: {
+                            display: true,
+                            text: "DIAS DEL MES",
+                            fullSize: true,
+                            color: 'Black',
+                            font: {
+                                weight: "bold",
+                                size: 30
+                            }
+                        }
+                    },
+                    y: {
+                        grid: {
+                            color: "black",
+                            borderDash: [5, 2,],
+                            borderColor: "black",
+                            tickColor: "yellow",
+                            tickWidth: 5,
+                            size: 10
+                        },
+                        ticks: {
+                            color: "black",
+                            font: {
+                                weight: "bold",
+                                size: 25
+                            },
+                            stepSize: 10,
+                            beginAtZero: true,
+
+                        },
+                        title: {
+                            display: true,
+                            text: "INCAUTACIONES DE ARMAS",
+                            fullSize: true,
+                            color: 'black',
+                            font: {
+                                weight: "bold",
+                                size: 30
+                            }
+                        }
+
+                    }
+                }
+            }
+        };
+
+
+        window.DineroPorDia = new Chart(ctx, configChart);
+        window.DineroPorDia.update()
+    } catch (e) {
+        console.log(error)
+
+    }
+
+}
+
 function ocultar_graficas() {
     if (document.querySelector("#div_graficas").style.display === "none") {
         document.querySelector("#div_graficas").style.display = "block";
@@ -933,7 +1377,7 @@ function ocultar_graficas() {
 
 const trimestralesDelitos = async () => {
 
-    const url_grafica2 = `/medios-comunicacion/API/mapas/IndexMuertes/GraficaTrimestral`
+    const url_grafica2 = `/medios-comunicacion/API/mapas/IndexDinero_y_armas/GraficaTrimestral`
     const headersGrafica2 = new Headers();
     headersGrafica2.append("X-Requested-With", "fetch");
 
@@ -962,7 +1406,7 @@ const trimestralesDelitos = async () => {
 
         let { labels, cantidades } = info;
 
-       //  console.log(cantidades);
+        console.log(cantidades);
 
         let dataSetsLabels = Object.keys(cantidades);
         let dataSetsValues = Object.values(cantidades)
@@ -998,7 +1442,7 @@ const trimestralesDelitos = async () => {
                 plugins: {
                     title: {
                         display: true,
-                        text: 'Cantidad de Muertes'
+                        text: 'Cantidad de Armas'
                     },
                     scales: {
 
@@ -1036,7 +1480,7 @@ const chartColors = [
 
 
 const trimestral_capturas_general = async () => {
-    const url_grafica2 = `/medios-comunicacion/API/mapas/IndexMuertes/GraficaTrimestralGeneral`
+    const url_grafica2 = `/medios-comunicacion/API/mapas/IndexDinero_y_armas/GraficaTrimestralGeneral`
      const headersGrafica2 = new Headers();
      headersGrafica2.append("X-Requested-With", "fetch");
  
@@ -1057,7 +1501,7 @@ const trimestral_capturas_general = async () => {
  
  
      const { meses, cantidades } = info;
-     // console.log(info);
+      console.log(info);
      const canvas1 = document.getElementById('myChart5');
      const ctx1 = canvas1.getContext('2d');
      if (window.trimestral_capturaGeneral) {
@@ -1200,15 +1644,17 @@ busquedad_mapa_Calor();
 
 
 
-
 formBusqueda_grafica.addEventListener('submit', delitos_estadistica)
 
 btnmapa.addEventListener("click", ocultar_mapa);
 busquedad_mapa_Calor();
+dinero_estadistica();
 delitos_estadistica();
+//delitos_estadistica_dinero();
 CapturasPorDia();
+CapturasPorDia_armas();
 trimestralesDelitos();
 trimestral_capturas_general();
-// deptos_estadistica();
+ deptos_estadistica_dinero();
 btngrafica.addEventListener("click", ocultar_graficas);
 
