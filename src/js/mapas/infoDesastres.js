@@ -634,11 +634,12 @@ window.detalle = async (valor) => {
 //________________________________________________________GRAFICA POR DELITOS __________________________________________________________________________________________________________
 
 
-const delitos_estadistica = async (e) => {
+const desastres_estadisticas = async (e) => {
     e && e.preventDefault();
 
 
-    const url_grafica1 = `/medios-comunicacion/API/mapas/infoDesastres/DelitosCantGrafica`
+
+    const url_grafica1 = `/medios-comunicacion/API/mapas/infoDesastres/DesatresCantGrafica`
     const bodyGrafica1 = new FormData(formBusqueda_grafica);
 
     const headersGrafica1 = new Headers();
@@ -654,8 +655,11 @@ const delitos_estadistica = async (e) => {
         const response1 = await fetch(url_grafica1, configGrafica1)
         const datos1 = await response1.json()
 
+        console.log(datos1);
+       
 
-        if(formBusqueda_grafica.fecha_grafica.value != "" && formBusqueda_grafica.fecha_grafica2.value != "" ){
+
+        if((formBusqueda_grafica.fecha_grafica.value != "" && formBusqueda_grafica.fecha_grafica2.value != "") || formBusqueda_grafica.select_grafica.value !=""  ){
             const fecha1 = formBusqueda_grafica.fecha_grafica.value
             const fecha2 = formBusqueda_grafica.fecha_grafica2.value
             if (fecha1 == "" && fecha2 == "") {
@@ -1280,7 +1284,7 @@ const trimestral_capturas_general = async () => {
 
 
 formBusqueda_resumen.addEventListener('submit', cambiarmes)
-formBusqueda_grafica.addEventListener('submit', delitos_estadistica)
+formBusqueda_grafica.addEventListener('submit', desastres_estadisticas)
 btnBuscar.addEventListener("click", Buscar_capturas);
 btnresumenbuscar.addEventListener("click", ocultar_select);
 btngraficabuscar.addEventListener("click", ocultar_busquedad_grafica);
@@ -1288,10 +1292,11 @@ btnBuscarmapacalor.addEventListener("click", ocultar_busquedad_mapa);
 formBusqueda_mapa.addEventListener('submit', busquedad_mapa_Calor)
 btnmapa.addEventListener("click", ocultar_mapa);
 busquedad_mapa_Calor();
-// delitos_estadistica();
-// CapturasPorDia();
-// trimestralesDelitos();
-// trimestral_capturas_general();
+desastres_estadisticas();
+CapturasPorDia();
+trimestralesDelitos();
+trimestral_capturas_general();
+
 // deptos_estadistica();
 btngrafica.addEventListener("click", ocultar_graficas);
 
