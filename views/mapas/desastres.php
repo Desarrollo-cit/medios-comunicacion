@@ -39,22 +39,22 @@ $fechaLarga = strftime(" %B ");
                         </div>
                     </div>
                     <div class="row mb-3 justify-content-center">
-                    <div class="col-lg-3">
-                                    <label for="fenomenos_naturales" style="color: white;">Fenomeno Natural</label>
-                                    <select class="form-control" name="fenomenos_naturales" id="fenomenos_naturales">
-                                        <option value="">Seleccione...</option>
-                                        <?php foreach ($fenomeno_natural as $ca3) { ?>
-                                            <option value="<?= $ca3['id']  ?>"><?= $ca3['desc']  ?></option>
-                                        <?php  }  ?>
-                                    </select>
-                                </div>
+                        <div class="col-lg-3">
+                            <label for="fenomenos_naturales" style="color: white;">Fenomeno Natural</label>
+                            <select class="form-control" name="fenomenos_naturales" id="fenomenos_naturales">
+                                <option value="">Seleccione...</option>
+                                <?php foreach ($fenomeno_natural as $ca3) { ?>
+                                    <option value="<?= $ca3['id']  ?>"><?= $ca3['desc']  ?></option>
+                                <?php  }  ?>
+                            </select>
+                        </div>
                         <div class="col-lg-3">
                             <label for="fecha_resumen" style="color: white;">DE</label>
-                            <input type="datetime-local" id="fecha_resumen" name="fecha_resumen" class="form-control" >
+                            <input type="datetime-local" id="fecha_resumen" name="fecha_resumen" class="form-control">
                         </div>
                         <div class="col-lg-3">
                             <label for="fecha_resumen2" style="color: white;">HASTA</label>
-                            <input type="datetime-local" id="fecha_resumen2" name="fecha_resumen2" class="form-control" >
+                            <input type="datetime-local" id="fecha_resumen2" name="fecha_resumen2" class="form-control">
                         </div>
                         <div class="col-lg-2 pt-4">
                             <button type="submit" class="btn btn-info w-100"><i class="bi bi-search me-2"></i>Buscar</button>
@@ -352,7 +352,7 @@ $fechaLarga = strftime(" %B ");
                                 <th>TIPO DE DESASTRE</th>
                                 <th>FENOMENO</th>
                                 <th>MUERTOS</th>
-                                <th>GRAVEDAD</th>
+
                                 <th>DETALLE</th>
                                 <th>REPORTE</th>
 
@@ -432,38 +432,91 @@ $fechaLarga = strftime(" %B ");
 
                         </div>
 
-                    </form>
                 </div>
                 <hr>
-                <h2>MIGRANTES</h2>
-                <div class="row mb-2 justify-content-center text-center" id="tabla1">
-                    <div class="col-sm-12 col-lg-12 table-responsive ">
-                        <table id='dataTable3' class='table table-hover table-condensed table-bordered w-100'>
-                            <thead class='table-dark'>
-                                <tr>
-                                    <th>NO.</th>
-                                    <th>PAIS DE ORIGEN</th>
-                                    <th>SEXO</th>
-                                    <th>EDADES</th>
-                                    <th>CANTIDAD</th>
-                                    <th>DESTINO</th>
+                <h2>DESASTRES</h2>
 
+                <div class="row mb-3">
+                    <div class='col-lg-3'>
+                        <label for="personaEvacuada">
+                            PERSONAS EVACUADAS
+                        </label>
+                        <input type="text" id="personasEvacuadas" name="personasEvacuadas" style="background-color:#F7DC6F; color:black;  opacity: 0.5;" class="form-control" required readonly>
+                    </div>
 
+                    <div class='col-lg-3'>
+                        <label>
+                            PERSONAS AFECTADAS
+                        </label>
+                        <input type="text" name="personasAfectadas" id="personasAfectadas" style="background-color:#F7DC6F; color:black; opacity: 0.5;" class="form-control" readonly novalidate>
+                    </div>
 
-                                </tr>
-                            </thead>
-                            <tbody>
+                    <div class='col-lg-3'>
+                        <label>
+                            PERSONAS FALLECIDAS
+                        </label>
+                        <input type="text" name="personasFallecidas" id="personasFallecidas" class="form-control" style="background-color: rgb(255, 0, 0, 1); color:black; opacity: 0.5;" readonly novalidate>
+                    </div>
 
-                            </tbody>
-                        </table>
-
-
+                    <div class='col-lg-3'>
+                        <label>
+                            ALBERGUES CONSTRUIDOS
+                        </label>
+                        <input type="text" name="albergues" id="albergues" class="form-control" style="background-color:#7DCEA0; color:black; opacity: 0.5;" readonly novalidate>
                     </div>
                 </div>
+
+                <!-- 661D1|0e -->
+                <div class="row mb-3">
+                    <div class='col-lg-4'>
+                        <label for="estructurasColapsadas">
+                            ESTRUCTURAS COLAPSADAS
+                        </label>
+                        <input type="text" id="estructurasColapsadas" name="estructurasColapsadas" style="background-color: #BFC9CA;" class="form-control" required readonly>
+                    </div>
+
+                    <div class='col-lg-4'>
+                        <label>
+                           INUNDACIONES
+                        </label>
+                        <input type="text" name="inundaciones" id="inundaciones" class="form-control" style="background-color: #BFC9CA;" readonly novalidate>
+                    </div>
+
+                    <div class='col-lg-4'>
+                        <label>
+                            DERRUMBES
+                        </label>
+                        <input type="text" name="derrumbes" id="derrumbes" class="form-control" style="background-color: #BFC9CA;" readonly novalidate>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class='col-lg-4'>
+                        <label for="personaEvacuada">
+                            COLAPSO DE CARRETERAS
+                        </label>
+                        <input type="text" id="colapsoCarreteras" name="colapsoCarreteras" class="form-control" style="background-color: #BFC9CA;" required readonly>
+                    </div>
+
+                    <div class='col-lg-4'>
+                        <label>
+                           HECTAREAS QUEMADAS
+                        </label>
+                        <input type="text" name="hectareasQuemadas" id="hectareasQuemadas" class="form-control" style="background-color: #BFC9CA;" readonly novalidate>
+                    </div>
+
+                    <div class='col-lg-4'>
+                        <label>
+                            DESBORDAMIENTOS DE RIOS
+                        </label>
+                        <input type="text" name="desbordamientosRios" id="desbordamientosRios" class="form-control" style="background-color: #BFC9CA;" readonly novalidate>
+                    </div>
+                </div>
+
+                </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <!-- <button type="submit" form="formIngreso" class="btn btn-primary" id="buttonGuardar">Guardar información</button> -->
             </div>
         </div>
     </div>
@@ -477,7 +530,7 @@ $fechaLarga = strftime(" %B ");
     <div class="row mb-1 justify-content-center">
 
         <div class="  col-lg-12 ">
-            <h1 class="ms-5" style="color:white;"> DEPARTAMENTOS CON MAS CAPTURAS EN EL MES DE <?= strtoupper($fechaLarga) ?><a type="button" id="buscaravanzada"> <img src="<?= asset('./images/iconos/lupa.png') ?>" style="width:40px; height:40px;" alt="capturas"></a></h1>
+            <h1 class="ms-5" style="color:white;"> DAÑOS POR DEPARTAMENTOS EN EL MES DE <?= strtoupper($fechaLarga) ?><a type="button" id="buscaravanzada"> <img src="<?= asset('./images/iconos/lupa.png') ?>" style="width:40px; height:40px;" alt="capturas"></a></h1>
             <hr style="width:100%; height:5px; color:#9A7D0A;">
             <div id="mapa_de_calor">
 
@@ -492,11 +545,11 @@ $fechaLarga = strftime(" %B ");
                             </div>
                             <div class="row mb-3 justify-content-center">
                                 <div class="col-lg-3">
-                                    <label for="edades_mapa_calor" style="color: white;">Delito</label>
-                                    <select class="form-control" name="edades_mapa_calor" id="edades_mapa_calor">
+                                    <label for="fenomenos_mapa_calor" style="color: white;">FENOMENOS</label>
+                                    <select class="form-control" name="fenomenos_mapa_calor" id="fenomenos_mapa_calor">
                                         <option value="">Seleccione...</option>
-                                        <?php foreach ($edades_rango as $ca3) { ?>
-                                            <option value="<?= $ca3['id']  ?>"><?= $ca3['edades']  ?></option>
+                                        <?php foreach ($fenomeno_natural as $ca3) { ?>
+                                            <option value="<?= $ca3['id']  ?>"><?= $ca3['desc']  ?></option>
                                         <?php  }  ?>
                                     </select>
                                 </div>
@@ -685,6 +738,7 @@ $fechaLarga = strftime(" %B ");
 
         <div class="  col-lg-4 bg-dark rounded  pt-3 h-50">
             <div class="row mb-2 justify-content-between">
+                <h3 style="color:white" >CLASIFIACIÓN POR DAÑOS</h3>
                 <div class="col-7 ">
                     <label for="">
                         <h3 style="color:white"><?php echo $colores[0]['descripcion']; ?></h3>
@@ -760,32 +814,97 @@ $fechaLarga = strftime(" %B ");
                         <div class="row mb-3">
                             <!-- <input type="hidden" name="codigo" id="codigo"> -->
                             <div class="col-lg-12 ">
-                                <h1 id="depto_name" for="depto"></h1>
+                                <h1 id="depto_name" for="depto">DAÑOS</h1>
                             </div>
                         </div>
                         <div class="row mb-3">
-                            <div class="col-lg-4 justify-content-start">
-                                <label for="depto">
-                                    <h3> Cantidad de migrantes:</h3>
-                                </label>
-                            </div>
-                            <div id="cantidad_migrantes_depto" class="col-lg-2 justify-content-start">
-                                <h4 name="deptoinfo" id="deptoinfo" style="color:#116189"></h4>
+                    
+                            <div class="col-lg-12 ">
+                                <h3 id="depto_incidencia" name ="depto_incidencia" for="depto"></h3>
                             </div>
                         </div>
-                        <div class="row mb-1">
-                            <div class="col-lg-2 ms-3 ">
-                                <label for="depto">
-                                    <h3 id="label_migrante"><span>Edad en incidencia: </span></h3>
-                                </label>
-                            </div>
-                            <div id="incidencia_edad_depto" class="col-lg-6 justify-content-start">
-                                <h4 name="deptoincidencia" id="deptoincidencia" style="color:#116189"></h4>
-                            </div>
-                        </div>
+                        <hr>
+                <h2>DESASTRES</h2>
+
+                <div class="row mb-3">
+                    <div class='col-lg-3'>
+                        <label for="personaEvacuada">
+                            PERSONAS EVACUADAS
+                        </label>
+                        <input type="text" id="personasEvacuadas1" name="personasEvacuadas1" style="background-color:#F7DC6F; color:black;  opacity: 0.5;" class="form-control" required readonly>
+                    </div>
+
+                    <div class='col-lg-3'>
+                        <label>
+                            PERSONAS AFECTADAS
+                        </label>
+                        <input type="text" name="personasAfectadas" id="personasAfectadas" style="background-color:#F7DC6F; color:black; opacity: 0.5;" class="form-control" readonly novalidate>
+                    </div>
+
+                    <div class='col-lg-3'>
+                        <label>
+                            PERSONAS FALLECIDAS
+                        </label>
+                        <input type="text" name="personasFallecidas" id="personasFallecidas" class="form-control" style="background-color: rgb(255, 0, 0, 1); color:black; opacity: 0.5;" readonly novalidate>
+                    </div>
+
+                    <div class='col-lg-3'>
+                        <label>
+                            ALBERGUES CONSTRUIDOS
+                        </label>
+                        <input type="text" name="albergues" id="albergues" class="form-control" style="background-color:#7DCEA0; color:black; opacity: 0.5;" readonly novalidate>
+                    </div>
+                </div>
+
+                <!-- 661D1|0e -->
+                <div class="row mb-3">
+                    <div class='col-lg-4'>
+                        <label for="estructurasColapsadas">
+                            ESTRUCTURAS COLAPSADAS
+                        </label>
+                        <input type="text" id="estructurasColapsadas" name="estructurasColapsadas" style="background-color: #BFC9CA;" class="form-control" required readonly>
+                    </div>
+
+                    <div class='col-lg-4'>
+                        <label>
+                           INUNDACIONES
+                        </label>
+                        <input type="text" name="inundaciones" id="inundaciones" class="form-control" style="background-color: #BFC9CA;" readonly novalidate>
+                    </div>
+
+                    <div class='col-lg-4'>
+                        <label>
+                            DERRUMBES
+                        </label>
+                        <input type="text" name="derrumbes" id="derrumbes" class="form-control" style="background-color: #BFC9CA;" readonly novalidate>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class='col-lg-4'>
+                        <label for="personaEvacuada">
+                            COLAPSO DE CARRETERAS
+                        </label>
+                        <input type="text" id="colapsoCarreteras" name="colapsoCarreteras" class="form-control" style="background-color: #BFC9CA;" required readonly>
+                    </div>
+
+                    <div class='col-lg-4'>
+                        <label>
+                           HECTAREAS QUEMADAS
+                        </label>
+                        <input type="text" name="hectareasQuemadas" id="hectareasQuemadas" class="form-control" style="background-color: #BFC9CA;" readonly novalidate>
+                    </div>
+
+                    <div class='col-lg-4'>
+                        <label>
+                            DESBORDAMIENTOS DE RIOS
+                        </label>
+                        <input type="text" name="desbordamientosRios" id="desbordamientosRios" class="form-control" style="background-color: #BFC9CA;" readonly novalidate>
+                    </div>
+                </div>
                         <div class="row mb-1">
                             <div id="texto_no" style="display:none;">
-                                <h3> No se encontraron MIGRACIONES</h3>
+                                <h3> No se encontraron FENOMENOS</h3>
                             </div>
                             <!-- <div class="col-lg-6 ">
 
@@ -796,7 +915,7 @@ $fechaLarga = strftime(" %B ");
                             <div id="grafica_depto1" class="col-lg-12 pt-5 ">
 
                                 <div class="col-lg-6 " style="width: 600px; height:400px; ">
-                                    <h2 style="color:black">EDADES DE LOS MIGRANTES</h2>
+                                    <h2 style="color:black">DAÑOS GENERALES DE LOS FENOMENOS</h2>
                                     <canvas id="delitos_cant" width="50" height="50"></canvas>
                                 </div>
                                 <div class="col-lg-6  " style="width: 600px; height:400px; ">

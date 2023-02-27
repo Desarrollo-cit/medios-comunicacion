@@ -132,10 +132,7 @@ const modificarColores = async (evento) => {
 
         const respuesta = await fetch(url, config);
         const data = await respuesta.json();
-        console.log(data
-            
-            
-            );
+        console.log(data);
         // const {resultado} = data;
         // const resultado = data.resultado;
 

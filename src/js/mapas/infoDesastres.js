@@ -20,11 +20,10 @@ const btnmapa = document.querySelector("#ver_mapa");
 const btngrafica = document.querySelector("#ver_grafica");
 
 let tablaregistro = new Datatable('#dataTable2');
-let TablaInfoPer = new Datatable('#dataTable3');
-let TablaInfoPer1 = new Datatable('#dataTable4');
-const formcaptura = document.querySelector('#formInformacion1')
-const formdroga = document.querySelector('#formInformacion2')
-const capturas = new Modal(document.getElementById('modaldesastre'), {
+
+const formdesastres = document.querySelector('#formInformacion1')
+const formdeptoinfo = document.querySelector('#formdeptoinfo')
+const modaldesastre = new Modal(document.getElementById('modaldesastre'), {
     keyboard: false
 })
 
@@ -73,7 +72,7 @@ const cambiarmes = async (evento) => {
 
         const respuesta = await fetch(url, config);
         const data = await respuesta.json();
-        console.log(data);
+        // console.log(data);
 if(data[0].cantidad == 0){
     Toast.fire({
         icon: 'error',
@@ -209,7 +208,7 @@ const Buscar_capturas = async (e) => {
         const respuesta = await fetch(url, config);
         const info = await respuesta.json();
 
-console.log(info);
+// console.log(info);
         tablaregistro.destroy();
         tablaregistro = new Datatable('#dataTable2', {
             language: lenguaje,
@@ -222,14 +221,13 @@ console.log(info);
                 { data: "tipo", "width": "11%" },
                 { data: "fenomeno", "width": "15%" },
                 { data: "muertes", "width": "11%" },
-                { data: "promedio", "width": "15%" },
-
+              
                 {
                     data: "id",
 
                     "render": (data, type, row, meta) =>
 
-                        ` <button class='btn btn-success'     onclick='ModalPersonal(${row.id}, ${row.tipo})'><i class="bi bi-info-circle"></i></button>`,
+                        ` <button class='btn btn-success'     onclick='ModalPersonal(${row.id})'><i class="bi bi-info-circle"></i></button>`,
                     "searchable": false,
                     "width": "10%"
                 },
@@ -253,7 +251,7 @@ console.log(info);
 }
 
 
-window.ModalPersonal = async (id, tipo) => {
+window.ModalPersonal = async (id) => {
 
 
     const url = `/medios-comunicacion/API/mapas/infoDesastres/modal`
@@ -268,7 +266,7 @@ window.ModalPersonal = async (id, tipo) => {
     }
     const respuesta = await fetch(url, config);
     const info = await respuesta.json();
-    console.log(info);
+    // console.log(info);
 
     const url1 = `/medios-comunicacion/API/mapas/infoDesastres/informacion`
     const body1 = new FormData();
@@ -283,44 +281,38 @@ window.ModalPersonal = async (id, tipo) => {
     }
 
     const respuesta1 = await fetch(url1, config1);
-    const info1 = await respuesta1.json();
+    const datodesastre = await respuesta1.json();
 
+console.log(datodesastre);
 
-    switch (tipo) {
-
-        case 1:
-            capturas.show();
+            modaldesastre.show();
             info.forEach(info1 => {
-                formcaptura.fecha1.value = info1.fecha
-                formcaptura.topico.value = info1.topico
-                formcaptura.latitud.value = info1.latitud
-                formcaptura.longitud.value = info1.longitud
-                formcaptura.departamentoBusqueda.value = info1.depto
-                formcaptura.municipio.value = info1.municipio[0]['dm_desc_lg']
-                formcaptura.actvidad_vinculada.value = info1.actividad
-                formcaptura.lugar.value = info1.lugar
+                formdesastres.fecha1.value = info1.fecha
+                formdesastres.topico.value = info1.topico
+                formdesastres.latitud.value = info1.latitud
+                formdesastres.longitud.value = info1.longitud
+                formdesastres.departamentoBusqueda.value = info1.depto
+                formdesastres.municipio.value = info1.municipio
+                formdesastres.actvidad_vinculada.value = info1.actividad
+                formdesastres.lugar.value = info1.lugar
+
+            });
+
+            datodesastre.forEach(datodesastre1 => {
+                formdesastres.personasEvacuadas.value = datodesastre1.per_evacuada
+                formdesastres.personasAfectadas.value = datodesastre1.per_afectada 
+                formdesastres.personasFallecidas.value = datodesastre1.per_fallecida
+                formdesastres.albergues.value = datodesastre1.albergues
+                formdesastres.estructurasColapsadas.value = datodesastre1.est_colapsadas
+                formdesastres.inundaciones.value = datodesastre1.inundaciones
+                formdesastres.derrumbes.value = datodesastre1.derrumbes
+                formdesastres.colapsoCarreteras.value = datodesastre1.carre_colap
+                formdesastres.hectareasQuemadas.value = datodesastre1.hectareas_quemadas
+                formdesastres.desbordamientosRios.value = datodesastre1.rios
 
             });
 
 
-
-            TablaInfoPer.destroy();
-            TablaInfoPer = new Datatable('#dataTable3', {
-                language: lenguaje,
-                data: info1,
-                columns: [
-                    { data: "contador", "width": "10%" },
-                    { data: "nombre", "width": "20%" },
-                    { data: "sexo", "width": "15%" },
-                    { data: "edad", "width": "15%" },
-                    { data: "nacionalidad", "width": "25%" },
-                    { data: "delito", "width": "15%" }
-                ]
-            })
-
-            break;
-     
-    }
 
 
 }
@@ -361,7 +353,7 @@ const busquedad_mapa_Calor = async (e) => {
 
         const respuesta = await fetch(url, config);
         const info = await respuesta.json();
-if( (fecha1 != "" && fecha2 != "") || formMapa.delitos_mapa_calor.value !="" ){
+if( (fecha1 != "" && fecha2 != "") || formMapa.fenomenos_mapa_calor.value !="" ){
 if(info.length ==  0){
 Toast.fire({
     icon: 'error',
@@ -415,15 +407,15 @@ Toast.fire({
                 data.fill = 'gray'
                 let color = '#145A32 '
 
-                if (parseInt(data.cantidad) >= cantidad_baja && parseInt(data.cantidad) <= cantidad_medio) {
+                if (parseInt(data.promedio) >= cantidad_baja && parseInt(data.promedio) <= cantidad_medio) {
 
                     color = color_bajo;
                 }
-                if (parseInt(data.cantidad) >= cantidad_medio && parseInt(data.cantidad) < cantidad_alta) {
+                if (parseInt(data.promedio) >= cantidad_medio && parseInt(data.promedio) < cantidad_alta) {
                     // console.log(color_medio)
                     color = color_medio;
                 }
-                if (parseInt(data.cantidad) >= cantidad_alta) {
+                if (parseInt(data.promedio) >= cantidad_alta) {
 
                     color = color_alta;
                 }
@@ -449,7 +441,11 @@ window.detalle = async (valor) => {
 
         valor = '0' + valor
     }
-    const delito = formMapa.delitos_mapa_calor.value
+    var labelFenomeno = document.getElementById('depto_name');
+    var depto_incidencia = document.getElementById('depto_incidencia');
+    const fenomeno = formMapa.fenomenos_mapa_calor.value
+    const combo = document.getElementById('fenomenos_mapa_calor');
+    var selected = combo.options[combo.selectedIndex].text;
     const url = `/medios-comunicacion/API/mapas/infoDesastres/mapaCalorPorDepto`
     const body = new FormData(formMapa);
     body.append('departamento', valor);
@@ -465,22 +461,41 @@ window.detalle = async (valor) => {
 
     const respuesta = await fetch(url, config);
     const info_depto1 = await respuesta.json();
-
+    // console.log(info_depto1);
+   
     
-    if (info_depto1) {
-        deptoinfo.innerText = info_depto1[0].cantidad_delito
-        deptoincidencia.innerText = info_depto1[1].desc
-        if (delito != "") {
-            label_delito.innerText = 'Delito seleccionado:'
-        }
-        if (delito == "") {
-            label_delito.innerText = 'Incidencia:'
-        }
-    } else {
-        deptoinfo.innerText = ''
-        deptoincidencia.innerText = ''
-        label_delito.innerText = 'Incidencia:'
+    
+    formdeptoinfo.personasEvacuadas1.value = info_depto1[0].cantidad
+    formdeptoinfo.personasAfectadas.value = info_depto1[1].cantidad  
+    formdeptoinfo.personasFallecidas.value = info_depto1[2].cantidad 
+    formdeptoinfo.albergues.value = info_depto1[3].cantidad 
+    formdeptoinfo.estructurasColapsadas.value = info_depto1[4].cantidad 
+    formdeptoinfo.inundaciones.value = info_depto1[5].cantidad 
+    formdeptoinfo.derrumbes.value = info_depto1[6].cantidad 
+    formdeptoinfo.colapsoCarreteras.value = info_depto1[7].cantidad 
+    formdeptoinfo.hectareasQuemadas.value = info_depto1[8].cantidad 
+    formdeptoinfo.desbordamientosRios.value = info_depto1[9].cantidad 
 
+   
+    if (fenomeno !="") {
+
+        
+        labelFenomeno.innerText = 'DAÑOS OCASIONADOS POR  '+ ' ' + selected
+        depto_incidencia.style.display = "block"
+
+        depto_incidencia.innerText = "FENOMENO SELECCIONADO " + selected
+    } else {
+        
+        labelFenomeno.innerText = 'Daños:'
+
+        if(info_depto1[10].cantidad > 0 ){
+            depto_incidencia.style.display = "block"
+
+        depto_incidencia.innerText = "FENOMENO MAS GRAVE " + info_depto1[10].desc 
+        }else{
+
+            depto_incidencia.style.display = "none"
+        }
     }
 
     const label = document.getElementById('depto_name')
@@ -509,7 +524,7 @@ window.detalle = async (valor) => {
         const response = await fetch(url_grafica, configGrafica)
         const datos = await response.json()
 
-        // console.log(datos);
+        console.log(datos);
         if (datos.length > 0) {
             document.getElementById('grafica_depto1').style.display = "block"
             document.getElementById('texto_no').style.display = "none"
@@ -532,7 +547,7 @@ window.detalle = async (valor) => {
                 data: {
                     labels,
                     datasets: [{
-                        label: 'DELITOS',
+                        label: 'fenomenos',
                         data: cantidades,
                         backgroundColor: [
                             'rgba(255, 199, 132, 1)',
@@ -1281,6 +1296,7 @@ desastres_estadisticas();
 CapturasPorDia();
 trimestralesDelitos();
 trimestral_capturas_general();
+
 // deptos_estadistica();
 btngrafica.addEventListener("click", ocultar_graficas);
 

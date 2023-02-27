@@ -34,15 +34,18 @@ use Controllers\DesastresController;
 use Controllers\ReporteController;
 
 
+
 use Controllers\infoCapturaController;
-use Controllers\infoMuertesController;
+use Controllers\InfoMuertesController;
 use Controllers\infoDrogaController;
 use Controllers\infoDesastresController;
 use Controllers\Mov_socialController;
 use Controllers\PistasController;
 use Controllers\infoMarasController;
+use Controllers\InfoDinero_y_armasController;
 use Controllers\infoMigrantesController;
 use Controllers\FuentesController;
+
 
 $router = new Router();
 $router->setBaseURL('/medios-comunicacion');
@@ -228,6 +231,36 @@ $router->post('/API/mapas/IndexMuertes/mapaCalor', [infoMuertesController::class
 $router->post('/API/mapas/IndexMuertes/mapaCalorPorDepto', [infoMuertesController::class , 'mapaCalorDeptoAPI'] );
 $router->post('/API/mapas/IndexMuertes/colores', [infoMuertesController::class , 'coloresAPI'] );
 $router->post('/API/mapas/IndexMuertes/mapaCalorPorDeptoGrafica', [infoMuertesController::class , 'mapaCalorPorDeptoGraficaAPI'] );
+$router->post('/API/mapas/IndexMuertes/GraficaTrimestralGeneral', [infoMuertesController::class , 'GraficaTrimestralGeneralAPI'] );
+$router->post('/API/mapas/IndexMuertes/DelitosCantGrafica', [infoMuertesController::class , 'DelitosCantGraficaAPI'] );
+$router->post('/API/mapas/IndexMuertes/DelitosDepartamentoGrafica', [infoMuertesController::class , 'DelitosDepartamentoGraficaAPI'] );
+$router->post('/API/mapas/IndexMuertes/CapturasPorDiaGrafica', [infoMuertesController::class , 'CapturasPorDiaGraficaAPI'] );
+$router->post('/API/mapas/IndexMuertes/GraficaTrimestral', [infoMuertesController::class , 'GraficaTrimestralAPI'] );
+
+
+
+//DINERO_Y_ARMAS
+$router->get('/mapas/dinero_y_armas', [InfoDinero_y_armasController::class , 'index']);
+$router->post('/API/mapas/IndexDinero_y_armas/resumen', [InfoDinero_y_armasController::class , 'resumenAPI'] );
+$router->get('/API/mapas/IndexDinero_y_armas/listado', [InfoDinero_y_armasController::class , 'listadoAPI'] );
+$router->post('/API/mapas/IndexDinero_y_armas/modal', [InfoDinero_y_armasController::class , 'modalAPI'] );
+$router->post('/API/mapas/IndexDinero_y_armas/informacion', [InfoDinero_y_armasController::class , 'informacionModalAPI'] );
+$router->post('/API/mapas/IndexDinero_y_armas/informacion1', [InfoDinero_y_armasController::class , 'informacionModalAPI1'] );
+$router->post('/API/mapas/IndexDinero_y_armas/mapaCalor', [InfoDinero_y_armasController::class , 'mapaCalorAPI'] );
+$router->post('/API/mapas/IndexDinero_y_armas/mapaCalorPorDepto', [InfoDinero_y_armasController::class , 'mapaCalorDeptoAPI'] );
+$router->post('/API/mapas/IndexDinero_y_armas/colores', [InfoDinero_y_armasController::class , 'coloresAPI'] );
+$router->post('/API/mapas/IndexDinero_y_armas/mapaCalorPorDeptoGrafica', [InfoDinero_y_armasController::class , 'mapaCalorPorDeptoGraficaAPI'] );
+$router->post('/API/mapas/IndexDinero_y_armas/GraficaTrimestralGeneral', [InfoDinero_y_armasController::class , 'GraficaTrimestralGeneralAPI'] );
+$router->post('/API/mapas/IndexDinero_y_armas/DelitosCantGrafica', [InfoDinero_y_armasController::class , 'DelitosCantGraficaAPI'] );
+$router->post('/API/mapas/IndexDinero_y_armas/DineroCantGrafica', [InfoDinero_y_armasController::class , 'DineroCantGraficaAPI'] );
+$router->post('/API/mapas/IndexDinero_y_armas/DelitosDepartamentoGrafica', [InfoDinero_y_armasController::class , 'DelitosDepartamentoGraficaAPI'] );
+
+$router->post('/API/mapas/IndexDinero_y_armas/DineroDepartamentoGrafica', [InfoDinero_y_armasController::class , 'DineroDepartamentoGraficaAPI'] );
+$router->post('/API/mapas/IndexDinero_y_armas/CapturasPorDiaGrafica', [InfoDinero_y_armasController::class , 'CapturasPorDiaGraficaAPI'] );
+$router->post('/API/mapas/IndexDinero_y_armas/CapturasPorDiaGrafica_armas', [InfoDinero_y_armasController::class , 'CapturasPorDiaGrafica_armasAPI'] );
+$router->post('/API/mapas/IndexDinero_y_armas/GraficaTrimestral', [InfoDinero_y_armasController::class , 'GraficaTrimestralAPI'] );
+$router->post('/API/mapas/IndexDinero_y_armas/GraficaTrimestralGeneral', [InfoDinero_y_armasController::class , 'GraficaTrimestralGeneralAPI'] );
+
 
 
 $router->get('/reportes/topico', [ReporteController::class, 'reporteTopico']);
@@ -305,7 +338,7 @@ $router->get('/mapas/desastres', [infoDesastresController::class , 'index']);
 $router->post('/API/mapas/infoDesastres/resumen', [infoDesastresController::class , 'resumenAPI'] );
 $router->get('/API/mapas/infoDesastres/listado', [infoDesastresController::class , 'listadoAPI'] );
 $router->post('/API/mapas/infoDesastres/modal', [infoDesastresController::class , 'modalAPI'] );
-$router->post('/API/mapas/infoDesastres/informacionMigrantes', [infoDesastresController::class , 'informacionMigrantesModalAPI'] );
+$router->post('/API/mapas/infoDesastres/informacion', [infoDesastresController::class , 'informacionModalAPI'] );
 $router->post('/API/mapas/infoDesastres/mapaCalor', [infoDesastresController::class , 'mapaCalorAPI'] );
 $router->post('/API/mapas/infoDesastres/mapaCalorPorDepto', [infoDesastresController::class , 'mapaCalorDeptoAPI'] );
 $router->post('/API/mapas/infoDesastres/mapaCalorPorDeptoGrafica', [infoDesastresController::class , 'mapaCalorPorDeptoGraficaAPI'] );
