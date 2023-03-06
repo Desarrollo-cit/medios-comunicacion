@@ -524,8 +524,8 @@ window.detalle = async (valor) => {
         const response = await fetch(url_grafica, configGrafica)
         const datos = await response.json()
 
-        console.log(datos);
-        if (datos.length > 0) {
+        // console.log(datos.info1);
+        if (datos.info1 != null) {
             document.getElementById('grafica_depto1').style.display = "block"
             document.getElementById('texto_no').style.display = "none"
 

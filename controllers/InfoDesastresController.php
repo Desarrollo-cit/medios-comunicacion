@@ -1002,50 +1002,57 @@ class InfoDesastresController
 
 
             $depto = $_POST['departamento'];
-            $droga = $_POST['fenomenos_mapa_calor'];
+            $fenomeno = $_POST['fenomenos_mapa_calor'];
             $fecha1 = str_replace('T', ' ', $_POST['fecha_mapa']);
             $fecha2 = str_replace('T', ' ', $_POST['fecha2']);
             // echo json_encode($_POST);
             // exit;
+            $sql = " SELECT amc_fenomeno_natural.desc as nombre,  
+            (per_fallecida + per_evacuada + per_afectada + albergues + est_colapsadas + inundaciones + derrumbes + carre_colap + hectareas_quemadas + rios)/10 as promedio
+            
+             from amc_desastre_natural 
+                        inner join amc_fenomeno_natural on nombre_desastre = amc_fenomeno_natural.id
+                        inner join amc_tipo_desastre_natural on amc_tipo_desastre_natural.id = amc_desastre_natural.tipo
+                        inner join amc_topico on amc_desastre_natural.topico = amc_topico.id
+                        inner join depmun on amc_topico.departamento = dm_codigo 
+                        where amc_topico.situacion = 1   AND amc_topico.departamento =  $depto";
+                        
+            if ($fenomeno != '') {
+
+                $sql .= "AND amc_desastre_natural.nombre_desastre = $fenomeno";
+            }
+
+            if ($fecha1 != '' && $fecha2 != '') {
+                $sql .= " AND amc_topico.fecha   BETWEEN '$fecha1' AND  '$fecha2' ";
+            }
+            if ($fecha1 == '' && $fecha2 == '') {
+                $sql .= " AND year(fecha) = year(current) AND month(fecha) = month(current)";
+            }
 
 
-            $tipos = static::fenomeno_natural();
-
-            $data = [];
-            $labels = [];
-            $drogas = [];
-            $cantidades = [];
-            $i = 0;
-          
            
 
+            $info = Des_natural::fetchArray($sql);
+
                 
-
-                    foreach ($tipos as $key => $tipo) {
-
-                        $fenomeno = (int)$tipo['id'];
-
-                        $labels[] = $tipo['desc'];
-
-                        $operaciones = static::departamental_grafica($fecha1, $fecha2, $depto, $fenomeno);
-
-                     
-                //         echo json_encode($operaciones);
-                // exit;
+            foreach($info as $dato){
+                $cantidades[] = $dato['promedio'];
+                $labels[] = $dato['nombre'];
+                if($dato['promedio'] != null){
+                    $info1 = 1;
+                }else{
+                    $info1 = 0;
+                }
             
-                       
-                      
-                        $cantidades[$labels][] = (int) $operaciones[0]['cantidad'];
-                    }
-                  
-              
-
-                $data = [
-                    'labels' => $labels,
-                    'cantidades' => $cantidades,
-                   
-                ];
-
+            }
+            
+            $data = [
+                'descripcion' => $labels,
+                'cantidades' => $cantidades,
+                'info1' => $info1
+                
+            ];
+            
    
                 echo json_encode($data);
                 exit;
