@@ -530,11 +530,7 @@ window.detalle = async (valor) => {
             document.getElementById('texto_no').style.display = "none"
 
 
-            let labels = [], cantidades = []
-            datos.forEach(d => {
-                labels = [...labels, d.descripcion]
-                cantidades = [...cantidades, d.cantidad]
-            })
+            const { descripcion, cantidades } = datos;
             // mostrar(datos)
             //  $("#delitos_cant").destroy();
             const ctx = document.getElementById('delitos_cant');
@@ -545,7 +541,7 @@ window.detalle = async (valor) => {
             window.grafica = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels,
+                    labels: descripcion,
                     datasets: [{
                         label: 'fenomenos',
                         data: cantidades,
