@@ -226,7 +226,7 @@ $router->post('/API/mapas/IndexMuertes/resumen', [infoMuertesController::class ,
 $router->get('/API/mapas/IndexMuertes/listado', [infoMuertesController::class , 'listadoAPI'] );
 $router->post('/API/mapas/IndexMuertes/modal', [infoMuertesController::class , 'modalAPI'] );
 $router->post('/API/mapas/IndexMuertes/informacion', [infoMuertesController::class , 'informacionModalAPI'] );
-$router->post('/API/mapas/IndexMuertes/informacion1', [infoMuertesController::class , 'informacionModalAPI1'] );
+// $router->post('/API/mapas/IndexMuertes/informacion1', [infoMuertesController::class , 'informacionModalAPI1'] );
 $router->post('/API/mapas/IndexMuertes/mapaCalor', [infoMuertesController::class , 'mapaCalorAPI'] );
 $router->post('/API/mapas/IndexMuertes/mapaCalorPorDepto', [infoMuertesController::class , 'mapaCalorDeptoAPI'] );
 $router->post('/API/mapas/IndexMuertes/colores', [infoMuertesController::class , 'coloresAPI'] );
