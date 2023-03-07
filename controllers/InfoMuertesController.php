@@ -38,7 +38,7 @@ class InfoMuertesController
     {
 
 
-        $sql = " SELECT  count (*) as cantidad from amc_per_asesinadas inner join amc_topico on amc_per_asesinadas.topico = amc_topico.id  where   amc_topico.situacion = 1 and amc_per_asesinadas.situacion >0";
+        $sql = " SELECT  count (*) as cantidad from amc_per_asesinadas inner join amc_topico on amc_per_asesinadas.topico = amc_topico.id  where   amc_topico.situacion = 1 and amc_per_asesinadas.situacion >0 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user)";
 
         if($fecha1 != '' && $fecha2 != ''){
 
@@ -66,7 +66,7 @@ class InfoMuertesController
 
         $sql = "SELECT first 1  amc_per_asesinadas.situacion as delito, count(*) as cantidad from amc_per_asesinadas 
         inner join amc_topico on amc_per_asesinadas.topico = amc_topico.id   
-        where     amc_topico.situacion = 1 and amc_per_asesinadas.situacion > 0  ";
+        where     amc_topico.situacion = 1 and amc_per_asesinadas.situacion > 0  and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user)";
 
         if($fecha1 != '' && $fecha2 != ''){
 
@@ -129,7 +129,7 @@ class InfoMuertesController
 
         $sql = "SELECT  count(*) as cantidad from amc_per_asesinadas inner join amc_topico on amc_per_asesinadas.topico = amc_topico.id 
         where   amc_topico.situacion = 1 and amc_per_asesinadas.sexo = 2 
-        and amc_per_asesinadas.situacion > 0 ";
+        and amc_per_asesinadas.situacion > 0 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
 
 
         if($fecha1 != '' && $fecha2 != ''){
@@ -151,7 +151,7 @@ class InfoMuertesController
 
     protected static function hombres($fecha1 = "", $fecha2 = "")
     {
-        $sql = "SELECT count(*) as cantidad1 from amc_per_asesinadas inner join amc_topico on amc_per_asesinadas.topico = amc_topico.id   where   amc_topico.situacion = 1 and sexo = 1 and amc_per_asesinadas.situacion > 0";
+        $sql = "SELECT count(*) as cantidad1 from amc_per_asesinadas inner join amc_topico on amc_per_asesinadas.topico = amc_topico.id   where   amc_topico.situacion = 1 and sexo = 1 and amc_per_asesinadas.situacion > 0 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
 
 
 
@@ -178,7 +178,7 @@ class InfoMuertesController
         $sql = "  SELECT FIRST 1 amc_topico.departamento as departamento, count(*) as cantidad FROM amc_topico 
         inner join amc_per_asesinadas on amc_topico.id = amc_per_asesinadas.topico 
         where year(amc_topico.fecha) = year(current) and amc_topico.situacion = 1
-         and amc_per_asesinadas.situacion > 0  ";
+         and amc_per_asesinadas.situacion > 0  and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
         if($fecha1 != '' && $fecha2 != ''){
 
             $sql.= " AND amc_topico.fecha   BETWEEN '$fecha1' AND  '$fecha2' ";
@@ -249,8 +249,7 @@ class InfoMuertesController
             amc_topico.fecha as fecha, dm_desc_lg as departamento,  
             amc_actividad_vinculada.desc as actividad from amc_topico inner join amc_per_asesinadas 
             on amc_per_asesinadas.topico = amc_topico.id  inner join amc_tipo_topics on amc_topico.tipo = amc_tipo_topics.id inner join depmun on amc_topico.departamento = depmun.dm_codigo 
-             inner join amc_actividad_vinculada on amc_topico.actividad = amc_actividad_vinculada.id and amc_per_asesinadas.situacion > 0 and amc_topico.situacion = 1
-        ";
+             inner join amc_actividad_vinculada on amc_topico.actividad = amc_actividad_vinculada.id and amc_per_asesinadas.situacion > 0 and amc_topico.situacion = 1 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user)  ";
             $info =  Capturadas::fetchArray($sql);
 
             $data = [];
@@ -333,7 +332,7 @@ class InfoMuertesController
             $id = $_POST['id'];
             
             
-            $sql = "SELECT amc_topico.id, fecha, lugar, departamento, municipio as muni, tipo,latitud,longitud,actividad, amc_topico.situacion, depmun.dm_desc_lg as departamento1, amc_actividad_vinculada.desc as act, amc_tipo_topics.desc as topico from amc_topico inner join depmun on amc_topico.departamento = depmun.dm_codigo inner join amc_actividad_vinculada on amc_topico.actividad = amc_actividad_vinculada.id inner join amc_tipo_topics on amc_topico.tipo = amc_tipo_topics.id where amc_topico.situacion = 1 and amc_topico.id =  $id";
+            $sql = "SELECT amc_topico.id, fecha, lugar, departamento, municipio as muni, tipo,latitud,longitud,actividad, amc_topico.situacion, depmun.dm_desc_lg as departamento1, amc_actividad_vinculada.desc as act, amc_tipo_topics.desc as topico from amc_topico inner join depmun on amc_topico.departamento = depmun.dm_codigo inner join amc_actividad_vinculada on amc_topico.actividad = amc_actividad_vinculada.id inner join amc_tipo_topics on amc_topico.tipo = amc_tipo_topics.id where amc_topico.situacion = 1 and amc_topico.id =  $id and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
             $info =Capturadas::fetchArray($sql);
             $data=[];
             
@@ -411,7 +410,7 @@ class InfoMuertesController
 
             $id = $_POST['id'];
 
-            $sql = "SELECT amc_per_asesinadas.id, amc_per_asesinadas.topico,  amc_sexo.desc as sexo, amc_per_asesinadas.nombre, amc_per_asesinadas.situacion, amc_per_asesinadas.edad  from amc_per_asesinadas inner join amc_sexo on amc_sexo.id = amc_per_asesinadas.sexo  where topico = $id and amc_per_asesinadas.situacion > 0";
+            $sql = "SELECT amc_per_asesinadas.id, amc_per_asesinadas.topico,  amc_sexo.desc as sexo, amc_per_asesinadas.nombre, amc_per_asesinadas.situacion, amc_per_asesinadas.edad  from amc_per_asesinadas inner join amc_sexo on amc_sexo.id = amc_per_asesinadas.sexo  where topico = $id and amc_per_asesinadas.situacion > 0 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
             $info = Capturadas::fetchArray($sql);
             $data=[];
             
@@ -462,30 +461,6 @@ class InfoMuertesController
             ]);
         }
     }
-    public function informacionModalAPI1()
-    {
-        getHeadersApi();
-       
-        // echo json_encode($sql);
-
-        try {
-
-            $id = $_POST['id'];
-
-            $sql = "SELECT amc_incautacion_droga.cantidad as cantidad, amc_incautacion_droga.tipo_transporte as tipo_t, amc_incautacion_droga.id, amc_incautacion_droga.tipo_droga, matricula, amc_drogas.desc as droga, amc_transporte.desc as transporte   from amc_incautacion_droga inner join amc_drogas on amc_incautacion_droga.tipo_droga = amc_drogas.id inner join amc_transporte on amc_incautacion_droga.transporte = amc_transporte.id where amc_incautacion_droga.topico =$id and  amc_incautacion_droga.situacion = 1";
-            $info =Capturadas::fetchArray($sql);
-            echo json_encode($info);
-            
-            
-        } catch (Exception $e) {
-            echo json_encode([
-                "detalle" => $e->getMessage(),
-                "mensaje" => "ocurrio un error en base de datos",
-
-                "codigo" => 4,
-            ]);
-        }
-    }
 
 
     public function mapaCalorAPI()
@@ -503,7 +478,7 @@ class InfoMuertesController
             $sql ="       SELECT distinct dm_desc_lg as descripcion, dm_codigo as codigo, count (*) as cantidad FROM amc_topico 
             inner join depmun on departamento = dm_codigo 
             inner join amc_per_asesinadas on topico = amc_topico.id  
-            where 1 = 1  and amc_topico.situacion = 1 and amc_per_asesinadas.situacion > 0 ";
+            where 1 = 1  and amc_topico.situacion = 1 and amc_per_asesinadas.situacion > 0 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
             if($muerte != ''){
          
                $sql.= "AND amc_per_asesinadas.situacion = $muerte";
@@ -561,7 +536,7 @@ class InfoMuertesController
             $fecha2 = str_replace('T', ' ', $_POST['fecha2']);
 
 
-            $sql ="  SELECT  count (*) as cantidad_delito from amc_per_asesinadas inner join amc_topico on amc_per_asesinadas.topico = amc_topico.id  where  amc_topico.situacion = 1 and amc_per_asesinadas.situacion > 0 AND amc_topico.departamento = $depto  ";
+            $sql ="  SELECT  count (*) as cantidad_delito from amc_per_asesinadas inner join amc_topico on amc_per_asesinadas.topico = amc_topico.id  where  amc_topico.situacion = 1 and amc_per_asesinadas.situacion > 0 AND amc_topico.departamento = $depto  and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
          
             if($muerte != ''){
          
@@ -580,7 +555,7 @@ class InfoMuertesController
             
          
             $consulta="      SELECT FIRST 1 amc_per_asesinadas.situacion, count(*) as cantidad_max FROM amc_per_asesinadas inner join amc_topico on amc_per_asesinadas.topico = amc_topico.id  
-            where   amc_topico.situacion = 1 and amc_per_asesinadas.situacion > 0 AND amc_topico.departamento = $depto";
+            where   amc_topico.situacion = 1 and amc_per_asesinadas.situacion > 0 AND amc_topico.departamento = $depto and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
          
             if($muerte != ''){
          
@@ -664,7 +639,7 @@ class InfoMuertesController
             // echo json_encode($_POST);
             // exit;
 
-            $sql = "SELECT amc_per_asesinadas.situacion as descripcion, count(*) as cantidad FROM amc_per_asesinadas  inner join amc_topico on amc_per_asesinadas.topico = amc_topico.id where  amc_topico.situacion = 1 and amc_per_asesinadas.situacion > 0 ";
+            $sql = "SELECT amc_per_asesinadas.situacion as descripcion, count(*) as cantidad FROM amc_per_asesinadas  inner join amc_topico on amc_per_asesinadas.topico = amc_topico.id where  amc_topico.situacion = 1 and amc_per_asesinadas.situacion > 0 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
 
 
             if ($depto != '') {
@@ -673,7 +648,7 @@ class InfoMuertesController
             }
             if ($muerte != '') {
 
-                $sql .= "AND amc_per_asesinadas.delito = $muerte";
+                $sql .= "AND amc_per_asesinadas.situacion = $muerte";
             }
 
             if ($fecha1 != '' && $fecha2 != '') {
