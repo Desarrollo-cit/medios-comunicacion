@@ -663,7 +663,7 @@ class InfoCapturaController
             $data = [];
             for ($i = 0; $i <=  $diasMes; $i++) {
                 // $main = new Main();
-                $sql = "SELECT count(*) as  cantidad  From amc_per_capturadas inner join amc_topico on amc_per_capturadas.topico = amc_topico.id where year(amc_topico.fecha) = year(current) and month(amc_topico.fecha) = month(current) and day(amc_topico.fecha) = day($i) and amc_topico.situacion = 1 and amc_per_capturadas.situacion = 1 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user)";
+                $sql = "SELECT count(*) as  cantidad  From amc_per_capturadas inner join amc_topico on amc_per_capturadas.topico = amc_topico.id where year(amc_topico.fecha) = year(current) and month(amc_topico.fecha) = month(current) and day(amc_topico.fecha) = day($i) and amc_topico.situacion = 1 and amc_per_capturadas.situacion = 1 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
                 $info = Capturadas::fetchArray($sql);
                 $data['dias'][] = $i;
                 if ($info[0]['cantidad'] == null) {
@@ -953,7 +953,7 @@ class InfoCapturaController
     {
 
         try {
-            $sql = "SELECT * from amc_delito where situacion = 1  ";
+            $sql = "SELECT * from amc_delito where situacion > 0  ";
             $info = Delito::fetchArray($sql);
             return $info;
         } catch (Exception $e) {

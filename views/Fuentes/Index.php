@@ -36,7 +36,7 @@
                     <th>MODIFICAR</th>
                     <th>ELIMINAR</th>
                     <th>CAMBIAR</th>
-                    <th>ESTADO</th>
+                   
                 </tr>
             </thead>
             <head>

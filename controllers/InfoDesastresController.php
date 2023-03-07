@@ -89,7 +89,7 @@ class InfoDesastresController
 
         $sql = " SELECT  count (*) as cantidad from amc_desastre_natural 
         inner join amc_topico on amc_desastre_natural.topico = amc_topico.id 
-        where  amc_topico.situacion = 1 and amc_desastre_natural.situacion = 1";
+        where  amc_topico.situacion = 1 and amc_desastre_natural.situacion = 1 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
 
         if ($fecha1 != '' && $fecha2 != '') {
 
@@ -116,7 +116,7 @@ class InfoDesastresController
     {
 
 
-        $sql = "SELECT  sum(amc_desastre_natural.per_evacuada) as cantidad from amc_desastre_natural inner join amc_topico on amc_desastre_natural.topico = amc_topico.id  where  amc_desastre_natural.situacion = 1 ";
+        $sql = "SELECT  sum(amc_desastre_natural.per_evacuada) as cantidad from amc_desastre_natural inner join amc_topico on amc_desastre_natural.topico = amc_topico.id  where  amc_desastre_natural.situacion = 1 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
 
 
 
@@ -159,7 +159,7 @@ class InfoDesastresController
     {
 
 
-        $sql = "SELECT  sum(amc_desastre_natural.albergues) as cantidad from amc_desastre_natural inner join amc_topico on amc_desastre_natural.topico = amc_topico.id  where  amc_desastre_natural.situacion = 1 ";
+        $sql = "SELECT  sum(amc_desastre_natural.albergues) as cantidad from amc_desastre_natural inner join amc_topico on amc_desastre_natural.topico = amc_topico.id  where  amc_desastre_natural.situacion = 1 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
 
 
 
@@ -202,7 +202,7 @@ class InfoDesastresController
     {
 
 
-        $sql = "SELECT  sum(amc_desastre_natural.per_fallecida) as cantidad from amc_desastre_natural inner join amc_topico on amc_desastre_natural.topico = amc_topico.id  where  amc_desastre_natural.situacion = 1 ";
+        $sql = "SELECT  sum(amc_desastre_natural.per_fallecida) as cantidad from amc_desastre_natural inner join amc_topico on amc_desastre_natural.topico = amc_topico.id  where  amc_desastre_natural.situacion = 1 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
 
         if ($fecha1 == '' && $fecha2 == '') {
 
@@ -242,7 +242,7 @@ class InfoDesastresController
     {
 
 
-        $sql = "  SELECT FIRST 1  amc_tipo_desastre_natural.desc, count(amc_tipo_desastre_natural.desc) as cantidad from amc_desastre_natural inner join amc_tipo_desastre_natural on amc_desastre_natural.tipo = amc_tipo_desastre_natural.id inner join amc_topico on amc_desastre_natural.topico = amc_topico.id  where  amc_desastre_natural.situacion = 1 and amc_topico.situacion = 1";
+        $sql = "  SELECT FIRST 1  amc_tipo_desastre_natural.desc, count(amc_tipo_desastre_natural.desc) as cantidad from amc_desastre_natural inner join amc_tipo_desastre_natural on amc_desastre_natural.tipo = amc_tipo_desastre_natural.id inner join amc_topico on amc_desastre_natural.topico = amc_topico.id  where  amc_desastre_natural.situacion = 1 and amc_topico.situacion = 1 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
 
         if ($fecha1 == '' && $fecha2 == '') {
 
@@ -280,7 +280,7 @@ class InfoDesastresController
     {
 
 
-        $sql = "SELECT  sum(amc_desastre_natural.per_afectada) as cantidad from amc_desastre_natural inner join amc_topico on amc_desastre_natural.topico = amc_topico.id  where  amc_desastre_natural.situacion = 1 ";
+        $sql = "SELECT  sum(amc_desastre_natural.per_afectada) as cantidad from amc_desastre_natural inner join amc_topico on amc_desastre_natural.topico = amc_topico.id  where  amc_desastre_natural.situacion = 1 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
 
         if ($fecha1 == '' && $fecha2 == '' && $fenomeno =="") {
 
@@ -320,7 +320,7 @@ class InfoDesastresController
     {
 
 
-        $sql = "SELECT  sum(amc_desastre_natural.est_colapsadas) as cantidad from amc_desastre_natural inner join amc_topico on amc_desastre_natural.topico = amc_topico.id  where amc_desastre_natural.situacion = 1 ";
+        $sql = "SELECT  sum(amc_desastre_natural.est_colapsadas) as cantidad from amc_desastre_natural inner join amc_topico on amc_desastre_natural.topico = amc_topico.id  where amc_desastre_natural.situacion = 1 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
 
         if ($fecha1 == '' && $fecha2 == '' && $fenomeno =="") {
 
@@ -358,7 +358,7 @@ class InfoDesastresController
     {
 
 
-        $sql = "SELECT  sum(amc_desastre_natural.inundaciones) as cantidad from amc_desastre_natural inner join amc_topico on amc_desastre_natural.topico = amc_topico.id  where  amc_desastre_natural.situacion = 1 ";
+        $sql = "SELECT  sum(amc_desastre_natural.inundaciones) as cantidad from amc_desastre_natural inner join amc_topico on amc_desastre_natural.topico = amc_topico.id  where  amc_desastre_natural.situacion = 1 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
 
         if ($fecha1 == '' && $fecha2 == ''&& $fenomeno =="") {
 
@@ -398,7 +398,7 @@ class InfoDesastresController
     {
 
 
-        $sql = "SELECT  sum(amc_desastre_natural.derrumbes) as cantidad from amc_desastre_natural inner join amc_topico on amc_desastre_natural.topico = amc_topico.id  where  amc_desastre_natural.situacion = 1 ";
+        $sql = "SELECT  sum(amc_desastre_natural.derrumbes) as cantidad from amc_desastre_natural inner join amc_topico on amc_desastre_natural.topico = amc_topico.id  where  amc_desastre_natural.situacion = 1 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
 
         if ($fecha1 == '' && $fecha2 == ''&& $fenomeno =="") {
 
@@ -437,7 +437,7 @@ class InfoDesastresController
     {
 
 
-        $sql = "SELECT  sum(amc_desastre_natural.carre_colap) as cantidad from amc_desastre_natural inner join amc_topico on amc_desastre_natural.topico = amc_topico.id  where  amc_desastre_natural.situacion = 1 ";
+        $sql = "SELECT  sum(amc_desastre_natural.carre_colap) as cantidad from amc_desastre_natural inner join amc_topico on amc_desastre_natural.topico = amc_topico.id  where  amc_desastre_natural.situacion = 1 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
 
         if ($fecha1 == '' && $fecha2 == '' && $fenomeno =="") {
 
@@ -477,7 +477,7 @@ class InfoDesastresController
     {
 
 
-        $sql = "SELECT  sum(amc_desastre_natural.hectareas_quemadas) as cantidad from amc_desastre_natural inner join amc_topico on amc_desastre_natural.topico = amc_topico.id  where  amc_desastre_natural.situacion = 1 ";
+        $sql = "SELECT  sum(amc_desastre_natural.hectareas_quemadas) as cantidad from amc_desastre_natural inner join amc_topico on amc_desastre_natural.topico = amc_topico.id  where  amc_desastre_natural.situacion = 1 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
 
         if ($fecha1 == '' && $fecha2 == '' && $fenomeno =="") {
 
@@ -516,7 +516,7 @@ class InfoDesastresController
     {
 
 
-        $sql = "SELECT  sum(amc_desastre_natural.rios) as cantidad from amc_desastre_natural inner join amc_topico on amc_desastre_natural.topico = amc_topico.id  where  amc_desastre_natural.situacion = 1 ";
+        $sql = "SELECT  sum(amc_desastre_natural.rios) as cantidad from amc_desastre_natural inner join amc_topico on amc_desastre_natural.topico = amc_topico.id  where  amc_desastre_natural.situacion = 1 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
 
         if ($fecha1 == '' && $fecha2 == '' && $fenomeno =="") {
 
@@ -554,7 +554,7 @@ class InfoDesastresController
     {
 
 
-        $sql = " SELECT FIRST 1 amc_fenomeno_natural.desc as nombre, dm_desc_lg as departamento, (per_fallecida + per_evacuada + per_afectada + albergues + est_colapsadas + inundaciones + derrumbes + carre_colap + hectareas_quemadas + rios)/6 as promedio, per_fallecida + per_evacuada + per_afectada + albergues + est_colapsadas + inundaciones + derrumbes + carre_colap + hectareas_quemadas + rios as suma from amc_desastre_natural inner join amc_fenomeno_natural on nombre_desastre = amc_fenomeno_natural.id inner join amc_topico on amc_desastre_natural.topico = amc_topico.id inner join depmun on amc_topico.departamento = dm_codigo  where amc_topico.situacion = 1";
+        $sql = " SELECT FIRST 1 amc_fenomeno_natural.desc as nombre, dm_desc_lg as departamento, (per_fallecida + per_evacuada + per_afectada + albergues + est_colapsadas + inundaciones + derrumbes + carre_colap + hectareas_quemadas + rios)/6 as promedio, per_fallecida + per_evacuada + per_afectada + albergues + est_colapsadas + inundaciones + derrumbes + carre_colap + hectareas_quemadas + rios as suma from amc_desastre_natural inner join amc_fenomeno_natural on nombre_desastre = amc_fenomeno_natural.id inner join amc_topico on amc_desastre_natural.topico = amc_topico.id inner join depmun on amc_topico.departamento = dm_codigo  where amc_topico.situacion = 1 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
 
         if ($fecha1 == '' && $fecha2 == '' && $fenomeno =="") {
 
@@ -641,7 +641,7 @@ class InfoDesastresController
             inner join amc_topico on amc_desastre_natural.topico = amc_topico.id
             inner join amc_tipo_desastre_natural on amc_tipo_desastre_natural.id = amc_desastre_natural.tipo
             inner join depmun on amc_topico.departamento = dm_codigo 
-            where amc_topico.situacion = 1 ";
+            where amc_topico.situacion = 1 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
             $info = Des_natural::fetchArray($sql);
 
             $data = [];
@@ -707,7 +707,7 @@ class InfoDesastresController
             $id = $_POST['id'];
 
 
-            $sql = "SELECT amc_topico.id, fecha, lugar, departamento, municipio as muni, tipo,latitud,longitud,actividad, amc_topico.situacion, depmun.dm_desc_lg as departamento1, amc_actividad_vinculada.desc as act, amc_tipo_topics.desc as topico from amc_topico inner join depmun on amc_topico.departamento = depmun.dm_codigo inner join amc_actividad_vinculada on amc_topico.actividad = amc_actividad_vinculada.id inner join amc_tipo_topics on amc_topico.tipo = amc_tipo_topics.id where amc_topico.situacion = 1 and amc_topico.id =  $id";
+            $sql = "SELECT amc_topico.id, fecha, lugar, departamento, municipio as muni, tipo,latitud,longitud,actividad, amc_topico.situacion, depmun.dm_desc_lg as departamento1, amc_actividad_vinculada.desc as act, amc_tipo_topics.desc as topico from amc_topico inner join depmun on amc_topico.departamento = depmun.dm_codigo inner join amc_actividad_vinculada on amc_topico.actividad = amc_actividad_vinculada.id inner join amc_tipo_topics on amc_topico.tipo = amc_tipo_topics.id where amc_topico.situacion = 1 and amc_topico.id =  $id and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
             $info = Des_natural::fetchArray($sql);
             $data = [];
 
@@ -780,7 +780,7 @@ class InfoDesastresController
 
             $id = $_POST['id'];
 
-            $sql = "SELECT * from amc_desastre_natural   inner join amc_fenomeno_natural on nombre_desastre = amc_fenomeno_natural.id inner join amc_topico on amc_desastre_natural.topico = amc_topico.id where amc_desastre_natural.topico =$id and  amc_topico.situacion = 1";
+            $sql = "SELECT * from amc_desastre_natural   inner join amc_fenomeno_natural on nombre_desastre = amc_fenomeno_natural.id inner join amc_topico on amc_desastre_natural.topico = amc_topico.id where amc_desastre_natural.topico =$id and  amc_topico.situacion = 1 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
             $info = Des_natural::fetchArray($sql);
 
 
@@ -796,113 +796,9 @@ class InfoDesastresController
     }
 
 
-    public function informacionModalAPI1()
-    {
-        getHeadersApi();
 
-        // echo json_encode($sql);
-
-        try {
-
-            $id = $_POST['id'];
-
-            $sql = "SELECT amc_drogas.desc as tipo_droga,  amc_incautacion_droga.tip_droga_plantacion as tipo_matas,  amc_incautacion_droga.cantidad_plantacion as cantidad1   from amc_incautacion_droga inner join amc_drogas on amc_incautacion_droga.tip_droga_plantacion = amc_drogas.id  where amc_incautacion_droga.topico =$id and  amc_incautacion_droga.situacion = 1";
-            $info = Des_natural::fetchArray($sql);
-
-
-            echo json_encode($info);
-        } catch (Exception $e) {
-            echo json_encode([
-                "detalle" => $e->getMessage(),
-                "mensaje" => "ocurrio un error en base de datos",
-
-                "codigo" => 4,
-            ]);
-        }
-    }
-
-
-    public function informacionPersonasAPI()
-    {
-        getHeadersApi();
-
-        // echo json_encode($sql);
-
-        try {
-
-            $id = $_POST['id'];
-
-            $sql = "SELECT amc_per_capturadas.id, amc_per_capturadas.topico, amc_nacionalidad.desc as nacionalidad, amc_sexo.desc as sexo, amc_per_capturadas.nombre, amc_per_capturadas.edad, amc_delito.desc as delito  from amc_per_capturadas inner join amc_nacionalidad on amc_per_capturadas.nacionalidad = amc_nacionalidad.id inner join amc_sexo on amc_sexo.id = amc_per_capturadas.sexo inner join amc_delito on amc_per_capturadas.delito = amc_delito.id where topico = $id and amc_per_capturadas.situacion = 1";
-
-            $info = Des_natural::fetchArray($sql);
-            $data = [];
-
-            $i = 1;
-            if ($info) {
-                foreach ($info as $key) {
-                    $id = $key['id'];
-                    $sexo = $key['sexo'];
-                    $nacionalidad = $key['nacionalidad'];
-                    $nombre = $key['nombre'];
-                    $topico = $key['topico'];
-                    $delito = $key['delito'];
-                    $edad = $key['edad'];
-
-
-                    $arrayInterno = [[
-                        "contador" => $i,
-                        "id" => $id,
-                        "sexo" => $sexo,
-                        "nacionalidad" => $nacionalidad,
-                        "nombre" => $nombre,
-                        "topico" => $topico,
-                        "delito" => $delito,
-                        "edad" => $edad,
-
-
-
-
-                    ]];
-                    $i++;
-                    $data = array_merge($data, $arrayInterno);
-                }
-            }
-
-
-            echo json_encode($data);
-        } catch (Exception $e) {
-            echo json_encode([
-                "detalle" => $e->getMessage(),
-                "mensaje" => "ocurrio un error en base de datos",
-
-                "codigo" => 4,
-            ]);
-        }
-    }
-    public function distanciaPistaAPI()
-    {
-        getHeadersApi();
-
-        // echo json_encode($sql);
-
-        try {
-
-            $id = $_POST['id'];
-
-            $sql = "SELECT amc_destruccion_pista.distancia as cantidad from amc_destruccion_pista where amc_destruccion_pista.topico =$id and  amc_destruccion_pista.situacion = 1";
-            $info = Des_natural::fetchArray($sql);
-
-
-            echo json_encode($info);
-        } catch (Exception $e) {
-            echo json_encode([
-                "detalle" => $e->getMessage(),
-                "mensaje" => "ocurrio un error en base de datos",
-
-                "codigo" => 4,
-            ]);
-        }
-    }
+    
+   
 
     public function mapaCalorAPI()
     {
@@ -924,7 +820,7 @@ class InfoDesastresController
             inner join amc_tipo_desastre_natural on amc_tipo_desastre_natural.id = amc_desastre_natural.tipo
             inner join amc_topico on amc_desastre_natural.topico = amc_topico.id
             inner join depmun on amc_topico.departamento = dm_codigo 
-            where amc_topico.situacion = 1 ";
+            where amc_topico.situacion = 1 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user)  ";
 
             if ($fenomeno != '') {
 
@@ -1015,7 +911,7 @@ class InfoDesastresController
                         inner join amc_tipo_desastre_natural on amc_tipo_desastre_natural.id = amc_desastre_natural.tipo
                         inner join amc_topico on amc_desastre_natural.topico = amc_topico.id
                         inner join depmun on amc_topico.departamento = dm_codigo 
-                        where amc_topico.situacion = 1   AND amc_topico.departamento =  $depto";
+                        where amc_topico.situacion = 1   AND amc_topico.departamento =  $depto and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
                         
             if ($fenomeno != '') {
 
@@ -1067,32 +963,7 @@ class InfoDesastresController
             ]);
         }
     }
-    function mapaCalorPorDeptoPistasAPI()
-    {
-        $fecha1 = str_replace('T', ' ', $_POST['fecha_mapa']);
-        $fecha2 = str_replace('T', ' ', $_POST['fecha2']);
-
-        $sql = " SELECT distinct dm_desc_lg as descripcion, dm_codigo as codigo, count (*) as cantidad FROM amc_topico inner join depmun on departamento = dm_codigo  where  amc_topico.situacion = 1 and amc_topico.tipo = 8 ";
-
-
-        if ($fecha1 != '' && $fecha2 == '') {
-
-            $sql .= "AND amc_topico.fecha = '$fecha1'";
-        }
-        if ($fecha1 != '' && $fecha2 != '') {
-            $sql .= " AND amc_topico.fecha   BETWEEN '$fecha1' AND  '$fecha2' ";
-        }
-        if ($fecha1 == '' && $fecha2 == '') {
-            $sql .= "  AND year(fecha) = year(current) AND month(fecha) = month(current)";
-        }
-        $sql .= " group by descripcion, codigo";
-
-        $info = Des_natural::fetchArray($sql);
-
-
-        echo json_encode($info);
-    }
-
+    
     function DesastresCantGraficaAPI(){
         getHeadersApi();
 
@@ -1110,11 +981,11 @@ class InfoDesastresController
                 $grafica = Des_natural::fetchArray("SELECT sum(per_fallecida) as per_fallecida, sum(per_evacuada) as per_evacuada,sum(per_afectada) as per_afectada,sum(albergues) as albergues,sum(est_colapsadas) as est_colapsadas,
                 sum(inundaciones) as inundaciones,sum(derrumbes) as derrumbes,sum(carre_colap) as carre_colap,sum(hectareas_quemadas) as hectareas_quemadas,sum(rios) as rios
                 from amc_desastre_natural  inner join amc_topico on amc_desastre_natural.topico = amc_topico.id
-                where nombre_desastre = $fenomeno_natural and amc_topico.fecha BETWEEN '$fecha1' AND '$fecha2'  ");
+                where nombre_desastre = $fenomeno_natural and amc_topico.fecha BETWEEN '$fecha1' AND '$fecha2' and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user)  ");
                 echo json_encode($grafica);
                
             }else{
-                $grafica = Des_natural::fetchArray("select sum(per_fallecida) as per_fallecida, sum(per_evacuada) as per_evacuada,sum(per_afectada) as per_afectada,sum(albergues) as albergues,sum(est_colapsadas) as est_colapsadas,sum(inundaciones) as inundaciones,sum(derrumbes) as derrumbes,sum(carre_colap) as carre_colap,sum(hectareas_quemadas) as hectareas_quemadas,sum(rios) as rios from amc_desastre_natural where nombre_desastre = $fenomeno_natural");
+                $grafica = Des_natural::fetchArray("select sum(per_fallecida) as per_fallecida, sum(per_evacuada) as per_evacuada,sum(per_afectada) as per_afectada,sum(albergues) as albergues,sum(est_colapsadas) as est_colapsadas,sum(inundaciones) as inundaciones,sum(derrumbes) as derrumbes,sum(carre_colap) as carre_colap,sum(hectareas_quemadas) as hectareas_quemadas,sum(rios) as rios from amc_desastre_natural  inner join amc_topico on amc_desastre_natural.topico = amc_topico.id where nombre_desastre = $fenomeno_natural and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ");
 
                 echo json_encode($grafica);
 

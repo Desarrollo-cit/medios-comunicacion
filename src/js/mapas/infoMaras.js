@@ -503,7 +503,7 @@ window.ModalPersonal = async (id, tipo) => {
                     formArmas.latitud.value = info1.latitud
                     formArmas.longitud.value = info1.longitud
                     formArmas.departamentoBusqueda.value = info1.depto
-                    formArmas.municipio.value = info1.municipio
+                    formArmas.municipio.value = info1.municipio[0]['dm_desc_lg']
                     formArmas.actvidad_vinculada.value = info1.actividad
                     formArmas.lugar.value = info1.lugar
                         // formcaptura.departamentoBusqueda.value = info1.FECHA
@@ -524,7 +524,7 @@ window.ModalPersonal = async (id, tipo) => {
     
                 const respuestaArmas = await fetch(urlArmas, configArmas);
                 const Armas = await respuestaArmas.json();
-                    console.log(Armas)
+                    // console.log(Armas)
                     
                 dataTableArma.destroy();
                 dataTableArma = new Datatable('#dataTableArma', {
@@ -769,7 +769,7 @@ window.detalle = async (valor) => {
             }
             let { labels, cantidades } = datos;
 
-            // console.log(info);
+            // console.log(datos);
         
             let dataSetsLabels = Object.keys(cantidades);
             let dataSetsValues = Object.values(cantidades)
