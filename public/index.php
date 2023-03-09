@@ -312,8 +312,8 @@ $router->post('/API/mapas/infoDesastres/mapaCalorPorDeptoGrafica', [infoDesastre
 $router->post('/API/mapas/infoDesastres/colores', [infoDesastresController::class , 'coloresAPI'] );
 $router->post('/API/mapas/infoDesastres/DesatresCantGrafica', [infoDesastresController::class , 'DesastresCantGraficaAPI'] );
 $router->post('/API/mapas/infoDesastres/MigrantesDepartamentoGrafica', [infoDesastresController::class , 'MigrantesDepartamentoGraficaAPI'] );
-$router->post('/API/mapas/infoDesastres/MigrantesPorDiaGrafica', [infoDesastresController::class , 'MigrantesPorDiaGraficaAPI'] );
-$router->post('/API/mapas/infoDesastres/GraficaTrimestral', [infoDesastresController::class , 'GraficaTrimestralAPI'] );
+$router->post('/API/mapas/infoDesastres/desastrespormes', [infoDesastresController::class , 'DesastrespormesAPI'] );
+$router->post('/API/mapas/infoDesastres/GraficaTrimestral', [infoDesastresController::class , 'DesastresTrimestralAPI'] );
 $router->post('/API/mapas/infoDesastres/GraficaTrimestralGeneral', [infoDesastresController::class , 'GraficaTrimestralGeneralAPI'] );
 
 

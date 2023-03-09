@@ -616,7 +616,7 @@ window.detalle = async (valor) => {
 
 
 
-//________________________________________________________GRAFICA POR DELITOS __________________________________________________________________________________________________________
+//________________________________________________________GRAFICA POR DESASTRE Y FECHAS __________________________________________________________________________________________________________
 
 
 const desastres_estadisticas = async (e) => {
@@ -664,7 +664,7 @@ const desastres_estadisticas = async (e) => {
                 
             }
 
-            if(datos1.length > 0 ){
+            if(datos1[0]['total'] !=""){
                 Toast.fire({
                     icon: 'success',
                     title: 'Se tienen los siguientes registros'
@@ -682,7 +682,7 @@ const desastres_estadisticas = async (e) => {
 
         }
 
-        if(datos1.length > 0 && valor !=3){
+        if(datos1[0]['total'] !="" && valor !=3){
 
                
        
@@ -692,8 +692,8 @@ const desastres_estadisticas = async (e) => {
 
             let labels = [], cantidades = []
             datos1.forEach(d => {
-                labels = [...labels, d.descripcion]
-                cantidades = [...cantidades, d.cantidad]
+                labels = [...labels, "Personas Fallecidas","Personas Evacuadas","Personas Afectadas","Albergues","Estructuras Colapsadas","Hectareas Quemadas", "Inundaciones","Rios"]
+                cantidades = [...cantidades, d.per_fallecida,d.per_evacuada,d.per_afectada,d.albergues,d.est_colapsadas,d.hectareas_quemadas,d.inundaciones,d.rios]
             })
 
             const ctx = document.getElementById('myChart1');
@@ -704,9 +704,12 @@ const desastres_estadisticas = async (e) => {
             window.delitos_grafica = new Chart(ctx, {
                 type: 'bar',
                 data: {
+
+                    
                     labels,
                     datasets: [{
-                        label: 'DELITOS',
+                        
+                        label: 'CANTIDADES',
                         data: cantidades,
 
                         backgroundColor: [
@@ -787,110 +790,112 @@ const desastres_estadisticas = async (e) => {
     } catch (error) {
         console.log(error);
     }
-    deptos_estadistica()
+
+    desastrepormes()
+    
 
 }
 
 
-const deptos_estadistica = async (e) => {
-    e && e.preventDefault();
+// const deptos_estadistica = async (e) => {
+//     e && e.preventDefault();
 
-    const url_grafica2 = `/medios-comunicacion/API/mapas/infoDesastres/DelitosDepartamentoGrafica`
-    const bodyGrafica2 = new FormData(formBusqueda_grafica);
+//     const url_grafica2 = `/medios-comunicacion/API/mapas/infoDesastres/DelitosDepartamentoGrafica`
+//     const bodyGrafica2 = new FormData(formBusqueda_grafica);
 
-    const headersGrafica2 = new Headers();
-    headersGrafica2.append("X-Requested-With", "fetch");
+//     const headersGrafica2 = new Headers();
+//     headersGrafica2.append("X-Requested-With", "fetch");
 
-    const configGrafica2 = {
-        method: 'POST',
-        headers: headersGrafica2,
-        body: bodyGrafica2,
-    }
-    try {
+//     const configGrafica2 = {
+//         method: 'POST',
+//         headers: headersGrafica2,
+//         body: bodyGrafica2,
+//     }
+//     try {
 
-        const response2 = await fetch(url_grafica2, configGrafica2)
-        const datos2 = await response2.json()
-
-
-        if (datos2.length > 0) {
-            document.getElementById('graficaDelitosDepartamento').style.display = "block"
-            document.getElementById('texto_no2').style.display = "none"
+//         const response2 = await fetch(url_grafica2, configGrafica2)
+//         const datos2 = await response2.json()
 
 
-            let labels = [], cantidades = []
-            datos2.forEach(d => {
-                labels = [...labels, d.descripcion]
-                cantidades = [...cantidades, d.cantidad]
-            })
-            // mostrar(datos)
-            //  $("#delitos_cant").destroy();
-            const ctx = document.getElementById('myChart2');
-            if (window.delitosDepartamento_grafica) {
-                window.delitosDepartamento_grafica.clear();
-                window.delitosDepartamento_grafica.destroy();
-            }
+//         if (datos2.length > 0) {
+//             document.getElementById('graficaDelitosDepartamento').style.display = "block"
+//             document.getElementById('texto_no2').style.display = "none"
+
+
+//             let labels = [], cantidades = []
+//             datos2.forEach(d => {
+//                 labels = [...labels, d.descripcion]
+//                 cantidades = [...cantidades, d.cantidad]
+//             })
+//             // mostrar(datos)
+//             //  $("#delitos_cant").destroy();
+//             const ctx = document.getElementById('myChart2');
+//             if (window.delitosDepartamento_grafica) {
+//                 window.delitosDepartamento_grafica.clear();
+//                 window.delitosDepartamento_grafica.destroy();
+//             }
 
          
-            window.delitosDepartamento_grafica = new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                    labels,
-                    datasets: [{
-                        label: 'DELITOS',
-                        data: cantidades,
+//             window.delitosDepartamento_grafica = new Chart(ctx, {
+//                 type: 'doughnut',
+//                 data: {
+//                     labels,
+//                     datasets: [{
+//                         label: 'DELITOS',
+//                         data: cantidades,
 
-                        backgroundColor: [
-                            'red',
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(255, 206, 86, 1)',
-                            'rgba(75, 192, 192, 1)',
-                            'rgba(153, 102, 255, 1)',
-                            'blue',
-                            'rgba(255, 159, 64, 1)'
-                        ],
-                        borderColor: [
-                            'rgba(255, 236, 0, 1)',
-                            'rgba(255, 236, 0, 1)',
-                            'rgba(255, 236, 0, 1)',
-                            'rgba(255, 236, 0, 1)',
-                            'rgba(255, 236, 0, 1)',
-                            'rgba(255, 236, 0, 1)'
-                        ],
-                        borderWidth: 5
-                    }]
-                },
-                options: {
-                    plugins: {
-                        legend: {
-                            position: 'left',
+//                         backgroundColor: [
+//                             'red',
+//                             'rgba(54, 162, 235, 1)',
+//                             'rgba(255, 206, 86, 1)',
+//                             'rgba(75, 192, 192, 1)',
+//                             'rgba(153, 102, 255, 1)',
+//                             'blue',
+//                             'rgba(255, 159, 64, 1)'
+//                         ],
+//                         borderColor: [
+//                             'rgba(255, 236, 0, 1)',
+//                             'rgba(255, 236, 0, 1)',
+//                             'rgba(255, 236, 0, 1)',
+//                             'rgba(255, 236, 0, 1)',
+//                             'rgba(255, 236, 0, 1)',
+//                             'rgba(255, 236, 0, 1)'
+//                         ],
+//                         borderWidth: 5
+//                     }]
+//                 },
+//                 options: {
+//                     plugins: {
+//                         legend: {
+//                             position: 'left',
 
-                            font: {
-                                size: 45, // 'size' now within object 'font {}'
-                            },
-
-
-                        },
-                    }
-
-                }
-            });
-        } else {
-
-            document.getElementById('texto_no2').style.display = "block";
-            document.getElementById('graficaDelitosDepartamento').style.display = "none";
-
-        }
-    } catch (error) {
-        console.log(error);
-    }
-
-}
+//                             font: {
+//                                 size: 45, // 'size' now within object 'font {}'
+//                             },
 
 
+//                         },
+//                     }
 
-const CapturasPorDia = async () => {
+//                 }
+//             });
+//         } else {
 
-    const url_grafica2 = `/medios-comunicacion/API/mapas/infoDesastres/CapturasPorDiaGrafica`
+//             document.getElementById('texto_no2').style.display = "block";
+//             document.getElementById('graficaDelitosDepartamento').style.display = "none";
+
+//         }
+//     } catch (error) {
+//         console.log(error);
+//     }
+
+// }
+
+
+
+const desastrepormes = async () => {
+
+    const url_grafica2 = `/medios-comunicacion/API/mapas/infoDesastres/desastrespormes`
     const headersGrafica2 = new Headers();
     headersGrafica2.append("X-Requested-With", "fetch");
 
@@ -904,125 +909,98 @@ const CapturasPorDia = async () => {
         const response2 = await fetch(url_grafica2, configGrafica2)
         const datos2 = await response2.json()
 
-// console.log(datos2);
-
-        const { dias, cantidades } = datos2;
-
-        const canvas = document.getElementById('myChart3');
-        const ctx = canvas.getContext('2d');
-        if (window.CapturasPorDia) {
-            // console.log(window.CapturasPorDia);
-            window.CapturasPorDia.destroy()
-        }
-
-        const data = {
-            labels: dias,
-            datasets: [{
-                label: 'CAPTURAS',
-                data: cantidades,
-                fill: true,
-                borderColor: 'rgb(75, 192, 192)',
-                tension: 0.5,
-                borderColor: '#F10909',
-                backgroundColor: '#34495E',
-                pointBorderColor: 'white',
-                pointBackgroundColor: 'black',
-                pointRadius: 10,
-                pointHoverRadius: 20,
-                pointHitRadius: 30,
-                pointBorderWidth: 2,
-                pointStyle: 'rectRounded',
-            }]
-
-        };
-
-        const configChart = {
-            type: 'line',
-            data: data,
-            options: {
-                plugins: {
-                    legend: {
-                        position: "top",
-                        labels: {
-                            boxWidth: 100,
-                            usePointStyle: true,
-                            pointStyle: "line",
-                        }
-                    }
-                },
-                indexAxis: 'x',
-                scales: {
-                    x: {
-
-                        grid: {
-                            tickColor: "white",
-                            borderDash: [5, 2],
-                            tickWidth: 25,
-                            color: "black",
-                            borderColor: "black",
-                            size: 25
-                        },
-
-                        ticks: {
-                            color: "black",
-                            font: {
-                                weight: "bold",
-                                size: 30
-                            },
+console.log(datos2);
 
 
-                        },
-                        title: {
-                            display: true,
-                            text: "DIAS DEL MES",
-                            fullSize: true,
-                            color: 'Black',
-                            font: {
-                                weight: "bold",
-                                size: 30
-                            }
-                        }
+let labels = [], cantidades = []
+datos2.forEach(d => {
+    labels = [...labels, "Personas Fallecidas","Personas Evacuadas","Personas Afectadas","Albergues","Estructuras Colapsadas","Hectareas Quemadas", "Inundaciones","Rios"]
+    cantidades = [...cantidades, d.per_fallecida,d.per_evacuada,d.per_afectada,d.albergues,d.est_colapsadas,d.hectareas_quemadas,d.inundaciones,d.rios]
+})
+
+const ctx2 = document.getElementById('myChart3');
+
+window.desastrepormes2 = new Chart(ctx2, {
+    type: 'bar',
+    data: {
+
+        
+        labels,
+        datasets: [{
+            
+            label: 'CANTIDADES',
+            data: cantidades,
+
+            backgroundColor: [
+                'rgba(252, 100, 7 , 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(46, 148, 26 , 1)',
+                'rgba(255, 159, 64, 1)',
+                'rgba(241, 9, 9 , 1)',
+                'rgba(26, 50, 148,  1)',
+                'rgba(18, 199, 29,  1)'
+            ],
+            borderColor: [
+                'rgba(255, 236, 0, 1)',
+                'rgba(255, 236, 0, 1)',
+                'rgba(255, 236, 0, 1)',
+                'rgba(255, 236, 0, 1)',
+                'rgba(255, 236, 0, 1)',
+                'rgba(255, 236, 0, 1)'
+            ],
+            borderWidth: 7
+        }],
+    },
+    options: {
+        indexAxis: 'y',
+        scales: {
+            y: { // not 'yAxes: [{' anymore (not an array anymore)
+                ticks: {
+                    color: "black", // not 'fontColor:' anymore
+                    // fontSize: 18,
+                    font: {
+                        size: 16, // 'size' now within object 'font {}'
                     },
-                    y: {
-                        grid: {
-                            color: "black",
-                            borderDash: [5, 2,],
-                            borderColor: "black",
-                            tickColor: "yellow",
-                            tickWidth: 5,
-                            size: 10
-                        },
-                        ticks: {
-                            color: "black",
-                            font: {
-                                weight: "bold",
-                                size: 25
-                            },
-                            stepSize: 10,
-                            beginAtZero: true,
+                    stepSize: 1,
+                    beginAtZero: true,
+                    grid: {
+                        color: 'rgba(255, 199, 132, 1)'
+                    }
+                }
+            },
+            x: { // not 'xAxes: [{' anymore (not an array anymore)
+                ticks: {
+                    color: "black", // not 'fontColor:' anymore
+                    //fontSize: 14,
+                    font: {
+                        size: 14 // 'size' now within object 'font {}'
+                    },
+                    stepSize: 1,
+                    beginAtZero: true,
 
-                        },
-                        title: {
-                            display: true,
-                            text: "CAPTURAS",
-                            fullSize: true,
-                            color: 'black',
-                            font: {
-                                weight: "bold",
-                                size: 30
-                            }
-                        }
+                }
+            }
 
+        },
+        legend: {
+            labels: {
+                color: "black",
+                labels: {
+                    color: "blue", // not 'fontColor:' anymore
+                    // fontSize: 18  // not 'fontSize:' anymore
+                    font: {
+                        size: 18 // 'size' now within object 'font {}'
                     }
                 }
             }
-        };
+        },
 
-
-        window.CapturasPorDia = new Chart(ctx, configChart);
-        window.CapturasPorDia.update()
+    }
+});
     } catch (e) {
-        console.log(error)
+        console.log(e)
 
     }
 
@@ -1040,7 +1018,7 @@ const chartColors = [
 
 
 
-const trimestralesDelitos = async () => {
+const trimestralesDesastres = async () => {
 
     const url_grafica2 = `/medios-comunicacion/API/mapas/infoDesastres/GraficaTrimestral`
     const headersGrafica2 = new Headers();
@@ -1056,6 +1034,8 @@ const trimestralesDelitos = async () => {
         const response2 = await fetch(url_grafica2, configGrafica2)
         const info = await response2.json()
 
+        const { primer_trimestre,segundo_trimestre,tercer_trimestre,cuarto_trimestre } = info;
+
         // info.length < 1 && Toast.fire({
         //     icon: 'warning',
         //     title: 'Ingreso mal las fechas'
@@ -1064,66 +1044,98 @@ const trimestralesDelitos = async () => {
 
         // return
 
-        const canvas = document.getElementById('myChart4');
-        const ctx = canvas.getContext('2d');
-        window.trimestralGrafica && window.trimestralGrafica.destroy()
+        console.log(info);
+        let labels = [], cantidades = []
+       
+        info.forEach(d => {
+            
+            labels = [...labels,d.nombre, "Primer Trimestre","Segundo Trimestre","Tercer Trimestre","Cuarto Trimestre"]
 
-        let { labels, cantidades } = info;
-
-        // console.log(cantidades);
-
-        let dataSetsLabels = Object.keys(cantidades);
-        let dataSetsValues = Object.values(cantidades)
-
-        // console.log(dataSetsLabels);
-        // console.log(dataSetsValues);
-
-
-
-        let datasets = []
-
-        for (let index = 0; index < dataSetsLabels.length; index++) {
-            datasets = [...datasets, {
-                label: dataSetsLabels[index],
-                data: dataSetsValues[index],
-                backgroundColor: chartColors[index],
-                borderColor: chartColors[index],
-                borderWidth: 1
-            }]
-
-        }
-
-        // console.log(datasets);
-        let chartInfo = {
+           
+            cantidades = [...cantidades, d.promedio ]
+        })
+ 
+        const ctx2 = document.getElementById('myChart4');
+        
+        window.desastrepormes2 = new Chart(ctx2, {
             type: 'bar',
             data: {
+        
+                
                 labels,
-                datasets
+                datasets: [{
+                    
+                    label: 'CANTIDADES',
+                    data: cantidades,
+        
+                    backgroundColor: [
+                        'rgba(252, 100, 7 , 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(46, 148, 26 , 1)',
+                        'rgba(255, 159, 64, 1)',
+                        'rgba(241, 9, 9 , 1)',
+                        'rgba(26, 50, 148,  1)',
+                        'rgba(18, 199, 29,  1)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 236, 0, 1)',
+                        'rgba(255, 236, 0, 1)',
+                        'rgba(255, 236, 0, 1)',
+                        'rgba(255, 236, 0, 1)',
+                        'rgba(255, 236, 0, 1)',
+                        'rgba(255, 236, 0, 1)'
+                    ],
+                    borderWidth: 7
+                }],
             },
             options: {
                 indexAxis: 'y',
-                plugins: {
-                    title: {
-                        display: true,
-                        text: 'Cantidad de Capturas'
-                    },
-                    scales: {
-
-                        stepSize: 1,
-                        beginAtZero: true,
-                        grid: {
-                            color: 'rgba(255, 199, 132, 1)'
+                scales: {
+                    y: { // not 'yAxes: [{' anymore (not an array anymore)
+                        ticks: {
+                            color: "black", // not 'fontColor:' anymore
+                            // fontSize: 18,
+                            font: {
+                                size: 16, // 'size' now within object 'font {}'
+                            },
+                            stepSize: 1,
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(255, 199, 132, 1)'
+                            }
                         }
-
-
+                    },
+                    x: { // not 'xAxes: [{' anymore (not an array anymore)
+                        ticks: {
+                            color: "black", // not 'fontColor:' anymore
+                            //fontSize: 14,
+                            font: {
+                                size: 14 // 'size' now within object 'font {}'
+                            },
+                            stepSize: 1,
+                            beginAtZero: true,
+        
+                        }
                     }
-                }
+        
+                },
+                legend: {
+                    labels: {
+                        color: "black",
+                        labels: {
+                            color: "blue", // not 'fontColor:' anymore
+                            // fontSize: 18  // not 'fontSize:' anymore
+                            font: {
+                                size: 18 // 'size' now within object 'font {}'
+                            }
+                        }
+                    }
+                },
+        
             }
-        }
-
-
-        window.trimestralGrafica = new Chart(ctx, chartInfo);
-        window.trimestralGrafica.update()
+        });
     } catch (error) {
         console.log(error)
     }
@@ -1132,140 +1144,140 @@ const trimestralesDelitos = async () => {
 
 
 
-const trimestral_capturas_general = async () => {
-   const url_grafica2 = `/medios-comunicacion/API/mapas/infoDesastres/GraficaTrimestralGeneral`
-    const headersGrafica2 = new Headers();
-    headersGrafica2.append("X-Requested-With", "fetch");
+// const trimestral_capturas_general = async () => {
+//    const url_grafica2 = `/medios-comunicacion/API/mapas/infoDesastres/GraficaTrimestralGeneral`
+//     const headersGrafica2 = new Headers();
+//     headersGrafica2.append("X-Requested-With", "fetch");
 
-    const configGrafica2 = {
-        method: 'POST',
-        headers: headersGrafica2,
+//     const configGrafica2 = {
+//         method: 'POST',
+//         headers: headersGrafica2,
 
-    }
-    try {
+//     }
+//     try {
 
-        const response2 = await fetch(url_grafica2, configGrafica2)
-        const info = await response2.json()
+//         const response2 = await fetch(url_grafica2, configGrafica2)
+//         const info = await response2.json()
 
-        // info.length < 1 && Toast.fire({
-        //     icon: 'warning',
-        //     title: 'Ingreso mal las fechas'
-        // })
+//         // info.length < 1 && Toast.fire({
+//         //     icon: 'warning',
+//         //     title: 'Ingreso mal las fechas'
+//         // })
 
 
-    const { meses, cantidades } = info;
-    // console.log(info);
-    const canvas1 = document.getElementById('myChart5');
-    const ctx1 = canvas1.getContext('2d');
-    if (window.trimestral_capturaGeneral) {
-        console.log(window.trimestral_capturaGeneral);
-        window.trimestral_capturaGeneral.destroy()
-    }
+//     const { meses, cantidades } = info;
+//     // console.log(info);
+//     const canvas1 = document.getElementById('myChart5');
+//     const ctx1 = canvas1.getContext('2d');
+//     if (window.trimestral_capturaGeneral) {
+//         console.log(window.trimestral_capturaGeneral);
+//         window.trimestral_capturaGeneral.destroy()
+//     }
 
-    const data = {
-        labels: meses,
-        datasets: [{
-            label: 'ESTADISTICA TRIMESTRAL',
-            data: cantidades,
-            fill: false,
-            borderColor: 'rgb(75, 192, 192)',
-            tension: 0.5,
-            borderColor: '#F10909',
-            backgroundColor: [
-                'rgba(236, 26, 19  , 0.5)',
-                'rgba(8, 144, 47 , 0.4)',
-                'rgba(8, 14, 144 , 0.6)',
-                'rgba(253, 253, 3, 1)',
-                'rgba(8, 129, 144 , 1)',
-                'rgba(255, 159, 64, 1)',
-                'rgba(241, 9, 9 , 1)',
-                'rgba(26, 50, 148,  1)',
-                'rgba(18, 199, 29,  1)'
-            ],
-        }]
+//     const data = {
+//         labels: meses,
+//         datasets: [{
+//             label: 'ESTADISTICA TRIMESTRAL',
+//             data: cantidades,
+//             fill: false,
+//             borderColor: 'rgb(75, 192, 192)',
+//             tension: 0.5,
+//             borderColor: '#F10909',
+//             backgroundColor: [
+//                 'rgba(236, 26, 19  , 0.5)',
+//                 'rgba(8, 144, 47 , 0.4)',
+//                 'rgba(8, 14, 144 , 0.6)',
+//                 'rgba(253, 253, 3, 1)',
+//                 'rgba(8, 129, 144 , 1)',
+//                 'rgba(255, 159, 64, 1)',
+//                 'rgba(241, 9, 9 , 1)',
+//                 'rgba(26, 50, 148,  1)',
+//                 'rgba(18, 199, 29,  1)'
+//             ],
+//         }]
 
-    };
+//     };
 
-    const configChart = {
-        type: 'bar',
-        data: data,
-        options: {
-            plugins: {
-                legend: {
-                  position: "top",
-                  labels: {
-                    boxWidth: 100,
-                    usePointStyle: true,
-                    pointStyle: "line",
-                  }
-                }
-              },
-            indexAxis: 'x',
-            scales: {
-                x: {
+//     const configChart = {
+//         type: 'bar',
+//         data: data,
+//         options: {
+//             plugins: {
+//                 legend: {
+//                   position: "top",
+//                   labels: {
+//                     boxWidth: 100,
+//                     usePointStyle: true,
+//                     pointStyle: "line",
+//                   }
+//                 }
+//               },
+//             indexAxis: 'x',
+//             scales: {
+//                 x: {
 
-                    grid: {
-                        tickColor: "white",
-                        // borderDash: [5, 2],
-                        tickWidth: 25,
-                        color: "black",
-                        borderColor: "black",
-                        size: 25
-                    },
+//                     grid: {
+//                         tickColor: "white",
+//                         // borderDash: [5, 2],
+//                         tickWidth: 25,
+//                         color: "black",
+//                         borderColor: "black",
+//                         size: 25
+//                     },
 
-                    ticks: {
-                        color: "black",
-                        font: {
-                            weight: "bold",
-                            size: 30
-                        },
+//                     ticks: {
+//                         color: "black",
+//                         font: {
+//                             weight: "bold",
+//                             size: 30
+//                         },
 
-                    }
+//                     }
 
-                },
-                y: {
-                    grid: {
-                      color: "black",
-                      borderDash: [5, 2,],
-                      borderColor: "black",
-                      tickColor: "yellow",
-                      tickWidth: 5,
-                      size:10
-                    },
-                    ticks: {
-                        color: "black",
-                        font: {
-                            weight: "bold",
-                            size: 25
-                        },
-                        stepSize: 10,
-                        beginAtZero: true,
-                    },
-                    title: {
-                        display: true,
-                        text: "CAPTURAS",
-                        fullSize: true,
-                        color: 'White',
-                        font: {
-                            weight: "bold",
-                            size: 30
-                        }
-                    }
+//                 },
+//                 y: {
+//                     grid: {
+//                       color: "black",
+//                       borderDash: [5, 2,],
+//                       borderColor: "black",
+//                       tickColor: "yellow",
+//                       tickWidth: 5,
+//                       size:10
+//                     },
+//                     ticks: {
+//                         color: "black",
+//                         font: {
+//                             weight: "bold",
+//                             size: 25
+//                         },
+//                         stepSize: 10,
+//                         beginAtZero: true,
+//                     },
+//                     title: {
+//                         display: true,
+//                         text: "CAPTURAS",
+//                         fullSize: true,
+//                         color: 'White',
+//                         font: {
+//                             weight: "bold",
+//                             size: 30
+//                         }
+//                     }
 
-                }
-            }
-        }
-    };
-    window.trimestral_capturaGeneral = new Chart(ctx1, configChart);
-    window.trimestral_capturaGeneral.update()
-    }catch(error){
-        console.log(error);
-    }
+//                 }
+//             }
+//         }
+//     };
+//     window.trimestral_capturaGeneral = new Chart(ctx1, configChart);
+//     window.trimestral_capturaGeneral.update()
+//     }catch(error){
+//         console.log(error);
+//     }
 
    
 
 
-}
+// }
 
 
 formBusqueda_resumen.addEventListener('submit', cambiarmes)
@@ -1278,9 +1290,9 @@ formBusqueda_mapa.addEventListener('submit', busquedad_mapa_Calor)
 btnmapa.addEventListener("click", ocultar_mapa);
 busquedad_mapa_Calor();
 desastres_estadisticas();
-CapturasPorDia();
-trimestralesDelitos();
-trimestral_capturas_general();
+desastrepormes();
+trimestralesDesastres();
+// trimestral_capturas_general();
 // deptos_estadistica();
 btngrafica.addEventListener("click", ocultar_graficas);
 

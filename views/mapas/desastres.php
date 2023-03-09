@@ -871,12 +871,12 @@ $fechaLarga = strftime(" %B ");
 
 
             <hr style="color:#0B3254; height:10px;">
-            <div class="row mb-1">
+            <div class="row mb-1 justify-content-center">
                 <div class="col-lg-6 ">
 
-                    <h2 style="color:black">Delitos cometidos</h2>
+                    <h2 style="color:black">CANTIDADES DE LOS DESASTRES NATURALES</h2>
                     <div id="texto_no1" style="display:none;">
-                        <h3> No se encontraron delitos</h3>
+                        <h3> No se encontraron cantidades</h3>
                     </div>
                     <div id="graficaDelitos" style="width: 800px; height:900px; ">
 
@@ -884,16 +884,7 @@ $fechaLarga = strftime(" %B ");
                     </div>
 
                 </div>
-                <div class="col-lg-6 ">
-                    <h2 style="color:black">Delitos cometidos por departamentos</h2>
-                    <div id="texto_no2" style="display:none;">
-                        <h3> No se encontraron delitos</h3>
-                    </div>
-                    <div id="graficaDelitosDepartamento" style="width: 800px; height:900px; ">
-
-                        <canvas id="myChart2" width="50" height="50"></canvas>
-                    </div>
-                </div>
+        
 
             </div>
             <hr style="color:#0B3254; height:10px;">
@@ -904,7 +895,7 @@ $fechaLarga = strftime(" %B ");
                 <div class="col-lg-12 ">
 
                     <div class="col-lg-12 " style="height:800px;">
-                        <h2 style="color:black">Capturas realizadas en el mes de <?= strtoupper($fechaLarga) ?></h2>
+                        <h2 style="color:black">Cantidades del desastre natural en el mes de <?= strtoupper($fechaLarga) ?></h2>
                         <canvas id="myChart3" height="100" width="300"></canvas>
                     </div>
                 </div>
@@ -931,13 +922,13 @@ $fechaLarga = strftime(" %B ");
 
 
 
-                <div class="col-lg-12 ">
+                <!-- <div class="col-lg-12 ">
 
                     <div class="col-lg-12 " style="height:800px;">
                         <h2 style="color:black">ESTADISTICAS TRIMESTRALES </h2>
                         <canvas id="myChart5" height="100"></canvas>
                     </div>
-                </div>
+                </div> -->
 
 
             </div>
