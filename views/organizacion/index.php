@@ -31,6 +31,7 @@
                     <th>DESCRIPCION</th>
                     <th>MODIFICAR</th>
                     <th>ELIMINAR</th>
+                    <th>ESTADO</th>
                 </tr>
             </thead>
             <tbody>

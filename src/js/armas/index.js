@@ -188,8 +188,7 @@ const modificararmas = async (evento) => {
         const config = {
             method: 'POST',
             headers,
-            body
-            
+            body            
         }
         
 
@@ -199,8 +198,6 @@ const modificararmas = async (evento) => {
         const { mensaje, codigo, detalle } = data;
         // const resultado = data.resultado;
         let icon = "";
-        btnCancelar.parentElement.style.display = '';
-                btnCancelar.disabled = true;
         switch (codigo) {
             case 1:
                 icon = "success"
@@ -254,10 +251,8 @@ window.asignarValores = (id, desc) => {
     formArmas.desc.value = desc;
     btnModificar.parentElement.style.display = '';
     btnGuardar.parentElement.style.display = 'none';
-    btnCancelar.parentElement.style.display = '';
     btnGuardar.disabled = true;
     btnModificar.disabled = false;
-    btnCancelar.disabled = false;
     divTabla.style.display = 'none'
 }
 

@@ -130,6 +130,18 @@ const buscarOrganizacion = async (evento) => {
                         return `<button class="btn btn-danger" onclick="eliminarRegistro('${row.id}')">Eliminar</button>`
                     } 
                 },
+                { 
+                    data : 'id',
+                    'render': (data, type, row, meta) => {
+                        if(row.situacion == 1){
+                        return `<button class="btn btn-danger" onclick="cambiarSituacion('${row.id}','${row.desc}','${row.situacion}')">DESACTIVAR</button>`
+                        
+                    }else{
+                        return `<button class="btn btn-success"  onclick="cambiarSituacion('${row.id}','${row.desc}','${row.situacion}')">ACTIVAR</button>`     
+                    }
+                    }
+                    },
+            
             ]
         })
 
@@ -273,6 +285,66 @@ window.eliminarRegistro = (id) => {
     })
 }
 
+window.cambiarSituacion = (id, desc, situacion) => {
+    Swal.fire({
+        title : 'Confirmación',
+        icon : 'warning',
+        text : '¿Esta seguro que desea cambiar Estado?',
+        showCancelButton : true,
+        confirmButtonColor : '#3085d6',
+        cancelButtonColor : '#d33',
+        confirmButtonText: 'Si, cambiar'
+    }).then( async (result) => {
+        if(result.isConfirmed){
+            const url = '/medios-comunicacion/API/organizacion/cambiarSituacion'
+            const body = new FormData();
+            body.append('id', id);
+            body.append('desc', desc);
+            body.append('situacion', situacion);
+            const headers = new Headers();
+            headers.append("X-requested-With", "fetch");
+            const config = {
+                method : 'POST',
+                headers,
+                body
+            }
+            const respuesta = await fetch(url, config);
+            const data = await respuesta.json();
+            const { mensaje, codigo, detalle } = data;
+            console.log(data)
+            // const resultado = data.resultado;
+            let icon = "";
+            switch (codigo) {
+                case 1:
+                    icon = "success"
+                    formOrganizacion.reset();
+                    buscarOrganizacion();
+                    break;
+                case 2:
+                    icon = "warning"
+    
+                    break;
+                case 3:
+                    icon = "error"
+    
+                    break;
+                case 4:
+                    icon = "error"
+                    console.log(detalle)
+    
+                    break;
+    
+                default:
+                    break;
+            }
+
+            Toast.fire({
+                icon: icon,
+                title: mensaje,
+            })
+        }
+    })
+}
 function NumText(string){//solo letras y numeros
     var out = '';
     //Se añaden las letras validas

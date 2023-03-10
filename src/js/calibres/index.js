@@ -142,7 +142,7 @@ const buscarcalibres = async (evento) => {
                     'render':(data, type, row, meta)=>{
                         if(row.situacion == 1){
                             return `<button class="btn btn-danger" onclick="cambiarSituacion('${row.id}','${row.situacion}','${row.desc}')">DESACTIVAR</button>`
-                        }else{
+                        }if (row.situacion == 2){
                             return `<button class="btn btn-success" onclick="cambiarSituacion('${row.id}','${row.situacion}','${row.desc}')">ACTIVAR</button>`
                         }
 
@@ -229,7 +229,6 @@ const modificarcalibres = async (evento) => {
             btnGuardar.parentElement.style.display = '';
             btnGuardar.disabled = false;
             btnModificar.disabled = true;
-        
             divTabla.style.display = ''
 
     } catch (error) {
@@ -246,7 +245,6 @@ window.asignarValores = (id, desc) => {
     btnGuardar.parentElement.style.display = 'none';
     btnGuardar.disabled = true;
     btnModificar.disabled = false;
-
     divTabla.style.display = 'none'
 }
 
