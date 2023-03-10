@@ -135,7 +135,7 @@ const buscardelitos = async (evento) => {
                     data : 'id',
                     'render': (data, type, row, meta) => {
                         if(row.situacion==1){
-                            return `<button class="btn btn-warning" onclick="cambiarSituacion('${row.id}', '${row.desc}', '${row.situacion}')">DESACTIVAR</button>`
+                            return `<button class="btn btn-secondary" onclick="cambiarSituacion('${row.id}', '${row.desc}', '${row.situacion}')">DESACTIVAR</button>`
                         }else{
                             return `<button class="btn btn-success" onclick="cambiarSituacion('${row.id}', '${row.desc}', '${row.situacion}')">ACTIVAR</button>`
 

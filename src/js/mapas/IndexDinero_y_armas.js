@@ -190,7 +190,7 @@ const Buscar_capturas = async (e) => {
 
 
 window.ModalPersonal = async (id, tipo1) => {
-console.log(tipo1)
+// console.log(tipo1)
 if (tipo1 == 6){
     const url = `/medios-comunicacion/API/mapas/IndexDinero_y_armas/modal`
     const body = new FormData();
@@ -206,7 +206,7 @@ if (tipo1 == 6){
 
     const respuesta = await fetch(url, config);
     const info = await respuesta.json();
-   console.log(info);
+//    console.log(info);
    capturas.show();
    info.forEach(info1 => {
        
@@ -236,7 +236,7 @@ if (tipo1 == 6){
 
    const respuesta1 = await fetch(url1, config1);
    const info1 = await respuesta1.json();
-console.log(info1);
+// console.log(info1);
 
      
   
@@ -272,7 +272,7 @@ console.log(info1);
 
     const respuesta = await fetch(url, config);
     const info = await respuesta.json();
-   console.log(info);
+//    console.log(info);
    modaldroga1.show();
    info.forEach(info1 => {
      //  alert(info1.fecha)
@@ -304,7 +304,7 @@ console.log(info1);
 
    const respuesta1 = await fetch(url2, config2);
    const dinero = await respuesta1.json();
-console.log(dinero);
+// console.log(dinero);
 
 TablaInfoPer1.destroy();
 TablaInfoPer1 = new Datatable('#dataTable4', {
@@ -452,7 +452,7 @@ TablaInfoPer1 = new Datatable('#dataTable4', {
    // console.log(datos2)
     
             if (datos2.length > 0) {
-                document.getElementById('graficaDinerDepartamento').style.display = "block"
+                document.getElementById('graficaDineroDepartamento').style.display = "block"
                 document.getElementById('texto_no2').style.display = "none"
     
     
@@ -682,7 +682,7 @@ window.detalle = async(valor) => {
 
        
 
-        console.log(datos);
+        // console.log(datos);
        // console.log(datos.descripcion);
         // console.log(datos.cantidades.armas.length);
         
@@ -826,16 +826,16 @@ const delitos_estadistica = async (e) => {
 
         const response1 = await fetch(url_grafica1, configGrafica1)
         const datos1 = await response1.json()
-       // console.log(datos1)
+    //    console.log(datos1)
 
+       let { descripcion, cantidades, valor} = datos1;
         
-  
+  if(valor > 0){
             document.getElementById('graficaDelitos').style.display = "block"
             document.getElementById('texto_no1').style.display = "none"
 
 
          
-            let { descripcion, cantidades, } = datos1;
 
          
             let dataSetsLabels = Object.values(descripcion);
@@ -922,16 +922,17 @@ const delitos_estadistica = async (e) => {
                 }
             });
 
-        /* }else{
+         }else{
 
             document.getElementById('texto_no1').style.display = "block";
             document.getElementById('graficaDelitos').style.display = "none";
         }
-         */
+         
     } catch (error) {
         console.log(error);
     }
     deptos_estadistica()
+    dinero_estadistica();
 
 }
 
@@ -957,22 +958,13 @@ const dinero_estadistica = async (e) => {
 
         const response1 = await fetch(url_grafica1, configGrafica1)
         const datos2 = await response1.json()
-        
-        
-        
+        // console.log(datos2);
+        let {cantidades, labels, valor} = datos2;
+        if(valor > 0 ){
         document.getElementById('graficaDinero').style.display = "block"
-        document.getElementById('texto_no1').style.display = "none"
+        document.getElementById('texto_no2').style.display = "none"
         
-        
-        
-        let {cantidades, labels} = datos2;
-        
-
-        
-            //let dataSetsLabels = Object.values(descripcion);
-           // let dataSetsValues = Object.values(cantidad); 
-            // alert(cantidad)
-            
+    
 
             const ctx = document.getElementById('myChart55');
             if (window.dinero_grafica) {
@@ -1056,28 +1048,18 @@ const dinero_estadistica = async (e) => {
                 }
             });
 
-        /* }else{
+         }else{
 
-            document.getElementById('texto_no1').style.display = "block";
-            document.getElementById('graficaDelitos').style.display = "none";
+            document.getElementById('texto_no2').style.display = "block";
+            document.getElementById('graficaDinero').style.display = "none";
         }
-         */
+         
     } catch (error) {
         console.log(error);
     }
-    deptos_estadistica()
+    deptos_estadistica_dinero()
 
 }
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1239,7 +1221,7 @@ const CapturasPorDia_armas = async () => {
         const response2 = await fetch(url_grafica2, configGrafica2)
         const datos2 = await response2.json()
 
- //console.log(datos2);
+//  console.log(datos2);
 
         const { dias, cantidades } = datos2;
 
@@ -1390,15 +1372,9 @@ const trimestralesDelitos = async () => {
 
         const response2 = await fetch(url_grafica2, configGrafica2)
         const info = await response2.json()
-       // console.log(info)
-
-        // info.length < 1 && Toast.fire({
-        //     icon: 'warning',
-        //     title: 'Ingreso mal las fechas'
-        // })
+    //    console.log(info)
 
 
-        // return
 
         const canvas = document.getElementById('myChart4');
         const ctx = canvas.getContext('2d');
@@ -1406,7 +1382,7 @@ const trimestralesDelitos = async () => {
 
         let { labels, cantidades } = info;
 
-        console.log(cantidades);
+        // console.log(cantidades);
 
         let dataSetsLabels = Object.keys(cantidades);
         let dataSetsValues = Object.values(cantidades)
@@ -1501,7 +1477,7 @@ const trimestral_capturas_general = async () => {
  
  
      const { meses, cantidades } = info;
-      console.log(info);
+    //   console.log(info);
      const canvas1 = document.getElementById('myChart5');
      const ctx1 = canvas1.getContext('2d');
      if (window.trimestral_capturaGeneral) {
@@ -1644,7 +1620,7 @@ busquedad_mapa_Calor();
 
 
 
-formBusqueda_grafica.addEventListener('submit', delitos_estadistica)
+formBusqueda_grafica.addEventListener('submit', delitos_estadistica, dinero_estadistica)
 
 btnmapa.addEventListener("click", ocultar_mapa);
 busquedad_mapa_Calor();

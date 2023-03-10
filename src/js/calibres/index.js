@@ -140,9 +140,9 @@ const buscarcalibres = async (evento) => {
                 {
                     data : 'id',
                     'render':(data, type, row, meta)=>{
-                        if(row.situacion == 1){
-                            return `<button class="btn btn-danger" onclick="cambiarSituacion('${row.id}','${row.situacion}','${row.desc}')">DESACTIVAR</button>`
-                        }if (row.situacion == 2){
+                        if (row.situacion == 2){
+                            return `<button class="btn btn-secondary" onclick="cambiarSituacion('${row.id}','${row.situacion}','${row.desc}')">DESACTIVAR</button>`
+                        }else{
                             return `<button class="btn btn-success" onclick="cambiarSituacion('${row.id}','${row.situacion}','${row.desc}')">ACTIVAR</button>`
                         }
 
