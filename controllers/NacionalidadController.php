@@ -36,7 +36,7 @@ class NacionalidadController{
              
             $resultado = $tipo->guardar();
             // echo json_encode($resultado['resultado']);
-    
+
             if($resultado['resultado'] == 1){
                 echo json_encode([
                     "mensaje" => "El registro se guardó correctamente.",
@@ -62,17 +62,21 @@ class NacionalidadController{
     }
 
 
-    public function buscarApi(){
-        try {
-            getHeadersApi();
-            $nacionalidad = Nacionalidad::fetchArray('SELECT amc_nacionalidad.id, amc_nacionalidad.desc, paises.pai_desc_lg as pais, paises.pai_codigo as idpais from amc_nacionalidad inner join paises on amc_nacionalidad.pais = paises.pai_codigo');
-            echo json_encode($nacionalidad);       
-        } catch (Exception $e) {
-            echo json_encode(["error"=>$e->getMessage()]);
-        }
+    // public function buscarApi(){
+    //     try {
+    //         getHeadersApi();
+    //         $nacionalidad = Nacionalidad::fetchArray('SELECT amc_nacionalidad.id, amc_nacionalidad.desc, paises.pai_desc_lg as pais, paises.pai_codigo as idpais from amc_nacionalidad inner join paises on amc_nacionalidad.pais = paises.pai_codigo');
+    //         echo json_encode($nacionalidad);       
+    //     } catch (Exception $e) {
+    //         echo json_encode(["error"=>$e->getMessage()]);
+    //     }
        
+    // }
+    public function buscarApi(){
+        getHeadersApi();
+        $nacionalidad = Nacionalidad::where('situacion', '0','>');
+        echo json_encode($nacionalidad);
     }
-
     public function modificarAPI(){
         getHeadersApi();
         try {
@@ -116,22 +120,46 @@ class NacionalidadController{
         getHeadersApi();
         $_POST['situacion'] = 0;
         $Nacionalidad = new Nacionalidad($_POST);
-        
         $resultado = $Nacionalidad->guardar();
-
-
-        
         if($resultado['resultado'] == 1){
             echo json_encode([
                 "resultado" => 1
-            ]);
-            
+            ]);   
         }else{
             echo json_encode([
                 "resultado" => 0
             ]);
-
         }
+    }
+    public function cambioSituacionAPI(){
+        try{
+        getHeadersApi();
+    if ($_POST['situacion'] == 1){
+        $_POST['situacion'] = 2;
+    }else{
+        $_POST['situacion'] = 1;
+        }
+        $Nacionalidad = new Nacionalidad($_POST);
+        $resultado = $Nacionalidad->guardar();
+
+        if($resultado['resultado'] == 1){
+            echo json_encode([
+                "mensaje" => "El registro se cambio correctamente.",
+                "codigo" => 1,
+            ]);   
+        }else{
+            echo json_encode([
+                "mensaje" => "Ocurrió un error.",
+                "codigo" => 0,
+            ]);
+        }
+    }catch(Exception $e){
+        echo json_encode([
+            "detalle" => $e ->getMessage(),
+            "mensaje" => "Ocurrió un error en la base de datos.",
+            "codigo " => 4,
+        ]);
+    }
     }
 } 
 

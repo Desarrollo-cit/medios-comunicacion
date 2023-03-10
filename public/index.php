@@ -80,6 +80,7 @@ $router->post('/API/calibres/guardar', [CalibresController::class, 'guardarAPI']
 $router->get('/API/calibres/buscar', [CalibresController::class, 'buscarAPI'] );
 $router->post('/API/calibres/modificar', [CalibresController::class, 'modificarAPI'] );
 $router->post('/API/calibres/eliminar', [CalibresController::class, 'eliminarAPI'] );
+$router->post('/API/calibres/cambiarSituacion', [CalibresController::class, 'cambiarSituacionAPI'] );
 
 
 $router->get('/delitos', [DelitosController::class , 'index']);
@@ -111,6 +112,7 @@ $router->post('/API/moneda/guardar', [MonedaController::class, 'guardarAPI'] );
 $router->get('/API/moneda/buscar', [MonedaController::class, 'buscarAPI'] );
 $router->post('/API/moneda/modificar', [MonedaController::class, 'modificarAPI'] );
 $router->post('/API/moneda/eliminar', [MonedaController::class, 'eliminarAPI'] );
+$router->post('/API/moneda/cambiarSituacion', [MonedaController::class, 'cambiarSituacionAPI'] );
 
 
 
@@ -119,6 +121,7 @@ $router->post('/API/organizacion/guardar', [OrganizacionController::class, 'guar
 $router->get('/API/organizacion/buscar', [OrganizacionController::class, 'buscarAPI'] );
 $router->post('/API/organizacion/modificar', [OrganizacionController::class, 'modificarAPI'] );
 $router->post('/API/organizacion/eliminar', [OrganizacionController::class, 'eliminarAPI'] );
+$router->post('/API/organizacion/cambiarSituacion', [OrganizacionController::class, 'cambiarSituacionAPI'] );
 
 $router->get('/tipo', [TipoController::class , 'index']);
 $router->post('/API/tipo/guardar', [TipoController::class, 'guardarAPI'] );
@@ -131,6 +134,7 @@ $router->post('/API/nacionalidad/guardar', [NacionalidadController::class, 'guar
 $router->get('/API/nacionalidad/buscar', [NacionalidadController::class, 'buscarAPI'] );
 $router->post('/API/nacionalidad/modificar', [NacionalidadController::class, 'modificarAPI'] );
 $router->post('/API/nacionalidad/eliminar', [NacionalidadController::class, 'eliminarAPI'] );
+$router->post('/API/nacionalidad/cambiarSituacion', [NacionalidadController::class, 'cambioSituacionAPI'] );
 
 
 $router->get('/eventos', [EventoController::class,'index']);
@@ -184,6 +188,7 @@ $router->post('/API/mov_social/guardar', [Mov_socialController::class, 'guardar'
 $router->post('/API/mov_social/modificar', [Mov_socialController::class, 'modificar']);
 $router->get('/API/mov_social/buscar', [Mov_socialController::class, 'buscarMovimientoAPI']);
 $router->post('/API/mov_social/eliminar', [Mov_socialController::class, 'eliminarMovimiento']);
+$router->post('/API/mov_social/', [Mov_socialController::class, 'cambiarSituacion']);
 
 
 

@@ -53,18 +53,26 @@ class OrganizacionController{
         }
         
     }
-
-
     public function buscarApi(){
-        try {
-            getHeadersApi();
-            $Organizacion = Organizacion::where('situacion', '1');
-            echo json_encode($Organizacion);       
-        } catch (Exception $e) {
-            echo json_encode(["error"=>$e->getMessage()]);
-        }
-       
+        try{
+        getHeadersApi();
+        $Organizacion = Organizacion::where('situacion', '0','>');
+        echo json_encode($Organizacion);
+    } catch(Exception $e){
+        echo json_encode(["error"=>$e->getMessage()]);
     }
+    }
+
+    // public function buscarApi(){
+    //     try {
+    //         getHeadersApi();
+    //         $Organizacion = Organizacion::where('situacion', '1');
+    //         echo json_encode($Organizacion);       
+    //     } catch (Exception $e) {
+    //         echo json_encode(["error"=>$e->getMessage()]);
+    //     }
+       
+    // }
 
     public function modificarAPI(){
         try {
@@ -121,6 +129,47 @@ class OrganizacionController{
             ]);
 
         }
+    }
+    public function cambiarSituacionAPI(){
+    
+        
+        try{
+            getHeadersApi();
+            if($_POST['situacion'] == 1){
+                $_POST['situacion'] = 2;
+            }else{
+                $_POST['situacion'] = 1;
+    
+            }
+            $Organizacion = new Organizacion($_POST);
+            
+            $resultado = $Organizacion->guardar();
+    
+            if($resultado['resultado'] == 1){
+                echo json_encode([
+                    "mensaje" => "El registro se cambio correctamente.",
+                    "codigo" => 1,
+                ]);
+                
+                
+            }else{
+                echo json_encode([
+                    "mensaje" => "Ocurrió un error.",
+                    "codigo" => 0,
+                ]);
+    
+            }
+
+
+        }catch (Exception $e) {
+            echo json_encode([
+                "detalle" => $e->getMessage(),       
+                "mensaje" => "Ocurrió un error en la base de datos.",
+
+                "codigo" => 4,
+            ]);
+        }
+        
     }
 } 
 
