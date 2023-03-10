@@ -9,6 +9,7 @@ class NacionalidadController{
 
     public function index(Router $router)
     {
+        hasPermission(['AMC_ADMIN']);
         $busqueda=  Nacionalidad::fetchArray('SELECT * FROM paises');
         $router->render('nacionalidad/index',[
 
@@ -19,6 +20,7 @@ class NacionalidadController{
 
     public function guardarAPI(){
         getHeadersApi();
+        hasPermissionApi(['AMC_ADMIN']);
 
         try {
             $tipo = new Nacionalidad($_POST);
@@ -63,6 +65,7 @@ class NacionalidadController{
 
 
     public function buscarApi(){
+        hasPermissionApi(['AMC_ADMIN']);
         try {
             getHeadersApi();
             $nacionalidad = Nacionalidad::fetchArray('SELECT amc_nacionalidad.id, amc_nacionalidad.desc, paises.pai_desc_lg as pais, paises.pai_codigo as idpais from amc_nacionalidad inner join paises on amc_nacionalidad.pais = paises.pai_codigo');
@@ -75,6 +78,7 @@ class NacionalidadController{
 
     public function modificarAPI(){
         getHeadersApi();
+        hasPermissionApi(['AMC_ADMIN']);
         try {
             $Nacionalidad = new Nacionalidad($_POST);
             $dato = $Nacionalidad->desc;
@@ -114,6 +118,7 @@ class NacionalidadController{
 
     public function eliminarAPI(){
         getHeadersApi();
+        hasPermissionApi(['AMC_ADMIN']);
         $_POST['situacion'] = 0;
         $Nacionalidad = new Nacionalidad($_POST);
         

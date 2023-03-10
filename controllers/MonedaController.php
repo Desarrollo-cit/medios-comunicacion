@@ -8,10 +8,14 @@ class MonedaController{
 
     public function index(Router $router)
     {
+        hasPermission(['AMC_ADMIN']);
+
         $router->render('Moneda/index');
     }
     public function guardarAPI(){
         getHeadersApi();
+        hasPermissionApi(['AMC_ADMIN']);
+
 
         try {
 
@@ -59,6 +63,7 @@ class MonedaController{
 
     public function buscarApi(){
         getHeadersApi();
+        hasPermissionApi(['AMC_ADMIN']);
         $moneda = Moneda::where('situacion', '1');
         echo json_encode($moneda);
     }
@@ -68,6 +73,7 @@ class MonedaController{
 
     public function modificarAPI(){
         getHeadersApi();
+        hasPermissionApi(['AMC_ADMIN']);
         $_POST["desc"] = strtoupper($_POST["desc"]);
         $moneda = new Moneda($_POST);
         $valor = $moneda->desc;
@@ -101,6 +107,7 @@ class MonedaController{
 
     public function eliminarAPI(){
         getHeadersApi();
+        hasPermissionApi(['AMC_ADMIN']);
         $_POST['situacion'] = 0;
         $moneda = new Moneda($_POST);
      

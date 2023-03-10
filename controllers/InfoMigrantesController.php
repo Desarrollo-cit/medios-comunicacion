@@ -15,6 +15,8 @@ class InfoMigrantesController
 
     public function index(Router $router)
     {
+        hasPermission(['AMC_ADMIN']);
+
         $migrantes = static::migrantes();
         $edades = static::edades();
         $edades_rango = static::tipos_de_edades();
@@ -44,7 +46,7 @@ class InfoMigrantesController
     function migrantes($fecha1 = "", $fecha2 = "")
     {
 
-
+        hasPermission(['AMC_ADMIN']);
         $sql =  "SELECT sum (cantidad ) as cantidad from amc_migrantes inner join amc_topico on amc_migrantes.topic = amc_topico.id  where  amc_topico.situacion = 1 and amc_migrantes.situacion = 1 ";
         if ($fecha1 != '' && $fecha2 != '') {
 
@@ -69,7 +71,7 @@ class InfoMigrantesController
     
     function estadistica_por_pais( $año = "", $mes = "", $pais_migrante="")
     {
-
+        hasPermission(['AMC_ADMIN']);
 
         $sql =  "SELECT amc_nacionalidad.desc , sum (cantidad ) as cantidad from amc_migrantes inner join amc_topico on amc_migrantes.topic = amc_topico.id inner join amc_edades on amc_migrantes.edad = amc_edades.id inner join amc_nacionalidad on amc_nacionalidad.id = amc_migrantes.pais_migrante  where   amc_topico.situacion = 1 and amc_migrantes.situacion > 0 and amc_nacionalidad.id = $pais_migrante   ";
       
@@ -98,7 +100,7 @@ class InfoMigrantesController
 
     function edades($fecha1 = "", $fecha2 = "")
     {
-
+        hasPermission(['AMC_ADMIN']);
 
         $sql = " SELECT first 1 amc_edades.edades , sum (cantidad ) as cantidad from amc_migrantes inner join amc_topico on amc_migrantes.topic = amc_topico.id inner join amc_edades on amc_migrantes.edad = amc_edades.id  where  amc_topico.situacion = 1 and amc_migrantes.situacion > 0  ";
 
@@ -127,6 +129,7 @@ class InfoMigrantesController
 
     function cant_paises($fecha1 = "", $fecha2 = "")
     {
+        hasPermission(['AMC_ADMIN']);
 
         $sql = " SELECT count(DISTINCT pais_migrante) as cantidad from amc_migrantes inner join amc_topico on amc_topico.id = amc_migrantes.topic where amc_topico.situacion = 1";
 
@@ -152,7 +155,7 @@ class InfoMigrantesController
 
     function pais($fecha1 = "", $fecha2 = "")
     {
-
+        hasPermission(['AMC_ADMIN']);
         $cero = [];
         $sql = "  SELECT FIRST 1 paises.pai_desc_lg as pais, sum (cantidad ) as cantidad from amc_migrantes inner join amc_topico on amc_migrantes.topic = amc_topico.id inner join amc_nacionalidad on amc_migrantes.pais_migrante = amc_nacionalidad.id inner join paises on paises.pai_codigo = amc_nacionalidad.pais where  amc_topico.situacion = 1 and amc_migrantes.situacion > 0 ";
 
@@ -179,7 +182,7 @@ class InfoMigrantesController
 
     function mujeres($fecha1 = "", $fecha2 = "")
     {
-
+        hasPermission(['AMC_ADMIN']);
 
         $sql =  "SELECT sum (cantidad ) as cantidad from amc_migrantes inner join amc_topico on amc_migrantes.topic = amc_topico.id  where  amc_topico.situacion = 1 and amc_migrantes.situacion = 1 and sexo = 2 ";
 
@@ -202,6 +205,7 @@ class InfoMigrantesController
 
     function hombres($fecha1 = "", $fecha2 = "")
     {
+        hasPermission(['AMC_ADMIN']);
         $sql = "SELECT  sum (cantidad ) as cantidad from amc_migrantes inner join amc_topico on amc_migrantes.topic = amc_topico.id   where amc_topico.situacion = 1 and sexo = 1 and amc_migrantes.situacion = 1";
         if ($fecha1 != '' && $fecha2 != '') {
 
@@ -222,6 +226,7 @@ class InfoMigrantesController
 
     function departamento_migrantes($fecha1 = "", $fecha2 = "")
     {
+        hasPermission(['AMC_ADMIN']);
         $sql = "SELECT FIRST 1 amc_topico.departamento, count(*) as cantidad FROM amc_topico inner join amc_migrantes on amc_topico.id = amc_migrantes.topic where    amc_topico.situacion = 1 ";
         if ($fecha1 != '' && $fecha2 != '') {
 
@@ -259,6 +264,7 @@ class InfoMigrantesController
 
     public function resumenAPI()
     {
+        hasPermission(['AMC_ADMIN']);
         // getHeadersApi();
         // echo json_encode($_POST) ;
 
@@ -286,7 +292,7 @@ class InfoMigrantesController
     public function listadoAPI()
     {
         getHeadersApi();
-
+        hasPermission(['AMC_ADMIN']);
 
         try {
 
@@ -356,7 +362,7 @@ class InfoMigrantesController
     public function modalAPI()
     {
         getHeadersApi();
-
+        hasPermission(['AMC_ADMIN']);
 
 
         try {
@@ -432,7 +438,7 @@ class InfoMigrantesController
 
     function tipos_de_edades()
     {
-
+        hasPermission(['AMC_ADMIN']);
         $sentencia = "SELECT * from amc_edades where situacion = 1";
         $result =  Migrantes::fetchArray($sentencia);
         return $result;
@@ -441,7 +447,7 @@ class InfoMigrantesController
     public function informacionMigrantesModalAPI()
     {
         getHeadersApi();
-
+        hasPermission(['AMC_ADMIN']);
         // echo json_encode($sql);
 
         try {
@@ -513,7 +519,7 @@ class InfoMigrantesController
     public function mapaCalorAPI()
     {
         getHeadersApi();
-
+        hasPermission(['AMC_ADMIN']);
         // echo json_encode($sql);
 
         try {
@@ -556,6 +562,7 @@ class InfoMigrantesController
     public function coloresAPI()
     {
         getHeadersApi();
+        hasPermission(['AMC_ADMIN']);
         try {
             $sql = "SELECT * from amc_colores where topico = 9 and situacion = 1 order by nivel asc ";
             $info = Migrantes::fetchArray($sql);
@@ -579,6 +586,7 @@ class InfoMigrantesController
 
     public function mapaCalorDeptoAPI()
     {
+        hasPermission(['AMC_ADMIN']);
         try {
 
 
@@ -655,6 +663,8 @@ class InfoMigrantesController
 
     public function mapaCalorPorDeptoGraficaAPI()
     {
+        hasPermission(['AMC_ADMIN']);
+
         try {
 
 
@@ -704,6 +714,8 @@ class InfoMigrantesController
 
     public function MigrantesCantGraficaAPI()
     {
+        hasPermission(['AMC_ADMIN']);
+
         try {
             getHeadersApi();
 
@@ -750,6 +762,7 @@ class InfoMigrantesController
 
     public function MigrantesDepartamentoGraficaAPI()
     {
+        hasPermission(['AMC_ADMIN']);
         try {
             getHeadersApi();
 
@@ -795,6 +808,7 @@ class InfoMigrantesController
 
     public function MigrantesPorDiaGraficaAPI()
     {
+        hasPermission(['AMC_ADMIN']);
         try {
 
 
@@ -829,7 +843,7 @@ class InfoMigrantesController
     
     
     protected static function paises1($fecha1 ="", $fecha2 =""){
-       
+        hasPermission(['AMC_ADMIN']);
 
         $sql = "SELECT DISTINCT  pai_desc_lg, pais_migrante from amc_nacionalidad inner join paises on paises.pai_codigo = amc_nacionalidad.pais inner join amc_migrantes on amc_migrantes.pais_migrante = amc_nacionalidad.id inner join amc_topico on amc_migrantes.topic = amc_topico.id    where  amc_topico.situacion = 1 ";
        
@@ -925,6 +939,7 @@ class InfoMigrantesController
 
     public function GraficaTrimestralGeneralAPI()
     {
+        hasPermission(['AMC_ADMIN']);
         try {
 
 

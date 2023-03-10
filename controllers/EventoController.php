@@ -15,6 +15,7 @@ class EventoController
 {
     public static function index(Router $router)
     {
+        hasPermission(['AMC_ADMIN', 'AMC_COMANDO']);
         $topicos = Evento::fetchArray("SELECT * from amc_tipo_topics where situacion = 1");
         $departamentos = Evento::fetchArray("SELECT dm_codigo,dm_desc_lg FROM dep_mun WHERE dm_codigo BETWEEN 0100 AND 2200 AND substr(dm_codigo,3,4)=00 ORDER BY dm_desc_lg");
         $actividades = Evento::fetchArray("SELECT * from amc_actividad_vinculada where situacion = 1");
@@ -50,6 +51,8 @@ class EventoController
     public static function municipios()
     {
         getHeadersApi();
+        hasPermission(['AMC_ADMIN', 'AMC_COMANDO']);
+
         try {
             $departamento = substr($_GET['departamento'], 0, 2);
             $municipios = Evento::fetchArray("SELECT dm_codigo as codigo, trim(dm_desc_lg) as descripcion from depmun WHERE dm_codigo[1,2] = $departamento AND dm_codigo[3,4] > 00");
@@ -67,6 +70,8 @@ class EventoController
     public static function sexos()
     {
         getHeadersApi();
+        hasPermission(['AMC_ADMIN', 'AMC_COMANDO']);
+
         try {
 
             $sexos = Evento::fetchArray("SELECT * from amc_sexo where situacion = 1");
@@ -84,6 +89,8 @@ class EventoController
     public static function guardar()
     {
         getHeadersApi();
+        hasPermission(['AMC_ADMIN', 'AMC_COMANDO']);
+
         $_POST['fecha'] = str_replace('T', ' ', $_POST['fecha']);
 
         try {
@@ -121,6 +128,8 @@ class EventoController
     public static function eventos()
     {
         getHeadersApi();
+        hasPermission(['AMC_ADMIN', 'AMC_COMANDO']);
+
         try {
             $topicos = $_GET['topicos'];
             $arrayTopicos = $topicos != '' ? explode(',', $topicos) : [];
@@ -218,6 +227,8 @@ class EventoController
     public static function getEventoIdApi()
     {
         getHeadersApi();
+        hasPermission(['AMC_ADMIN', 'AMC_COMANDO']);
+
         try {
             $id = $_GET['id'];
             $sql = "SELECT amc_topico.latitud as latitud, amc_topico.longitud as longitud, amc_actividad_vinculada.desc as actividad, amc_tipo_topics.desc as tipo, amc_tipo_topics.id as tipo_id, amc_topico.id as id , trim(dep_desc_ct) as dependencia from amc_topico inner join amc_actividad_vinculada on amc_topico.actividad = amc_actividad_vinculada.id inner join amc_tipo_topics on amc_topico.tipo = amc_tipo_topics.id inner join mdep on amc_topico.dependencia = dep_llave where amc_topico.situacion = 1 and amc_topico.id = $id ";

@@ -17,6 +17,8 @@ class InfoMarasController
 
     public function index(Router $router)
     {
+        hasPermission(['AMC_ADMIN']);
+
         $maras_actividades = static::maras_actividades();
         $marerosCapturados = static::marerosCapturados();
         $capturas18 = static::capturas18();
@@ -42,6 +44,7 @@ class InfoMarasController
 
     protected static   function maras_actividades($fecha1 = "", $fecha2 = "", $depto = "", $mara = "", $topico1 = "")
     {
+        hasPermission(['AMC_ADMIN']);
 
 
         $sql = "   SELECT count (*) as cantidad from amc_topico where amc_topico.situacion = 1    ";
@@ -85,6 +88,7 @@ class InfoMarasController
 
     protected static function marerosCapturados($fecha1 = "", $fecha2 = "", $depto = "")
     {
+        hasPermission(['AMC_ADMIN']);
 
 
         $sql = "   SELECT count (*) as cantidad from amc_per_capturadas inner join amc_topico on amc_per_capturadas.topico = amc_topico.id  where  amc_topico.situacion = 1 and amc_per_capturadas.vinculo in (1,2)
@@ -117,6 +121,7 @@ class InfoMarasController
 
     protected static  function capturas18($fecha1 = "", $fecha2 = "", $depto = "")
     {
+        hasPermission(['AMC_ADMIN']);
 
 
         $sql = "   SELECT count (*) as cantidad from amc_per_capturadas inner join amc_topico on amc_per_capturadas.topico = amc_topico.id  where  amc_topico.situacion = 1 and amc_per_capturadas.vinculo = 1
@@ -154,6 +159,7 @@ class InfoMarasController
     protected static function capturasSalvatrucha($fecha1 = "", $fecha2 = "", $depto = "")
     {
 
+        hasPermission(['AMC_ADMIN']);
 
         $sql = "   SELECT count (*) as cantidad from amc_per_capturadas inner join amc_topico on amc_per_capturadas.topico = amc_topico.id  where  amc_topico.situacion = 1 and amc_per_capturadas.vinculo = 2";
 
@@ -185,6 +191,8 @@ class InfoMarasController
 
     protected static  function departamentoMasIncidenciaMaras($fecha1 = "", $fecha2 = "")
     {
+        hasPermission(['AMC_ADMIN']);
+
         $sql = "SELECT FIRST 1 amc_topico.departamento as departamento, count(*) as cantidad FROM amc_topico  where year(amc_topico.fecha) = year(current) and amc_topico.actividad in (1,5) and amc_topico.situacion = 1 ";
 
         if ($fecha1 != '' && $fecha2 != '') {
@@ -224,6 +232,8 @@ class InfoMarasController
 
     protected static function incidencia_mara($fecha1 = "", $fecha2 = "",  $depto = "", $tipo = "")
     {
+        hasPermission(['AMC_ADMIN']);
+
 
 
         $sql = "        SELECT FIRST 1  amc_tipo_topics.desc as descripcion,  count(*) as cantidad, amc_topico.tipo as tipo from amc_topico inner join amc_tipo_topics on amc_topico.tipo = amc_tipo_topics.id where amc_topico.situacion = 1  and amc_topico.actividad in(1,5)  ";
@@ -275,6 +285,8 @@ class InfoMarasController
 
     public function resumenAPI()
     {
+        hasPermission(['AMC_ADMIN']);
+
         // getHeadersApi();
         // echo json_encode($_POST) ;
 
@@ -304,7 +316,7 @@ class InfoMarasController
     public function listadoAPI()
     {
         getHeadersApi();
-
+        hasPermission(['AMC_ADMIN']);
 
         try {
 
@@ -354,7 +366,7 @@ class InfoMarasController
     public function modalAPI()
     {
         getHeadersApi();
-
+        hasPermission(['AMC_ADMIN']);
 
 
         try {
@@ -433,6 +445,7 @@ class InfoMarasController
     public function informacionCapturasModalAPI()
     {
         getHeadersApi();
+        hasPermission(['AMC_ADMIN']);
 
         // echo json_encode($sql);
 
@@ -493,6 +506,7 @@ class InfoMarasController
     public function informacionDrogaModalAPI()
     {
         getHeadersApi();
+        hasPermission(['AMC_ADMIN']);
 
         // echo json_encode($sql);
 
@@ -520,6 +534,7 @@ class InfoMarasController
     public function informacionMuerteModalAPI()
     {
         getHeadersApi();
+        hasPermission(['AMC_ADMIN']);
 
         // echo json_encode($sql);
 
@@ -602,6 +617,7 @@ class InfoMarasController
     public function informacionDineroModalAPI()
     {
         getHeadersApi();
+        hasPermission(['AMC_ADMIN']);
 
         // echo json_encode($sql);
 
@@ -628,6 +644,7 @@ class InfoMarasController
     public function informacionArmasModalAPI()
     {
         getHeadersApi();
+        hasPermission(['AMC_ADMIN']);
 
         // echo json_encode($sql);
 
@@ -673,6 +690,7 @@ class InfoMarasController
     public function informacionMunicionModalAPI()
     {
         getHeadersApi();
+        hasPermission(['AMC_ADMIN']);
 
         // echo json_encode($sql);
 
@@ -719,6 +737,7 @@ class InfoMarasController
     public function mapaCalorAPI()
     {
         getHeadersApi();
+        hasPermission(['AMC_ADMIN']);
 
         // echo json_encode($sql);
 
@@ -758,6 +777,7 @@ class InfoMarasController
     public function coloresAPI()
     {
         getHeadersApi();
+        hasPermission(['AMC_ADMIN']);
         try {
             $sql = "SELECT * from amc_colores where topico = 11 and situacion = 1 order by nivel asc ";
             $info = Capturadas::fetchArray($sql);
@@ -771,6 +791,7 @@ class InfoMarasController
     public function mapaCalorDeptoAPI()
     {
         getHeadersApi();
+        hasPermission(['AMC_ADMIN']);
         try {
 
             $depto = $_POST['departamento'];
@@ -795,6 +816,7 @@ class InfoMarasController
     public function mapaCalorPorDeptoGraficaAPI()
     {
         getHeadersApi();
+        hasPermission(['AMC_ADMIN']);
         try {
 
 
@@ -902,6 +924,7 @@ class InfoMarasController
     public function DelitosCantGraficaAPI()
     {
         getHeadersApi();
+        hasPermission(['AMC_ADMIN']);
         try {
 
 
@@ -982,7 +1005,7 @@ class InfoMarasController
     }
 
     function departamental_grafica($fecha1 , $fecha2, $depto, $mara, $topico){
-
+        hasPermission(['AMC_ADMIN']);
 
         return static::maras_actividades($fecha1 , $fecha2, $depto, $mara, $topico);
 
@@ -994,6 +1017,8 @@ class InfoMarasController
 
     public function ActividadesPorDiaGraficaAPI()
     {
+        hasPermission(['AMC_ADMIN']);
+
         try {
 
 
@@ -1026,6 +1051,7 @@ class InfoMarasController
 
     public function Mara18PorDiaGraficaAPI()
     {
+        hasPermission(['AMC_ADMIN']);
         try {
 
 
@@ -1059,6 +1085,7 @@ class InfoMarasController
 
     public function SalvatruchaPorDiaGraficaAPI()
     {
+        hasPermission(['AMC_ADMIN']);
         try {
 
 
@@ -1091,6 +1118,7 @@ class InfoMarasController
 
     public function GraficaTrimestralMara18API()
     {
+        hasPermission(['AMC_ADMIN']);
         try {
 
             $mes = date("n");
@@ -1153,6 +1181,7 @@ class InfoMarasController
 
     public function GraficaTrimestralSalvatruchaAPI()
     {
+        hasPermission(['AMC_ADMIN']);
         try {
 
             $mes = date("n");
@@ -1214,6 +1243,7 @@ class InfoMarasController
 
     public function GraficaTrimestralGeneralAPI()
     {
+        hasPermission(['AMC_ADMIN']);
         try {
 
 
@@ -1275,6 +1305,7 @@ class InfoMarasController
     }
 
     protected static function tiposTopicos(){
+        hasPermission(['AMC_ADMIN']);
 
 
         $sql = "SELECT * from amc_tipo_topics where situacion = 1";
@@ -1295,7 +1326,7 @@ class InfoMarasController
 
     function ActividadesSalvatrucha_por_mes_y_delito($mes, $topico, $año)
     {
-
+        hasPermission(['AMC_ADMIN']);
         $sentencia = "SELECT count(*) as  cantidad  from amc_topico  where year(amc_topico.fecha) = $año and month(amc_topico.fecha) = $mes  and amc_topico.situacion = 1 and amc_topico.situacion = 1 and amc_topico.tipo = $topico and amc_topico.actividad = 5";
         
         $result = Capturadas::fetchArray($sentencia);
@@ -1305,6 +1336,7 @@ class InfoMarasController
 
     public function DelitosDepartamentoGraficaAPI()
     {
+        hasPermission(['AMC_ADMIN']);
         try {
 
 
@@ -1360,6 +1392,7 @@ class InfoMarasController
 
     public function coloresAPI1()
     {
+        hasPermission(['AMC_ADMIN']);
 
         try {
             $sql = "SELECT * from amc_colores where topico = 11  ";

@@ -8,11 +8,15 @@ class FuentesController{
 
     public function index(Router $router)
     {
+        hasPermission(['AMC_ADMIN']);
+
         $router->render('Fuentes/index');
     }
 
     public function guardarAPI(){
         getHeadersApi();
+        hasPermissionApi(['AMC_ADMIN']);
+
 
         try {
             // $_POST["desc"] = strtoupper($_POST["desc"]);
@@ -59,12 +63,16 @@ class FuentesController{
 
     public function buscarApi(){
         getHeadersApi();
+        hasPermissionApi(['AMC_ADMIN']);
+
         $Fuentes = Fuentes::where('situacion', '0', '>');
         echo json_encode($Fuentes);
     }
 
     public function modificarAPI(){
         getHeadersApi();
+        hasPermissionApi(['AMC_ADMIN']);
+
        try {
             // $_POST["desc"] = strtoupper($_POST["desc"]);
             $Fuentes = new Fuentes($_POST);
@@ -105,6 +113,8 @@ class FuentesController{
 
     public function eliminarAPI(){
         getHeadersApi();
+        hasPermissionApi(['AMC_ADMIN']);
+
         $_POST['situacion'] = 0;
         $Fuentes = new Fuentes($_POST);
         
@@ -126,6 +136,8 @@ class FuentesController{
 
     public function cambioSituacionAPI(){
         getHeadersApi();
+        hasPermissionApi(['AMC_ADMIN']);
+
         // echo($_POST['situacion']);
     if ($_POST['situacion'] == 1){
         $_POST['situacion'] = 2;

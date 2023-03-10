@@ -82,7 +82,7 @@ $router->post('/API/calibres/modificar', [CalibresController::class, 'modificarA
 $router->post('/API/calibres/eliminar', [CalibresController::class, 'eliminarAPI'] );
 
 
-$router->get('/delitos', [DelitosController::class , 'index']);
+$router->get('-s', [DelitosController::class , 'index']);
 $router->post('/API/delitos/guardar', [DelitosController::class, 'guardarAPI'] );
 $router->get('/API/delitos/buscar', [DelitosController::class, 'buscarAPI'] );
 $router->post('/API/delitos/modificar', [DelitosController::class, 'modificarAPI'] );

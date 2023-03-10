@@ -9,11 +9,13 @@ class OrganizacionController{
 
     public function index(Router $router)
     {
+        hasPermission(['AMC_ADMIN']);
         $router->render('organizacion/index');
     }
 
     public function guardarAPI(){
         getHeadersApi();
+        hasPermissionApi(['AMC_ADMIN']);
         try {
 
             $tipo = new Organizacion($_POST);
@@ -56,6 +58,7 @@ class OrganizacionController{
 
 
     public function buscarApi(){
+        hasPermissionApi(['AMC_ADMIN']);
         try {
             getHeadersApi();
             $Organizacion = Organizacion::where('situacion', '1');
@@ -67,6 +70,7 @@ class OrganizacionController{
     }
 
     public function modificarAPI(){
+        hasPermissionApi(['AMC_ADMIN']);
         try {
             getHeadersApi();
             $Organizacion = new Organizacion($_POST);
@@ -105,6 +109,7 @@ class OrganizacionController{
     }
     public function eliminarAPI(){
         getHeadersApi();
+        hasPermissionApi(['AMC_ADMIN']);
         $_POST['situacion'] = 0;
         $Organizacion = new Organizacion($_POST);
         
