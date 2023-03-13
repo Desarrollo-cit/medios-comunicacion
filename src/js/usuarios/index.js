@@ -8,17 +8,14 @@ const formUsuarios = document.getElementById('formUsuario');
 const btnGuardar = document.getElementById('btnGuardar');
 const btnModificar = document.getElementById('btnModificar');
 const btnSituacion = document.getElementById('btnSituacion');
-const btnCancelar = document.getElementById('btnCancelar');
 const divTabla = document.getElementById('divTabla');
 let tablaUsuarios = new Datatable('#usuariosTabla');
 
 btnModificar.parentElement.style.display = 'none';
 btnSituacion.parentElement.style.display = 'none';
-// btnCancelar.parentElement.style.display = 'none';
 btnGuardar.disabled = false;
 btnModificar.disabled = true;
 btnSituacion.disabled = true;
-// btnCancelar.disabled = true;
 
 
 const guardarusuarios = async (evento) => {
@@ -149,7 +146,7 @@ const buscarusuarios = async (evento) => {
                     data : 'id',
                     'render': (data, type, row, meta) => {
                         if(row.situacion == 1){
-                        return `<button class="btn btn-danger" onclick="cambiarSituacion('${row.id}',' ${row.situacion}',' ${row.desc}')">Desactivar</button>`
+                        return `<button class="btn btn-secondary" onclick="cambiarSituacion('${row.id}',' ${row.situacion}',' ${row.desc}')">Desactivar</button>`
                     }else{
                         return `<button class="btn btn-success" onclick="cambiarSituacion('${row.id}', '${row.situacion}',' ${row.desc}')">Activar</button>`
                     }
@@ -178,7 +175,6 @@ const modificarusuarios = async (evento) => {
     }
 
 
-
     try {
         //Crear el cuerpo de la consulta
         const url = '/medios-comunicacion/API/usuarios/modificar'
@@ -195,16 +191,18 @@ const modificarusuarios = async (evento) => {
         }
 
         const respuesta = await fetch(url, config);
-        const data = await respuesta.text();
-        // console.log(data);
+        const data = await respuesta.json();
+        console.log(data);
         const { mensaje, codigo, detalle } = data;
         // const resultado = data.resultado;
+
+        
         let icon = "";
         switch (codigo) {
             case 1:
                 icon = "success"
                 formUsuarios.reset();
-               
+
                 break;
             case 2:
                 icon = "warning"
@@ -233,10 +231,8 @@ const modificarusuarios = async (evento) => {
 
         buscarusuarios()
         btnModificar.parentElement.style.display = 'none';
-        btnCancelar.parentElement.style.display = 'none';
         btnGuardar.parentElement.style.display = '';
         btnGuardar.disabled = false;
-        btnCancelar.disabled = true;
         btnModificar.disabled = true;
         formUsuarios.reset();
         
@@ -257,11 +253,8 @@ window.asignarValores = (id, desc) => {
     formUsuarios.desc.value = desc;
     btnModificar.parentElement.style.display = '';
     btnGuardar.parentElement.style.display = 'none';
-    btnCancelar.parentElement.style.display = '';
     btnGuardar.disabled = true;
     btnModificar.disabled = false;
-    btnCancelar.disabled = false;
-
     divTabla.style.display = 'none'
 }
 

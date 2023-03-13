@@ -129,6 +129,18 @@ const buscarNacionalidad = async (evento) => {
                         return `<button class="btn btn-danger" onclick="eliminarRegistro('${row.id}')">Eliminar</button>`
                     } 
                 },
+                
+                { 
+                    data : 'id',
+                    'render': (data, type, row, meta) => {
+                        if(row.situacion == 1){
+                        return `<button class="btn btn-danger" onclick="cambiarSituacion('${row.id}','${row.desc}','${row.pais}','${row.situacion}')">DESACTIVAR</button>`
+                    } else{
+                        return `<button class="btn btn-success" onclick="cambiarSituacion('${row.id}','${row.desc}','${row.pais}','${row.situacion}')">ACTIVAR</button>`
+
+                    }
+                    } 
+                },
             ]
         })
 
@@ -232,7 +244,75 @@ window.asignarValores = (id, desc, idpais) => {
 
     divTabla.style.display = 'none'
 }
+function NumText(string){//solo letras y numeros
+    var out = '';
+    //Se añaden las letras validas
+    var filtro = 'ÁÉÍÓÚáéíóúabcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ  ';//Caracteres validos
+  
+    for (var i=0; i<string.length; i++)
+       if (filtro.indexOf(string.charAt(i)) != -1) 
+       out += string.charAt(i);
+    return out;
+  }
 
+formNacionalidad.desc.addEventListener('keyup', e=>{
+    let out = NumText(e.target.value)
+    e.target.value = out 
+
+})
+
+window.cambiarSituacion = (id, desc, pais, situacion) => {
+    Swal.fire({
+        title : 'Confirmación',
+        icon : 'warning',
+        text : '¿Esta seguro que desea cambiar de estado',
+        showCancelButton : true,
+        confirmButtonColor : '#3085d6',
+        cancelButtonColor : '#d33',
+        confirmButtonText: 'Si, cambiar'
+    }).then( async (result) => {
+        if(result.isConfirmed){
+            const url = '/medios-comunicacion/API/nacionalidad/cambiarSituacion'
+            const body = new FormData();
+            body.append('id', id);
+            body.append('desc', desc);
+            body.append('pais', pais);
+            body.append('situacion', situacion);
+            const headers = new Headers();
+            headers.append("X-Requested-With", "fetch");
+    
+            const config = {
+                method : 'POST',
+                headers,
+                body
+            }
+    
+            const respuesta = await fetch(url, config);
+            const data = await respuesta.json();
+            const { codigo} = data;
+            // const resultado = data.resultado;
+    
+            if(codigo == 1){
+                Toast.fire({
+                    icon : 'success',
+                    title : 'El registro se modificó correctamente'
+                })
+    
+                formNacionalidad.reset();
+                buscarNacionalidad();
+            }else{
+                Toast.fire({
+                    icon : 'error',
+                    title : 'Ocurrió un error'
+                    
+                })
+                // formNacionalidad.reset();
+                // buscarNacionalidad();
+                
+            }
+        }
+    })
+}
 window.eliminarRegistro = (id) => {
     Swal.fire({
         title : 'Confirmación',
@@ -278,23 +358,6 @@ window.eliminarRegistro = (id) => {
         }
     })
 }
-
-function NumText(string){//solo letras y numeros
-    var out = '';
-    //Se añaden las letras validas
-    var filtro = 'ÁÉÍÓÚáéíóúabcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ  ';//Caracteres validos
-  
-    for (var i=0; i<string.length; i++)
-       if (filtro.indexOf(string.charAt(i)) != -1) 
-       out += string.charAt(i);
-    return out;
-  }
-
-formNacionalidad.desc.addEventListener('keyup', e=>{
-    let out = NumText(e.target.value)
-    e.target.value = out 
-
-})
 formNacionalidad.addEventListener('submit', guardarNacionalidad )
 btnModificar.addEventListener('click', modificarNacionalidad);
 

@@ -138,6 +138,17 @@ const buscarDesastres = async (evento) => {
                         return `<button class="btn btn-danger" onclick="eliminarRegistro('${row.id}')">Eliminar</button>`
                     }
                 },
+                {
+                    data: 'id',
+                    'render': (data, type, row, meta) => {
+                        if(row.situacion == 1){
+                        return `<button class="btn btn-danger" onclick="cambiarSituacion('${row.id}','${row.desc}','${row.cambio}','${row.situacion}')">DESACTIVAR</button>`
+                        
+                    }else{
+                        return `<button class="btn btn-success" onclick="cambiarSituacion('${row.id}','${row.desc}','${row.cambio}','${row.situacion}')">ACTIVAR</button>`
+                    }
+                    }
+                },
             ]
         })
 
@@ -280,6 +291,58 @@ window.eliminarRegistro = (id) => {
                     icon: 'error',
                     title: 'Ocurrió un error'
                 })
+            }
+        }
+    })
+}
+window.cambiarSituacion = (id, desc, cambio, situacion) => {
+    Swal.fire({
+        title: 'Confirmación',
+        icon: 'warning',
+        text: '¿Esta seguro que desea cambiar de Estado?',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, cambiar'
+    }).then(async (result) => {
+        if (result.isConfirmed) {
+            const url = '/medios-comunicacion/API/moneda/cambiarSituacion'
+            const body = new FormData();
+            body.append('id', id);
+            body.append('desc', desc);
+            body.append('cambio', cambio);
+            body.append('situacion', situacion);
+            const headers = new Headers();
+            headers.append("X-Requested-With", "fetch");
+
+            const config = {
+                method: 'POST',
+                headers,
+                body
+            }
+
+            const respuesta = await fetch(url, config);
+            const data = await respuesta.json();
+
+            const { resultado } = data;
+            console.log(resultado);
+
+            // const resultado = data.resultado;
+          
+            if (resultado == 1) {
+                Toast.fire({
+                    icon: 'success',
+                    title: 'El registro se modificó correctamente'
+                })
+
+                formMoneda.reset();
+                buscarDesastres();
+            } else {
+                Toast.fire({
+                    icon: 'error',
+                    title: 'Ocurrió un error'
+                })
+                
             }
         }
     })

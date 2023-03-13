@@ -62,7 +62,7 @@ class CalibresController{
     public function modificarAPI(){
         getHeadersApi();
        try {
-            $_POST["desc"] = strtoupper($_POST["desc"]);
+            // $_POST["desc"] = strtoupper($_POST["desc"]);
             $calibres = new Calibres($_POST);
             $valor = $calibres->desc;
             $existe = Calibres::SQL("select * from amc_calibre where situacion =1 AND desc = '$valor'");

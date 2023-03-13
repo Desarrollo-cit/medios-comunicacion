@@ -539,7 +539,7 @@ window.detalle = async(valor) => {
         const response = await fetch(url_grafica, configGrafica)
         const datos = await response.json()
 
-        console.log(datos);
+        // console.log(datos);
         if (datos.length > 0) {
             document.getElementById('grafica_depto1').style.display = "block"
             document.getElementById('texto_no').style.display = "none"
