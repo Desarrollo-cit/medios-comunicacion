@@ -6,12 +6,12 @@ use Model\Armas;
 use MVC\Router;
 class ArmasController{
 
-    public function index(Router $router)
+    public static function index(Router $router)
     {
         $router->render('armas/index');
     }
 
-    public function guardarAPI(){
+    public static function guardarAPI(){
         getHeadersApi();
 
         try {
@@ -56,13 +56,13 @@ class ArmasController{
         
     }
 
-    public function buscarApi(){
+    public static function buscarApi(){
         getHeadersApi();
         $armas = Armas::where('situacion', '0','>');
         echo json_encode($armas);
     }
 
-    public function modificarAPI(){
+    public static function modificarAPI(){
         getHeadersApi();
        try {
             // $_POST["desc"] = strtoupper($_POST["desc"]);
@@ -102,7 +102,7 @@ class ArmasController{
         }
     }
 
-    public function eliminarAPI(){
+    public static function eliminarAPI(){
         getHeadersApi();
         $_POST['situacion'] = 0;
         $armas = new Armas($_POST);
@@ -121,7 +121,7 @@ class ArmasController{
 
         }
     }
-    public function cambioSituacionAPI(){
+    public static function cambioSituacionAPI(){
         getHeadersApi();
     if ($_POST['situacion'] == 1){
         $_POST['situacion'] = 2;

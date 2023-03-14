@@ -13,7 +13,7 @@ use MVC\Router;
 class InfoMigrantesController
 {
 
-    public function index(Router $router)
+    public static function index(Router $router)
     {
         $migrantes = static::migrantes();
         $edades = static::edades();
@@ -257,7 +257,7 @@ class InfoMigrantesController
     }
 
 
-    public function resumenAPI()
+    public static function resumenAPI()
     {
         // getHeadersApi();
         // echo json_encode($_POST) ;
@@ -283,7 +283,7 @@ class InfoMigrantesController
         echo json_encode($array_resultante);
     }
 
-    public function listadoAPI()
+    public static function listadoAPI()
     {
         getHeadersApi();
 
@@ -353,7 +353,7 @@ class InfoMigrantesController
     }
 
 
-    public function modalAPI()
+    public static function modalAPI()
     {
         getHeadersApi();
 
@@ -438,7 +438,7 @@ class InfoMigrantesController
         return $result;
     }
 
-    public function informacionMigrantesModalAPI()
+    public static function informacionMigrantesModalAPI()
     {
         getHeadersApi();
 
@@ -510,7 +510,7 @@ class InfoMigrantesController
 
 
 
-    public function mapaCalorAPI()
+    public static function mapaCalorAPI()
     {
         getHeadersApi();
 
@@ -553,7 +553,7 @@ class InfoMigrantesController
     }
 
 
-    public function coloresAPI()
+    public static function coloresAPI()
     {
         getHeadersApi();
         try {
@@ -565,7 +565,7 @@ class InfoMigrantesController
         }
     }
 
-    public function coloresAPI1()
+    public static function coloresAPI1()
     {
 
         try {
@@ -577,7 +577,7 @@ class InfoMigrantesController
         }
     }
 
-    public function mapaCalorDeptoAPI()
+    public static function mapaCalorDeptoAPI()
     {
         try {
 
@@ -653,7 +653,7 @@ class InfoMigrantesController
     }
 
 
-    public function mapaCalorPorDeptoGraficaAPI()
+    public static function mapaCalorPorDeptoGraficaAPI()
     {
         try {
 
@@ -702,7 +702,7 @@ class InfoMigrantesController
         }
     }
 
-    public function MigrantesCantGraficaAPI()
+    public static function MigrantesCantGraficaAPI()
     {
         try {
             getHeadersApi();
@@ -748,7 +748,7 @@ class InfoMigrantesController
     }
 
 
-    public function MigrantesDepartamentoGraficaAPI()
+    public static function MigrantesDepartamentoGraficaAPI()
     {
         try {
             getHeadersApi();
@@ -793,7 +793,7 @@ class InfoMigrantesController
         }
     }
 
-    public function MigrantesPorDiaGraficaAPI()
+    public static function MigrantesPorDiaGraficaAPI()
     {
         try {
 
@@ -840,7 +840,7 @@ class InfoMigrantesController
         return $result;
     }
 
-    public function GraficaTrimestralAPI()
+    public static function GraficaTrimestralAPI()
     {
         try {
 
@@ -923,7 +923,7 @@ class InfoMigrantesController
 
 
 
-    public function GraficaTrimestralGeneralAPI()
+    public static function GraficaTrimestralGeneralAPI()
     {
         try {
 

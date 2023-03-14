@@ -7,7 +7,7 @@ use Model\Nacionalidad;
 use MVC\Router;
 class NacionalidadController{
 
-    public function index(Router $router)
+    public static function index(Router $router)
     {
         $busqueda=  Nacionalidad::fetchArray('SELECT * FROM paises');
         $router->render('nacionalidad/index',[
@@ -17,7 +17,7 @@ class NacionalidadController{
     }
    
 
-    public function guardarAPI(){
+    public static function guardarAPI(){
         getHeadersApi();
 
         try {
@@ -62,7 +62,7 @@ class NacionalidadController{
     }
 
 
-    // public function buscarApi(){
+    // public static function buscarApi(){
     //     try {
     //         getHeadersApi();
     //         $nacionalidad = Nacionalidad::fetchArray('SELECT amc_nacionalidad.id, amc_nacionalidad.desc, paises.pai_desc_lg as pais, paises.pai_codigo as idpais from amc_nacionalidad inner join paises on amc_nacionalidad.pais = paises.pai_codigo');
@@ -72,12 +72,12 @@ class NacionalidadController{
     //     }
        
     // }
-    public function buscarApi(){
+    public static function buscarApi(){
         getHeadersApi();
         $nacionalidad = Nacionalidad::where('situacion', '0','>');
         echo json_encode($nacionalidad);
     }
-    public function modificarAPI(){
+    public static function modificarAPI(){
         getHeadersApi();
         try {
             $Nacionalidad = new Nacionalidad($_POST);
@@ -116,7 +116,7 @@ class NacionalidadController{
         }
     }
 
-    public function eliminarAPI(){
+    public static function eliminarAPI(){
         getHeadersApi();
         $_POST['situacion'] = 0;
         $Nacionalidad = new Nacionalidad($_POST);
@@ -131,7 +131,7 @@ class NacionalidadController{
             ]);
         }
     }
-    public function cambioSituacionAPI(){
+    public static function cambioSituacionAPI(){
         try{
         getHeadersApi();
     if ($_POST['situacion'] == 1){

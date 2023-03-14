@@ -6,12 +6,12 @@ use Model\Delitos;
 use MVC\Router;
 class DelitosController{
 
-    public function index(Router $router)
+    public static function index(Router $router)
     {
         $router->render('delitos/index');
     }
 
-    public function guardarAPI(){
+    public static function guardarAPI(){
         getHeadersApi();
 
         try {
@@ -53,13 +53,13 @@ class DelitosController{
         
     }
 
-    public function buscarApi(){
+    public static function buscarApi(){
         getHeadersApi();
         $delitos = Delitos::where('situacion', '1');
         echo json_encode($delitos);
     }
 
-    public function modificarAPI(){
+    public static function modificarAPI(){
         getHeadersApi();
        try {
             $_POST["desc"] = strtoupper($_POST["desc"]);
@@ -99,7 +99,7 @@ class DelitosController{
         }
     }
 
-    public function eliminarAPI(){
+    public static function eliminarAPI(){
         getHeadersApi();
         $_POST['situacion'] = 0;
         $delitos = new Delitos($_POST);
@@ -119,7 +119,7 @@ class DelitosController{
         }
     }
 
-    public function cambioSituacionAPI(){
+    public static function cambioSituacionAPI(){
         getHeadersApi();
         // echo($_POST['situacion']);
     if ($_POST['situacion'] == 1){

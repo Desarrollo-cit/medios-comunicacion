@@ -7,13 +7,13 @@ use Model\Tipo;
 use MVC\Router;
 class TipoController{
 
-    public function index(Router $router)
+    public static function index(Router $router)
     {
         $router->render('tipo/index');
     }
 
 
-    public function guardarAPI(){
+    public static function guardarAPI(){
         getHeadersApi();
 
         try {
@@ -56,7 +56,7 @@ class TipoController{
         
     }
 
-    public function buscarApi(){
+    public static function buscarApi(){
         try {
             getHeadersApi();
             $Tipo = Tipo::where('situacion', '1');
@@ -67,7 +67,7 @@ class TipoController{
        
     }
 
-    public function modificarAPI(){
+    public static function modificarAPI(){
         getHeadersApi();
 
         try {
@@ -98,7 +98,7 @@ class TipoController{
         }
     }
 
-    public function eliminarAPI(){
+    public static function eliminarAPI(){
         getHeadersApi();
         $_POST['situacion'] = 0;
         $Tipo = new Tipo($_POST);

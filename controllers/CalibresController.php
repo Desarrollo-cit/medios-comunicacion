@@ -6,12 +6,12 @@ use Model\Calibres;
 use MVC\Router;
 class CalibresController{
 
-    public function index(Router $router)
+    public static function index(Router $router)
     {
         $router->render('calibres/index');
     }
 
-    public function guardarAPI(){
+    public static function guardarAPI(){
         getHeadersApi();
 
         try {
@@ -53,13 +53,13 @@ class CalibresController{
         
     }
 
-    public function buscarApi(){
+    public static function buscarApi(){
         getHeadersApi();
         $calibres = Calibres::where('situacion', '0','>');
         echo json_encode($calibres);
     }
 
-    public function modificarAPI(){
+    public static function modificarAPI(){
         getHeadersApi();
        try {
             // $_POST["desc"] = strtoupper($_POST["desc"]);
@@ -99,7 +99,7 @@ class CalibresController{
         }
     }
 
-    public function eliminarAPI(){
+    public static function eliminarAPI(){
         getHeadersApi();
         $_POST['situacion'] = 0;
         $calibres = new Calibres($_POST);
@@ -118,7 +118,7 @@ class CalibresController{
 
         }
     }
-    public function cambiarSituacionAPI(){
+    public static function cambiarSituacionAPI(){
         getHeadersApi();
         if($_POST['situacion'] == 1){
             $_POST['situacion']=2;

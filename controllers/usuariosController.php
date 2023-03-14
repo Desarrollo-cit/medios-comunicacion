@@ -7,7 +7,7 @@ class usuariosController{
         $router->render('usuarios/index',[]);
     }
 // Inicio de la funcion guardar usuarios
-    public function guardarAPI(){
+    public static function guardarAPI(){
         getHeadersApi();
 
         try {
@@ -59,7 +59,7 @@ class usuariosController{
 
 
     // inicio de la funcion
-    public function buscarApi(){
+    public static function buscarApi(){
         getHeadersApi();
         // echo json_encode("hola");
         //     exit;
@@ -67,7 +67,7 @@ class usuariosController{
         echo json_encode($usuarios);
     }
 
-    public function modificarAPI(){
+    public static function modificarAPI(){
         getHeadersApi();
        try {
             // $_POST["desc"] = strtoupper($_POST["desc"]);
@@ -108,7 +108,7 @@ class usuariosController{
         }
     }
 
-    public function eliminarAPI(){
+    public static function eliminarAPI(){
         getHeadersApi();
         $_POST['situacion'] = 0;
         $usuarios = new Usuarios($_POST);
@@ -128,7 +128,7 @@ class usuariosController{
         }
     }
 
-    public function cambioSituacionAPI(){
+    public static function cambioSituacionAPI(){
         getHeadersApi();
         
 

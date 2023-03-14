@@ -6,11 +6,11 @@ use Model\Desastre_natural;
 use MVC\Router;
 class Desastre_naturalController{
 
-    public function index(Router $router)
+    public static function index(Router $router)
     {
         $router->render('desastre_natural/index');
     }
-    public function guardarAPI(){
+    public static function guardarAPI(){
         getHeadersApi();
 
         try {
@@ -56,7 +56,7 @@ class Desastre_naturalController{
         
     }
 
-    public function buscarApi(){
+    public static function buscarApi(){
         getHeadersApi();
         $desastre = Desastre_natural::where('situacion', '1');
         echo json_encode($desastre);
@@ -65,7 +65,7 @@ class Desastre_naturalController{
 
 
 
-    public function modificarAPI(){
+    public static function modificarAPI(){
         getHeadersApi();
         $desastre = new Desastre_natural($_POST);
         $valor = $desastre->desc;
@@ -96,7 +96,7 @@ class Desastre_naturalController{
         }
     }
 
-    public function eliminarAPI(){
+    public static function eliminarAPI(){
         getHeadersApi();
         $_POST['situacion'] = 0;
         $desastre = new Desastre_natural($_POST);
