@@ -41,7 +41,7 @@ class InfoMigrantesController
 
 
 
-    function migrantes($fecha1 = "", $fecha2 = "")
+    public static function migrantes($fecha1 = "", $fecha2 = "")
     {
 
 
@@ -67,7 +67,7 @@ class InfoMigrantesController
     }
     
     
-    function estadistica_por_pais( $año = "", $mes = "", $pais_migrante="")
+    public static function estadistica_por_pais( $año = "", $mes = "", $pais_migrante="")
     {
 
 
@@ -96,7 +96,7 @@ class InfoMigrantesController
         }
     }
 
-    function edades($fecha1 = "", $fecha2 = "")
+    public static function edades($fecha1 = "", $fecha2 = "")
     {
 
 
@@ -125,7 +125,7 @@ class InfoMigrantesController
         }
     }
 
-    function cant_paises($fecha1 = "", $fecha2 = "")
+    public static function cant_paises($fecha1 = "", $fecha2 = "")
     {
 
         $sql = " SELECT count(DISTINCT pais_migrante) as cantidad from amc_migrantes inner join amc_topico on amc_topico.id = amc_migrantes.topic where amc_topico.situacion = 1 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
@@ -150,7 +150,7 @@ class InfoMigrantesController
         }
     }
 
-    function pais($fecha1 = "", $fecha2 = "")
+    public static function pais($fecha1 = "", $fecha2 = "")
     {
 
         $cero = [];
@@ -177,7 +177,7 @@ class InfoMigrantesController
     }
 
 
-    function mujeres($fecha1 = "", $fecha2 = "")
+    public static function mujeres($fecha1 = "", $fecha2 = "")
     {
 
 
@@ -200,7 +200,7 @@ class InfoMigrantesController
         }
     }
 
-    function hombres($fecha1 = "", $fecha2 = "")
+    public static function hombres($fecha1 = "", $fecha2 = "")
     {
         $sql = "SELECT  sum (cantidad ) as cantidad from amc_migrantes inner join amc_topico on amc_migrantes.topic = amc_topico.id   where amc_topico.situacion = 1 and sexo = 1 and amc_migrantes.situacion = 1 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
         if ($fecha1 != '' && $fecha2 != '') {
@@ -220,7 +220,7 @@ class InfoMigrantesController
         }
     }
 
-    function departamento_migrantes($fecha1 = "", $fecha2 = "")
+    public static function departamento_migrantes($fecha1 = "", $fecha2 = "")
     {
         $sql = "SELECT FIRST 1 amc_topico.departamento, count(*) as cantidad FROM amc_topico inner join amc_migrantes on amc_topico.id = amc_migrantes.topic where    amc_topico.situacion = 1 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
         if ($fecha1 != '' && $fecha2 != '') {
@@ -430,7 +430,7 @@ class InfoMigrantesController
         }
     }
 
-    function tipos_de_edades()
+    public static function tipos_de_edades()
     {
 
         $sentencia = "SELECT * from amc_edades where situacion = 1";

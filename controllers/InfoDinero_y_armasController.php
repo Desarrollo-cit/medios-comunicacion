@@ -126,7 +126,7 @@ class InfoDinero_y_armasController
     }
 
 
-    function armas()
+    public static function armas()
     {
 
         $sql = "SELECT * from amc_tipo_armas where situacion > 0";
@@ -134,7 +134,7 @@ class InfoDinero_y_armasController
         return $result;
     }
 
-    function armas1()
+    public static function armas1()
     {
 
         $sql = "SELECT * from amc_tipo_armas where situacion = 1";
@@ -1074,7 +1074,7 @@ class InfoDinero_y_armasController
 
 
 
-    function capturas_por_mes_y_delito($mes, $delito, $año)
+    public static function capturas_por_mes_y_delito($mes, $delito, $año)
     {
 
         $sentencia = "SELECT sum(cantidad) as  cantidad  from amc_detalle_arma inner join amc_topico on amc_detalle_arma.topico = amc_topico.id where year(amc_topico.fecha) = year(current) and month(amc_topico.fecha) = $mes  and amc_topico.situacion = 1 and amc_detalle_arma.situacion = 1 and amc_detalle_arma.tipo_arma = $delito and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
@@ -1084,7 +1084,7 @@ class InfoDinero_y_armasController
     }
 
 
-    function capturas_por_mes_y_dinero($mes, $delito, $año)
+    public static function capturas_por_mes_y_dinero($mes, $delito, $año)
     {
 
         $sentencia = "SELECT sum(cantidad) as  cantidad  from amc_detalle_municion inner join amc_topico on amc_detalle_municion.topico = amc_topico.id where year(amc_topico.fecha) = year(current) and month(amc_topico.fecha) = $mes  and amc_topico.situacion = 1 and amc_detalle_municion.situacion = 1 and amc_detalle_municion.calibre = $delito and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";

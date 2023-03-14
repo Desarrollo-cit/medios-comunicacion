@@ -62,7 +62,7 @@ class InfoDrogaController
         return $result;
     }
 
-    static public static function coloresAPI()
+    static public function coloresAPI()
     {
         getHeadersApi();
         try {
@@ -74,7 +74,7 @@ class InfoDrogaController
         }
     }
 
-    static public static function coloresAPI1()
+    static public function coloresAPI1()
     {
 
         try {
@@ -831,7 +831,7 @@ class InfoDrogaController
         }
     }
 
-    function departamental_grafica($mes, $fecha1, $fecha2, $depto, $droga)
+    public static function departamental_grafica($mes, $fecha1, $fecha2, $depto, $droga)
     {
 
         if ($mes == 13) {
@@ -920,7 +920,7 @@ class InfoDrogaController
             ]);
         }
     }
-    function mapaCalorPorDeptoPistasAPI()
+    public static function mapaCalorPorDeptoPistasAPI()
     {
         $fecha1 = str_replace('T', ' ', $_POST['fecha_mapa']);
         $fecha2 = str_replace('T', ' ', $_POST['fecha2']);
@@ -946,7 +946,7 @@ class InfoDrogaController
         echo json_encode($info);
     }
 
-    function DrogasCantGraficaAPI(){
+    public static function DrogasCantGraficaAPI(){
         
 
         $fecha1 = str_replace('T', ' ', $_POST['fecha_grafica']);
@@ -1026,7 +1026,7 @@ class InfoDrogaController
 
 
     
-    function DrogasDepartamentoGraficaAPI(){
+    public static function DrogasDepartamentoGraficaAPI(){
         
 
         $fecha1 = str_replace('T', ' ', $_POST['fecha_grafica']);
@@ -1150,7 +1150,7 @@ class InfoDrogaController
     }
 
     
-    function incautaciones_por_mes_y_droga($mes, $droga, $años)
+    public static function incautaciones_por_mes_y_droga($mes, $droga, $años)
     {
 
         $sentencia = "SELECT sum(cantidad) as  cantidad  from amc_incautacion_droga inner join amc_topico on amc_incautacion_droga.topico = amc_topico.id where year(amc_topico.fecha) = $años and month(amc_topico.fecha) = $mes  and amc_topico.situacion = 1 and amc_incautacion_droga.situacion = 1 and amc_incautacion_droga.tipo_droga = $droga and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
@@ -1167,7 +1167,7 @@ class InfoDrogaController
         return $valor;
     }
    
-    function incautacionesmatas_por_mes_y_droga($mes, $droga, $años)
+    public static function incautacionesmatas_por_mes_y_droga($mes, $droga, $años)
     {
        
        
