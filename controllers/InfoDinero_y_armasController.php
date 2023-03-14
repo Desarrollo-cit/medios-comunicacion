@@ -16,6 +16,7 @@ class InfoDinero_y_armasController
 
     public static function index(Router $router)
     {
+        hasPermission(['AMC_ADMIN']);
         $capturas = static::cantidadArmas();
         $total_dinero = static::total_dinero();
         $incidencia_arma = static::incidencia_arma();
@@ -41,7 +42,11 @@ class InfoDinero_y_armasController
     {
 
 
+        hasPermission(['AMC_ADMIN']);
+
+
         $sql = "  SELECT count (*) as cantidad from amc_topico where amc_topico.situacion = 1 and amc_topico.tipo in (5,6)  and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
+
 
         if ($fecha1 != '' && $fecha2 != '') {
 
@@ -65,7 +70,7 @@ class InfoDinero_y_armasController
 
     protected static function total_dinero($fecha1 = "", $fecha2 = "", $depto = "")
     {
-
+        hasPermission(['AMC_ADMIN']);
 
         $sql = "  SELECT sum(conversion) as cantidad_din from amc_incautacion_dinero inner join amc_topico on amc_incautacion_dinero.topico = amc_topico.id  where   amc_topico.situacion = 1 and amc_incautacion_dinero.situacion = 1  and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
 
@@ -97,7 +102,7 @@ class InfoDinero_y_armasController
 
     protected static function total_armas($fecha1 = "", $fecha2 = "", $depto = "", $arma = "")
     {
-
+        hasPermission(['AMC_ADMIN']);
 
         $sql = "  SELECT sum(cantidad) as cantidad_arm from amc_detalle_arma inner join amc_topico on amc_detalle_arma.topico = amc_topico.id  where  amc_topico.situacion = 1 and amc_detalle_arma.situacion = 1 and amc_topico.tipo = 6 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
 
@@ -136,7 +141,7 @@ class InfoDinero_y_armasController
 
     public static function armas1()
     {
-
+        hasPermission(['AMC_ADMIN']);
         $sql = "SELECT * from amc_tipo_armas where situacion = 1";
         $result = Muertes::fetchArray($sql);
         return $result;
@@ -148,7 +153,9 @@ class InfoDinero_y_armasController
     {
 
 
+        hasPermission(['AMC_ADMIN']);
         $sql = "  SELECT FIRST 1 amc_tipo_armas.desc as descripcion,  sum(amc_detalle_arma.cantidad) as cantidad, amc_calibre.desc as municion from amc_detalle_arma inner join amc_tipo_armas on amc_detalle_arma.tipo_arma = amc_tipo_armas.id inner join amc_calibre on amc_detalle_arma.calibre = amc_calibre.id inner join amc_topico on amc_detalle_arma.topico = amc_topico.id where  amc_detalle_arma.situacion = 1 and amc_topico.situacion = 1 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user)  ";
+
 
 
         if ($fecha1 != '' && $fecha2 != '') {
@@ -180,7 +187,11 @@ class InfoDinero_y_armasController
 
     protected static function departamento_con_mas_armas_incautadas($fecha1 = "", $fecha2 = "")
     {
+
+        hasPermission(['AMC_ADMIN']);
+
         $sql = "SELECT FIRST 1 amc_topico.departamento as departamento, sum(cantidad) as cantidad FROM amc_detalle_arma inner join amc_topico on amc_detalle_arma.topico = amc_topico.id  where   amc_topico.situacion = 1  and amc_topico.tipo= 6 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
+
         if ($fecha1 != '' && $fecha2 != '') {
 
             $sql .= " AND amc_topico.fecha   BETWEEN '$fecha1' AND  '$fecha2' ";
@@ -214,8 +225,10 @@ class InfoDinero_y_armasController
 
     public static function resumenAPI()
     {
+
         // getHeadersApi();
         // echo json_encode($_POST) ;
+        hasPermission(['AMC_ADMIN']);
 
 
         $fecha1 = $_POST['fecha_resumen'];
@@ -242,6 +255,7 @@ class InfoDinero_y_armasController
     public static function listadoAPI()
     {
         getHeadersApi();
+        hasPermission(['AMC_ADMIN']);
 
 
         try {
@@ -314,6 +328,7 @@ class InfoDinero_y_armasController
     public static function modalAPI()
     {
         getHeadersApi();
+        hasPermission(['AMC_ADMIN']);
 
         // echo json_encode($sql);
 
@@ -393,6 +408,7 @@ class InfoDinero_y_armasController
     public static function informacionModalAPI1()
     {
         getHeadersApi();
+        hasPermission(['AMC_ADMIN']);
 
         // echo json_encode($sql);
 
@@ -454,6 +470,7 @@ class InfoDinero_y_armasController
     public static function informacionModalAPI()
     {
         getHeadersApi();
+        hasPermission(['AMC_ADMIN']);
 
         // echo json_encode($sql);
 
@@ -501,6 +518,7 @@ class InfoDinero_y_armasController
     public static function mapaCalorAPI()
     {
         getHeadersApi();
+        hasPermission(['AMC_ADMIN']);
 
         // echo json_encode($sql);
 
@@ -551,6 +569,8 @@ class InfoDinero_y_armasController
     public static function coloresAPI()
     {
         getHeadersApi();
+        hasPermission(['AMC_ADMIN']);
+
         try {
             $sql = "SELECT * from amc_colores where topico = 5 and situacion = 1 order by nivel asc ";
             $info = Capturadas::fetchArray($sql);
@@ -564,6 +584,8 @@ class InfoDinero_y_armasController
     public static function mapaCalorDeptoAPI()
     {
         getHeadersApi();
+        hasPermission(['AMC_ADMIN']);
+
         try {
 
             $depto = $_POST['departamento'];
@@ -593,7 +615,7 @@ class InfoDinero_y_armasController
 
     public static function coloresAPI1()
     {
-
+hasPermission(['AMC_ADMIN']);
         try {
             $sql = "SELECT * from amc_colores where topico = 5  ";
             $info = Capturadas::fetchArray($sql);
@@ -606,7 +628,7 @@ class InfoDinero_y_armasController
 
     public static function delitosApi()
     {
-
+        hasPermission(['AMC_ADMIN']);
         try {
             $sql = "SELECT * from amc_delito where situacion = 1  ";
             $info = Delito::fetchArray($sql);
@@ -618,6 +640,7 @@ class InfoDinero_y_armasController
 
     public static function mapaCalorPorDeptoGraficaAPI()
     {
+        hasPermission(['AMC_ADMIN']);
         try {
 
 
@@ -670,7 +693,7 @@ class InfoDinero_y_armasController
 
     protected static function total($depto = "", $arma = "", $fecha1 = "", $fecha2 = "")
     {
-
+        hasPermission(['AMC_ADMIN']);
         try {
             $sql = "SELECT sum(cantidad) as cantidad from amc_detalle_arma inner join amc_topico on amc_detalle_arma.topico = amc_topico.id  where  amc_topico.situacion = 1 and amc_detalle_arma.situacion = 1 and amc_topico.tipo = 6 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
 
@@ -721,6 +744,7 @@ class InfoDinero_y_armasController
 
     public static function DelitosCantGraficaAPI()
     {
+        hasPermission(['AMC_ADMIN']);
         try {
 
             try {
@@ -791,6 +815,7 @@ class InfoDinero_y_armasController
 
     public static function DineroCantGraficaAPI()
     {
+        hasPermission(['AMC_ADMIN']);
         try {
 
             try {
@@ -862,6 +887,7 @@ class InfoDinero_y_armasController
 
     public static function CapturasPorDiaGraficaAPI()
     {
+        hasPermission(['AMC_ADMIN']);
         try {
             /* SELECT sum(cantidad) as  cantidad  From amc_incautacion_dineros inner join amc_topico on amc_incautacion_dinero.topico = amc_topico.id   where year(amc_topico.fecha) = year(current) and month(amc_topico.fecha) = month(current) and day(amc_topico.fecha) = day($i) and amc_topico.situacion = 1 and amc_topico.tipo IN (5,6) */
 
@@ -897,6 +923,7 @@ class InfoDinero_y_armasController
 
     public static function CapturasPorDiaGrafica_armasAPI()
     {
+        hasPermission(['AMC_ADMIN']);
         try {
             /* SELECT sum(cantidad) as  cantidad  From amc_incautacion_dineros inner join amc_topico on amc_incautacion_dinero.topico = amc_topico.id   where year(amc_topico.fecha) = year(current) and month(amc_topico.fecha) = month(current) and day(amc_topico.fecha) = day($i) and amc_topico.situacion = 1 and amc_topico.tipo IN (5,6) */
 
@@ -932,6 +959,7 @@ class InfoDinero_y_armasController
 
     public static function GraficaTrimestralAPI()
     {
+        hasPermission(['AMC_ADMIN']);
         try {
 
             $mes = date("n");
@@ -1008,6 +1036,7 @@ class InfoDinero_y_armasController
 
     public static function GraficaTrimestralGeneralAPI()
     {
+        hasPermission(['AMC_ADMIN']);
         try {
 
 
@@ -1077,6 +1106,9 @@ class InfoDinero_y_armasController
     public static function capturas_por_mes_y_delito($mes, $delito, $año)
     {
 
+        hasPermission(['AMC_ADMIN']);
+
+
         $sentencia = "SELECT sum(cantidad) as  cantidad  from amc_detalle_arma inner join amc_topico on amc_detalle_arma.topico = amc_topico.id where year(amc_topico.fecha) = year(current) and month(amc_topico.fecha) = $mes  and amc_topico.situacion = 1 and amc_detalle_arma.situacion = 1 and amc_detalle_arma.tipo_arma = $delito and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
 
         $result = Capturadas::fetchArray($sentencia);
@@ -1086,6 +1118,7 @@ class InfoDinero_y_armasController
 
     public static function capturas_por_mes_y_dinero($mes, $delito, $año)
     {
+        hasPermission(['AMC_ADMIN']);
 
         $sentencia = "SELECT sum(cantidad) as  cantidad  from amc_detalle_municion inner join amc_topico on amc_detalle_municion.topico = amc_topico.id where year(amc_topico.fecha) = year(current) and month(amc_topico.fecha) = $mes  and amc_topico.situacion = 1 and amc_detalle_municion.situacion = 1 and amc_detalle_municion.calibre = $delito and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
         // if($año != ""){
@@ -1101,6 +1134,7 @@ class InfoDinero_y_armasController
 
     public static function DelitosDepartamentoGraficaAPI()
     {
+        hasPermission(['AMC_ADMIN']);
         try {
 
 
@@ -1159,6 +1193,7 @@ class InfoDinero_y_armasController
 
     public static function DineroDepartamentoGraficaAPI()
     {
+        hasPermission(['AMC_ADMIN']);
         try {
 
 

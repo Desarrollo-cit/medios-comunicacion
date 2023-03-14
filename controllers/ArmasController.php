@@ -7,13 +7,15 @@ use MVC\Router;
 class ArmasController{
 
     public static function index(Router $router)
-    {
+    { 
+        hasPermission(['AMC_ADMIN']);
+
         $router->render('armas/index');
     }
 
     public static function guardarAPI(){
         getHeadersApi();
-
+        hasPermissionApi(['AMC_ADMIN']);
         try {
             // $_POST["desc"] = strtoupper($_POST["desc"]);
             $armas = new Armas($_POST);
@@ -58,12 +60,15 @@ class ArmasController{
 
     public static function buscarApi(){
         getHeadersApi();
+        hasPermissionApi(['AMC_ADMIN']);
         $armas = Armas::where('situacion', '0','>');
         echo json_encode($armas);
     }
 
     public static function modificarAPI(){
         getHeadersApi();
+        hasPermissionApi(['AMC_ADMIN']);
+
        try {
             // $_POST["desc"] = strtoupper($_POST["desc"]);
             $armas = new Armas($_POST);
@@ -104,6 +109,8 @@ class ArmasController{
 
     public static function eliminarAPI(){
         getHeadersApi();
+        hasPermissionApi(['AMC_ADMIN']);
+
         $_POST['situacion'] = 0;
         $armas = new Armas($_POST);
         
@@ -123,6 +130,7 @@ class ArmasController{
     }
     public static function cambioSituacionAPI(){
         getHeadersApi();
+        hasPermissionApi(['AMC_ADMIN']);
     if ($_POST['situacion'] == 1){
         $_POST['situacion'] = 2;
     }else{

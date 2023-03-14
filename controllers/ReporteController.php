@@ -18,6 +18,7 @@ class ReporteController{
 
     public static function reporteTopico(Router $router){
         $id = $_GET['id'];
+        hasPermission(['AMC_ADMIN', 'AMC_COMANDO']);
         $user = $_SESSION['auth_user'];
 
         $userInfo = array_shift(Evento::fetchArray("SELECT * from mper inner join morg on per_plaza = org_plaza inner join mdep on org_dependencia = dep_llave where per_catalogo = $user "));
@@ -123,7 +124,7 @@ class ReporteController{
     }
 
     public static function reporteGeneral(Router $router){
-
+        hasPermission(['AMC_ADMIN', 'AMC_COMANDO']);
         
         $inicio = str_replace('T',' ', $_GET['inicio']);
         $fin = str_replace('T',' ', $_GET['fin']);

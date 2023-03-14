@@ -12,6 +12,8 @@ class IncautacionController
 
     public static function guardar(){
         getHeadersApi();
+        hasPermission(['AMC_ADMIN', 'AMC_COMANDO']);
+
         // echo json_encode($_POST)   ;
         try {
 
@@ -81,6 +83,8 @@ class IncautacionController
 
     public static function buscarIncautacionAPI(){
         getHeadersApi();
+        hasPermission(['AMC_ADMIN', 'AMC_COMANDO']);
+
         $topico = $_GET['topico'];
 
         try{
@@ -107,7 +111,7 @@ class IncautacionController
 
     public static function modificar(){
         getHeadersApi();
-
+        hasPermission(['AMC_ADMIN', 'AMC_COMANDO']);
         try {
 
             $evento = Evento::find($_POST['topico']);
@@ -178,7 +182,7 @@ class IncautacionController
 
     public static function eliminarIncautacion(){
         getHeadersApi();
-        
+        hasPermission(['AMC_ADMIN', 'AMC_COMANDO']);
         
         try {
 

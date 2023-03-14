@@ -9,11 +9,13 @@ class OrganizacionController{
 
     public static function index(Router $router)
     {
+        hasPermission(['AMC_ADMIN']);
         $router->render('organizacion/index');
     }
 
     public static function guardarAPI(){
         getHeadersApi();
+        hasPermissionApi(['AMC_ADMIN']);
         try {
 
             $tipo = new Organizacion($_POST);
@@ -63,18 +65,25 @@ class OrganizacionController{
     }
     }
 
-    // public static function buscarApi(){
-    //     try {
-    //         getHeadersApi();
-    //         $Organizacion = Organizacion::where('situacion', '1');
-    //         echo json_encode($Organizacion);       
-    //     } catch (Exception $e) {
-    //         echo json_encode(["error"=>$e->getMessage()]);
-    //     }
+
+
+    public static function buscarApi(){
+        hasPermissionApi(['AMC_ADMIN']);
+        try {
+            getHeadersApi();
+            $Organizacion = Organizacion::where('situacion', '1');
+            echo json_encode($Organizacion);       
+        } catch (Exception $e) {
+            echo json_encode(["error"=>$e->getMessage()]);
+        }
+
        
-    // }
+    }
+
 
     public static function modificarAPI(){
+        hasPermissionApi(['AMC_ADMIN']);
+
         try {
             getHeadersApi();
             $Organizacion = new Organizacion($_POST);
@@ -113,6 +122,7 @@ class OrganizacionController{
     }
     public static function eliminarAPI(){
         getHeadersApi();
+        hasPermissionApi(['AMC_ADMIN']);
         $_POST['situacion'] = 0;
         $Organizacion = new Organizacion($_POST);
         
