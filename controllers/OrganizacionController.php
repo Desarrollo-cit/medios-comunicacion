@@ -7,12 +7,12 @@ use Model\Organizacion;
 use MVC\Router;
 class OrganizacionController{
 
-    public function index(Router $router)
+    public static function index(Router $router)
     {
         $router->render('organizacion/index');
     }
 
-    public function guardarAPI(){
+    public static function guardarAPI(){
         getHeadersApi();
         try {
 
@@ -53,7 +53,7 @@ class OrganizacionController{
         }
         
     }
-    public function buscarApi(){
+    public static function buscarApi(){
         try{
         getHeadersApi();
         $Organizacion = Organizacion::where('situacion', '0','>');
@@ -63,7 +63,7 @@ class OrganizacionController{
     }
     }
 
-    // public function buscarApi(){
+    // public static function buscarApi(){
     //     try {
     //         getHeadersApi();
     //         $Organizacion = Organizacion::where('situacion', '1');
@@ -74,7 +74,7 @@ class OrganizacionController{
        
     // }
 
-    public function modificarAPI(){
+    public static function modificarAPI(){
         try {
             getHeadersApi();
             $Organizacion = new Organizacion($_POST);
@@ -111,7 +111,7 @@ class OrganizacionController{
             ]);
         }
     }
-    public function eliminarAPI(){
+    public static function eliminarAPI(){
         getHeadersApi();
         $_POST['situacion'] = 0;
         $Organizacion = new Organizacion($_POST);
@@ -130,7 +130,7 @@ class OrganizacionController{
 
         }
     }
-    public function cambiarSituacionAPI(){
+    public static function cambiarSituacionAPI(){
     
         
         try{

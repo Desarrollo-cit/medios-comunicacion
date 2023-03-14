@@ -12,7 +12,7 @@ use MVC\Router;
 
 class InfoDrogaController
 {
-    public function index(Router $router)
+    public static function index(Router $router)
     {
         $drogas_tipo = static::drogas_tipo1();
         $operacionesDroga = static::operacionesDroga();
@@ -62,7 +62,7 @@ class InfoDrogaController
         return $result;
     }
 
-    static public function coloresAPI()
+    static public static function coloresAPI()
     {
         getHeadersApi();
         try {
@@ -74,7 +74,7 @@ class InfoDrogaController
         }
     }
 
-    static public function coloresAPI1()
+    static public static function coloresAPI1()
     {
 
         try {
@@ -446,7 +446,7 @@ class InfoDrogaController
         }
     }
 
-    public function resumenAPI()
+    public static function resumenAPI()
     {
         // getHeadersApi();
         // echo json_encode($_POST) ;
@@ -476,7 +476,7 @@ class InfoDrogaController
         echo json_encode($array_resultante);
     }
 
-    public function listadoAPI()
+    public static function listadoAPI()
     {
         getHeadersApi();
 
@@ -537,7 +537,7 @@ class InfoDrogaController
         }
     }
 
-    public function modalAPI()
+    public static function modalAPI()
     {
         getHeadersApi();
 
@@ -611,7 +611,7 @@ class InfoDrogaController
         }
     }
 
-    public function informacionModalAPI()
+    public static function informacionModalAPI()
     {
         getHeadersApi();
 
@@ -637,7 +637,7 @@ class InfoDrogaController
     }
 
 
-    public function informacionModalAPI1()
+    public static function informacionModalAPI1()
     {
         getHeadersApi();
 
@@ -663,7 +663,7 @@ class InfoDrogaController
     }
 
 
-    public function informacionPersonasAPI()
+    public static function informacionPersonasAPI()
     {
         getHeadersApi();
 
@@ -720,7 +720,7 @@ class InfoDrogaController
             ]);
         }
     }
-    public function distanciaPistaAPI()
+    public static function distanciaPistaAPI()
     {
         getHeadersApi();
 
@@ -745,7 +745,7 @@ class InfoDrogaController
         }
     }
 
-    public function mapaCalorAPI()
+    public static function mapaCalorAPI()
     {
         getHeadersApi();
 
@@ -805,7 +805,7 @@ class InfoDrogaController
         }
     }
 
-    public function mapaCalorDeptoAPI()
+    public static function mapaCalorDeptoAPI()
     {
         getHeadersApi();
         try {
@@ -843,7 +843,7 @@ class InfoDrogaController
     }
 
 
-    public function mapaCalorPorDeptoGraficaAPI()
+    public static function mapaCalorPorDeptoGraficaAPI()
     {
         try {
 
@@ -1051,7 +1051,7 @@ class InfoDrogaController
     }
 
 
-    public function IncautacionesPorDiaGraficaAPI()
+    public static function IncautacionesPorDiaGraficaAPI()
     {
         try {
 
@@ -1084,7 +1084,7 @@ class InfoDrogaController
     }
 
 
-    public function KilosPorDiaGraficaAPI(){
+    public static function KilosPorDiaGraficaAPI(){
         try {
 
   $diasMes =  date('t');
@@ -1117,7 +1117,7 @@ class InfoDrogaController
     }
 
 
-    public function MatasPorDiaGraficaAPI(){
+    public static function MatasPorDiaGraficaAPI(){
         try {
 
   $diasMes =  date('t');
@@ -1186,7 +1186,7 @@ class InfoDrogaController
     }
    
    
-    public function GraficatrimestralKilosAPI(){
+    public static function GraficatrimestralKilosAPI(){
         try {
 
             $mes = date("n");
@@ -1249,7 +1249,7 @@ class InfoDrogaController
         }
     }
    
-    public function GraficatrimestralMatasAPI(){
+    public static function GraficatrimestralMatasAPI(){
         try {
 
             $mes = date("n");
@@ -1314,7 +1314,7 @@ class InfoDrogaController
    
 
 
-    public function GraficatrimestralPistasAPI(){
+    public static function GraficatrimestralPistasAPI(){
         try {
 
             $mes = date("n");
@@ -1374,7 +1374,7 @@ class InfoDrogaController
     }
 
 
-    public function GraficaTrimestralIncautacionesGeneralAPI(){
+    public static function GraficaTrimestralIncautacionesGeneralAPI(){
         try {
 
             $mes = date("n");

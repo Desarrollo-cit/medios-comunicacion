@@ -6,11 +6,11 @@ use Model\Fenomeno_natural;
 use MVC\Router;
 class Fenomeno_naturalController{
 
-    public function index(Router $router)
+    public static function index(Router $router)
     {
         $router->render('fenomeno_natural/index');
     }
-    public function guardarAPI(){
+    public static function guardarAPI(){
         getHeadersApi();
 
         try {
@@ -56,7 +56,7 @@ class Fenomeno_naturalController{
         
     }
 
-    public function buscarApi(){
+    public static function buscarApi(){
         getHeadersApi();
         $fenomeno = Fenomeno_natural::where('situacion', '1');
         echo json_encode($fenomeno);
@@ -65,7 +65,7 @@ class Fenomeno_naturalController{
 
 
 
-    public function modificarAPI(){
+    public static function modificarAPI(){
         getHeadersApi();
         $fenomeno = new Fenomeno_natural($_POST);
         $valor = $fenomeno->desc;
@@ -97,7 +97,7 @@ class Fenomeno_naturalController{
         }
     }
 
-    public function eliminarAPI(){
+    public static function eliminarAPI(){
         getHeadersApi();
         $_POST['situacion'] = 0;
         $fenomeno = new Fenomeno_natural($_POST);

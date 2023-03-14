@@ -14,7 +14,7 @@ use MVC\Router;
 class InfoDinero_y_armasController
 {
 
-    public function index(Router $router)
+    public static function index(Router $router)
     {
         $capturas = static::cantidadArmas();
         $total_dinero = static::total_dinero();
@@ -212,7 +212,7 @@ class InfoDinero_y_armasController
     }
 
 
-    public function resumenAPI()
+    public static function resumenAPI()
     {
         // getHeadersApi();
         // echo json_encode($_POST) ;
@@ -239,7 +239,7 @@ class InfoDinero_y_armasController
     }
 
 
-    public function listadoAPI()
+    public static function listadoAPI()
     {
         getHeadersApi();
 
@@ -311,7 +311,7 @@ class InfoDinero_y_armasController
         }
     }
 
-    public function modalAPI()
+    public static function modalAPI()
     {
         getHeadersApi();
 
@@ -390,7 +390,7 @@ class InfoDinero_y_armasController
 
 
 
-    public function informacionModalAPI1()
+    public static function informacionModalAPI1()
     {
         getHeadersApi();
 
@@ -451,7 +451,7 @@ class InfoDinero_y_armasController
             ]);
         }
     }
-    public function informacionModalAPI()
+    public static function informacionModalAPI()
     {
         getHeadersApi();
 
@@ -498,7 +498,7 @@ class InfoDinero_y_armasController
     }
 
 
-    public function mapaCalorAPI()
+    public static function mapaCalorAPI()
     {
         getHeadersApi();
 
@@ -548,7 +548,7 @@ class InfoDinero_y_armasController
     }
 
 
-    public function coloresAPI()
+    public static function coloresAPI()
     {
         getHeadersApi();
         try {
@@ -561,7 +561,7 @@ class InfoDinero_y_armasController
     }
 
 
-    public function mapaCalorDeptoAPI()
+    public static function mapaCalorDeptoAPI()
     {
         getHeadersApi();
         try {
@@ -591,7 +591,7 @@ class InfoDinero_y_armasController
     }
 
 
-    public function coloresAPI1()
+    public static function coloresAPI1()
     {
 
         try {
@@ -604,7 +604,7 @@ class InfoDinero_y_armasController
     }
 
 
-    public function delitosApi()
+    public static function delitosApi()
     {
 
         try {
@@ -616,7 +616,7 @@ class InfoDinero_y_armasController
         }
     }
 
-    public function mapaCalorPorDeptoGraficaAPI()
+    public static function mapaCalorPorDeptoGraficaAPI()
     {
         try {
 
@@ -719,7 +719,7 @@ class InfoDinero_y_armasController
     //// PARTE DE LAS GRAFICAS 
 
 
-    public function DelitosCantGraficaAPI()
+    public static function DelitosCantGraficaAPI()
     {
         try {
 
@@ -789,7 +789,7 @@ class InfoDinero_y_armasController
     }
 
 
-    public function DineroCantGraficaAPI()
+    public static function DineroCantGraficaAPI()
     {
         try {
 
@@ -860,7 +860,7 @@ class InfoDinero_y_armasController
     }
 
 
-    public function CapturasPorDiaGraficaAPI()
+    public static function CapturasPorDiaGraficaAPI()
     {
         try {
             /* SELECT sum(cantidad) as  cantidad  From amc_incautacion_dineros inner join amc_topico on amc_incautacion_dinero.topico = amc_topico.id   where year(amc_topico.fecha) = year(current) and month(amc_topico.fecha) = month(current) and day(amc_topico.fecha) = day($i) and amc_topico.situacion = 1 and amc_topico.tipo IN (5,6) */
@@ -895,7 +895,7 @@ class InfoDinero_y_armasController
 
 
 
-    public function CapturasPorDiaGrafica_armasAPI()
+    public static function CapturasPorDiaGrafica_armasAPI()
     {
         try {
             /* SELECT sum(cantidad) as  cantidad  From amc_incautacion_dineros inner join amc_topico on amc_incautacion_dinero.topico = amc_topico.id   where year(amc_topico.fecha) = year(current) and month(amc_topico.fecha) = month(current) and day(amc_topico.fecha) = day($i) and amc_topico.situacion = 1 and amc_topico.tipo IN (5,6) */
@@ -930,7 +930,7 @@ class InfoDinero_y_armasController
 
 
 
-    public function GraficaTrimestralAPI()
+    public static function GraficaTrimestralAPI()
     {
         try {
 
@@ -1006,7 +1006,7 @@ class InfoDinero_y_armasController
 
 
 
-    public function GraficaTrimestralGeneralAPI()
+    public static function GraficaTrimestralGeneralAPI()
     {
         try {
 
@@ -1099,7 +1099,7 @@ class InfoDinero_y_armasController
     }
 
 
-    public function DelitosDepartamentoGraficaAPI()
+    public static function DelitosDepartamentoGraficaAPI()
     {
         try {
 
@@ -1157,7 +1157,7 @@ class InfoDinero_y_armasController
         }
     }
 
-    public function DineroDepartamentoGraficaAPI()
+    public static function DineroDepartamentoGraficaAPI()
     {
         try {
 

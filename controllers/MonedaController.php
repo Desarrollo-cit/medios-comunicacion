@@ -6,11 +6,11 @@ use Model\Moneda;
 use MVC\Router;
 class MonedaController{
 
-    public function index(Router $router)
+    public static function index(Router $router)
     {
         $router->render('Moneda/index');
     }
-    public function guardarAPI(){
+    public static function guardarAPI(){
         getHeadersApi();
 
         try {
@@ -60,7 +60,7 @@ class MonedaController{
         
     }
 
-    public function buscarApi(){
+    public static function buscarApi(){
         getHeadersApi();
         $moneda = Moneda::where('situacion', '0','>');
         echo json_encode($moneda);
@@ -69,7 +69,7 @@ class MonedaController{
 
 
 
-    public function modificarAPI(){
+    public static function modificarAPI(){
         getHeadersApi();
         $_POST["desc"] = strtoupper($_POST["desc"]);
         $moneda = new Moneda($_POST);
@@ -102,7 +102,7 @@ class MonedaController{
         }
     }
 
-    public function eliminarAPI(){
+    public static function eliminarAPI(){
         getHeadersApi();
         $_POST['situacion'] = 0;
         $moneda = new Moneda($_POST);
@@ -122,7 +122,7 @@ class MonedaController{
 
         }
     }
-    public function cambiarSituacionAPI(){
+    public static function cambiarSituacionAPI(){
         getHeadersApi();
         if($_POST['situacion'] == 1){
             $_POST['situacion'] = 2;

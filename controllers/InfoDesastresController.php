@@ -12,7 +12,7 @@ use MVC\Router;
 
 class InfoDesastresController
 {
-    public function index(Router $router)
+    public static function index(Router $router)
     {
         $fenomeno_natural = static::fenomeno_natural();
         $cantidadDesastres = static::cantidadDesastres();
@@ -60,7 +60,7 @@ class InfoDesastresController
         return $result;
     }
 
-    static public function coloresAPI()
+    static public static function coloresAPI()
     {
         getHeadersApi();
         try {
@@ -72,7 +72,7 @@ class InfoDesastresController
         }
     }
 
-    static public function coloresAPI1()
+    static public static function coloresAPI1()
     {
 
         try {
@@ -595,7 +595,7 @@ class InfoDesastresController
 
   
 
-    public function resumenAPI()
+    public static function resumenAPI()
     {
         getHeadersApi();
         // echo json_encode($_POST) ;
@@ -629,7 +629,7 @@ class InfoDesastresController
         echo json_encode($array_resultante);
     }
 
-    public function listadoAPI()
+    public static function listadoAPI()
     {
         getHeadersApi();
 
@@ -696,7 +696,7 @@ class InfoDesastresController
         }
     }
 
-    public function modalAPI()
+    public static function modalAPI()
     {
         getHeadersApi();
 
@@ -770,7 +770,7 @@ class InfoDesastresController
         }
     }
 
-    public function informacionModalAPI()
+    public static function informacionModalAPI()
     {
         getHeadersApi();
 
@@ -800,7 +800,7 @@ class InfoDesastresController
     
    
 
-    public function mapaCalorAPI()
+    public static function mapaCalorAPI()
     {
         getHeadersApi();
 
@@ -850,7 +850,7 @@ class InfoDesastresController
         }
     }
 
-    public function mapaCalorDeptoAPI()
+    public static function mapaCalorDeptoAPI()
     {
         getHeadersApi();
         try {
@@ -892,7 +892,7 @@ class InfoDesastresController
     }
 
 
-    public function mapaCalorPorDeptoGraficaAPI()
+    public static function mapaCalorPorDeptoGraficaAPI()
     {
         try {
 
@@ -1035,7 +1035,7 @@ class InfoDesastresController
     }
 
 
-    public function IncautacionesPorDiaGraficaAPI()
+    public static function IncautacionesPorDiaGraficaAPI()
     {
         try {
 
@@ -1068,7 +1068,7 @@ class InfoDesastresController
     }
 
 
-    public function KilosPorDiaGraficaAPI(){
+    public static function KilosPorDiaGraficaAPI(){
         try {
 
   $diasMes =  date('t');
@@ -1101,7 +1101,7 @@ class InfoDesastresController
     }
 
 
-    public function MatasPorDiaGraficaAPI(){
+    public static function MatasPorDiaGraficaAPI(){
         try {
 
   $diasMes =  date('t');
@@ -1170,7 +1170,7 @@ class InfoDesastresController
     }
    
    
-    public function GraficatrimestralKilosAPI(){
+    public static function GraficatrimestralKilosAPI(){
         try {
 
             $mes = date("n");
@@ -1233,7 +1233,7 @@ class InfoDesastresController
         }
     }
    
-    public function GraficatrimestralMatasAPI(){
+    public static function GraficatrimestralMatasAPI(){
         try {
 
             $mes = date("n");
@@ -1298,7 +1298,7 @@ class InfoDesastresController
    
 
 
-    public function GraficatrimestralPistasAPI(){
+    public static function GraficatrimestralPistasAPI(){
         try {
 
             $mes = date("n");
@@ -1358,7 +1358,7 @@ class InfoDesastresController
     }
 
 
-    public function GraficaTrimestralIncautacionesGeneralAPI(){
+    public static function GraficaTrimestralIncautacionesGeneralAPI(){
         try {
 
             $mes = date("n");

@@ -14,7 +14,7 @@ use MVC\Router;
 class InfoCapturaController
 {
 
-    public function index(Router $router)
+    public static function index(Router $router)
     {
         $capturas = static::cantidadCapturas();
         $mujeres = static::mujeres();
@@ -174,7 +174,7 @@ class InfoCapturaController
     }
 
 
-    public function resumenAPI()
+    public static function resumenAPI()
     {
         // getHeadersApi();
         // echo json_encode($_POST) ;
@@ -200,7 +200,7 @@ class InfoCapturaController
     }
 
 
-    public function listadoAPI()
+    public static function listadoAPI()
     {
         getHeadersApi();
 
@@ -265,7 +265,7 @@ class InfoCapturaController
         }
     }
 
-    public function modalAPI()
+    public static function modalAPI()
     {
         getHeadersApi();
 
@@ -343,7 +343,7 @@ class InfoCapturaController
 
 
 
-    public function informacionModalAPI()
+    public static function informacionModalAPI()
     {
         getHeadersApi();
 
@@ -403,7 +403,7 @@ class InfoCapturaController
     }
 
     
-    public function informacionModalAPI1()
+    public static function informacionModalAPI1()
     {
         getHeadersApi();
 
@@ -427,7 +427,7 @@ class InfoCapturaController
     }
 
 
-    public function mapaCalorAPI()
+    public static function mapaCalorAPI()
     {
         getHeadersApi();
 
@@ -472,7 +472,7 @@ class InfoCapturaController
     }
 
 
-    public function coloresAPI()
+    public static function coloresAPI()
     {
         getHeadersApi();
         try {
@@ -485,7 +485,7 @@ class InfoCapturaController
     }
 
 
-    public function mapaCalorDeptoAPI()
+    public static function mapaCalorDeptoAPI()
     {
         getHeadersApi();
         try {
@@ -552,7 +552,7 @@ class InfoCapturaController
         }
     }
 
-    public function mapaCalorPorDeptoGraficaAPI()
+    public static function mapaCalorPorDeptoGraficaAPI()
     {
         try {
 
@@ -603,7 +603,7 @@ class InfoCapturaController
 
 
 
-    public function DelitosCantGraficaAPI()
+    public static function DelitosCantGraficaAPI()
     {
         try {
 
@@ -654,7 +654,7 @@ class InfoCapturaController
 
 
 
-    public function CapturasPorDiaGraficaAPI()
+    public static function CapturasPorDiaGraficaAPI()
     {
         try {
 
@@ -686,7 +686,7 @@ class InfoCapturaController
         }
     }
 
-    public function GraficaTrimestralAPI()
+    public static function GraficaTrimestralAPI()
     {
         try {
 
@@ -750,7 +750,7 @@ class InfoCapturaController
         }
     }
 
-    public function GraficaTrimestralGeneralAPI()
+    public static function GraficaTrimestralGeneralAPI()
     {
         try {
 
@@ -871,7 +871,7 @@ class InfoCapturaController
     }
 
 
-    public function DelitosDepartamentoGraficaAPI()
+    public static function DelitosDepartamentoGraficaAPI()
     {
         try {
 
@@ -936,7 +936,7 @@ class InfoCapturaController
     }
 
 
-    public function coloresAPI1()
+    public static function coloresAPI1()
     {
 
         try {
@@ -949,7 +949,7 @@ class InfoCapturaController
     }
 
 
-    public function delitosApi()
+    public static function delitosApi()
     {
 
         try {

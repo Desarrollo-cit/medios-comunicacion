@@ -15,7 +15,7 @@ use MVC\Router;
 class InfoMarasController
 {
 
-    public function index(Router $router)
+    public static function index(Router $router)
     {
         $maras_actividades = static::maras_actividades();
         $marerosCapturados = static::marerosCapturados();
@@ -274,7 +274,7 @@ class InfoMarasController
 
 
 
-    public function resumenAPI()
+    public static function resumenAPI()
     {
         // getHeadersApi();
         // echo json_encode($_POST) ;
@@ -302,7 +302,7 @@ class InfoMarasController
     }
 
 
-    public function listadoAPI()
+    public static function listadoAPI()
     {
         getHeadersApi();
 
@@ -352,7 +352,7 @@ class InfoMarasController
         }
     }
 
-    public function modalAPI()
+    public static function modalAPI()
     {
         getHeadersApi();
 
@@ -431,7 +431,7 @@ class InfoMarasController
 
 
 
-    public function informacionCapturasModalAPI()
+    public static function informacionCapturasModalAPI()
     {
         getHeadersApi();
 
@@ -491,7 +491,7 @@ class InfoMarasController
     }
 
 
-    public function informacionDrogaModalAPI()
+    public static function informacionDrogaModalAPI()
     {
         getHeadersApi();
 
@@ -518,7 +518,7 @@ class InfoMarasController
     }
 
 
-    public function informacionMuerteModalAPI()
+    public static function informacionMuerteModalAPI()
     {
         getHeadersApi();
 
@@ -600,7 +600,7 @@ class InfoMarasController
 
 
 
-    public function informacionDineroModalAPI()
+    public static function informacionDineroModalAPI()
     {
         getHeadersApi();
 
@@ -626,7 +626,7 @@ class InfoMarasController
         }
     }
 
-    public function informacionArmasModalAPI()
+    public static function informacionArmasModalAPI()
     {
         getHeadersApi();
 
@@ -671,7 +671,7 @@ class InfoMarasController
         }
     }
 
-    public function informacionMunicionModalAPI()
+    public static function informacionMunicionModalAPI()
     {
         getHeadersApi();
 
@@ -717,7 +717,7 @@ class InfoMarasController
     }
 
 
-    public function mapaCalorAPI()
+    public static function mapaCalorAPI()
     {
         getHeadersApi();
 
@@ -756,7 +756,7 @@ class InfoMarasController
     }
 
 
-    public function coloresAPI()
+    public static function coloresAPI()
     {
         getHeadersApi();
         try {
@@ -769,7 +769,7 @@ class InfoMarasController
     }
 
 
-    public function mapaCalorDeptoAPI()
+    public static function mapaCalorDeptoAPI()
     {
         getHeadersApi();
         try {
@@ -793,7 +793,7 @@ class InfoMarasController
         }
     }
 
-    public function mapaCalorPorDeptoGraficaAPI()
+    public static function mapaCalorPorDeptoGraficaAPI()
     {
         getHeadersApi();
         try {
@@ -900,7 +900,7 @@ class InfoMarasController
         }
     }
 
-    public function DelitosCantGraficaAPI()
+    public static function DelitosCantGraficaAPI()
     {
         getHeadersApi();
         try {
@@ -993,7 +993,7 @@ class InfoMarasController
 
   
 
-    public function ActividadesPorDiaGraficaAPI()
+    public static function ActividadesPorDiaGraficaAPI()
     {
         try {
 
@@ -1025,7 +1025,7 @@ class InfoMarasController
         }
     }
 
-    public function Mara18PorDiaGraficaAPI()
+    public static function Mara18PorDiaGraficaAPI()
     {
         try {
 
@@ -1058,7 +1058,7 @@ class InfoMarasController
     }
 
 
-    public function SalvatruchaPorDiaGraficaAPI()
+    public static function SalvatruchaPorDiaGraficaAPI()
     {
         try {
 
@@ -1090,7 +1090,7 @@ class InfoMarasController
         }
     }
 
-    public function GraficaTrimestralMara18API()
+    public static function GraficaTrimestralMara18API()
     {
         try {
 
@@ -1152,7 +1152,7 @@ class InfoMarasController
     }
 
 
-    public function GraficaTrimestralSalvatruchaAPI()
+    public static function GraficaTrimestralSalvatruchaAPI()
     {
         try {
 
@@ -1213,7 +1213,7 @@ class InfoMarasController
         }
     }
 
-    public function GraficaTrimestralGeneralAPI()
+    public static function GraficaTrimestralGeneralAPI()
     {
         try {
 
@@ -1304,7 +1304,7 @@ class InfoMarasController
     }
 
 
-    public function DelitosDepartamentoGraficaAPI()
+    public static function DelitosDepartamentoGraficaAPI()
     {
         try {
 
@@ -1359,7 +1359,7 @@ class InfoMarasController
     }
 
 
-    public function coloresAPI1()
+    public static function coloresAPI1()
     {
 
         try {

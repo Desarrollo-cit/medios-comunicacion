@@ -6,12 +6,12 @@ use Model\Fuentes;
 use MVC\Router;
 class FuentesController{
 
-    public function index(Router $router)
+    public static function index(Router $router)
     {
         $router->render('Fuentes/index');
     }
 
-    public function guardarAPI(){
+    public static function guardarAPI(){
         getHeadersApi();
 
         try {
@@ -57,13 +57,13 @@ class FuentesController{
         
     }
 
-    public function buscarApi(){
+    public static function buscarApi(){
         getHeadersApi();
         $Fuentes = Fuentes::where('situacion', '0', '>');
         echo json_encode($Fuentes);
     }
 
-    public function modificarAPI(){
+    public static function modificarAPI(){
         getHeadersApi();
        try {
             // $_POST["desc"] = strtoupper($_POST["desc"]);
@@ -103,7 +103,7 @@ class FuentesController{
         }
     }
 
-    public function eliminarAPI(){
+    public static function eliminarAPI(){
         getHeadersApi();
         $_POST['situacion'] = 0;
         $Fuentes = new Fuentes($_POST);
@@ -124,7 +124,7 @@ class FuentesController{
     }
 
 
-    public function cambioSituacionAPI(){
+    public static function cambioSituacionAPI(){
         getHeadersApi();
         // echo($_POST['situacion']);
     if ($_POST['situacion'] == 1){

@@ -16,7 +16,7 @@ public static function index(Router $router){
 }
 
 
-public function buscarApi(){
+public static function buscarApi(){
     $topico= $_GET['topico'];
   
     
@@ -34,7 +34,7 @@ public function buscarApi(){
     
 }
 
-public function modificarAPI(){
+public static function modificarAPI(){
     try {
         getHeadersApi();
 

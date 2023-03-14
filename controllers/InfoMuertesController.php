@@ -14,7 +14,7 @@ use MVC\Router;
 class InfoMuertesController
 {
 
-    public function index(Router $router)
+    public static function index(Router $router)
     {
         $capturas = static::cantidadCapturas();
         $mujeres = static::mujeres();
@@ -213,7 +213,7 @@ class InfoMuertesController
     }
 
 
-    public function resumenAPI()
+    public static function resumenAPI()
     {
         // getHeadersApi();
         // echo json_encode($_POST) ;
@@ -239,7 +239,7 @@ class InfoMuertesController
     }
 
 
-    public function listadoAPI()
+    public static function listadoAPI()
     {
         getHeadersApi();
 
@@ -322,7 +322,7 @@ class InfoMuertesController
         }
     }
 
-    public function modalAPI()
+    public static function modalAPI()
     {
         getHeadersApi();
        
@@ -401,7 +401,7 @@ class InfoMuertesController
 
 
 
-    public function informacionModalAPI()
+    public static function informacionModalAPI()
     {
         getHeadersApi();
        
@@ -464,7 +464,7 @@ class InfoMuertesController
     }
 
 
-    public function mapaCalorAPI()
+    public static function mapaCalorAPI()
     {
         getHeadersApi();
        
@@ -511,7 +511,7 @@ class InfoMuertesController
     }
 
 
-    public function coloresAPI()
+    public static function coloresAPI()
     {
         getHeadersApi();
         try {
@@ -526,7 +526,7 @@ class InfoMuertesController
     }
 
 
-    public function mapaCalorDeptoAPI()
+    public static function mapaCalorDeptoAPI()
     {
         getHeadersApi();
         try {
@@ -599,7 +599,7 @@ class InfoMuertesController
     }
 
 
-    public function coloresAPI1()
+    public static function coloresAPI1()
     {
 
         try {
@@ -614,7 +614,7 @@ class InfoMuertesController
     }
 
 
-    public function delitosApi()
+    public static function delitosApi()
     {
 
         try {
@@ -628,7 +628,7 @@ class InfoMuertesController
         }
     }
 
-    public function mapaCalorPorDeptoGraficaAPI()
+    public static function mapaCalorPorDeptoGraficaAPI()
     {
         try {
 
@@ -681,7 +681,7 @@ class InfoMuertesController
 //// PARTE DE LAS GRAFICAS 
     
 
-    public function DelitosCantGraficaAPI()
+    public static function DelitosCantGraficaAPI()
     {
         try {
 
@@ -725,7 +725,7 @@ class InfoMuertesController
 
 
     
-    public function CapturasPorDiaGraficaAPI()
+    public static function CapturasPorDiaGraficaAPI()
     {
         try {
 
@@ -757,7 +757,7 @@ class InfoMuertesController
         }
     }
 
-    public function GraficaTrimestralAPI()
+    public static function GraficaTrimestralAPI()
     {
         try {
 
@@ -839,7 +839,7 @@ class InfoMuertesController
         }
     }
 
-    public function GraficaTrimestralGeneralAPI()
+    public static function GraficaTrimestralGeneralAPI()
     {
         try {
 
@@ -959,7 +959,7 @@ class InfoMuertesController
     }
 
 
-    public function DelitosDepartamentoGraficaAPI()
+    public static function DelitosDepartamentoGraficaAPI()
     {
         try {
 
