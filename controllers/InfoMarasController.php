@@ -15,7 +15,7 @@ use MVC\Router;
 class InfoMarasController
 {
 
-    public function index(Router $router)
+    public static function index(Router $router)
     {
         hasPermission(['AMC_ADMIN']);
 
@@ -42,12 +42,12 @@ class InfoMarasController
 
 
 
-    protected static   function maras_actividades($fecha1 = "", $fecha2 = "", $depto = "", $mara = "", $topico1 = "")
+    protected static function maras_actividades($fecha1 = "", $fecha2 = "", $depto = "", $mara = "", $topico1 = "")
     {
         hasPermission(['AMC_ADMIN']);
 
 
-        $sql = "   SELECT count (*) as cantidad from amc_topico where amc_topico.situacion = 1    ";
+        $sql = "   SELECT count (*) as cantidad from amc_topico where amc_topico.situacion = 1  ";
 
 
         if ($fecha1 != '' && $fecha2 != '') {
@@ -71,9 +71,12 @@ class InfoMarasController
         if ($topico1 != '') {
 
             $sql .= " AND amc_topico.tipo = $topico1";
+            
         }
 
         $result = Capturadas::fetchArray($sql);
+
+    //  
         if ($result[0]['cantidad']) {
             return $result;
         } else {
@@ -91,8 +94,7 @@ class InfoMarasController
         hasPermission(['AMC_ADMIN']);
 
 
-        $sql = "   SELECT count (*) as cantidad from amc_per_capturadas inner join amc_topico on amc_per_capturadas.topico = amc_topico.id  where  amc_topico.situacion = 1 and amc_per_capturadas.vinculo in (1,2)
-        ";
+        $sql = "   SELECT count (*) as cantidad from amc_per_capturadas inner join amc_topico on amc_per_capturadas.topico = amc_topico.id  where  amc_topico.situacion = 1 and amc_per_capturadas.vinculo in (1,2)  and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user)  ";
         if ($fecha1 != '' && $fecha2 != '') {
 
             $sql .= " AND amc_topico.fecha   BETWEEN '$fecha1' AND  '$fecha2' ";
@@ -124,8 +126,7 @@ class InfoMarasController
         hasPermission(['AMC_ADMIN']);
 
 
-        $sql = "   SELECT count (*) as cantidad from amc_per_capturadas inner join amc_topico on amc_per_capturadas.topico = amc_topico.id  where  amc_topico.situacion = 1 and amc_per_capturadas.vinculo = 1
-        ";
+        $sql = "   SELECT count (*) as cantidad from amc_per_capturadas inner join amc_topico on amc_per_capturadas.topico = amc_topico.id  where  amc_topico.situacion = 1 and amc_per_capturadas.vinculo = 1  and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
 
         if ($fecha1 != '' && $fecha2 != '') {
 
@@ -161,7 +162,7 @@ class InfoMarasController
 
         hasPermission(['AMC_ADMIN']);
 
-        $sql = "   SELECT count (*) as cantidad from amc_per_capturadas inner join amc_topico on amc_per_capturadas.topico = amc_topico.id  where  amc_topico.situacion = 1 and amc_per_capturadas.vinculo = 2";
+        $sql = "   SELECT count (*) as cantidad from amc_per_capturadas inner join amc_topico on amc_per_capturadas.topico = amc_topico.id  where  amc_topico.situacion = 1 and amc_per_capturadas.vinculo = 2  and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
 
         if ($fecha1 != '' && $fecha2 != '') {
 
@@ -191,9 +192,10 @@ class InfoMarasController
 
     protected static  function departamentoMasIncidenciaMaras($fecha1 = "", $fecha2 = "")
     {
+
         hasPermission(['AMC_ADMIN']);
 
-        $sql = "SELECT FIRST 1 amc_topico.departamento as departamento, count(*) as cantidad FROM amc_topico  where year(amc_topico.fecha) = year(current) and amc_topico.actividad in (1,5) and amc_topico.situacion = 1 ";
+        $sql = "SELECT FIRST 1 amc_topico.departamento as departamento, count(*) as cantidad FROM amc_topico  where year(amc_topico.fecha) = year(current) and amc_topico.actividad in (1,5) and amc_topico.situacion = 1  and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
 
         if ($fecha1 != '' && $fecha2 != '') {
 
@@ -236,7 +238,7 @@ class InfoMarasController
 
 
 
-        $sql = "        SELECT FIRST 1  amc_tipo_topics.desc as descripcion,  count(*) as cantidad, amc_topico.tipo as tipo from amc_topico inner join amc_tipo_topics on amc_topico.tipo = amc_tipo_topics.id where amc_topico.situacion = 1  and amc_topico.actividad in(1,5)  ";
+        $sql = "        SELECT FIRST 1  amc_tipo_topics.desc as descripcion,  count(*) as cantidad, amc_topico.tipo as tipo from amc_topico inner join amc_tipo_topics on amc_topico.tipo = amc_tipo_topics.id where amc_topico.situacion = 1  and amc_topico.actividad in(1,5)  and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user)  ";
 
         if ($fecha1 != '' && $fecha2 != '') {
 
@@ -283,7 +285,7 @@ class InfoMarasController
 
 
 
-    public function resumenAPI()
+    public static function resumenAPI()
     {
         hasPermission(['AMC_ADMIN']);
 
@@ -313,14 +315,14 @@ class InfoMarasController
     }
 
 
-    public function listadoAPI()
+    public static function listadoAPI()
     {
         getHeadersApi();
         hasPermission(['AMC_ADMIN']);
 
         try {
 
-            $sql = "SELECT DISTINCT  amc_topico.id as id, amc_topico.lugar as lugar, amc_topico.tipo as tipo, amc_tipo_topics.desc as topico,  amc_topico.fecha as fecha, dm_desc_lg as departamento,   amc_actividad_vinculada.desc as actividad from amc_topico inner join amc_tipo_topics on amc_topico.tipo = amc_tipo_topics.id inner join depmun on amc_topico.departamento = depmun.dm_codigo  inner join amc_actividad_vinculada on amc_topico.actividad = amc_actividad_vinculada.id and amc_topico.actividad in (1,5) and amc_topico.situacion = 1";
+            $sql = "SELECT DISTINCT  amc_topico.id as id, amc_topico.lugar as lugar, amc_topico.tipo as tipo, amc_tipo_topics.desc as topico,  amc_topico.fecha as fecha, dm_desc_lg as departamento,   amc_actividad_vinculada.desc as actividad from amc_topico inner join amc_tipo_topics on amc_topico.tipo = amc_tipo_topics.id inner join depmun on amc_topico.departamento = depmun.dm_codigo  inner join amc_actividad_vinculada on amc_topico.actividad = amc_actividad_vinculada.id and amc_topico.actividad in (1,5) and amc_topico.situacion = 1  and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
             $info = Captura::fetchArray($sql);
 
             $data = [];
@@ -363,7 +365,7 @@ class InfoMarasController
         }
     }
 
-    public function modalAPI()
+    public static function modalAPI()
     {
         getHeadersApi();
         hasPermission(['AMC_ADMIN']);
@@ -373,7 +375,7 @@ class InfoMarasController
 
 
             $id = $_POST['id'];
-            $sql = "SELECT DISTINCT amc_topico.id as id, amc_topico.lugar as lugar, amc_topico.municipio, amc_topico.latitud, amc_topico.longitud, amc_topico.fecha,  amc_topico.tipo as tipo, amc_tipo_topics.desc as topico,  amc_topico.fecha as fecha, dm_desc_lg as departamento,  amc_actividad_vinculada.desc as actividad from amc_topico  inner join amc_tipo_topics on amc_topico.tipo = amc_tipo_topics.id inner join depmun on amc_topico.departamento = depmun.dm_codigo  inner join amc_actividad_vinculada on amc_topico.actividad = amc_actividad_vinculada.id where amc_topico.situacion = 1  and amc_topico.id = $id";
+            $sql = "SELECT DISTINCT amc_topico.id as id, amc_topico.lugar as lugar, amc_topico.municipio, amc_topico.latitud, amc_topico.longitud, amc_topico.fecha,  amc_topico.tipo as tipo, amc_tipo_topics.desc as topico,  amc_topico.fecha as fecha, dm_desc_lg as departamento,  amc_actividad_vinculada.desc as actividad from amc_topico  inner join amc_tipo_topics on amc_topico.tipo = amc_tipo_topics.id inner join depmun on amc_topico.departamento = depmun.dm_codigo  inner join amc_actividad_vinculada on amc_topico.actividad = amc_actividad_vinculada.id where amc_topico.situacion = 1  and amc_topico.id = $id  and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
 
             $info = Capturadas::fetchArray($sql);
             $data = [];
@@ -442,7 +444,7 @@ class InfoMarasController
 
 
 
-    public function informacionCapturasModalAPI()
+    public static function informacionCapturasModalAPI()
     {
         getHeadersApi();
         hasPermission(['AMC_ADMIN']);
@@ -453,7 +455,7 @@ class InfoMarasController
 
             $id = $_POST['id'];
 
-            $sql = "SELECT amc_per_capturadas.id, amc_per_capturadas.topico, amc_nacionalidad.desc as nacionalidad, amc_sexo.desc as sexo, amc_per_capturadas.nombre, amc_per_capturadas.edad, amc_delito.desc as delito  from amc_per_capturadas inner join amc_nacionalidad on amc_per_capturadas.nacionalidad = amc_nacionalidad.id inner join amc_sexo on amc_sexo.id = amc_per_capturadas.sexo inner join amc_delito on amc_per_capturadas.delito = amc_delito.id where topico = $id and amc_per_capturadas.situacion = 1";
+            $sql = "SELECT amc_per_capturadas.id, amc_per_capturadas.topico, amc_nacionalidad.desc as nacionalidad, amc_sexo.desc as sexo, amc_per_capturadas.nombre, amc_per_capturadas.edad, amc_delito.desc as delito  from amc_per_capturadas inner join amc_nacionalidad on amc_per_capturadas.nacionalidad = amc_nacionalidad.id inner join amc_sexo on amc_sexo.id = amc_per_capturadas.sexo inner join amc_delito on amc_per_capturadas.delito = amc_delito.id where topico = $id and amc_per_capturadas.situacion = 1  " ;
             $info = Capturadas::fetchArray($sql);
             $data = [];
 
@@ -503,7 +505,7 @@ class InfoMarasController
     }
 
 
-    public function informacionDrogaModalAPI()
+    public static function informacionDrogaModalAPI()
     {
         getHeadersApi();
         hasPermission(['AMC_ADMIN']);
@@ -515,7 +517,7 @@ class InfoMarasController
             $id = $_POST['id'];
 
 
-            $sql = "SELECT amc_incautacion_droga.cantidad as cantidad,  amc_incautacion_droga.tipo_transporte as tipo_t, amc_incautacion_droga.id, amc_incautacion_droga.tipo_droga, matricula, amc_drogas.desc as droga, amc_transporte.desc as transporte   from amc_incautacion_droga inner join amc_drogas on amc_incautacion_droga.tipo_droga = amc_drogas.id inner join amc_transporte on amc_incautacion_droga.transporte = amc_transporte.id where amc_incautacion_droga.topico =$id and  amc_incautacion_droga.situacion = 1";
+            $sql = "SELECT amc_incautacion_droga.cantidad as cantidad,  amc_incautacion_droga.tipo_transporte as tipo_t, amc_incautacion_droga.id, amc_incautacion_droga.tipo_droga, matricula, amc_drogas.desc as droga, amc_transporte.desc as transporte   from amc_incautacion_droga inner join amc_drogas on amc_incautacion_droga.tipo_droga = amc_drogas.id inner join amc_transporte on amc_incautacion_droga.transporte = amc_transporte.id where amc_incautacion_droga.topico =$id and  amc_incautacion_droga.situacion = 1 ";
 
             $info = Capturadas::fetchArray($sql);
 
@@ -531,7 +533,7 @@ class InfoMarasController
     }
 
 
-    public function informacionMuerteModalAPI()
+    public static function informacionMuerteModalAPI()
     {
         getHeadersApi();
         hasPermission(['AMC_ADMIN']);
@@ -614,7 +616,7 @@ class InfoMarasController
 
 
 
-    public function informacionDineroModalAPI()
+    public static function informacionDineroModalAPI()
     {
         getHeadersApi();
         hasPermission(['AMC_ADMIN']);
@@ -641,7 +643,7 @@ class InfoMarasController
         }
     }
 
-    public function informacionArmasModalAPI()
+    public static function informacionArmasModalAPI()
     {
         getHeadersApi();
         hasPermission(['AMC_ADMIN']);
@@ -687,7 +689,7 @@ class InfoMarasController
         }
     }
 
-    public function informacionMunicionModalAPI()
+    public static function informacionMunicionModalAPI()
     {
         getHeadersApi();
         hasPermission(['AMC_ADMIN']);
@@ -734,7 +736,7 @@ class InfoMarasController
     }
 
 
-    public function mapaCalorAPI()
+    public static function mapaCalorAPI()
     {
         getHeadersApi();
         hasPermission(['AMC_ADMIN']);
@@ -748,7 +750,7 @@ class InfoMarasController
 
 
           
-   $sql = " SELECT distinct dm_desc_lg as descripcion, dm_codigo as codigo, count (*) as cantidad FROM amc_topico inner join depmun on departamento = dm_codigo  where  amc_topico.situacion = 1 and amc_topico.actividad in (1,5) ";
+   $sql = " SELECT distinct dm_desc_lg as descripcion, dm_codigo as codigo, count (*) as cantidad FROM amc_topico inner join depmun on departamento = dm_codigo  where  amc_topico.situacion = 1 and amc_topico.actividad in (1,5)  and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user)  ";
             if ($topico != '') {
 
                 $sql .= "AND amc_topico.tipo = $topico";
@@ -774,7 +776,7 @@ class InfoMarasController
     }
 
 
-    public function coloresAPI()
+    public static function coloresAPI()
     {
         getHeadersApi();
         hasPermission(['AMC_ADMIN']);
@@ -788,7 +790,7 @@ class InfoMarasController
     }
 
 
-    public function mapaCalorDeptoAPI()
+    public static function mapaCalorDeptoAPI()
     {
         getHeadersApi();
         hasPermission(['AMC_ADMIN']);
@@ -813,7 +815,7 @@ class InfoMarasController
         }
     }
 
-    public function mapaCalorPorDeptoGraficaAPI()
+    public static function mapaCalorPorDeptoGraficaAPI()
     {
         getHeadersApi();
         hasPermission(['AMC_ADMIN']);
@@ -822,8 +824,8 @@ class InfoMarasController
 
             $depto = $_POST['departamento'];
             $topico = $_POST['topico_mapa_calor'];
-            $fecha1 = str_replace('T', ' ', $_POST['fecha_grafica']);
-            $fecha2 = str_replace('T', ' ', $_POST['fecha_grafica2']);
+            $fecha1 = str_replace('T', ' ', $_POST['fecha_mapa']);
+            $fecha2 = str_replace('T', ' ', $_POST['fecha2']);
         
             $tipo_topic = static::tiposTopicos();
            
@@ -921,7 +923,7 @@ class InfoMarasController
         }
     }
 
-    public function DelitosCantGraficaAPI()
+    public static function DelitosCantGraficaAPI()
     {
         getHeadersApi();
         hasPermission(['AMC_ADMIN']);
@@ -1004,8 +1006,10 @@ class InfoMarasController
         }
     }
 
-    function departamental_grafica($fecha1 , $fecha2, $depto, $mara, $topico){
+
+    public static function departamental_grafica($fecha1 , $fecha2, $depto, $mara, $topico){
         hasPermission(['AMC_ADMIN']);
+
 
         return static::maras_actividades($fecha1 , $fecha2, $depto, $mara, $topico);
 
@@ -1015,7 +1019,7 @@ class InfoMarasController
 
   
 
-    public function ActividadesPorDiaGraficaAPI()
+    public static function ActividadesPorDiaGraficaAPI()
     {
         hasPermission(['AMC_ADMIN']);
 
@@ -1026,7 +1030,7 @@ class InfoMarasController
             $data = [];
             for ($i = 0; $i <=  $diasMes; $i++) {
                 // $main = new Main();
-                $sql ="SELECT count(*) as  cantidad  From amc_topico  where year(amc_topico.fecha) = year(current) and month(amc_topico.fecha) = month(current) and day(amc_topico.fecha) = day($i) and amc_topico.situacion = 1 and amc_topico.actividad in (1,5)";
+                $sql ="SELECT count(*) as  cantidad  From amc_topico  where year(amc_topico.fecha) = year(current) and month(amc_topico.fecha) = month(current) and day(amc_topico.fecha) = day($i) and amc_topico.situacion = 1 and amc_topico.actividad in (1,5)  and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
                 $info = Capturadas::fetchArray($sql);
                 $data['dias'][] = $i;
                 if ($info[0]['cantidad'] == null) {
@@ -1049,7 +1053,7 @@ class InfoMarasController
         }
     }
 
-    public function Mara18PorDiaGraficaAPI()
+    public static function Mara18PorDiaGraficaAPI()
     {
         hasPermission(['AMC_ADMIN']);
         try {
@@ -1059,7 +1063,7 @@ class InfoMarasController
             $data = [];
             for ($i = 0; $i <=  $diasMes; $i++) {
                 // $main = new Main();
-                $sql ="SELECT count(*) as  cantidad  From amc_topico  where year(amc_topico.fecha) = year(current) and month(amc_topico.fecha) = month(current) and day(amc_topico.fecha) = day($i) and amc_topico.situacion = 1 and amc_topico.actividad = 1";
+                $sql ="SELECT count(*) as  cantidad  From amc_topico  where year(amc_topico.fecha) = year(current) and month(amc_topico.fecha) = month(current) and day(amc_topico.fecha) = day($i) and amc_topico.situacion = 1 and amc_topico.actividad = 1  and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
                 $info = Capturadas::fetchArray($sql);
                 $data['dias'][] = $i;
                 if ($info[0]['cantidad'] == null) {
@@ -1083,7 +1087,7 @@ class InfoMarasController
     }
 
 
-    public function SalvatruchaPorDiaGraficaAPI()
+    public static function SalvatruchaPorDiaGraficaAPI()
     {
         hasPermission(['AMC_ADMIN']);
         try {
@@ -1093,7 +1097,7 @@ class InfoMarasController
             $data = [];
             for ($i = 0; $i <=  $diasMes; $i++) {
                 // $main = new Main();
-                $sql ="SELECT count(*) as  cantidad  From amc_topico  where year(amc_topico.fecha) = year(current) and month(amc_topico.fecha) = month(current) and day(amc_topico.fecha) = day($i) and amc_topico.situacion = 1 and amc_topico.actividad = 5";
+                $sql ="SELECT count(*) as  cantidad  From amc_topico  where year(amc_topico.fecha) = year(current) and month(amc_topico.fecha) = month(current) and day(amc_topico.fecha) = day($i) and amc_topico.situacion = 1 and amc_topico.actividad = 5  and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
                 $info = Capturadas::fetchArray($sql);
                 $data['dias'][] = $i;
                 if ($info[0]['cantidad'] == null) {
@@ -1116,7 +1120,7 @@ class InfoMarasController
         }
     }
 
-    public function GraficaTrimestralMara18API()
+    public static function GraficaTrimestralMara18API()
     {
         hasPermission(['AMC_ADMIN']);
         try {
@@ -1179,7 +1183,7 @@ class InfoMarasController
     }
 
 
-    public function GraficaTrimestralSalvatruchaAPI()
+    public static function GraficaTrimestralSalvatruchaAPI()
     {
         hasPermission(['AMC_ADMIN']);
         try {
@@ -1241,7 +1245,7 @@ class InfoMarasController
         }
     }
 
-    public function GraficaTrimestralGeneralAPI()
+    public static function GraficaTrimestralGeneralAPI()
     {
         hasPermission(['AMC_ADMIN']);
         try {
@@ -1279,7 +1283,7 @@ class InfoMarasController
                 for($i = 0 ; $i < 3 ; $i++){
                     $dateObj = DateTime::createFromFormat('!m', $meses[$i]);
                     $mes1 = strftime("%B", $dateObj->getTimestamp());
-                    $sql=" SELECT  count (*) as cantidad from amc_topico   where  year(amc_topico.fecha) = $años[$i] and month(amc_topico.fecha) =$meses[$i] and amc_topico.situacion = 1 and amc_topico.situacion = 1 and amc_topico.actividad in(1,5)";
+                    $sql=" SELECT  count (*) as cantidad from amc_topico   where  year(amc_topico.fecha) = $años[$i] and month(amc_topico.fecha) =$meses[$i] and amc_topico.situacion = 1 and amc_topico.situacion = 1 and amc_topico.actividad in(1,5)  and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
                     $info = Capturadas::fetchArray($sql);
                     // $valor = $info[0]['cantidad'];
                     $meses1[]= $mes1;
@@ -1313,10 +1317,10 @@ class InfoMarasController
         return $result;
     }
 
-    function ActividadesMara18_por_mes_y_delito($mes, $topico, $año)
+    public static function ActividadesMara18_por_mes_y_delito($mes, $topico, $año)
     {
 
-        $sentencia = "SELECT count(*) as  cantidad  from amc_topico  where year(amc_topico.fecha) = $año and month(amc_topico.fecha) = $mes  and amc_topico.situacion = 1 and amc_topico.situacion = 1 and amc_topico.tipo = $topico and amc_topico.actividad = 1";
+        $sentencia = "SELECT count(*) as  cantidad  from amc_topico  where year(amc_topico.fecha) = $año and month(amc_topico.fecha) = $mes  and amc_topico.situacion = 1 and amc_topico.situacion = 1 and amc_topico.tipo = $topico and amc_topico.actividad = 1  and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) " ;
         
         $result = Capturadas::fetchArray($sentencia);
         return array_shift($result);
@@ -1324,17 +1328,20 @@ class InfoMarasController
 
 
 
-    function ActividadesSalvatrucha_por_mes_y_delito($mes, $topico, $año)
+    public static function ActividadesSalvatrucha_por_mes_y_delito($mes, $topico, $año)
     {
+
         hasPermission(['AMC_ADMIN']);
-        $sentencia = "SELECT count(*) as  cantidad  from amc_topico  where year(amc_topico.fecha) = $año and month(amc_topico.fecha) = $mes  and amc_topico.situacion = 1 and amc_topico.situacion = 1 and amc_topico.tipo = $topico and amc_topico.actividad = 5";
+
+        $sentencia = "SELECT count(*) as  cantidad  from amc_topico  where year(amc_topico.fecha) = $año and month(amc_topico.fecha) = $mes  and amc_topico.situacion = 1 and amc_topico.situacion = 1 and amc_topico.tipo = $topico and amc_topico.actividad = 5  and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
+
         
         $result = Capturadas::fetchArray($sentencia);
         return array_shift($result);
     }
 
 
-    public function DelitosDepartamentoGraficaAPI()
+    public static function DelitosDepartamentoGraficaAPI()
     {
         hasPermission(['AMC_ADMIN']);
         try {
@@ -1345,7 +1352,7 @@ class InfoMarasController
 
 
 
-            $sql ="SELECT depmun.dm_desc_lg as descripcion, count(*) as cantidad FROM amc_topico  inner join depmun on amc_topico.departamento = depmun.dm_codigo where amc_topico.situacion = 1 and amc_topico.actividad in (1,5) ";
+            $sql ="SELECT depmun.dm_desc_lg as descripcion, count(*) as cantidad FROM amc_topico  inner join depmun on amc_topico.departamento = depmun.dm_codigo where amc_topico.situacion = 1 and amc_topico.actividad in (1,5)  and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
 
 
             
@@ -1390,7 +1397,7 @@ class InfoMarasController
     }
 
 
-    public function coloresAPI1()
+    public static function coloresAPI1()
     {
         hasPermission(['AMC_ADMIN']);
 

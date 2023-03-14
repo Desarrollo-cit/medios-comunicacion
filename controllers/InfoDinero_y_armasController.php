@@ -14,7 +14,7 @@ use MVC\Router;
 class InfoDinero_y_armasController
 {
 
-    public function index(Router $router)
+    public static function index(Router $router)
     {
         hasPermission(['AMC_ADMIN']);
         $capturas = static::cantidadArmas();
@@ -24,7 +24,7 @@ class InfoDinero_y_armasController
         $depto = static::departamento_con_mas_armas_incautadas();
         $colores = static::coloresAPI1();
         $delitos = static::delitosApi();
-        $armas = static::armas();
+        $armas = static::armas1();
         $router->render('mapas/dinero_y_armas', [
             'incidencia_arma' => $incidencia_arma,
             'capturas' => $capturas,
@@ -41,8 +41,12 @@ class InfoDinero_y_armasController
     protected static function cantidadArmas($fecha1 = "", $fecha2 = "")
     {
 
+
         hasPermission(['AMC_ADMIN']);
-        $sql = "  SELECT count (*) as cantidad from amc_topico where amc_topico.situacion = 1 and amc_topico.tipo in (5,6)  ";
+
+
+        $sql = "  SELECT count (*) as cantidad from amc_topico where amc_topico.situacion = 1 and amc_topico.tipo in (5,6)  and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
+
 
         if ($fecha1 != '' && $fecha2 != '') {
 
@@ -68,7 +72,7 @@ class InfoDinero_y_armasController
     {
         hasPermission(['AMC_ADMIN']);
 
-        $sql = "  SELECT sum(conversion) as cantidad_din from amc_incautacion_dinero inner join amc_topico on amc_incautacion_dinero.topico = amc_topico.id  where   amc_topico.situacion = 1 and amc_incautacion_dinero.situacion = 1  ";
+        $sql = "  SELECT sum(conversion) as cantidad_din from amc_incautacion_dinero inner join amc_topico on amc_incautacion_dinero.topico = amc_topico.id  where   amc_topico.situacion = 1 and amc_incautacion_dinero.situacion = 1  and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
 
         if ($fecha1 != '' && $fecha2 != '') {
 
@@ -100,7 +104,7 @@ class InfoDinero_y_armasController
     {
         hasPermission(['AMC_ADMIN']);
 
-        $sql = "  SELECT sum(cantidad) as cantidad_arm from amc_detalle_arma inner join amc_topico on amc_detalle_arma.topico = amc_topico.id  where  amc_topico.situacion = 1 and amc_detalle_arma.situacion = 1 and amc_topico.tipo = 6";
+        $sql = "  SELECT sum(cantidad) as cantidad_arm from amc_detalle_arma inner join amc_topico on amc_detalle_arma.topico = amc_topico.id  where  amc_topico.situacion = 1 and amc_detalle_arma.situacion = 1 and amc_topico.tipo = 6 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
 
         if ($fecha1 != '' && $fecha2 != '') {
 
@@ -127,7 +131,15 @@ class InfoDinero_y_armasController
     }
 
 
-    function armas()
+    public static function armas()
+    {
+
+        $sql = "SELECT * from amc_tipo_armas where situacion > 0";
+        $result = Muertes::fetchArray($sql);
+        return $result;
+    }
+
+    public static function armas1()
     {
         hasPermission(['AMC_ADMIN']);
         $sql = "SELECT * from amc_tipo_armas where situacion = 1";
@@ -140,8 +152,10 @@ class InfoDinero_y_armasController
     protected static function incidencia_arma($fecha1 = "", $fecha2 = "")
     {
 
+
         hasPermission(['AMC_ADMIN']);
-        $sql = "  SELECT FIRST 1 amc_tipo_armas.desc as descripcion,  sum(amc_detalle_arma.cantidad) as cantidad, amc_calibre.desc as municion from amc_detalle_arma inner join amc_tipo_armas on amc_detalle_arma.tipo_arma = amc_tipo_armas.id inner join amc_calibre on amc_detalle_arma.calibre = amc_calibre.id inner join amc_topico on amc_detalle_arma.topico = amc_topico.id where  amc_detalle_arma.situacion = 1 and amc_topico.situacion = 1  ";
+        $sql = "  SELECT FIRST 1 amc_tipo_armas.desc as descripcion,  sum(amc_detalle_arma.cantidad) as cantidad, amc_calibre.desc as municion from amc_detalle_arma inner join amc_tipo_armas on amc_detalle_arma.tipo_arma = amc_tipo_armas.id inner join amc_calibre on amc_detalle_arma.calibre = amc_calibre.id inner join amc_topico on amc_detalle_arma.topico = amc_topico.id where  amc_detalle_arma.situacion = 1 and amc_topico.situacion = 1 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user)  ";
+
 
 
         if ($fecha1 != '' && $fecha2 != '') {
@@ -173,8 +187,11 @@ class InfoDinero_y_armasController
 
     protected static function departamento_con_mas_armas_incautadas($fecha1 = "", $fecha2 = "")
     {
+
         hasPermission(['AMC_ADMIN']);
-        $sql = "SELECT FIRST 1 amc_topico.departamento as departamento, sum(cantidad) as cantidad FROM amc_detalle_arma inner join amc_topico on amc_detalle_arma.topico = amc_topico.id  where   amc_topico.situacion = 1  and amc_topico.tipo= 6 ";
+
+        $sql = "SELECT FIRST 1 amc_topico.departamento as departamento, sum(cantidad) as cantidad FROM amc_detalle_arma inner join amc_topico on amc_detalle_arma.topico = amc_topico.id  where   amc_topico.situacion = 1  and amc_topico.tipo= 6 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
+
         if ($fecha1 != '' && $fecha2 != '') {
 
             $sql .= " AND amc_topico.fecha   BETWEEN '$fecha1' AND  '$fecha2' ";
@@ -206,7 +223,7 @@ class InfoDinero_y_armasController
     }
 
 
-    public function resumenAPI()
+    public static function resumenAPI()
     {
 
         // getHeadersApi();
@@ -235,7 +252,7 @@ class InfoDinero_y_armasController
     }
 
 
-    public function listadoAPI()
+    public static function listadoAPI()
     {
         getHeadersApi();
         hasPermission(['AMC_ADMIN']);
@@ -246,8 +263,7 @@ class InfoDinero_y_armasController
             $sql = " SELECT DISTINCT  amc_topico.id as id, amc_topico.lugar as lugar, amc_topico.tipo as tipo, amc_tipo_topics.desc as topico,  
             amc_topico.fecha as fecha, dm_desc_lg as departamento,   amc_actividad_vinculada.desc as actividad from amc_topico 
             inner join amc_tipo_topics on amc_topico.tipo = amc_tipo_topics.id inner join depmun on amc_topico.departamento = depmun.dm_codigo  
-            inner join amc_actividad_vinculada on amc_topico.actividad = amc_actividad_vinculada.id and amc_topico.tipo in (5,6) and amc_topico.situacion = 1
-        ";
+            inner join amc_actividad_vinculada on amc_topico.actividad = amc_actividad_vinculada.id and amc_topico.tipo in (5,6) and amc_topico.situacion = 1 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user)  ";
             $info =  Capturadas::fetchArray($sql);
 
             $data = [];
@@ -287,7 +303,7 @@ class InfoDinero_y_armasController
                     "departamento" => $departamento,
                     "topico" => $topico,
                     "tipo" => $tipo,
-                    "tipo1"=> $tipo1,
+                    "tipo1" => $tipo1,
                     "situacion" => $situacion,
                     "actividad" => $actividad,
 
@@ -309,7 +325,7 @@ class InfoDinero_y_armasController
         }
     }
 
-    public function modalAPI()
+    public static function modalAPI()
     {
         getHeadersApi();
         hasPermission(['AMC_ADMIN']);
@@ -324,7 +340,7 @@ class InfoDinero_y_armasController
             $sql = "     SELECT amc_topico.id, fecha, lugar, dm_desc_lg, departamento, municipio as muni, tipo,latitud,longitud,actividad, amc_topico.situacion, depmun.dm_desc_lg as departamento1, amc_actividad_vinculada.desc as act, amc_tipo_topics.desc as topico from amc_topico inner join depmun on depmun.dm_codigo=amc_topico.departamento 
             inner join amc_actividad_vinculada on amc_actividad_vinculada.id=amc_topico.actividad
             inner join amc_tipo_topics on amc_topico.tipo = amc_tipo_topics.id
-             where amc_topico.id = $id and amc_topico.situacion = 1";
+             where amc_topico.id = $id and amc_topico.situacion = 1 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
             $info = Muertes::fetchArray($sql);
             $data = [];
 
@@ -389,7 +405,7 @@ class InfoDinero_y_armasController
 
 
 
-    public function informacionModalAPI1()
+    public static function informacionModalAPI1()
     {
         getHeadersApi();
         hasPermission(['AMC_ADMIN']);
@@ -400,13 +416,11 @@ class InfoDinero_y_armasController
 
             $id = $_POST['id'];
 
-            $sql = "
-            SELECT amc_moneda.desc as tipo_dinero,  amc_incautacion_dinero.moneda as tipo_moneda,  amc_incautacion_dinero.cantidad as cantidad1  
-            from amc_incautacion_dinero inner join amc_moneda on amc_incautacion_dinero.moneda = amc_moneda.id  
+            $sql = " SELECT amc_moneda.desc as tipo_dinero,  amc_incautacion_dinero.moneda as tipo_moneda,  amc_incautacion_dinero.cantidad as cantidad1  
+            from amc_incautacion_dinero inner join amc_moneda on amc_incautacion_dinero.moneda = amc_moneda.id  inner join amc_topico on amc_incautacion_dinero.topico = amc_topico.id
             
             where amc_incautacion_dinero.topico =$id 
-            and  amc_incautacion_dinero.situacion = 1
-           ";
+            and  amc_incautacion_dinero.situacion = 1  and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
             $info = Capturadas::fetchArray($sql);
             $data = [];
 
@@ -418,7 +432,7 @@ class InfoDinero_y_armasController
 
                 $cantidad = $key['cantidad'];
                 // $delito = utf8_encode($key['delito']);
-             
+
 
 
 
@@ -427,7 +441,7 @@ class InfoDinero_y_armasController
                 $arrayInterno = [[
                     "contador" => $i,
 
-               
+
                     //"nacionalidad" => $nacionalidad,
                     "dinero" => $tipo_dinero,
                     "cantidad" => $cantidad,
@@ -453,7 +467,7 @@ class InfoDinero_y_armasController
             ]);
         }
     }
-    public function informacionModalAPI()
+    public static function informacionModalAPI()
     {
         getHeadersApi();
         hasPermission(['AMC_ADMIN']);
@@ -464,39 +478,32 @@ class InfoDinero_y_armasController
 
             $id = $_POST['id'];
 
-            $sql = "SELECT amc_tipo_armas.desc as tipo_arma, amc_calibre.desc as calibre, amc_detalle_arma.cantidad as cantidad  from amc_detalle_arma inner join amc_tipo_armas on amc_tipo_armas.id = amc_detalle_arma.tipo_arma inner join amc_calibre on amc_calibre.id = amc_detalle_arma.calibre  where amc_detalle_arma.topico = $id and amc_detalle_arma.situacion = 1";
+            $sql = "SELECT amc_tipo_armas.desc as tipo_arma, amc_calibre.desc as calibre, amc_detalle_arma.cantidad as cantidad  from amc_detalle_arma inner join amc_tipo_armas on amc_tipo_armas.id = amc_detalle_arma.tipo_arma inner join amc_calibre on amc_calibre.id = amc_detalle_arma.calibre  inner join amc_topico on amc_detalle_arma.topico = amc_topico.id where amc_detalle_arma.topico = $id and amc_detalle_arma.situacion = 1 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
             $info = Capturadas::fetchArray($sql);
             $data = [];
 
             $i = 1;
-            if($info){
-                foreach($info as $key){ 
-                     $tipo_arma = $key['tipo_arma'];
-                   $calibre = $key['calibre'];
-                   $cantidad = $key['cantidad'];
-                  
+            if ($info) {
+                foreach ($info as $key) {
+                    $tipo_arma = $key['tipo_arma'];
+                    $calibre = $key['calibre'];
+                    $cantidad = $key['cantidad'];
+
                     $arrayInterno = [[
-                       "contador" => $i,
-                       "tipo_arma" => $tipo_arma,
-                       "calibre" => $calibre,
-                       "cantidad" => $cantidad  
-                    
-                   ]];
-                   $i++;
-                   $data = array_merge($data,$arrayInterno);
-                
-                
-                }}
-                
-                $arrayreturn = ["data" => $data];
-                
-                echo json_encode($data);
+                        "contador" => $i,
+                        "tipo_arma" => $tipo_arma,
+                        "calibre" => $calibre,
+                        "cantidad" => $cantidad
 
+                    ]];
+                    $i++;
+                    $data = array_merge($data, $arrayInterno);
+                }
+            }
 
+            $arrayreturn = ["data" => $data];
 
-
-
-
+            echo json_encode($data);
         } catch (Exception $e) {
             echo json_encode([
                 "detalle" => $e->getMessage(),
@@ -508,7 +515,7 @@ class InfoDinero_y_armasController
     }
 
 
-    public function mapaCalorAPI()
+    public static function mapaCalorAPI()
     {
         getHeadersApi();
         hasPermission(['AMC_ADMIN']);
@@ -526,12 +533,12 @@ class InfoDinero_y_armasController
 
             if ($tipo_arma != '') {
 
-                $sql .= " inner join amc_detalle_arma on amc_topico.id = amc_detalle_arma.topico where   amc_detalle_arma.tipo_arma = $tipo_arma and amc_topico.situacion = 1 and amc_detalle_arma.situacion = 1 ";
+                $sql .= " inner join amc_detalle_arma on amc_topico.id = amc_detalle_arma.topico where   amc_detalle_arma.tipo_arma = $tipo_arma and amc_topico.situacion = 1 and amc_detalle_arma.situacion = 1 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
             } else {
 
 
                 $sql .= " where  amc_topico.situacion = 1";
-                $sql .= " and amc_topico.tipo in (5,6) ";
+                $sql .= " and amc_topico.tipo in (5,6)  and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
             }
             if ($fecha1 != '' && $fecha2 == '') {
 
@@ -559,7 +566,7 @@ class InfoDinero_y_armasController
     }
 
 
-    public function coloresAPI()
+    public static function coloresAPI()
     {
         getHeadersApi();
         hasPermission(['AMC_ADMIN']);
@@ -574,7 +581,7 @@ class InfoDinero_y_armasController
     }
 
 
-    public function mapaCalorDeptoAPI()
+    public static function mapaCalorDeptoAPI()
     {
         getHeadersApi();
         hasPermission(['AMC_ADMIN']);
@@ -606,7 +613,7 @@ class InfoDinero_y_armasController
     }
 
 
-    public function coloresAPI1()
+    public static function coloresAPI1()
     {
 hasPermission(['AMC_ADMIN']);
         try {
@@ -619,7 +626,7 @@ hasPermission(['AMC_ADMIN']);
     }
 
 
-    public function delitosApi()
+    public static function delitosApi()
     {
         hasPermission(['AMC_ADMIN']);
         try {
@@ -631,7 +638,7 @@ hasPermission(['AMC_ADMIN']);
         }
     }
 
-    public function mapaCalorPorDeptoGraficaAPI()
+    public static function mapaCalorPorDeptoGraficaAPI()
     {
         hasPermission(['AMC_ADMIN']);
         try {
@@ -688,7 +695,7 @@ hasPermission(['AMC_ADMIN']);
     {
         hasPermission(['AMC_ADMIN']);
         try {
-            $sql = "SELECT sum(cantidad) as cantidad from amc_detalle_arma inner join amc_topico on amc_detalle_arma.topico = amc_topico.id  where  amc_topico.situacion = 1 and amc_detalle_arma.situacion = 1 and amc_topico.tipo = 6";
+            $sql = "SELECT sum(cantidad) as cantidad from amc_detalle_arma inner join amc_topico on amc_detalle_arma.topico = amc_topico.id  where  amc_topico.situacion = 1 and amc_detalle_arma.situacion = 1 and amc_topico.tipo = 6 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
 
 
             if ($depto != '') {
@@ -704,6 +711,9 @@ hasPermission(['AMC_ADMIN']);
             if ($fecha1 != '' && $fecha2 != '') {
 
                 $sql .= " AND amc_topico.fecha   BETWEEN '$fecha1' AND  '$fecha2' ";
+            } else {
+
+                $sql .= " AND year(fecha) = year(current) AND month(fecha) = month(current)";
             }
             $result = Muertes::fetchArray($sql);
             if ($result[0]["cantidad"] != null) {
@@ -732,7 +742,7 @@ hasPermission(['AMC_ADMIN']);
     //// PARTE DE LAS GRAFICAS 
 
 
-    public function DelitosCantGraficaAPI()
+    public static function DelitosCantGraficaAPI()
     {
         hasPermission(['AMC_ADMIN']);
         try {
@@ -743,11 +753,11 @@ hasPermission(['AMC_ADMIN']);
 
                 $depto = $_POST['departamento'];
                 $arma = $_POST['tipos_arma_mapa_calor'];
-                $fecha1 = str_replace('T', ' ', $_POST['fecha_mapa']);
-                $fecha2 = str_replace('T', ' ', $_POST['fecha2']);
+                $fecha1 = str_replace('T', ' ', $_POST['fecha_grafica']);
+                $fecha2 = str_replace('T', ' ', $_POST['fecha_grafica2']);
 
                 $armas = static::armas();
-
+                $valor = 0;
                 foreach ($armas as $key => $tipo) {
                     $arma = $tipo["id"];
                     $arma_n = $tipo["desc"];
@@ -755,6 +765,12 @@ hasPermission(['AMC_ADMIN']);
                     $total = static::total($depto, $arma,  $fecha1, $fecha2);
                     $dataset = 'armas';
                     $cantidades[$dataset][] = (int) $total[0]['cantidad'];
+                    if ($total[0]['cantidad'] == 0) {
+
+                        $valor = 0 + $valor;
+                    } else {
+                        $valor = 1;
+                    }
                 }
 
 
@@ -769,7 +785,8 @@ hasPermission(['AMC_ADMIN']);
                 //      $array_resultante=  array_merge($cantidades , $descripcion );
                 $data = [
                     'descripcion' => $arma_nom,
-                    'cantidades' => $cantidades
+                    'cantidades' => $cantidades,
+                    'valor' => $valor
                 ];
 
 
@@ -796,7 +813,7 @@ hasPermission(['AMC_ADMIN']);
     }
 
 
-    public function DineroCantGraficaAPI()
+    public static function DineroCantGraficaAPI()
     {
         hasPermission(['AMC_ADMIN']);
         try {
@@ -807,15 +824,14 @@ hasPermission(['AMC_ADMIN']);
 
                 $depto = $_POST['departamento'];
                 $arma = $_POST['tipos_arma_mapa_calor'];
-                $fecha1 = str_replace('T', ' ', $_POST['fecha_mapa']);
-                $fecha2 = str_replace('T', ' ', $_POST['fecha2']);
+                $fecha1 = str_replace('T', ' ', $_POST['fecha_grafica']);
+                $fecha2 = str_replace('T', ' ', $_POST['fecha_grafica2']);
 
                 // $armas = static::armas();
 
 
                 $sql = "SELECT cantidad, desc  From amc_incautacion_dinero inner join amc_topico on amc_incautacion_dinero.topico = amc_topico.id inner join amc_moneda on moneda=amc_moneda.id
-                where  amc_topico.situacion = 1 and amc_topico.tipo IN (5,6)
-              ";
+                where  amc_topico.situacion = 1 and amc_topico.tipo IN (5,6) and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user)   ";
 
 
 
@@ -833,15 +849,22 @@ hasPermission(['AMC_ADMIN']);
 
                 $info = Capturadas::fetchArray($sql);
                 $cantidades = [];
-
+                $labels = [];
+                $valor = 0;
                 foreach ($info as $row) {
                     $labels[] = $row['desc'];
                     $cantidades[] = $row['cantidad'];
+                    if ($row['cantidad'] == null) {
+                        $valor = 0 + $valor;
+                    } else {
+                        $valor = 1;
+                    }
                 }
 
                 echo json_encode([
                     'cantidades' => $cantidades,
                     'labels' => $labels,
+                    'valor' => $valor
                 ]);
             } catch (Exception $e) {
                 echo json_encode([
@@ -862,7 +885,7 @@ hasPermission(['AMC_ADMIN']);
     }
 
 
-    public function CapturasPorDiaGraficaAPI()
+    public static function CapturasPorDiaGraficaAPI()
     {
         hasPermission(['AMC_ADMIN']);
         try {
@@ -872,7 +895,7 @@ hasPermission(['AMC_ADMIN']);
             $data = [];
             for ($i = 0; $i <=  $diasMes; $i++) {
                 // $main = new Main();
-                $sql = "SELECT count(*) as  cantidad  From amc_incautacion_dinero inner join amc_topico on amc_incautacion_dinero.topico = amc_topico.id where year(amc_topico.fecha) = year(current) and month(amc_topico.fecha) = month(current) and day(amc_topico.fecha) = day($i) and amc_topico.situacion = 1 and amc_incautacion_dinero.situacion = 1";
+                $sql = "SELECT count(*) as  cantidad  From amc_incautacion_dinero inner join amc_topico on amc_incautacion_dinero.topico = amc_topico.id where year(amc_topico.fecha) = year(current) and month(amc_topico.fecha) = month(current) and day(amc_topico.fecha) = day($i) and amc_topico.situacion = 1 and amc_incautacion_dinero.situacion = 1 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
                 $info = Capturadas::fetchArray($sql);
                 $data['dias'][] = $i;
                 if ($info[0]['cantidad'] == null) {
@@ -885,7 +908,6 @@ hasPermission(['AMC_ADMIN']);
             }
             echo json_encode($data);
             exit;
-         
         } catch (Exception $e) {
             echo json_encode([
                 "detalle" => $e->getMessage(),
@@ -899,7 +921,7 @@ hasPermission(['AMC_ADMIN']);
 
 
 
-    public function CapturasPorDiaGrafica_armasAPI()
+    public static function CapturasPorDiaGrafica_armasAPI()
     {
         hasPermission(['AMC_ADMIN']);
         try {
@@ -907,10 +929,11 @@ hasPermission(['AMC_ADMIN']);
 
             $diasMes =  date('t');
             $data = [];
-            for ($i = 0; $i <=  $diasMes; $i++) {
+            for ($i = 1; $i <=  $diasMes; $i++) {
                 // $main = new Main();
-                $sql = "SELECT count(*) as  cantidad  From amc_incautacion_armas inner join amc_topico on amc_incautacion_armas.topico = amc_topico.id where year(amc_topico.fecha) = year(current) and month(amc_topico.fecha) = month(current) and day(amc_topico.fecha) = day($i) and amc_topico.situacion = 1 and amc_incautacion_armas.situacion = 1";
+                $sql = "SELECT sum(cantidad) as cantidad from amc_detalle_arma inner join amc_topico on amc_detalle_arma.topico = amc_topico.id  where year(amc_topico.fecha) = year(current) and month(amc_topico.fecha) = 2 and day(amc_topico.fecha) = day($i) and amc_topico.situacion = 1 and amc_detalle_arma.situacion = 1 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
                 $info = Capturadas::fetchArray($sql);
+
                 $data['dias'][] = $i;
                 if ($info[0]['cantidad'] == null) {
 
@@ -922,7 +945,6 @@ hasPermission(['AMC_ADMIN']);
             }
             echo json_encode($data);
             exit;
-         
         } catch (Exception $e) {
             echo json_encode([
                 "detalle" => $e->getMessage(),
@@ -935,7 +957,7 @@ hasPermission(['AMC_ADMIN']);
 
 
 
-    public function GraficaTrimestralAPI()
+    public static function GraficaTrimestralAPI()
     {
         hasPermission(['AMC_ADMIN']);
         try {
@@ -970,50 +992,29 @@ hasPermission(['AMC_ADMIN']);
             $cantidades = [];
             $i = 0;
             $a = 0;
-        
+
             $armas = static::armas();
 
-          
+
 
 
             foreach ($armas as $key => $tipo) {
 
                 $arma = $tipo["id"];
                 $labels[] = $tipo["desc"];
-            }
 
 
-            for ($a = 1; $a <= 5; $a++) {
 
-                $tipo_id = $a;
 
-        /*         switch ($a) {
-                    case "1":
-                        $labels[] = "ASESINATO";
-                        break;
-                    case "2":
-                        $labels[] = "HOMICIDIO";
-                        break;
-                    case "3":
-                        $labels[] = "SICARIATO";
-                        break;
-                    case "4":
-                        $labels[] = "FEMICIDIO";
-                        break;
-                    case "5":
-                        $labels[] = "SUICIDIO";
-                        break;
-                } */
-
-        
 
                 for ($i = 0; $i < 3; $i++) {
                     $dateObj = DateTime::createFromFormat('!m', $meses[$i]);
                     $mes = strftime("%B", $dateObj->getTimestamp());
-                    $operaciones = static::capturas_por_mes_y_delito($meses[$i], $tipo_id, $años[$i]);
+                    $operaciones = static::capturas_por_mes_y_delito($meses[$i], $arma, $años[$i]);
                     $cantidades[$mes][] = $operaciones['cantidad'];
                 }
             }
+
             $data = [
                 'labels' => $labels,
                 'cantidades' => $cantidades
@@ -1032,104 +1033,63 @@ hasPermission(['AMC_ADMIN']);
 
 
 
-    
-    public function GraficaTrimestralGeneralAPI()
+
+    public static function GraficaTrimestralGeneralAPI()
     {
         hasPermission(['AMC_ADMIN']);
         try {
 
 
-            $monthNum = date("n");
-            //   $monthNum = 12;
+            $mes = date("n");
+            // $mes = 1;
             $año = date("Y");
-            $año_anterior = 0;
-            if ($monthNum == 1) {
-                $mes_en_query = 11;
-                $valor_final = 11;
-                $fechainicial = 12;
-                $año_anterior = $año - 1;
+
+            $meses = [];
+
+            switch ($mes) {
+                case '1':
+                    $meses = [11, 12, 1];
+                    $años = [$año - 1, $año - 1, $año];
+                    break;
+                case '2':
+                    $meses = [12, 1, 2];
+                    $años = [$año - 1, $año, $año];
+
+                    break;
+                default:
+
+                    $meses = [$mes - 2, $mes - 1, $mes];
+                    $años = [$año, $año, $año];
+                    break;
             }
-            if ($monthNum == 2) {
-                $mes_en_query = 12;
-                $valor_final = 12;
-                $fechainicial = 13;
-                $año_anterior = $año - 1;
-            }
-
-            if ($monthNum > 2) {
-                $mes_en_query =  $monthNum - 2;
-                $valor_final = $monthNum - 2;
-                $fechainicial = $monthNum;
-            }
-
-
-
 
             $data = [];
-            $meses = [];
             $cantidades = [];
             $i = 0;
-            $vuelta = 0;
-            $ronda = 0;
+            $meses1 = [];
 
 
-
-            for ($i = $valor_final; $i <= $fechainicial; $i++) {
-
-                $dateObj = DateTime::createFromFormat('!m', $mes_en_query);
+            for ($i = 0; $i < 3; $i++) {
+                $dateObj = DateTime::createFromFormat('!m', $meses[$i]);
                 $mes = strftime("%B", $dateObj->getTimestamp());
-                $sql = " SELECT  count (*) as cantidad from amc_incautacion_armas inner join amc_topico on amc_incautacion_armas.topico = amc_topico.id  where month(amc_topico.fecha) = $mes_en_query and amc_topico.situacion = 1 and amc_incautacion_armas.situacion > 0";
-
-                if ($monthNum == 1 && $vuelta < 2 && $monthNum < 11) {
-                    $sql .= " AND year(amc_topico.fecha) =   $año_anterior ";
-                    $vuelta = $vuelta + 1;
-                }
-                if ($monthNum == 2 && $vuelta == 0 && $monthNum < 11) {
-                    $sql .= " AND year(amc_topico.fecha) =   $año_anterior ";
-                    $vuelta = $vuelta + 1;
-                }
-                if ($monthNum > 2) {
-                    $sql .= " AND year(amc_topico.fecha) =   $año ";
-                }
-
-                //  echo json_encode($sql);
-                //  exit;
+                $sql = "  SELECT  count (*) as cantidad from amc_topico where year(amc_topico.fecha) = $años[$i] and month(amc_topico.fecha) = $meses[$i] and amc_topico.situacion = 1 and amc_topico.tipo = 6 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user)  ";
                 $info = Capturadas::fetchArray($sql);
-                $meses[] = $mes;
+                $meses1[] = $mes;
                 $cantidades[$mes] = (int) $info[0]['cantidad'];
-
-
-
-
-
-                if ($mes_en_query < 13 && $mes_en_query > 10 && $monthNum < 11) {
-
-                    if ($mes_en_query == 12) {
-                        $mes_en_query = 0;
-                    }
-                    if ($mes_en_query == 11) {
-                        $mes_en_query = 11;
-                    }
-                    $i = 0;
-                    $ronda = $ronda + 1;
-                    if ($ronda == 2) {
-                        $fechainicial = 1;
-                    }
-                    if ($ronda == 1) {
-                        $fechainicial = 2;
-                    }
-                }
-                $mes_en_query = $mes_en_query + 1;
+                // echo json_encode($sql);
             }
-
+            // echo json_encode( $info);
+            // exit;
 
             $data = [
-
-                'cantidades' => $cantidades,
-                'meses' => $meses
+                'meses' => $meses1,
+                'cantidades' => $cantidades
             ];
+
             echo json_encode($data);
             exit;
+
+
         } catch (Exception $e) {
             echo json_encode([
                 "detalle" => $e->getMessage(),
@@ -1142,11 +1102,25 @@ hasPermission(['AMC_ADMIN']);
 
 
 
-    
-    function capturas_por_mes_y_delito($mes, $delito, $año)
+
+    public static function capturas_por_mes_y_delito($mes, $delito, $año)
+    {
+
+        hasPermission(['AMC_ADMIN']);
+
+
+        $sentencia = "SELECT sum(cantidad) as  cantidad  from amc_detalle_arma inner join amc_topico on amc_detalle_arma.topico = amc_topico.id where year(amc_topico.fecha) = year(current) and month(amc_topico.fecha) = $mes  and amc_topico.situacion = 1 and amc_detalle_arma.situacion = 1 and amc_detalle_arma.tipo_arma = $delito and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
+
+        $result = Capturadas::fetchArray($sentencia);
+        return array_shift($result);
+    }
+
+
+    public static function capturas_por_mes_y_dinero($mes, $delito, $año)
     {
         hasPermission(['AMC_ADMIN']);
-        $sentencia = "SELECT sum(cantidad) as  cantidad  from amc_detalle_arma inner join amc_topico on amc_detalle_arma.topico = amc_topico.id where year(amc_topico.fecha) = year(current) and month(amc_topico.fecha) = $mes  and amc_topico.situacion = 1 and amc_detalle_arma.situacion = 1 and amc_detalle_arma.tipo_arma = $delito";
+
+        $sentencia = "SELECT sum(cantidad) as  cantidad  from amc_detalle_municion inner join amc_topico on amc_detalle_municion.topico = amc_topico.id where year(amc_topico.fecha) = year(current) and month(amc_topico.fecha) = $mes  and amc_topico.situacion = 1 and amc_detalle_municion.situacion = 1 and amc_detalle_municion.calibre = $delito and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
         // if($año != ""){
         //         $sentencia .= " AND year(amc_topico.fecha) = $año   ";
         // }else{
@@ -1158,23 +1132,7 @@ hasPermission(['AMC_ADMIN']);
     }
 
 
-    function capturas_por_mes_y_dinero($mes, $delito, $año)
-    {
-        hasPermission(['AMC_ADMIN']);
-
-        $sentencia = "SELECT sum(cantidad) as  cantidad  from amc_detalle_municion inner join amc_topico on amc_detalle_municion.topico = amc_topico.id where year(amc_topico.fecha) = year(current) and month(amc_topico.fecha) = $mes  and amc_topico.situacion = 1 and amc_detalle_municion.situacion = 1 and amc_detalle_municion.calibre = $delito";
-        // if($año != ""){
-        //         $sentencia .= " AND year(amc_topico.fecha) = $año   ";
-        // }else{
-
-        //     $sentencia .= " AND year(amc_topico.fecha) = year(current) ";
-        // }
-        $result = Capturadas::fetchArray($sentencia);
-        return array_shift($result);
-    }
-
-
-    public function DelitosDepartamentoGraficaAPI()
+    public static function DelitosDepartamentoGraficaAPI()
     {
         hasPermission(['AMC_ADMIN']);
         try {
@@ -1188,7 +1146,7 @@ hasPermission(['AMC_ADMIN']);
 
             $sql = "SELECT trim(depmun.dm_desc_lg) as descripcion, sum(cantidad) as cantidad 
             FROM amc_detalle_arma inner join amc_topico on amc_detalle_arma.topico = amc_topico.id  
-            inner join depmun on amc_topico.departamento = depmun.dm_codigo where amc_topico.situacion = 1 and amc_topico.tipo = 6  ";
+            inner join depmun on amc_topico.departamento = depmun.dm_codigo where amc_topico.situacion = 1 and amc_topico.tipo = 6 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user)  ";
 
 
 
@@ -1233,7 +1191,7 @@ hasPermission(['AMC_ADMIN']);
         }
     }
 
-    public function DineroDepartamentoGraficaAPI()
+    public static function DineroDepartamentoGraficaAPI()
     {
         hasPermission(['AMC_ADMIN']);
         try {
@@ -1246,7 +1204,7 @@ hasPermission(['AMC_ADMIN']);
 
 
             $sql = "select trim(dm_desc_lg) as departamento, count(*) as cantidad from amc_topico inner join amc_incautacion_dinero on amc_topico.id = amc_incautacion_dinero.topico 
-            inner join depmun on amc_topico.departamento = depmun.dm_codigo where amc_topico.situacion = 1  ";
+            inner join depmun on amc_topico.departamento = depmun.dm_codigo where amc_topico.situacion = 1 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user)  ";
 
 
 

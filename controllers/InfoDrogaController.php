@@ -12,11 +12,12 @@ use MVC\Router;
 
 class InfoDrogaController
 {
-    public function index(Router $router)
+    public static function index(Router $router)
     {
         hasPermission(['AMC_ADMIN']);
 
         $drogas_tipo = static::drogas_tipo();
+
         $operacionesDroga = static::operacionesDroga();
         $total_droga = static::total_droga();
         $incidenciaDroga = static::incidenciaDroga();
@@ -48,11 +49,19 @@ class InfoDrogaController
         ]);
     }
 
-    static function  drogas_tipo()
+    static function  drogas_tipo1()
     {
         hasPermission(['AMC_ADMIN']);
 
         $sentencia = "SELECT * from amc_drogas where situacion = 1";
+        $result = Droga::fetchArray($sentencia);
+        return $result;
+    }
+
+    static function  drogas_tipo()
+    {
+
+        $sentencia = "SELECT * from amc_drogas where situacion > 0";
         $result = Droga::fetchArray($sentencia);
         return $result;
     }
@@ -87,7 +96,7 @@ class InfoDrogaController
     {
         hasPermissionApi(['AMC_ADMIN']);
 
-        $sql = "SELECT  count (*) as cantidad from amc_incautacion_droga inner join amc_topico on amc_incautacion_droga.topico = amc_topico.id  where  amc_topico.situacion = 1 and amc_incautacion_droga.situacion = 1";
+        $sql = "SELECT  count (*) as cantidad from amc_incautacion_droga inner join amc_topico on amc_incautacion_droga.topico = amc_topico.id  where  amc_topico.situacion = 1 and amc_incautacion_droga.situacion = 1  and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
 
         if ($fecha1 != '' && $fecha2 != '') {
 
@@ -114,7 +123,7 @@ class InfoDrogaController
     {
         hasPermissionApi(['AMC_ADMIN']);
 
-        $sql = "SELECT sum(cantidad) as cantidad from amc_incautacion_droga inner join amc_topico on amc_incautacion_droga.topico = amc_topico.id  where   amc_topico.situacion = 1 and amc_incautacion_droga.situacion = 1";
+        $sql = "SELECT sum(cantidad) as cantidad from amc_incautacion_droga inner join amc_topico on amc_incautacion_droga.topico = amc_topico.id  where   amc_topico.situacion = 1 and amc_incautacion_droga.situacion = 1  and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
 
         if ($fecha1 == '' && $fecha2 == '') {
 
@@ -152,7 +161,7 @@ class InfoDrogaController
     {
         hasPermissionApi(['AMC_ADMIN']);
 
-        $sql = "   SELECT FIRST 1  amc_drogas.desc, sum(cantidad) as cantidad from amc_incautacion_droga inner join amc_drogas on amc_incautacion_droga.tipo_droga = amc_drogas.id inner join amc_topico on amc_incautacion_droga.topico = amc_topico.id  where  amc_incautacion_droga.situacion = 1  ";
+        $sql = "   SELECT FIRST 1  amc_drogas.desc, sum(cantidad) as cantidad from amc_incautacion_droga inner join amc_drogas on amc_incautacion_droga.tipo_droga = amc_drogas.id inner join amc_topico on amc_incautacion_droga.topico = amc_topico.id  where  amc_incautacion_droga.situacion = 1  and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user)  ";
 
         if ($fecha1 == '' && $fecha2 == '') {
 
@@ -193,7 +202,7 @@ class InfoDrogaController
     {
         hasPermissionApi(['AMC_ADMIN']);
 
-        $sql = "SELECT sum(cantidad_plantacion) as cantidad from amc_incautacion_droga inner join amc_topico on amc_incautacion_droga.topico = amc_topico.id  where   amc_topico.situacion = 1 and amc_incautacion_droga.situacion = 1";
+        $sql = "SELECT sum(cantidad_plantacion) as cantidad from amc_incautacion_droga inner join amc_topico on amc_incautacion_droga.topico = amc_topico.id  where   amc_topico.situacion = 1 and amc_incautacion_droga.situacion = 1  and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
 
         if ($fecha1 == '' && $fecha2 == '') {
 
@@ -230,7 +239,7 @@ class InfoDrogaController
     {
         hasPermissionApi(['AMC_ADMIN']);
 
-        $sql = "   SELECT FIRST 1  amc_drogas.desc, sum(cantidad_plantacion) as cantidad from amc_incautacion_droga inner join amc_drogas on amc_incautacion_droga.tip_droga_plantacion = amc_drogas.id inner join amc_topico on amc_incautacion_droga.topico = amc_topico.id  where   amc_incautacion_droga.situacion = 1  ";
+        $sql = "   SELECT FIRST 1  amc_drogas.desc, sum(cantidad_plantacion) as cantidad from amc_incautacion_droga inner join amc_drogas on amc_incautacion_droga.tip_droga_plantacion = amc_drogas.id inner join amc_topico on amc_incautacion_droga.topico = amc_topico.id  where   amc_incautacion_droga.situacion = 1  and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user)  ";
 
         if ($fecha1 == '' && $fecha2 == '') {
 
@@ -269,8 +278,10 @@ class InfoDrogaController
     static function captura($fecha1 = "", $fecha2 = "")
     {
 
+
         hasPermissionApi(['AMC_ADMIN']);
-        $sql = "SELECT  count (*) as cantidad from amc_per_capturadas inner join amc_topico on amc_per_capturadas.topico = amc_topico.id  where amc_topico.tipo in (1,4) and amc_per_capturadas.delito = 1 and amc_topico.situacion = 1 and amc_per_capturadas.situacion = 1 ";
+        $sql = "SELECT  count (*) as cantidad from amc_per_capturadas inner join amc_topico on amc_per_capturadas.topico = amc_topico.id  where amc_topico.tipo in (1,4) and amc_per_capturadas.delito = 1 and amc_topico.situacion = 1 and amc_per_capturadas.situacion = 1  and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
+
 
         if ($fecha1 == '' && $fecha2 == '') {
 
@@ -294,9 +305,11 @@ class InfoDrogaController
 
     static function hombres($fecha1 = "", $fecha2 = "")
     {
+
         hasPermissionApi(['AMC_ADMIN']);
 
-        $sql = "SELECT count(*) as cantidad from amc_per_capturadas inner join amc_topico on amc_per_capturadas.topico = amc_topico.id   where amc_per_capturadas.delito = 1 and  amc_topico.situacion = 1 and amc_per_capturadas.sexo = 1 and amc_per_capturadas.situacion = 1";
+        $sql = "SELECT count(*) as cantidad from amc_per_capturadas inner join amc_topico on amc_per_capturadas.topico = amc_topico.id   where amc_per_capturadas.delito = 1 and  amc_topico.situacion = 1 and amc_per_capturadas.sexo = 1 and amc_per_capturadas.situacion = 1  and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
+
 
         if ($fecha1 == '' && $fecha2 == '') {
 
@@ -320,7 +333,7 @@ class InfoDrogaController
 
         hasPermissionApi(['AMC_ADMIN']);
 
-        $sql = "SELECT  count(*) as cantidad from amc_per_capturadas inner join amc_topico on amc_per_capturadas.topico = amc_topico.id   where  amc_per_capturadas.delito = 1 and  amc_topico.situacion = 1 and amc_per_capturadas.sexo = 2 and amc_per_capturadas.situacion = 1";
+        $sql = "SELECT  count(*) as cantidad from amc_per_capturadas inner join amc_topico on amc_per_capturadas.topico = amc_topico.id   where  amc_per_capturadas.delito = 1 and  amc_topico.situacion = 1 and amc_per_capturadas.sexo = 2 and amc_per_capturadas.situacion = 1  and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
 
 
         if ($fecha1 == '' && $fecha2 == '') {
@@ -345,7 +358,7 @@ class InfoDrogaController
 
         hasPermissionApi(['AMC_ADMIN']);
 
-        $sql = "SELECT  count (*) as cantidad from amc_destruccion_pista inner join amc_topico on amc_destruccion_pista.topico = amc_topico.id  where   amc_topico.situacion = 1 and amc_destruccion_pista.situacion = 1";
+        $sql = "SELECT  count (*) as cantidad from amc_destruccion_pista inner join amc_topico on amc_destruccion_pista.topico = amc_topico.id  where   amc_topico.situacion = 1 and amc_destruccion_pista.situacion = 1  and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
 
         if ($fecha1 == '' && $fecha2 == '') {
 
@@ -376,9 +389,11 @@ class InfoDrogaController
 
     static   function departamentoCapturas($fecha1 = "", $fecha2 = "")
     {
+
         hasPermissionApi(['AMC_ADMIN']);
 
-        $sql = "SELECT FIRST 1 amc_topico.departamento as departamento, count(*) as cantidad FROM amc_topico inner join amc_incautacion_droga on amc_topico.id = amc_incautacion_droga.topico where amc_topico.tipo = 4 and amc_topico.situacion = 1 ";
+        $sql = "SELECT FIRST 1 amc_topico.departamento as departamento, count(*) as cantidad FROM amc_topico inner join amc_incautacion_droga on amc_topico.id = amc_incautacion_droga.topico where amc_topico.tipo = 4 and amc_topico.situacion = 1  and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
+
         if ($fecha1 == '' && $fecha2 == '') {
 
             $sql .= " AND year(amc_topico.fecha) = year(current) and month(amc_topico.fecha) = month(current) ";
@@ -415,9 +430,11 @@ class InfoDrogaController
 
     static function departamentoPistas($fecha1 = "", $fecha2 = "")
     {
+
         hasPermissionApi(['AMC_ADMIN']);
 
-        $sql = "SELECT FIRST 1 amc_topico.departamento as departamento, count(*) as cantidad FROM amc_topico inner join amc_destruccion_pista on amc_topico.id = amc_destruccion_pista.topico where  amc_topico.tipo = 8 and amc_topico.situacion = 1 ";
+        $sql = "SELECT FIRST 1 amc_topico.departamento as departamento, count(*) as cantidad FROM amc_topico inner join amc_destruccion_pista on amc_topico.id = amc_destruccion_pista.topico where  amc_topico.tipo = 8 and amc_topico.situacion = 1  and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
+
         if ($fecha1 == '' && $fecha2 == '') {
 
             $sql .= " AND year(amc_topico.fecha) = year(current) and month(amc_topico.fecha) = month(current) ";
@@ -452,7 +469,7 @@ class InfoDrogaController
         }
     }
 
-    public function resumenAPI()
+    public static function resumenAPI()
     {
         hasPermissionApi(['AMC_ADMIN']);
 
@@ -484,7 +501,7 @@ class InfoDrogaController
         echo json_encode($array_resultante);
     }
 
-    public function listadoAPI()
+    public static function listadoAPI()
     {
         hasPermissionApi(['AMC_ADMIN']);
 
@@ -495,7 +512,7 @@ class InfoDrogaController
 
         try {
 
-            $sql = "SELECT DISTINCT  amc_topico.id as id, amc_topico.lugar as lugar, amc_topico.tipo as tipo, amc_tipo_topics.desc as topico,  amc_topico.fecha as fecha, dm_desc_lg as departamento,   amc_actividad_vinculada.desc as actividad from amc_topico inner join amc_tipo_topics on amc_topico.tipo = amc_tipo_topics.id inner join depmun on amc_topico.departamento = depmun.dm_codigo  inner join amc_actividad_vinculada on amc_topico.actividad = amc_actividad_vinculada.id and amc_topico.tipo in(4,8) and amc_topico.situacion = 1";
+            $sql = "SELECT DISTINCT  amc_topico.id as id, amc_topico.lugar as lugar, amc_topico.tipo as tipo, amc_tipo_topics.desc as topico,  amc_topico.fecha as fecha, dm_desc_lg as departamento,   amc_actividad_vinculada.desc as actividad from amc_topico inner join amc_tipo_topics on amc_topico.tipo = amc_tipo_topics.id inner join depmun on amc_topico.departamento = depmun.dm_codigo  inner join amc_actividad_vinculada on amc_topico.actividad = amc_actividad_vinculada.id and amc_topico.tipo in(4,8) and amc_topico.situacion = 1  and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
             $info = Droga::fetchArray($sql);
 
             $data = [];
@@ -549,7 +566,7 @@ class InfoDrogaController
         }
     }
 
-    public function modalAPI()
+    public static function modalAPI()
     {
         getHeadersApi();
         hasPermission(['AMC_ADMIN', 'AMC_COMANDO']);
@@ -562,7 +579,7 @@ class InfoDrogaController
             $id = $_POST['id'];
 
 
-            $sql = "SELECT amc_topico.id, fecha, lugar, departamento, municipio as muni, tipo,latitud,longitud,actividad, amc_topico.situacion, depmun.dm_desc_lg as departamento1, amc_actividad_vinculada.desc as act, amc_tipo_topics.desc as topico from amc_topico inner join depmun on amc_topico.departamento = depmun.dm_codigo inner join amc_actividad_vinculada on amc_topico.actividad = amc_actividad_vinculada.id inner join amc_tipo_topics on amc_topico.tipo = amc_tipo_topics.id where amc_topico.situacion = 1 and amc_topico.id =  $id";
+            $sql = "SELECT amc_topico.id, fecha, lugar, departamento, municipio as muni, tipo,latitud,longitud,actividad, amc_topico.situacion, depmun.dm_desc_lg as departamento1, amc_actividad_vinculada.desc as act, amc_tipo_topics.desc as topico from amc_topico inner join depmun on amc_topico.departamento = depmun.dm_codigo inner join amc_actividad_vinculada on amc_topico.actividad = amc_actividad_vinculada.id inner join amc_tipo_topics on amc_topico.tipo = amc_tipo_topics.id where amc_topico.situacion = 1 and amc_topico.id =  $id  and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
             $info = Droga::fetchArray($sql);
             $data = [];
 
@@ -625,7 +642,7 @@ class InfoDrogaController
         }
     }
 
-    public function informacionModalAPI()
+    public static function informacionModalAPI()
     {
         getHeadersApi();
         hasPermission(['AMC_ADMIN', 'AMC_COMANDO']);
@@ -637,7 +654,7 @@ class InfoDrogaController
 
             $id = $_POST['id'];
 
-            $sql = "SELECT amc_incautacion_droga.cantidad as cantidad,  amc_incautacion_droga.tipo_transporte as tipo_t, amc_incautacion_droga.id, amc_incautacion_droga.tipo_droga, matricula, amc_drogas.desc as droga, amc_transporte.desc as transporte   from amc_incautacion_droga inner join amc_drogas on amc_incautacion_droga.tipo_droga = amc_drogas.id inner join amc_transporte on amc_incautacion_droga.transporte = amc_transporte.id where amc_incautacion_droga.topico =$id and  amc_incautacion_droga.situacion = 1";
+            $sql = "SELECT amc_incautacion_droga.cantidad as cantidad,  amc_incautacion_droga.tipo_transporte as tipo_t, amc_incautacion_droga.id, amc_incautacion_droga.tipo_droga, matricula, amc_drogas.desc as droga, amc_transporte.desc as transporte   from amc_incautacion_droga inner join amc_drogas on amc_incautacion_droga.tipo_droga = amc_drogas.id inner join amc_topico on amc_incautacion_droga.topico = amc_topico.id inner join amc_transporte on amc_incautacion_droga.transporte = amc_transporte.id where amc_incautacion_droga.topico =$id and  amc_incautacion_droga.situacion = 1  and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
             $info = Droga::fetchArray($sql);
 
 
@@ -653,7 +670,7 @@ class InfoDrogaController
     }
 
 
-    public function informacionModalAPI1()
+    public static function informacionModalAPI1()
     {
         getHeadersApi();
         hasPermission(['AMC_ADMIN', 'AMC_COMANDO']);
@@ -665,7 +682,7 @@ class InfoDrogaController
 
             $id = $_POST['id'];
 
-            $sql = "SELECT amc_drogas.desc as tipo_droga,  amc_incautacion_droga.tip_droga_plantacion as tipo_matas,  amc_incautacion_droga.cantidad_plantacion as cantidad1   from amc_incautacion_droga inner join amc_drogas on amc_incautacion_droga.tip_droga_plantacion = amc_drogas.id  where amc_incautacion_droga.topico =$id and  amc_incautacion_droga.situacion = 1";
+            $sql = "SELECT amc_drogas.desc as tipo_droga,  amc_incautacion_droga.tip_droga_plantacion as tipo_matas,  amc_incautacion_droga.cantidad_plantacion as cantidad1   from amc_incautacion_droga inner join amc_drogas on amc_incautacion_droga.tip_droga_plantacion = amc_drogas.id inner join amc_topico on amc_incautacion_droga.topico = amc_topico.id   where amc_incautacion_droga.topico =$id and  amc_incautacion_droga.situacion = 1  and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
             $info = Droga::fetchArray($sql);
 
 
@@ -681,7 +698,7 @@ class InfoDrogaController
     }
 
 
-    public function informacionPersonasAPI()
+    public static function informacionPersonasAPI()
     {
         getHeadersApi();
         hasPermission(['AMC_ADMIN', 'AMC_COMANDO']);
@@ -693,7 +710,7 @@ class InfoDrogaController
 
             $id = $_POST['id'];
 
-            $sql = "SELECT amc_per_capturadas.id, amc_per_capturadas.topico, amc_nacionalidad.desc as nacionalidad, amc_sexo.desc as sexo, amc_per_capturadas.nombre, amc_per_capturadas.edad, amc_delito.desc as delito  from amc_per_capturadas inner join amc_nacionalidad on amc_per_capturadas.nacionalidad = amc_nacionalidad.id inner join amc_sexo on amc_sexo.id = amc_per_capturadas.sexo inner join amc_delito on amc_per_capturadas.delito = amc_delito.id where topico = $id and amc_per_capturadas.situacion = 1";
+            $sql = "SELECT amc_per_capturadas.id, amc_per_capturadas.topico, amc_nacionalidad.desc as nacionalidad, amc_sexo.desc as sexo, amc_per_capturadas.nombre, amc_per_capturadas.edad, amc_delito.desc as delito  from amc_per_capturadas inner join amc_nacionalidad on amc_per_capturadas.nacionalidad = amc_nacionalidad.id inner join amc_sexo on amc_sexo.id = amc_per_capturadas.sexo inner join amc_topico on amc_per_capturadas.topico = amc_topico.id  inner join amc_delito on amc_per_capturadas.delito = amc_delito.id where topico = $id and amc_per_capturadas.situacion = 1 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
 
             $info = Droga::fetchArray($sql);
             $data = [];
@@ -740,7 +757,7 @@ class InfoDrogaController
             ]);
         }
     }
-    public function distanciaPistaAPI()
+    public static function distanciaPistaAPI()
     {
         getHeadersApi();
         hasPermission(['AMC_ADMIN', 'AMC_COMANDO']);
@@ -767,7 +784,7 @@ class InfoDrogaController
         }
     }
 
-    public function mapaCalorAPI()
+    public static function mapaCalorAPI()
     {
         getHeadersApi();
         hasPermission(['AMC_ADMIN', 'AMC_COMANDO']);
@@ -781,7 +798,7 @@ class InfoDrogaController
             $fecha2 = str_replace('T', ' ', $_POST['fecha2']);
 
 
-            $sql = " SELECT distinct dm_desc_lg as descripcion, dm_codigo as codigo, count (*) as cantidad FROM amc_topico inner join depmun on departamento = dm_codigo inner join amc_incautacion_droga on amc_topico.id = amc_incautacion_droga.topico where  amc_topico.situacion = 1 and amc_topico.tipo = 4 ";
+            $sql = " SELECT distinct dm_desc_lg as descripcion, dm_codigo as codigo, count (*) as cantidad FROM amc_topico inner join depmun on departamento = dm_codigo inner join amc_incautacion_droga on amc_topico.id = amc_incautacion_droga.topico where  amc_topico.situacion = 1 and amc_topico.tipo = 4 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
 
             if ($tipo_droga != '') {
 
@@ -801,7 +818,7 @@ class InfoDrogaController
 
             if ($info == null && $tipo_droga != '') {
 
-                $sql = " SELECT distinct dm_desc_lg as descripcion, dm_codigo as codigo, count (*) as cantidad FROM amc_topico inner join depmun on departamento = dm_codigo inner join amc_incautacion_droga on amc_topico.id = amc_incautacion_droga.topico where  amc_topico.situacion = 1 and amc_topico.tipo = 4  ";
+                $sql = " SELECT distinct dm_desc_lg as descripcion, dm_codigo as codigo, count (*) as cantidad FROM amc_topico inner join depmun on departamento = dm_codigo inner join amc_incautacion_droga on amc_topico.id = amc_incautacion_droga.topico where  amc_topico.situacion = 1 and amc_topico.tipo = 4  and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
 
                 if ($tipo_droga != '') {
 
@@ -829,7 +846,7 @@ class InfoDrogaController
         }
     }
 
-    public function mapaCalorDeptoAPI()
+    public static function mapaCalorDeptoAPI()
     {
         getHeadersApi();
         hasPermission(['AMC_ADMIN', 'AMC_COMANDO']);
@@ -857,9 +874,10 @@ class InfoDrogaController
         }
     }
 
-    function departamental_grafica($mes, $fecha1, $fecha2, $depto, $droga)
-    {       
-        hasPermission(['AMC_ADMIN', 'AMC_COMANDO']);
+
+    public static function departamental_grafica($mes, $fecha1, $fecha2, $depto, $droga)
+    {
+      hasPermission(['AMC_ADMIN', 'AMC_COMANDO']);
 
 
         if ($mes == 13) {
@@ -871,8 +889,10 @@ class InfoDrogaController
     }
 
 
-    public function mapaCalorPorDeptoGraficaAPI()
-    hasPermission(['AMC_ADMIN', 'AMC_COMANDO']);
+    public static function mapaCalorPorDeptoGraficaAPI()
+    {
+
+          hasPermission(['AMC_ADMIN', 'AMC_COMANDO']);
 
         try {
 
@@ -949,14 +969,14 @@ class InfoDrogaController
             ]);
         }
     }
-    function mapaCalorPorDeptoPistasAPI()
+    public static function mapaCalorPorDeptoPistasAPI()
     {
         hasPermission(['AMC_ADMIN', 'AMC_COMANDO']);
 
         $fecha1 = str_replace('T', ' ', $_POST['fecha_mapa']);
         $fecha2 = str_replace('T', ' ', $_POST['fecha2']);
 
-        $sql = " SELECT distinct dm_desc_lg as descripcion, dm_codigo as codigo, count (*) as cantidad FROM amc_topico inner join depmun on departamento = dm_codigo  where  amc_topico.situacion = 1 and amc_topico.tipo = 8 ";
+        $sql = " SELECT distinct dm_desc_lg as descripcion, dm_codigo as codigo, count (*) as cantidad FROM amc_topico inner join depmun on departamento = dm_codigo  where  amc_topico.situacion = 1 and amc_topico.tipo = 8 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
 
 
         if ($fecha1 != '' && $fecha2 == '') {
@@ -977,8 +997,10 @@ class InfoDrogaController
         echo json_encode($info);
     }
 
-    function DrogasCantGraficaAPI(){
+
+    public static function DrogasCantGraficaAPI(){
         hasPermission(['AMC_ADMIN', 'AMC_COMANDO']);
+        
 
 
         $fecha1 = str_replace('T', ' ', $_POST['fecha_grafica']);
@@ -1058,14 +1080,14 @@ class InfoDrogaController
 
 
     
-    function DrogasDepartamentoGraficaAPI(){
+    public static function DrogasDepartamentoGraficaAPI(){
         
         hasPermission(['AMC_ADMIN', 'AMC_COMANDO']);
 
         $fecha1 = str_replace('T', ' ', $_POST['fecha_grafica']);
             $fecha2 = str_replace('T', ' ', $_POST['fecha_grafica2']);
    
-            $sql ="SELECT depmun.dm_desc_lg as descripcion, count(*) as cantidad FROM amc_topico  inner join depmun on amc_topico.departamento = depmun.dm_codigo where  amc_topico.situacion = 1 and amc_topico.tipo in (4,8) ";
+            $sql ="SELECT depmun.dm_desc_lg as descripcion, count(*) as cantidad FROM amc_topico  inner join depmun on amc_topico.departamento = depmun.dm_codigo where  amc_topico.situacion = 1 and amc_topico.tipo in (4,8) and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
             
             if ($fecha1 != '' && $fecha2 != '') {
                 $sql .= " AND amc_topico.fecha   BETWEEN '$fecha1' AND  '$fecha2' ";
@@ -1084,7 +1106,7 @@ class InfoDrogaController
     }
 
 
-    public function IncautacionesPorDiaGraficaAPI()
+    public static function IncautacionesPorDiaGraficaAPI()
     {
         hasPermission(['AMC_ADMIN', 'AMC_COMANDO']);
 
@@ -1095,7 +1117,7 @@ class InfoDrogaController
             $data = [];
             for ($i = 0; $i <=  $diasMes; $i++) {
                 // $main = new Main();
-                $sql ="SELECT count(*) as  cantidad  From amc_topico  where year(amc_topico.fecha) = year(current) and month(amc_topico.fecha) = month(current) and day(amc_topico.fecha) = day($i) and amc_topico.situacion = 1 and amc_topico.tipo = 4";
+                $sql ="SELECT count(*) as  cantidad  From amc_topico  where year(amc_topico.fecha) = year(current) and month(amc_topico.fecha) = month(current) and day(amc_topico.fecha) = day($i) and amc_topico.situacion = 1 and amc_topico.tipo = 4 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
                 $info = Droga::fetchArray($sql);
                 $data['dias'][] = $i;
                 if ($info[0]['cantidad'] == null) {
@@ -1119,14 +1141,14 @@ class InfoDrogaController
     }
 
 
-    public function KilosPorDiaGraficaAPI(){
+    public static function KilosPorDiaGraficaAPI(){
         try {
 
   $diasMes =  date('t');
    $data = [];
         for ($i=0; $i <=  $diasMes ; $i++) { 
             // $main = new Main();
-            $sql ="SELECT sum(cantidad) as  cantidad  From amc_incautacion_droga inner join amc_topico on amc_incautacion_droga.topico = amc_topico.id  where year(amc_topico.fecha) = year(current) and month(amc_topico.fecha) = month(current) and day(amc_topico.fecha) = day($i) and amc_topico.situacion = 1 ";
+            $sql ="SELECT sum(cantidad) as  cantidad  From amc_incautacion_droga inner join amc_topico on amc_incautacion_droga.topico = amc_topico.id  where year(amc_topico.fecha) = year(current) and month(amc_topico.fecha) = month(current) and day(amc_topico.fecha) = day($i) and amc_topico.situacion = 1 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user)  ";
             $info = Droga::fetchArray($sql);
             if ($info[0]['cantidad'] == null) {
 
@@ -1152,8 +1174,8 @@ class InfoDrogaController
     }
 
 
-    public function MatasPorDiaGraficaAPI(){
-        hasPermission(['AMC_ADMIN', 'AMC_COMANDO']);
+    public static function MatasPorDiaGraficaAPI(){
+     hasPermission(['AMC_ADMIN', 'AMC_COMANDO']);
 
         try {
 
@@ -1161,7 +1183,7 @@ class InfoDrogaController
    $data = [];
         for ($i=0; $i <=  $diasMes ; $i++) { 
             // $main = new Main();
-            $sql ="SELECT sum(cantidad_plantacion) as  cantidad  From amc_incautacion_droga inner join amc_topico on amc_incautacion_droga.topico = amc_topico.id  where year(amc_topico.fecha) = year(current) and month(amc_topico.fecha) = month(current) and day(amc_topico.fecha) = day($i) and amc_topico.situacion = 1 ";
+            $sql ="SELECT sum(cantidad_plantacion) as  cantidad  From amc_incautacion_droga inner join amc_topico on amc_incautacion_droga.topico = amc_topico.id  where year(amc_topico.fecha) = year(current) and month(amc_topico.fecha) = month(current) and day(amc_topico.fecha) = day($i) and amc_topico.situacion = 1 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
             $info = Droga::fetchArray($sql);
             if ($info[0]['cantidad'] == null) {
 
@@ -1187,11 +1209,11 @@ class InfoDrogaController
     }
 
     
-    function incautaciones_por_mes_y_droga($mes, $droga, $años)
+    public static function incautaciones_por_mes_y_droga($mes, $droga, $años)
     {
         hasPermission(['AMC_ADMIN', 'AMC_COMANDO']);
 
-        $sentencia = "SELECT sum(cantidad) as  cantidad  from amc_incautacion_droga inner join amc_topico on amc_incautacion_droga.topico = amc_topico.id where year(amc_topico.fecha) = $años and month(amc_topico.fecha) = $mes  and amc_topico.situacion = 1 and amc_incautacion_droga.situacion = 1 and amc_incautacion_droga.tipo_droga = $droga";
+        $sentencia = "SELECT sum(cantidad) as  cantidad  from amc_incautacion_droga inner join amc_topico on amc_incautacion_droga.topico = amc_topico.id where year(amc_topico.fecha) = $años and month(amc_topico.fecha) = $mes  and amc_topico.situacion = 1 and amc_incautacion_droga.situacion = 1 and amc_incautacion_droga.tipo_droga = $droga and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
         $result = Droga::fetchArray($sentencia);
         if ($result[0]['cantidad'] == null) {
 
@@ -1205,12 +1227,12 @@ class InfoDrogaController
         return $valor;
     }
    
-    function incautacionesmatas_por_mes_y_droga($mes, $droga, $años)
+    public static function incautacionesmatas_por_mes_y_droga($mes, $droga, $años)
     {
         hasPermission(['AMC_ADMIN', 'AMC_COMANDO']);
 
        
-        $sentencia = "SELECT sum(cantidad) as  cantidad  from amc_incautacion_droga inner join amc_topico on amc_incautacion_droga.topico = amc_topico.id where year(amc_topico.fecha) = $años and  month(amc_topico.fecha) = $mes  and amc_topico.situacion = 1 and amc_incautacion_droga.situacion = 1 and amc_incautacion_droga.tip_droga_plantacion = $droga";
+        $sentencia = "SELECT sum(cantidad) as  cantidad  from amc_incautacion_droga inner join amc_topico on amc_incautacion_droga.topico = amc_topico.id where year(amc_topico.fecha) = $años and  month(amc_topico.fecha) = $mes  and amc_topico.situacion = 1 and amc_incautacion_droga.situacion = 1 and amc_incautacion_droga.tip_droga_plantacion = $droga and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
         $result = Droga::fetchArray($sentencia);
         if ($result[0]['cantidad'] == null) {
 
@@ -1225,8 +1247,9 @@ class InfoDrogaController
     }
    
    
-    public function GraficatrimestralKilosAPI(){
-        hasPermission(['AMC_ADMIN', 'AMC_COMANDO']);
+
+    public static function GraficatrimestralKilosAPI(){
+       hasPermission(['AMC_ADMIN', 'AMC_COMANDO']);
 
         try {
 
@@ -1290,8 +1313,9 @@ class InfoDrogaController
         }
     }
    
-    public function GraficatrimestralMatasAPI(){
-        hasPermission(['AMC_ADMIN', 'AMC_COMANDO']);
+
+    public static function GraficatrimestralMatasAPI(){
+      hasPermission(['AMC_ADMIN', 'AMC_COMANDO']);
 
         try {
 
@@ -1357,8 +1381,8 @@ class InfoDrogaController
    
 
 
-    public function GraficatrimestralPistasAPI(){
-        hasPermission(['AMC_ADMIN', 'AMC_COMANDO']);
+    public static function GraficatrimestralPistasAPI(){
+       hasPermission(['AMC_ADMIN', 'AMC_COMANDO']);
 
         try {
 
@@ -1394,7 +1418,7 @@ class InfoDrogaController
                 for($i = 0 ; $i < 3 ; $i++){
                     $dateObj = DateTime::createFromFormat('!m', $meses[$i]);
                     $mes1 = strftime("%B", $dateObj->getTimestamp());
-                    $sql=" SELECT  count (*) as cantidad from amc_topico  where  year(amc_topico.fecha) = $años[$i] and month(amc_topico.fecha) = $meses[$i] and amc_topico.situacion = 1 and amc_topico.tipo = 8";
+                    $sql=" SELECT  count (*) as cantidad from amc_topico  where  year(amc_topico.fecha) = $años[$i] and month(amc_topico.fecha) = $meses[$i] and amc_topico.situacion = 1 and amc_topico.tipo = 8 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
                     $info = Droga::fetchArray($sql);
                     $meses1[]= $mes1;
                     $cantidades[$mes1]= (int) $info[0]['cantidad'];
@@ -1419,7 +1443,8 @@ class InfoDrogaController
     }
 
 
-    public function GraficaTrimestralIncautacionesGeneralAPI(){
+
+    public static function GraficaTrimestralIncautacionesGeneralAPI(){
         hasPermission(['AMC_ADMIN', 'AMC_COMANDO']);
 
         try {
@@ -1456,7 +1481,7 @@ class InfoDrogaController
                 for($i = 0 ; $i < 3 ; $i++){
                     $dateObj = DateTime::createFromFormat('!m', $meses[$i]);
                     $mes1 = strftime("%B", $dateObj->getTimestamp());
-                    $sql=" SELECT  sum (cantidad) as cantidad from amc_incautacion_droga  inner join amc_topico on amc_incautacion_droga.topico = amc_topico.id  where  year(amc_topico.fecha) = $años[$i] and month(amc_topico.fecha) = $meses[$i] and amc_topico.situacion = 1 and amc_incautacion_droga.situacion = 1";
+                    $sql=" SELECT  sum (cantidad) as cantidad from amc_incautacion_droga  inner join amc_topico on amc_incautacion_droga.topico = amc_topico.id  where  year(amc_topico.fecha) = $años[$i] and month(amc_topico.fecha) = $meses[$i] and amc_topico.situacion = 1 and amc_incautacion_droga.situacion = 1 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
                     $info = Droga::fetchArray($sql);
                     $valor = $info[0]['cantidad'];
                     

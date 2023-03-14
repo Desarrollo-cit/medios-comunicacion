@@ -14,7 +14,7 @@ use MVC\Router;
 class InfoCapturaController
 {
 
-    public function index(Router $router)
+    public static function index(Router $router)
     {
         hasPermission(['AMC_ADMIN']);
 
@@ -183,7 +183,7 @@ class InfoCapturaController
     }
 
 
-    public function resumenAPI()
+    public static function resumenAPI()
     {
         hasPermission(['AMC_ADMIN']);
 
@@ -211,7 +211,7 @@ class InfoCapturaController
     }
 
 
-    public function listadoAPI()
+    public static function listadoAPI()
     {
         getHeadersApi();
         hasPermission(['AMC_ADMIN']);
@@ -277,7 +277,7 @@ class InfoCapturaController
         }
     }
 
-    public function modalAPI()
+    public static function modalAPI()
     {
         getHeadersApi();
         hasPermission(['AMC_ADMIN']);
@@ -356,7 +356,7 @@ class InfoCapturaController
 
 
 
-    public function informacionModalAPI()
+    public static function informacionModalAPI()
     {
         getHeadersApi();
         hasPermission(['AMC_ADMIN']);
@@ -416,7 +416,7 @@ class InfoCapturaController
     }
 
     
-    public function informacionModalAPI1()
+    public static function informacionModalAPI1()
     {
         getHeadersApi();
         hasPermission(['AMC_ADMIN']);
@@ -441,7 +441,7 @@ class InfoCapturaController
     }
 
 
-    public function mapaCalorAPI()
+    public static function mapaCalorAPI()
     {
         getHeadersApi();
         hasPermission(['AMC_ADMIN']);
@@ -487,7 +487,7 @@ class InfoCapturaController
     }
 
 
-    public function coloresAPI()
+    public static function coloresAPI()
     {
         getHeadersApi();
         hasPermission(['AMC_ADMIN']);
@@ -502,7 +502,7 @@ class InfoCapturaController
     }
 
 
-    public function mapaCalorDeptoAPI()
+    public static function mapaCalorDeptoAPI()
     {
         getHeadersApi();
         hasPermission(['AMC_ADMIN']);
@@ -571,7 +571,7 @@ class InfoCapturaController
         }
     }
 
-    public function mapaCalorPorDeptoGraficaAPI()
+    public static function mapaCalorPorDeptoGraficaAPI()
     {
         hasPermission(['AMC_ADMIN']);
 
@@ -624,7 +624,7 @@ class InfoCapturaController
 
 
 
-    public function DelitosCantGraficaAPI()
+    public static function DelitosCantGraficaAPI()
     {
         hasPermission(['AMC_ADMIN']);
 
@@ -677,7 +677,7 @@ class InfoCapturaController
 
 
 
-    public function CapturasPorDiaGraficaAPI()
+    public static function CapturasPorDiaGraficaAPI()
     {
         hasPermission(['AMC_ADMIN']);
 
@@ -688,7 +688,7 @@ class InfoCapturaController
             $data = [];
             for ($i = 0; $i <=  $diasMes; $i++) {
                 // $main = new Main();
-                $sql = "SELECT count(*) as  cantidad  From amc_per_capturadas inner join amc_topico on amc_per_capturadas.topico = amc_topico.id where year(amc_topico.fecha) = year(current) and month(amc_topico.fecha) = month(current) and day(amc_topico.fecha) = day($i) and amc_topico.situacion = 1 and amc_per_capturadas.situacion = 1 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user)";
+                $sql = "SELECT count(*) as  cantidad  From amc_per_capturadas inner join amc_topico on amc_per_capturadas.topico = amc_topico.id where year(amc_topico.fecha) = year(current) and month(amc_topico.fecha) = month(current) and day(amc_topico.fecha) = day($i) and amc_topico.situacion = 1 and amc_per_capturadas.situacion = 1 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
                 $info = Capturadas::fetchArray($sql);
                 $data['dias'][] = $i;
                 if ($info[0]['cantidad'] == null) {
@@ -711,7 +711,7 @@ class InfoCapturaController
         }
     }
 
-    public function GraficaTrimestralAPI()
+    public static function GraficaTrimestralAPI()
     {
         hasPermission(['AMC_ADMIN']);
 
@@ -777,7 +777,7 @@ class InfoCapturaController
         }
     }
 
-    public function GraficaTrimestralGeneralAPI()
+    public static function GraficaTrimestralGeneralAPI()
     {
         hasPermission(['AMC_ADMIN']);
 
@@ -885,7 +885,7 @@ class InfoCapturaController
         }
     }
 
-    function capturas_por_mes_y_delito($mes, $delito, $año)
+    public static function capturas_por_mes_y_delito($mes, $delito, $año)
     {
         hasPermission(['AMC_ADMIN']);
 
@@ -902,7 +902,7 @@ class InfoCapturaController
     }
 
 
-    public function DelitosDepartamentoGraficaAPI()
+    public static function DelitosDepartamentoGraficaAPI()
     {
         hasPermission(['AMC_ADMIN']);
 
@@ -969,7 +969,7 @@ class InfoCapturaController
     }
 
 
-    public function coloresAPI1()
+    public static function coloresAPI1()
     {
         hasPermission(['AMC_ADMIN']);
 
@@ -984,13 +984,13 @@ class InfoCapturaController
     }
 
 
-    public function delitosApi()
+    public static function delitosApi()
     {
         hasPermission(['AMC_ADMIN']);
 
 
         try {
-            $sql = "SELECT * from amc_delito where situacion = 1  ";
+            $sql = "SELECT * from amc_delito where situacion > 0  ";
             $info = Delito::fetchArray($sql);
             return $info;
         } catch (Exception $e) {

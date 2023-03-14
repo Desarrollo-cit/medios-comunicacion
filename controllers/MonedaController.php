@@ -6,13 +6,13 @@ use Model\Moneda;
 use MVC\Router;
 class MonedaController{
 
-    public function index(Router $router)
+    public static function index(Router $router)
     {
         hasPermission(['AMC_ADMIN']);
 
         $router->render('Moneda/index');
     }
-    public function guardarAPI(){
+    public static function guardarAPI(){
         getHeadersApi();
         hasPermissionApi(['AMC_ADMIN']);
 
@@ -21,8 +21,11 @@ class MonedaController{
 
             $moneda = new Moneda($_POST);
             $valor = $moneda->desc;
+     
             $existe = Moneda::SQL("select * from amc_moneda where situacion =1 AND desc = '$valor'
             ");
+            // echo json_encode($moneda['desc']);
+            // exit;
 
 
 
@@ -61,17 +64,18 @@ class MonedaController{
         
     }
 
-    public function buscarApi(){
+    public static function buscarApi(){
         getHeadersApi();
         hasPermissionApi(['AMC_ADMIN']);
-        $moneda = Moneda::where('situacion', '1');
+        $moneda = Moneda::where('situacion', '0','>');
+
         echo json_encode($moneda);
     }
 
 
 
 
-    public function modificarAPI(){
+    public static function modificarAPI(){
         getHeadersApi();
         hasPermissionApi(['AMC_ADMIN']);
         $_POST["desc"] = strtoupper($_POST["desc"]);
@@ -105,7 +109,7 @@ class MonedaController{
         }
     }
 
-    public function eliminarAPI(){
+    public static function eliminarAPI(){
         getHeadersApi();
         hasPermissionApi(['AMC_ADMIN']);
         $_POST['situacion'] = 0;
@@ -113,6 +117,34 @@ class MonedaController{
      
         
         $resultado = $moneda->eliminar();
+
+        if($resultado == 1){
+            echo json_encode([
+                "resultado" => 1
+            ]);
+            
+        }else{
+            echo json_encode([
+                "resultado" => 0
+            ]);
+
+        }
+    }
+    public static function cambiarSituacionAPI(){
+        getHeadersApi();
+        if($_POST['situacion'] == 1){
+            $_POST['situacion'] = 2;
+        }else{
+            $_POST['situacion'] = 1;
+        }
+        
+        $moneda = new Moneda($_POST);
+        
+     
+        
+        $resultado = $moneda->guardar();
+        echo json_encode($resultado);
+        exit;
 
         if($resultado == 1){
             echo json_encode([

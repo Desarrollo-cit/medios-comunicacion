@@ -6,13 +6,13 @@ use Model\Delitos;
 use MVC\Router;
 class DelitosController{
 
-    public function index(Router $router)
+    public static function index(Router $router)
     {
         hasPermission(['AMC_ADMIN']);
         $router->render('delitos/index');
     }
 
-    public function guardarAPI(){
+    public static function guardarAPI(){
         getHeadersApi();
         hasPermissionApi(['AMC_ADMIN']);
 
@@ -56,14 +56,14 @@ class DelitosController{
         
     }
 
-    public function buscarApi(){
+    public static function buscarApi(){
         getHeadersApi();
         hasPermissionApi(['AMC_ADMIN']);
         $delitos = Delitos::where('situacion', '1');
         echo json_encode($delitos);
     }
 
-    public function modificarAPI(){
+    public static function modificarAPI(){
         getHeadersApi();
         hasPermissionApi(['AMC_ADMIN']);
 
@@ -105,7 +105,7 @@ class DelitosController{
         }
     }
 
-    public function eliminarAPI(){
+    public static function eliminarAPI(){
         getHeadersApi();
         hasPermissionApi(['AMC_ADMIN']);
 
@@ -127,7 +127,7 @@ class DelitosController{
         }
     }
 
-    public function cambioSituacionAPI(){
+    public static function cambioSituacionAPI(){
         getHeadersApi();
         hasPermissionApi(['AMC_ADMIN']);
 

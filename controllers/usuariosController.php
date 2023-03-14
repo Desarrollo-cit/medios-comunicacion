@@ -9,7 +9,7 @@ class usuariosController{
         $router->render('usuarios/index',[]);
     }
 // Inicio de la funcion guardar usuarios
-    public function guardarAPI(){
+    public static function guardarAPI(){
         getHeadersApi();
         hasPermissionApi(['AMC_ADMIN']);
         try {
@@ -61,7 +61,7 @@ class usuariosController{
 
 
     // inicio de la funcion
-    public function buscarApi(){
+    public static function buscarApi(){
         getHeadersApi();
         hasPermissionApi(['AMC_ADMIN']);
         // echo json_encode("hola");
@@ -70,7 +70,7 @@ class usuariosController{
         echo json_encode($usuarios);
     }
 
-    public function modificarAPI(){
+    public static function modificarAPI(){
         getHeadersApi();
         hasPermissionApi(['AMC_ADMIN']);
        try {
@@ -112,7 +112,7 @@ class usuariosController{
         }
     }
 
-    public function eliminarAPI(){
+    public static function eliminarAPI(){
         getHeadersApi();
         hasPermissionApi(['AMC_ADMIN']);
         $_POST['situacion'] = 0;
@@ -133,7 +133,7 @@ class usuariosController{
         }
     }
 
-    public function cambioSituacionAPI(){
+    public static function cambioSituacionAPI(){
         getHeadersApi();
         hasPermissionApi(['AMC_ADMIN']);
 

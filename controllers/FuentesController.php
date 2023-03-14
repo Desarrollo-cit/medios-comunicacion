@@ -6,14 +6,14 @@ use Model\Fuentes;
 use MVC\Router;
 class FuentesController{
 
-    public function index(Router $router)
+    public static function index(Router $router)
     {
         hasPermission(['AMC_ADMIN']);
 
         $router->render('Fuentes/index');
     }
 
-    public function guardarAPI(){
+    public static function guardarAPI(){
         getHeadersApi();
         hasPermissionApi(['AMC_ADMIN']);
 
@@ -61,7 +61,7 @@ class FuentesController{
         
     }
 
-    public function buscarApi(){
+    public static function buscarApi(){
         getHeadersApi();
         hasPermissionApi(['AMC_ADMIN']);
 
@@ -69,7 +69,7 @@ class FuentesController{
         echo json_encode($Fuentes);
     }
 
-    public function modificarAPI(){
+    public static function modificarAPI(){
         getHeadersApi();
         hasPermissionApi(['AMC_ADMIN']);
 
@@ -111,7 +111,7 @@ class FuentesController{
         }
     }
 
-    public function eliminarAPI(){
+    public static function eliminarAPI(){
         getHeadersApi();
         hasPermissionApi(['AMC_ADMIN']);
 
@@ -134,7 +134,7 @@ class FuentesController{
     }
 
 
-    public function cambioSituacionAPI(){
+    public static function cambioSituacionAPI(){
         getHeadersApi();
         hasPermissionApi(['AMC_ADMIN']);
 

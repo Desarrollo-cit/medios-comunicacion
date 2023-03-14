@@ -7,13 +7,13 @@ use Model\Organizacion;
 use MVC\Router;
 class OrganizacionController{
 
-    public function index(Router $router)
+    public static function index(Router $router)
     {
         hasPermission(['AMC_ADMIN']);
         $router->render('organizacion/index');
     }
 
-    public function guardarAPI(){
+    public static function guardarAPI(){
         getHeadersApi();
         hasPermissionApi(['AMC_ADMIN']);
         try {
@@ -55,9 +55,19 @@ class OrganizacionController{
         }
         
     }
+    public static function buscarApi(){
+        try{
+        getHeadersApi();
+        $Organizacion = Organizacion::where('situacion', '0','>');
+        echo json_encode($Organizacion);
+    } catch(Exception $e){
+        echo json_encode(["error"=>$e->getMessage()]);
+    }
+    }
 
 
-    public function buscarApi(){
+
+    public static function buscarApi(){
         hasPermissionApi(['AMC_ADMIN']);
         try {
             getHeadersApi();
@@ -66,11 +76,14 @@ class OrganizacionController{
         } catch (Exception $e) {
             echo json_encode(["error"=>$e->getMessage()]);
         }
+
        
     }
 
-    public function modificarAPI(){
+
+    public static function modificarAPI(){
         hasPermissionApi(['AMC_ADMIN']);
+
         try {
             getHeadersApi();
             $Organizacion = new Organizacion($_POST);
@@ -107,7 +120,7 @@ class OrganizacionController{
             ]);
         }
     }
-    public function eliminarAPI(){
+    public static function eliminarAPI(){
         getHeadersApi();
         hasPermissionApi(['AMC_ADMIN']);
         $_POST['situacion'] = 0;
@@ -126,6 +139,47 @@ class OrganizacionController{
             ]);
 
         }
+    }
+    public static function cambiarSituacionAPI(){
+    
+        
+        try{
+            getHeadersApi();
+            if($_POST['situacion'] == 1){
+                $_POST['situacion'] = 2;
+            }else{
+                $_POST['situacion'] = 1;
+    
+            }
+            $Organizacion = new Organizacion($_POST);
+            
+            $resultado = $Organizacion->guardar();
+    
+            if($resultado['resultado'] == 1){
+                echo json_encode([
+                    "mensaje" => "El registro se cambio correctamente.",
+                    "codigo" => 1,
+                ]);
+                
+                
+            }else{
+                echo json_encode([
+                    "mensaje" => "Ocurrió un error.",
+                    "codigo" => 0,
+                ]);
+    
+            }
+
+
+        }catch (Exception $e) {
+            echo json_encode([
+                "detalle" => $e->getMessage(),       
+                "mensaje" => "Ocurrió un error en la base de datos.",
+
+                "codigo" => 4,
+            ]);
+        }
+        
     }
 } 
 

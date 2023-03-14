@@ -13,7 +13,7 @@ use MVC\Router;
 class InfoMigrantesController
 {
 
-    public function index(Router $router)
+    public static function index(Router $router)
     {
         hasPermission(['AMC_ADMIN']);
 
@@ -43,11 +43,15 @@ class InfoMigrantesController
 
 
 
-    function migrantes($fecha1 = "", $fecha2 = "")
+    public static function migrantes($fecha1 = "", $fecha2 = "")
     {
 
+
         hasPermission(['AMC_ADMIN']);
-        $sql =  "SELECT sum (cantidad ) as cantidad from amc_migrantes inner join amc_topico on amc_migrantes.topic = amc_topico.id  where  amc_topico.situacion = 1 and amc_migrantes.situacion = 1 ";
+
+
+        $sql =  "SELECT sum (cantidad ) as cantidad from amc_migrantes inner join amc_topico on amc_migrantes.topic = amc_topico.id  where  amc_topico.situacion = 1 and amc_migrantes.situacion = 1  and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
+
         if ($fecha1 != '' && $fecha2 != '') {
 
             $sql .= " AND amc_topico.fecha   BETWEEN '$fecha1' AND  '$fecha2' ";
@@ -69,11 +73,11 @@ class InfoMigrantesController
     }
     
     
-    function estadistica_por_pais( $año = "", $mes = "", $pais_migrante="")
+    public static function estadistica_por_pais( $año = "", $mes = "", $pais_migrante="")
     {
         hasPermission(['AMC_ADMIN']);
 
-        $sql =  "SELECT amc_nacionalidad.desc , sum (cantidad ) as cantidad from amc_migrantes inner join amc_topico on amc_migrantes.topic = amc_topico.id inner join amc_edades on amc_migrantes.edad = amc_edades.id inner join amc_nacionalidad on amc_nacionalidad.id = amc_migrantes.pais_migrante  where   amc_topico.situacion = 1 and amc_migrantes.situacion > 0 and amc_nacionalidad.id = $pais_migrante   ";
+        $sql =  "SELECT amc_nacionalidad.desc , sum (cantidad ) as cantidad from amc_migrantes inner join amc_topico on amc_migrantes.topic = amc_topico.id inner join amc_edades on amc_migrantes.edad = amc_edades.id inner join amc_nacionalidad on amc_nacionalidad.id = amc_migrantes.pais_migrante  where   amc_topico.situacion = 1 and amc_migrantes.situacion > 0 and amc_nacionalidad.id = $pais_migrante   and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
       
 
       $sql .= " AND year(amc_topico.fecha) = $año  and  month(amc_topico.fecha) =$mes ";
@@ -98,11 +102,11 @@ class InfoMigrantesController
         }
     }
 
-    function edades($fecha1 = "", $fecha2 = "")
+    public static function edades($fecha1 = "", $fecha2 = "")
     {
         hasPermission(['AMC_ADMIN']);
 
-        $sql = " SELECT first 1 amc_edades.edades , sum (cantidad ) as cantidad from amc_migrantes inner join amc_topico on amc_migrantes.topic = amc_topico.id inner join amc_edades on amc_migrantes.edad = amc_edades.id  where  amc_topico.situacion = 1 and amc_migrantes.situacion > 0  ";
+        $sql = " SELECT first 1 amc_edades.edades , sum (cantidad ) as cantidad from amc_migrantes inner join amc_topico on amc_migrantes.topic = amc_topico.id inner join amc_edades on amc_migrantes.edad = amc_edades.id  where  amc_topico.situacion = 1 and amc_migrantes.situacion > 0  and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
 
         if ($fecha1 != '' && $fecha2 != '') {
 
@@ -127,11 +131,11 @@ class InfoMigrantesController
         }
     }
 
-    function cant_paises($fecha1 = "", $fecha2 = "")
+    public static function cant_paises($fecha1 = "", $fecha2 = "")
     {
         hasPermission(['AMC_ADMIN']);
 
-        $sql = " SELECT count(DISTINCT pais_migrante) as cantidad from amc_migrantes inner join amc_topico on amc_topico.id = amc_migrantes.topic where amc_topico.situacion = 1";
+        $sql = " SELECT count(DISTINCT pais_migrante) as cantidad from amc_migrantes inner join amc_topico on amc_topico.id = amc_migrantes.topic where amc_topico.situacion = 1 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
 
         if ($fecha1 != '' && $fecha2 != '') {
 
@@ -153,11 +157,11 @@ class InfoMigrantesController
         }
     }
 
-    function pais($fecha1 = "", $fecha2 = "")
+    public static function pais($fecha1 = "", $fecha2 = "")
     {
         hasPermission(['AMC_ADMIN']);
         $cero = [];
-        $sql = "  SELECT FIRST 1 paises.pai_desc_lg as pais, sum (cantidad ) as cantidad from amc_migrantes inner join amc_topico on amc_migrantes.topic = amc_topico.id inner join amc_nacionalidad on amc_migrantes.pais_migrante = amc_nacionalidad.id inner join paises on paises.pai_codigo = amc_nacionalidad.pais where  amc_topico.situacion = 1 and amc_migrantes.situacion > 0 ";
+        $sql = "  SELECT FIRST 1 paises.pai_desc_lg as pais, sum (cantidad ) as cantidad from amc_migrantes inner join amc_topico on amc_migrantes.topic = amc_topico.id inner join amc_nacionalidad on amc_migrantes.pais_migrante = amc_nacionalidad.id inner join paises on paises.pai_codigo = amc_nacionalidad.pais where  amc_topico.situacion = 1 and amc_migrantes.situacion > 0 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
 
         if ($fecha1 != '' && $fecha2 != '') {
 
@@ -180,11 +184,11 @@ class InfoMigrantesController
     }
 
 
-    function mujeres($fecha1 = "", $fecha2 = "")
+    public static function mujeres($fecha1 = "", $fecha2 = "")
     {
         hasPermission(['AMC_ADMIN']);
 
-        $sql =  "SELECT sum (cantidad ) as cantidad from amc_migrantes inner join amc_topico on amc_migrantes.topic = amc_topico.id  where  amc_topico.situacion = 1 and amc_migrantes.situacion = 1 and sexo = 2 ";
+        $sql =  "SELECT sum (cantidad ) as cantidad from amc_migrantes inner join amc_topico on amc_migrantes.topic = amc_topico.id  where  amc_topico.situacion = 1 and amc_migrantes.situacion = 1 and sexo = 2 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
 
         if ($fecha1 != '' && $fecha2 != '') {
 
@@ -203,10 +207,13 @@ class InfoMigrantesController
         }
     }
 
-    function hombres($fecha1 = "", $fecha2 = "")
+    public static function hombres($fecha1 = "", $fecha2 = "")
     {
+
         hasPermission(['AMC_ADMIN']);
-        $sql = "SELECT  sum (cantidad ) as cantidad from amc_migrantes inner join amc_topico on amc_migrantes.topic = amc_topico.id   where amc_topico.situacion = 1 and sexo = 1 and amc_migrantes.situacion = 1";
+
+        $sql = "SELECT  sum (cantidad ) as cantidad from amc_migrantes inner join amc_topico on amc_migrantes.topic = amc_topico.id   where amc_topico.situacion = 1 and sexo = 1 and amc_migrantes.situacion = 1 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
+
         if ($fecha1 != '' && $fecha2 != '') {
 
             $sql .= " AND amc_topico.fecha   BETWEEN '$fecha1' AND  '$fecha2' ";
@@ -224,10 +231,13 @@ class InfoMigrantesController
         }
     }
 
-    function departamento_migrantes($fecha1 = "", $fecha2 = "")
+    public static function departamento_migrantes($fecha1 = "", $fecha2 = "")
     {
+
         hasPermission(['AMC_ADMIN']);
-        $sql = "SELECT FIRST 1 amc_topico.departamento, count(*) as cantidad FROM amc_topico inner join amc_migrantes on amc_topico.id = amc_migrantes.topic where    amc_topico.situacion = 1 ";
+
+        $sql = "SELECT FIRST 1 amc_topico.departamento, count(*) as cantidad FROM amc_topico inner join amc_migrantes on amc_topico.id = amc_migrantes.topic where    amc_topico.situacion = 1 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
+
         if ($fecha1 != '' && $fecha2 != '') {
 
             $sql .= " AND amc_topico.fecha   BETWEEN '$fecha1' AND  '$fecha2' ";
@@ -262,7 +272,7 @@ class InfoMigrantesController
     }
 
 
-    public function resumenAPI()
+    public static function resumenAPI()
     {
         hasPermission(['AMC_ADMIN']);
         // getHeadersApi();
@@ -289,7 +299,7 @@ class InfoMigrantesController
         echo json_encode($array_resultante);
     }
 
-    public function listadoAPI()
+    public static function listadoAPI()
     {
         getHeadersApi();
         hasPermission(['AMC_ADMIN']);
@@ -302,7 +312,7 @@ class InfoMigrantesController
              inner join amc_nacionalidad on amc_nacionalidad.id = amc_migrantes.pais_migrante  
              inner join amc_tipo_topics on amc_topico.tipo = amc_tipo_topics.id 
              inner join depmun on amc_topico.departamento = depmun.dm_codigo  
-            inner join amc_edades on amc_edades.id = amc_migrantes.edad and amc_migrantes.situacion = 1 and amc_topico.situacion = 1 and amc_topico.tipo = 9";
+            inner join amc_edades on amc_edades.id = amc_migrantes.edad and amc_migrantes.situacion = 1 and amc_topico.situacion = 1 and amc_topico.tipo = 9 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
             $info = Migrantes::fetchArray($sql);
 
             $data = [];
@@ -359,7 +369,7 @@ class InfoMigrantesController
     }
 
 
-    public function modalAPI()
+    public static function modalAPI()
     {
         getHeadersApi();
         hasPermission(['AMC_ADMIN']);
@@ -436,7 +446,7 @@ class InfoMigrantesController
         }
     }
 
-    function tipos_de_edades()
+    public static function tipos_de_edades()
     {
         hasPermission(['AMC_ADMIN']);
         $sentencia = "SELECT * from amc_edades where situacion = 1";
@@ -444,7 +454,7 @@ class InfoMigrantesController
         return $result;
     }
 
-    public function informacionMigrantesModalAPI()
+    public static function informacionMigrantesModalAPI()
     {
         getHeadersApi();
         hasPermission(['AMC_ADMIN']);
@@ -516,7 +526,7 @@ class InfoMigrantesController
 
 
 
-    public function mapaCalorAPI()
+    public static function mapaCalorAPI()
     {
         getHeadersApi();
         hasPermission(['AMC_ADMIN']);
@@ -529,7 +539,7 @@ class InfoMigrantesController
 
 
 
-            $sql = "SELECT distinct dm_desc_lg as descripcion, dm_codigo as codigo, sum (cantidad ) as cantidad FROM amc_topico inner join depmun on departamento = dm_codigo  inner join amc_migrantes on topic = amc_topico.id  where 1 = 1  and amc_topico.situacion = 1 and amc_migrantes.situacion = 1 ";
+            $sql = "SELECT distinct dm_desc_lg as descripcion, dm_codigo as codigo, sum (cantidad ) as cantidad FROM amc_topico inner join depmun on departamento = dm_codigo  inner join amc_migrantes on topic = amc_topico.id  where 1 = 1  and amc_topico.situacion = 1 and amc_migrantes.situacion = 1 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
             if ($edades != '') {
 
                 $sql .= " AND amc_migrantes.edad = $edades";
@@ -559,7 +569,7 @@ class InfoMigrantesController
     }
 
 
-    public function coloresAPI()
+    public static function coloresAPI()
     {
         getHeadersApi();
         hasPermission(['AMC_ADMIN']);
@@ -572,7 +582,7 @@ class InfoMigrantesController
         }
     }
 
-    public function coloresAPI1()
+    public static function coloresAPI1()
     {
 
         try {
@@ -584,7 +594,7 @@ class InfoMigrantesController
         }
     }
 
-    public function mapaCalorDeptoAPI()
+    public static function mapaCalorDeptoAPI()
     {
         hasPermission(['AMC_ADMIN']);
         try {
@@ -596,7 +606,7 @@ class InfoMigrantesController
             $fecha2 = str_replace('T', ' ', $_POST['fecha2']);
             // echo json_encode($_POST);
             // exit;
-            $sql = "  SELECT  sum (cantidad ) as cantidad from amc_migrantes inner join amc_topico on amc_migrantes.topic = amc_topico.id  where  amc_topico.situacion = 1 and amc_migrantes.situacion = 1 AND amc_topico.departamento = $depto  ";
+            $sql = "  SELECT  sum (cantidad ) as cantidad from amc_migrantes inner join amc_topico on amc_migrantes.topic = amc_topico.id  where  amc_topico.situacion = 1 and amc_migrantes.situacion = 1 AND amc_topico.departamento = $depto  and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
 
             if ($edad != '') {
 
@@ -621,7 +631,7 @@ class InfoMigrantesController
             }
 
 
-            $consulta = "   SELECT first 1 amc_edades.edades , sum (cantidad ) as cantidad from amc_migrantes inner join amc_topico on amc_migrantes.topic = amc_topico.id inner join amc_edades on amc_migrantes.edad = amc_edades.id  where  amc_topico.situacion = 1 and amc_migrantes.situacion > 0  AND amc_topico.departamento = $depto ";
+            $consulta = "   SELECT first 1 amc_edades.edades , sum (cantidad ) as cantidad from amc_migrantes inner join amc_topico on amc_migrantes.topic = amc_topico.id inner join amc_edades on amc_migrantes.edad = amc_edades.id  where  amc_topico.situacion = 1 and amc_migrantes.situacion > 0  AND amc_topico.departamento = $depto and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
 
             if ($edad != '') {
 
@@ -661,7 +671,7 @@ class InfoMigrantesController
     }
 
 
-    public function mapaCalorPorDeptoGraficaAPI()
+    public static function mapaCalorPorDeptoGraficaAPI()
     {
         hasPermission(['AMC_ADMIN']);
 
@@ -675,7 +685,7 @@ class InfoMigrantesController
             // echo json_encode($_POST);
             // exit;
 
-            $sql = "SELECT amc_edades.edades , sum (cantidad ) as cantidad from amc_migrantes inner join amc_topico on amc_migrantes.topic = amc_topico.id inner join amc_edades on amc_migrantes.edad = amc_edades.id  where   amc_topico.situacion = 1 and amc_migrantes.situacion > 0 ";
+            $sql = "SELECT amc_edades.edades , sum (cantidad ) as cantidad from amc_migrantes inner join amc_topico on amc_migrantes.topic = amc_topico.id inner join amc_edades on amc_migrantes.edad = amc_edades.id  where   amc_topico.situacion = 1 and amc_migrantes.situacion > 0 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
 
 
             if ($depto != '') {
@@ -712,7 +722,7 @@ class InfoMigrantesController
         }
     }
 
-    public function MigrantesCantGraficaAPI()
+    public static function MigrantesCantGraficaAPI()
     {
         hasPermission(['AMC_ADMIN']);
 
@@ -724,7 +734,7 @@ class InfoMigrantesController
             $fecha1 = str_replace('T', ' ', $_POST['fecha_grafica']);
             $fecha2 = str_replace('T', ' ', $_POST['fecha_grafica2']);
 
-            $sql = "SELECT amc_edades.edades , sum (cantidad ) as cantidad from amc_migrantes inner join amc_topico on amc_migrantes.topic = amc_topico.id inner join amc_edades on amc_migrantes.edad = amc_edades.id  where   amc_topico.situacion = 1 and amc_migrantes.situacion > 0 ";
+            $sql = "SELECT amc_edades.edades , sum (cantidad ) as cantidad from amc_migrantes inner join amc_topico on amc_migrantes.topic = amc_topico.id inner join amc_edades on amc_migrantes.edad = amc_edades.id  where   amc_topico.situacion = 1 and amc_migrantes.situacion > 0 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
 
 
             if ($depto != '') {
@@ -760,7 +770,7 @@ class InfoMigrantesController
     }
 
 
-    public function MigrantesDepartamentoGraficaAPI()
+    public static function MigrantesDepartamentoGraficaAPI()
     {
         hasPermission(['AMC_ADMIN']);
         try {
@@ -771,7 +781,7 @@ class InfoMigrantesController
             $fecha1 = str_replace('T', ' ', $_POST['fecha_grafica']);
             $fecha2 = str_replace('T', ' ', $_POST['fecha_grafica2']);
 
-            $sql = "SELECT depmun.dm_desc_lg as descripcion, sum (cantidad ) as cantidad FROM amc_migrantes   inner join amc_topico on amc_migrantes.topic = amc_topico.id inner join depmun on amc_topico.departamento = depmun.dm_codigo where amc_topico.situacion = 1 ";
+            $sql = "SELECT depmun.dm_desc_lg as descripcion, sum (cantidad ) as cantidad FROM amc_migrantes   inner join amc_topico on amc_migrantes.topic = amc_topico.id inner join depmun on amc_topico.departamento = depmun.dm_codigo where amc_topico.situacion = 1 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
 
 
             if ($depto != '') {
@@ -806,7 +816,7 @@ class InfoMigrantesController
         }
     }
 
-    public function MigrantesPorDiaGraficaAPI()
+    public static function MigrantesPorDiaGraficaAPI()
     {
         hasPermission(['AMC_ADMIN']);
         try {
@@ -816,7 +826,7 @@ class InfoMigrantesController
             $data = [];
             for ($i = 0; $i <=  $diasMes; $i++) {
                 // $main = new Main();
-                $sql = "SELECT sum (cantidad ) as cantidad From amc_migrantes inner join amc_topico on amc_migrantes.topic = amc_topico.id where year(amc_topico.fecha) = year(current) and month(amc_topico.fecha) = month(current) and day(amc_topico.fecha) = day($i) and amc_topico.situacion = 1 and amc_migrantes.situacion = 1";
+                $sql = "SELECT sum (cantidad ) as cantidad From amc_migrantes inner join amc_topico on amc_migrantes.topic = amc_topico.id where year(amc_topico.fecha) = year(current) and month(amc_topico.fecha) = month(current) and day(amc_topico.fecha) = day($i) and amc_topico.situacion = 1 and amc_migrantes.situacion = 1 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
                 $info = Migrantes::fetchArray($sql);
                 $data['dias'][] = $i;
                 if ($info[0]['cantidad'] == null) {
@@ -845,7 +855,7 @@ class InfoMigrantesController
     protected static function paises1($fecha1 ="", $fecha2 =""){
         hasPermission(['AMC_ADMIN']);
 
-        $sql = "SELECT DISTINCT  pai_desc_lg, pais_migrante from amc_nacionalidad inner join paises on paises.pai_codigo = amc_nacionalidad.pais inner join amc_migrantes on amc_migrantes.pais_migrante = amc_nacionalidad.id inner join amc_topico on amc_migrantes.topic = amc_topico.id    where  amc_topico.situacion = 1 ";
+        $sql = "SELECT DISTINCT  pai_desc_lg, pais_migrante from amc_nacionalidad inner join paises on paises.pai_codigo = amc_nacionalidad.pais inner join amc_migrantes on amc_migrantes.pais_migrante = amc_nacionalidad.id inner join amc_topico on amc_migrantes.topic = amc_topico.id    where  amc_topico.situacion = 1 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
        
        
         $sql .= " AND extend(fecha, year to month)  BETWEEN '$fecha1' AND  '$fecha2' ";
@@ -854,7 +864,7 @@ class InfoMigrantesController
         return $result;
     }
 
-    public function GraficaTrimestralAPI()
+    public static function GraficaTrimestralAPI()
     {
         try {
 
@@ -937,7 +947,7 @@ class InfoMigrantesController
 
 
 
-    public function GraficaTrimestralGeneralAPI()
+    public static function GraficaTrimestralGeneralAPI()
     {
         hasPermission(['AMC_ADMIN']);
         try {
@@ -975,7 +985,7 @@ class InfoMigrantesController
             for ($i = 0; $i < 3; $i++) {
                 $dateObj = DateTime::createFromFormat('!m', $meses[$i]);
                 $mes = strftime("%B", $dateObj->getTimestamp());
-                $sql = " SELECT sum (cantidad ) as cantidad from amc_migrantes inner join amc_topico on amc_migrantes.topic = amc_topico.id  where year(amc_topico.fecha) = $años[$i] and month(amc_topico.fecha) =$meses[$i]and amc_topico.situacion = 1 and amc_migrantes.situacion = 1";
+                $sql = " SELECT sum (cantidad ) as cantidad from amc_migrantes inner join amc_topico on amc_migrantes.topic = amc_topico.id  where year(amc_topico.fecha) = $años[$i] and month(amc_topico.fecha) =$meses[$i]and amc_topico.situacion = 1 and amc_migrantes.situacion = 1 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
                 $info = Migrantes::fetchArray($sql);
                 $meses[] = $mes;
                 $cantidades[$mes] = (int) $info[0]['cantidad'];

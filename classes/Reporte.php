@@ -14,7 +14,7 @@ class Reporte {
             'default_font' => 'arial',
             'orientation' => 'L',
             'margin_top' => '30',
-
+            'tempDir' =>  __DIR__ . '/../temp'
         ]);
         $this->router = $router;
         $this->loadHeaderFooter($userInfo);
