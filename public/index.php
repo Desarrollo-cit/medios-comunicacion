@@ -35,15 +35,15 @@ use Controllers\ReporteController;
 
 
 
-use Controllers\infoCapturaController;
+use Controllers\InfoCapturaController;
 use Controllers\InfoMuertesController;
-use Controllers\infoDrogaController;
-use Controllers\infoDesastresController;
+use Controllers\InfoDrogaController;
+use Controllers\InfoDesastresController;
 use Controllers\Mov_socialController;
 use Controllers\PistasController;
-use Controllers\infoMarasController;
+use Controllers\InfoMarasController;
 use Controllers\InfoDinero_y_armasController;
-use Controllers\infoMigrantesController;
+use Controllers\InfoMigrantesController;
 use Controllers\FuentesController;
 
 
@@ -193,21 +193,21 @@ $router->post('/API/mov_social/', [Mov_socialController::class, 'cambiarSituacio
 
 
 
-$router->get('/mapas/capturas', [infoCapturaController::class , 'index']);
-$router->post('/API/mapas/infoCapturas/resumen', [infoCapturaController::class , 'resumenAPI'] );
-$router->get('/API/mapas/infoCapturas/listado', [infoCapturaController::class , 'listadoAPI'] );
-$router->post('/API/mapas/infoCapturas/modal', [infoCapturaController::class , 'modalAPI'] );
-$router->post('/API/mapas/infoCapturas/informacion', [infoCapturaController::class , 'informacionModalAPI'] );
-$router->post('/API/mapas/infoCapturas/informacion1', [infoCapturaController::class , 'informacionModalAPI1'] );
-$router->post('/API/mapas/infoCapturas/mapaCalor', [infoCapturaController::class , 'mapaCalorAPI'] );
-$router->post('/API/mapas/infoCapturas/mapaCalorPorDepto', [infoCapturaController::class , 'mapaCalorDeptoAPI'] );
-$router->post('/API/mapas/infoCapturas/mapaCalorPorDeptoGrafica', [infoCapturaController::class , 'mapaCalorPorDeptoGraficaAPI'] );
-$router->post('/API/mapas/infoCapturas/colores', [infoCapturaController::class , 'coloresAPI'] );
-$router->post('/API/mapas/infoCapturas/DelitosCantGrafica', [infoCapturaController::class , 'DelitosCantGraficaAPI'] );
-$router->post('/API/mapas/infoCapturas/DelitosDepartamentoGrafica', [infoCapturaController::class , 'DelitosDepartamentoGraficaAPI'] );
-$router->post('/API/mapas/infoCapturas/CapturasPorDiaGrafica', [infoCapturaController::class , 'CapturasPorDiaGraficaAPI'] );
-$router->post('/API/mapas/infoCapturas/GraficaTrimestral', [infoCapturaController::class , 'GraficaTrimestralAPI'] );
-$router->post('/API/mapas/infoCapturas/GraficaTrimestralGeneral', [infoCapturaController::class , 'GraficaTrimestralGeneralAPI'] );
+$router->get('/mapas/capturas', [InfoCapturaController::class , 'index']);
+$router->post('/API/mapas/infoCapturas/resumen', [InfoCapturaController::class , 'resumenAPI'] );
+$router->get('/API/mapas/infoCapturas/listado', [InfoCapturaController::class , 'listadoAPI'] );
+$router->post('/API/mapas/infoCapturas/modal', [InfoCapturaController::class , 'modalAPI'] );
+$router->post('/API/mapas/infoCapturas/informacion', [InfoCapturaController::class , 'informacionModalAPI'] );
+$router->post('/API/mapas/infoCapturas/informacion1', [InfoCapturaController::class , 'informacionModalAPI1'] );
+$router->post('/API/mapas/infoCapturas/mapaCalor', [InfoCapturaController::class , 'mapaCalorAPI'] );
+$router->post('/API/mapas/infoCapturas/mapaCalorPorDepto', [InfoCapturaController::class , 'mapaCalorDeptoAPI'] );
+$router->post('/API/mapas/infoCapturas/mapaCalorPorDeptoGrafica', [InfoCapturaController::class , 'mapaCalorPorDeptoGraficaAPI'] );
+$router->post('/API/mapas/infoCapturas/colores', [InfoCapturaController::class , 'coloresAPI'] );
+$router->post('/API/mapas/infoCapturas/DelitosCantGrafica', [InfoCapturaController::class , 'DelitosCantGraficaAPI'] );
+$router->post('/API/mapas/infoCapturas/DelitosDepartamentoGrafica', [InfoCapturaController::class , 'DelitosDepartamentoGraficaAPI'] );
+$router->post('/API/mapas/infoCapturas/CapturasPorDiaGrafica', [InfoCapturaController::class , 'CapturasPorDiaGraficaAPI'] );
+$router->post('/API/mapas/infoCapturas/GraficaTrimestral', [InfoCapturaController::class , 'GraficaTrimestralAPI'] );
+$router->post('/API/mapas/infoCapturas/GraficaTrimestralGeneral', [InfoCapturaController::class , 'GraficaTrimestralGeneralAPI'] );
 
 $router->post('/API/incautacion/guardar', [IncautacionController::class, 'guardar']);
 $router->post('/API/incautacion/modificar', [IncautacionController::class, 'modificar']);
