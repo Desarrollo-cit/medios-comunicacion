@@ -4,12 +4,14 @@ use MVC\Router;
 use Model\Usuarios;
 class usuariosController{
     public static function index(Router $router){
+        hasPermission(['AMC_ADMIN']);
+
         $router->render('usuarios/index',[]);
     }
 // Inicio de la funcion guardar usuarios
     public static function guardarAPI(){
         getHeadersApi();
-
+        hasPermissionApi(['AMC_ADMIN']);
         try {
             // $_POST["desc"] = strtoupper($_POST["desc"]);
             // echo json_encode($_POST);
@@ -61,6 +63,7 @@ class usuariosController{
     // inicio de la funcion
     public static function buscarApi(){
         getHeadersApi();
+        hasPermissionApi(['AMC_ADMIN']);
         // echo json_encode("hola");
         //     exit;
         $usuarios = Usuarios::where('situacion', '0','>');
@@ -69,6 +72,7 @@ class usuariosController{
 
     public static function modificarAPI(){
         getHeadersApi();
+        hasPermissionApi(['AMC_ADMIN']);
        try {
             // $_POST["desc"] = strtoupper($_POST["desc"]);
             $usuarios = new Usuarios($_POST);
@@ -110,6 +114,7 @@ class usuariosController{
 
     public static function eliminarAPI(){
         getHeadersApi();
+        hasPermissionApi(['AMC_ADMIN']);
         $_POST['situacion'] = 0;
         $usuarios = new Usuarios($_POST);
         
@@ -130,7 +135,7 @@ class usuariosController{
 
     public static function cambioSituacionAPI(){
         getHeadersApi();
-        
+        hasPermissionApi(['AMC_ADMIN']);
 
     if ($_POST['situacion'] == 1){
         $_POST['situacion'] = 2;

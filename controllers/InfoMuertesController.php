@@ -16,6 +16,7 @@ class InfoMuertesController
 
     public static function index(Router $router)
     {
+        hasPermission(['AMC_ADMIN']);
         $capturas = static::cantidadCapturas();
         $mujeres = static::mujeres();
         $hombres = static::hombres();
@@ -37,7 +38,7 @@ class InfoMuertesController
 
     protected static function cantidadCapturas($fecha1 = "", $fecha2 = "")
     {
-
+        hasPermission(['AMC_ADMIN']);
 
         $sql = " SELECT  count (*) as cantidad from amc_per_asesinadas inner join amc_topico on amc_per_asesinadas.topico = amc_topico.id  where   amc_topico.situacion = 1 and amc_per_asesinadas.situacion >0 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user)";
 
@@ -63,7 +64,7 @@ class InfoMuertesController
 
     protected static function delitoIncurrente($fecha1 = "", $fecha2 = "")
     {
-
+        hasPermission(['AMC_ADMIN']);
 
         $sql = "SELECT first 1  amc_per_asesinadas.situacion as delito, count(*) as cantidad from amc_per_asesinadas 
         inner join amc_topico on amc_per_asesinadas.topico = amc_topico.id   
@@ -126,6 +127,7 @@ class InfoMuertesController
 
     protected static function mujeres($fecha1 = "", $fecha2 = "")
     {
+        hasPermission(['AMC_ADMIN']);
 
 
         $sql = "SELECT  count(*) as cantidad from amc_per_asesinadas inner join amc_topico on amc_per_asesinadas.topico = amc_topico.id 
@@ -152,6 +154,7 @@ class InfoMuertesController
 
     protected static function hombres($fecha1 = "", $fecha2 = "")
     {
+        hasPermission(['AMC_ADMIN']);
         $sql = "SELECT count(*) as cantidad1 from amc_per_asesinadas inner join amc_topico on amc_per_asesinadas.topico = amc_topico.id   where   amc_topico.situacion = 1 and sexo = 1 and amc_per_asesinadas.situacion > 0 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
 
 
@@ -176,6 +179,7 @@ class InfoMuertesController
 
     protected static function departamento_capturas($fecha1 = "", $fecha2 = "")
     {
+        hasPermission(['AMC_ADMIN']);
         $sql = "  SELECT FIRST 1 amc_topico.departamento as departamento, count(*) as cantidad FROM amc_topico 
         inner join amc_per_asesinadas on amc_topico.id = amc_per_asesinadas.topico 
         where year(amc_topico.fecha) = year(current) and amc_topico.situacion = 1
@@ -215,6 +219,7 @@ class InfoMuertesController
 
     public static function resumenAPI()
     {
+        hasPermission(['AMC_ADMIN']);
         // getHeadersApi();
         // echo json_encode($_POST) ;
 
@@ -241,6 +246,7 @@ class InfoMuertesController
 
     public static function listadoAPI()
     {
+        hasPermission(['AMC_ADMIN']);
         getHeadersApi();
 
 
@@ -325,7 +331,7 @@ class InfoMuertesController
     public static function modalAPI()
     {
         getHeadersApi();
-       
+        hasPermission(['AMC_ADMIN']);
         // echo json_encode($sql);
 
         try {
@@ -404,7 +410,7 @@ class InfoMuertesController
     public static function informacionModalAPI()
     {
         getHeadersApi();
-       
+        hasPermission(['AMC_ADMIN']);
         // echo json_encode($sql);
 
         try {
@@ -467,7 +473,7 @@ class InfoMuertesController
     public static function mapaCalorAPI()
     {
         getHeadersApi();
-       
+        hasPermission(['AMC_ADMIN']);
         // echo json_encode($sql);
 
         try {
@@ -514,6 +520,7 @@ class InfoMuertesController
     public static function coloresAPI()
     {
         getHeadersApi();
+        hasPermission(['AMC_ADMIN']);
         try {
             $sql = "SELECT * from amc_colores where topico = 2 and situacion = 1 order by nivel asc ";
             $info = Capturadas::fetchArray($sql);
@@ -529,6 +536,7 @@ class InfoMuertesController
     public static function mapaCalorDeptoAPI()
     {
         getHeadersApi();
+        hasPermission(['AMC_ADMIN']);
         try {
 
             $depto = $_POST['departamento'];
@@ -601,6 +609,7 @@ class InfoMuertesController
 
     public static function coloresAPI1()
     {
+        hasPermission(['AMC_ADMIN']);
 
         try {
             $sql = "SELECT * from amc_colores where topico = 2  ";
@@ -616,7 +625,7 @@ class InfoMuertesController
 
     public static function delitosApi()
     {
-
+        hasPermission(['AMC_ADMIN']);
         try {
             $sql = "SELECT * from amc_delito where situacion = 1  ";
             $info = Delito::fetchArray($sql);
@@ -630,6 +639,7 @@ class InfoMuertesController
 
     public static function mapaCalorPorDeptoGraficaAPI()
     {
+        hasPermission(['AMC_ADMIN']);
         try {
 
 
@@ -683,6 +693,7 @@ class InfoMuertesController
 
     public static function DelitosCantGraficaAPI()
     {
+        hasPermission(['AMC_ADMIN']);
         try {
 
 
@@ -727,6 +738,8 @@ class InfoMuertesController
     
     public static function CapturasPorDiaGraficaAPI()
     {
+        hasPermission(['AMC_ADMIN']);
+
         try {
 
 
@@ -759,6 +772,8 @@ class InfoMuertesController
 
     public static function GraficaTrimestralAPI()
     {
+        hasPermission(['AMC_ADMIN']);
+
         try {
 
             $mes = date("n");
@@ -841,6 +856,7 @@ class InfoMuertesController
 
     public static function GraficaTrimestralGeneralAPI()
     {
+        hasPermission(['AMC_ADMIN']);
         try {
 
 
@@ -946,6 +962,7 @@ class InfoMuertesController
     }
     public static function capturas_por_mes_y_delito($mes, $delito, $año)
     {
+        hasPermission(['AMC_ADMIN']);
 
         $sentencia = "select count(*) as  cantidad  from amc_per_asesinadas inner join amc_topico on amc_per_asesinadas.topico = amc_topico.id where month(amc_topico.fecha) = $mes  and amc_topico.situacion = 1 and amc_per_asesinadas.situacion = $delito  and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
         // if($año != ""){
@@ -961,6 +978,7 @@ class InfoMuertesController
 
     public static function DelitosDepartamentoGraficaAPI()
     {
+        hasPermission(['AMC_ADMIN']);
         try {
 
 

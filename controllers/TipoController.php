@@ -8,13 +8,17 @@ use MVC\Router;
 class TipoController{
 
     public static function index(Router $router)
-    {
+    {        
+        hasPermission(['AMC_ADMIN']);
+
+
         $router->render('tipo/index');
     }
 
 
     public static function guardarAPI(){
         getHeadersApi();
+        hasPermissionApi(['AMC_ADMIN']);
 
         try {
 
@@ -56,7 +60,11 @@ class TipoController{
         
     }
 
+
     public static function buscarApi(){
+        hasPermissionApi(['AMC_ADMIN']);
+
+
         try {
             getHeadersApi();
             $Tipo = Tipo::where('situacion', '1');
@@ -69,6 +77,7 @@ class TipoController{
 
     public static function modificarAPI(){
         getHeadersApi();
+        hasPermissionApi(['AMC_ADMIN']);
 
         try {
             $_POST["desc"] = strtoupper($_POST["desc"]);
@@ -100,6 +109,8 @@ class TipoController{
 
     public static function eliminarAPI(){
         getHeadersApi();
+        hasPermissionApi(['AMC_ADMIN']);
+
         $_POST['situacion'] = 0;
         $Tipo = new Tipo($_POST);
         

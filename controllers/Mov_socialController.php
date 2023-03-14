@@ -11,7 +11,7 @@ use Exception;
 class Mov_socialController{
     public static function guardar(){
         getHeadersApi();
-
+        hasPermission(['AMC_ADMIN', 'AMC_COMANDO']);
 
 
     
@@ -71,6 +71,7 @@ class Mov_socialController{
 
 public static function buscarMovimientoAPI(){
     getHeadersApi();
+    hasPermission(['AMC_ADMIN', 'AMC_COMANDO']);
     $topico = $_GET['topico'];
     // echo json_encode("hola");
     // exit;
@@ -110,6 +111,7 @@ public static function buscarMovimientoAPI(){
 
     public static function modificar(){
         getHeadersApi();
+        hasPermission(['AMC_ADMIN', 'AMC_COMANDO']);
 
  
         
@@ -171,7 +173,8 @@ public static function buscarMovimientoAPI(){
 
     public static function eliminarMovimiento(){
         getHeadersApi();
-        
+        hasPermission(['AMC_ADMIN', 'AMC_COMANDO']);
+
         
         try {
 

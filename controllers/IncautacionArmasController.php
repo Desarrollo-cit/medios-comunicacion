@@ -12,6 +12,7 @@ class IncautacionArmasController
 {
     public static function guardar(){
         getHeadersApi();
+        hasPermission(['AMC_ADMIN', 'AMC_COMANDO']);
 
         try {
 
@@ -81,6 +82,8 @@ class IncautacionArmasController
 
     public static function buscarIncautacionAPI(){
         getHeadersApi();
+        hasPermission(['AMC_ADMIN', 'AMC_COMANDO']);
+
         $topico = $_GET['topico'];
 
         try{
@@ -108,6 +111,8 @@ class IncautacionArmasController
 
     public static function modificar(){
         getHeadersApi();
+        hasPermission(['AMC_ADMIN', 'AMC_COMANDO']);
+
         // echo json_encode($_POST);
         // exit;
         
@@ -183,6 +188,7 @@ class IncautacionArmasController
 
     public static function eliminarArma(){
         getHeadersApi();
+        hasPermission(['AMC_ADMIN', 'AMC_COMANDO']);
         
         
         try {
@@ -215,7 +221,7 @@ class IncautacionArmasController
 
     public static function eliminarMunicion(){
         getHeadersApi();
-        
+        hasPermission(['AMC_ADMIN', 'AMC_COMANDO']);
         
         try {
             $municion = IncautacionMunicion::find($_POST['id']);
@@ -247,7 +253,7 @@ class IncautacionArmasController
 
     public static function eliminarIncautacion(){
         getHeadersApi();
-        
+        hasPermission(['AMC_ADMIN', 'AMC_COMANDO']);
         
         try {
 
