@@ -1,6 +1,6 @@
 <div class="row text-center">
     <div class="col">
-        <h1>Tipo de Fuentes</h1> 
+        <h1>Tipo de Fuentes</h1>  
     </div>
 </div>
 <div class="row justify-content-center">
