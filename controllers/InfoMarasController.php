@@ -40,7 +40,7 @@ class InfoMarasController
 
 
 
-    protected static   function maras_actividades($fecha1 = "", $fecha2 = "", $depto = "", $mara = "", $topico1 = "")
+    protected static function maras_actividades($fecha1 = "", $fecha2 = "", $depto = "", $mara = "", $topico1 = "")
     {
 
 
@@ -982,7 +982,7 @@ class InfoMarasController
         }
     }
 
-    function departamental_grafica($fecha1 , $fecha2, $depto, $mara, $topico){
+    public static function departamental_grafica($fecha1 , $fecha2, $depto, $mara, $topico){
 
 
         return static::maras_actividades($fecha1 , $fecha2, $depto, $mara, $topico);
@@ -1283,7 +1283,7 @@ class InfoMarasController
         return $result;
     }
 
-    function ActividadesMara18_por_mes_y_delito($mes, $topico, $año)
+    public static function ActividadesMara18_por_mes_y_delito($mes, $topico, $año)
     {
 
         $sentencia = "SELECT count(*) as  cantidad  from amc_topico  where year(amc_topico.fecha) = $año and month(amc_topico.fecha) = $mes  and amc_topico.situacion = 1 and amc_topico.situacion = 1 and amc_topico.tipo = $topico and amc_topico.actividad = 1  and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) " ;
@@ -1294,7 +1294,7 @@ class InfoMarasController
 
 
 
-    function ActividadesSalvatrucha_por_mes_y_delito($mes, $topico, $año)
+    public static function ActividadesSalvatrucha_por_mes_y_delito($mes, $topico, $año)
     {
 
         $sentencia = "SELECT count(*) as  cantidad  from amc_topico  where year(amc_topico.fecha) = $año and month(amc_topico.fecha) = $mes  and amc_topico.situacion = 1 and amc_topico.situacion = 1 and amc_topico.tipo = $topico and amc_topico.actividad = 5  and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";

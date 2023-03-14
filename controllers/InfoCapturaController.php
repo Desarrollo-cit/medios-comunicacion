@@ -856,7 +856,7 @@ class InfoCapturaController
         }
     }
 
-    function capturas_por_mes_y_delito($mes, $delito, $año)
+    public static function capturas_por_mes_y_delito($mes, $delito, $año)
     {
 
         $sentencia = "SELECT count(*) as  cantidad  from amc_per_capturadas inner join amc_topico on amc_per_capturadas.topico = amc_topico.id where  month(amc_topico.fecha) = $mes  and amc_topico.situacion = 1 and amc_per_capturadas.situacion = 1 and amc_per_capturadas.delito = $delito AND year(amc_topico.fecha) = $año and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";

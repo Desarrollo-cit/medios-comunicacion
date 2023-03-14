@@ -60,7 +60,7 @@ class InfoDesastresController
         return $result;
     }
 
-    static public static function coloresAPI()
+    static public function coloresAPI()
     {
         getHeadersApi();
         try {
@@ -72,7 +72,7 @@ class InfoDesastresController
         }
     }
 
-    static public static function coloresAPI1()
+    static public function coloresAPI1()
     {
 
         try {
@@ -881,7 +881,7 @@ class InfoDesastresController
         }
     }
 
-    function departamental_grafica( $fecha1, $fecha2, $depto, $fenomeno)
+    public static function departamental_grafica( $fecha1, $fecha2, $depto, $fenomeno)
     {
 
       
@@ -964,7 +964,7 @@ class InfoDesastresController
         }
     }
     
-    function DesastresCantGraficaAPI(){
+    public static function DesastresCantGraficaAPI(){
         getHeadersApi();
 
 
@@ -1010,7 +1010,7 @@ class InfoDesastresController
 
 
     
-    function DrogasDepartamentoGraficaAPI(){
+    public static function DrogasDepartamentoGraficaAPI(){
         
 
         $fecha1 = str_replace('T', ' ', $_POST['fecha_grafica']);
@@ -1134,7 +1134,7 @@ class InfoDesastresController
     }
 
     
-    function incautaciones_por_mes_y_droga($mes, $droga, $años)
+    public static function incautaciones_por_mes_y_droga($mes, $droga, $años)
     {
 
         $sentencia = "SELECT sum(cantidad) as  cantidad  from amc_incautacion_droga inner join amc_topico on amc_incautacion_droga.topico = amc_topico.id where year(amc_topico.fecha) = $años and month(amc_topico.fecha) = $mes  and amc_topico.situacion = 1 and amc_incautacion_droga.situacion = 1 and amc_incautacion_droga.tipo_droga = $droga";
@@ -1151,7 +1151,7 @@ class InfoDesastresController
         return $valor;
     }
    
-    function incautacionesmatas_por_mes_y_droga($mes, $droga, $años)
+    public static function incautacionesmatas_por_mes_y_droga($mes, $droga, $años)
     {
        
        
