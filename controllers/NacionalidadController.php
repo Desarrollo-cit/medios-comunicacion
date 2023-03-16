@@ -78,11 +78,7 @@ class NacionalidadController{
 
        
     }
-    public static function buscarApi(){
-        getHeadersApi();
-        $nacionalidad = Nacionalidad::where('situacion', '0','>');
-        echo json_encode($nacionalidad);
-    }
+
     public static function modificarAPI(){
         getHeadersApi();
         hasPermissionApi(['AMC_ADMIN']);

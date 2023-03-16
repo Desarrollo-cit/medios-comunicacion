@@ -55,16 +55,6 @@ class OrganizacionController{
         }
         
     }
-    public static function buscarApi(){
-        try{
-        getHeadersApi();
-        $Organizacion = Organizacion::where('situacion', '0','>');
-        echo json_encode($Organizacion);
-    } catch(Exception $e){
-        echo json_encode(["error"=>$e->getMessage()]);
-    }
-    }
-
 
 
     public static function buscarApi(){
