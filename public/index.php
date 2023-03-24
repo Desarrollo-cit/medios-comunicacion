@@ -46,6 +46,8 @@ use Controllers\InfoDinero_y_armasController;
 use Controllers\InfoMigrantesController;
 use Controllers\FuentesController;
 
+use Controllers\Actividad_vinculadaController;
+
 
 $router = new Router();
 $router->setBaseURL('/medios-comunicacion');
@@ -363,6 +365,16 @@ $router->post('/API/Fuentes/modificar', [FuentesController::class, 'modificarAPI
 $router->post('/API/Fuentes/eliminar', [FuentesController::class, 'eliminarAPI'] );
 $router->post('/API/Fuentes/situacion', [FuentesController::class, 'cambioSituacionAPI'] );
 $router->post('/API/Fuentes/estado', [FuentesController::class, 'cambioestadoAPI'] );
+
+/////Actividad_vinculada
+$router->get('/Actividad_vinculada', [Actividad_vinculadaController::class , 'index']);
+$router->post('/API/Actividad_vinculada/guardar', [Actividad_vinculadaController::class, 'guardarAPI'] );
+$router->get('/API/Actividad_vinculada/buscar', [Actividad_vinculadaController::class, 'buscarAPI'] );
+$router->post('/API/Actividad_vinculada/modificar', [Actividad_vinculadaController::class, 'modificarAPI'] );
+$router->post('/API/Actividad_vinculada/eliminar', [Actividad_vinculadaController::class, 'eliminarAPI'] );
+$router->post('/API/Actividad_vinculada/cambiarSituacion', [Actividad_vinculadaController::class, 'cambioSituacionAPI'] );
+
+
 
 // Comprueba y valida las rutas, que existan y les asigna las funciones del Controlador
 $router->comprobarRutas();

@@ -76,6 +76,11 @@
 
                                 <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/Fuentes"><i class="ms-lg-0 ms-2 bi bi-arrows-move me-2"></i>Fuentes</a>
                             </li>
+
+                            <li>
+
+                                <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/Actividad_vinculada"><i class="ms-lg-0 ms-2 bi bi-arrows-move me-2"></i>Actividades Vinculadas</a>
+                            </li>
                             
 
                         

@@ -26,6 +26,7 @@ module.exports = {
     'js/mapas/infoDesastres' : './src/js/mapas/infoDesastres.js',
     'js/usuarios/index' : './src/js/usuarios/index.js',
     'js/Fuentes/index' : './src/js/Fuentes/index.js',
+    'js/actividad_vinculada/index' : './src/js/actividad_vinculada/index.js',
 
 
     
