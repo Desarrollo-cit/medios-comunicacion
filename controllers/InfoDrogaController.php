@@ -51,7 +51,7 @@ class InfoDrogaController
 
     static function  drogas_tipo1()
     {
-        hasPermission(['AMC_ADMIN']);
+        hasPermissionApi(['AMC_ADMIN']);
 
         $sentencia = "SELECT * from amc_drogas where situacion = 1";
         $result = Droga::fetchArray($sentencia);
@@ -82,7 +82,7 @@ class InfoDrogaController
 
     static public function coloresAPI1()
     {
-        hasPermission(['AMC_ADMIN']);
+        hasPermissionApi(['AMC_ADMIN']);
 
         try {
             $sql = "SELECT * from amc_colores where topico = 4  ";
@@ -569,7 +569,7 @@ class InfoDrogaController
     public static function modalAPI()
     {
         getHeadersApi();
-        hasPermission(['AMC_ADMIN', 'AMC_COMANDO']);
+        hasPermissionApi(['AMC_ADMIN', 'AMC_COMANDO']);
 
 
         // echo json_encode($sql);
@@ -645,7 +645,7 @@ class InfoDrogaController
     public static function informacionModalAPI()
     {
         getHeadersApi();
-        hasPermission(['AMC_ADMIN', 'AMC_COMANDO']);
+        hasPermissionApi(['AMC_ADMIN', 'AMC_COMANDO']);
 
 
         // echo json_encode($sql);
@@ -673,7 +673,7 @@ class InfoDrogaController
     public static function informacionModalAPI1()
     {
         getHeadersApi();
-        hasPermission(['AMC_ADMIN', 'AMC_COMANDO']);
+        hasPermissionApi(['AMC_ADMIN', 'AMC_COMANDO']);
 
 
         // echo json_encode($sql);
@@ -701,7 +701,7 @@ class InfoDrogaController
     public static function informacionPersonasAPI()
     {
         getHeadersApi();
-        hasPermission(['AMC_ADMIN', 'AMC_COMANDO']);
+        hasPermissionApi(['AMC_ADMIN', 'AMC_COMANDO']);
 
 
         // echo json_encode($sql);
@@ -760,7 +760,7 @@ class InfoDrogaController
     public static function distanciaPistaAPI()
     {
         getHeadersApi();
-        hasPermission(['AMC_ADMIN', 'AMC_COMANDO']);
+        hasPermissionApi(['AMC_ADMIN', 'AMC_COMANDO']);
 
 
         // echo json_encode($sql);
@@ -787,7 +787,7 @@ class InfoDrogaController
     public static function mapaCalorAPI()
     {
         getHeadersApi();
-        hasPermission(['AMC_ADMIN', 'AMC_COMANDO']);
+        hasPermissionApi(['AMC_ADMIN', 'AMC_COMANDO']);
 
 
         // echo json_encode($sql);
@@ -849,7 +849,7 @@ class InfoDrogaController
     public static function mapaCalorDeptoAPI()
     {
         getHeadersApi();
-        hasPermission(['AMC_ADMIN', 'AMC_COMANDO']);
+        hasPermissionApi(['AMC_ADMIN', 'AMC_COMANDO']);
 
         try {
 
@@ -877,7 +877,7 @@ class InfoDrogaController
 
     public static function departamental_grafica($mes, $fecha1, $fecha2, $depto, $droga)
     {
-      hasPermission(['AMC_ADMIN', 'AMC_COMANDO']);
+      hasPermissionApi(['AMC_ADMIN', 'AMC_COMANDO']);
 
 
         if ($mes == 13) {
@@ -892,7 +892,7 @@ class InfoDrogaController
     public static function mapaCalorPorDeptoGraficaAPI()
     {
 
-          hasPermission(['AMC_ADMIN', 'AMC_COMANDO']);
+          hasPermissionApi(['AMC_ADMIN', 'AMC_COMANDO']);
 
         try {
 
@@ -971,7 +971,7 @@ class InfoDrogaController
     }
     public static function mapaCalorPorDeptoPistasAPI()
     {
-        hasPermission(['AMC_ADMIN', 'AMC_COMANDO']);
+        hasPermissionApi(['AMC_ADMIN', 'AMC_COMANDO']);
 
         $fecha1 = str_replace('T', ' ', $_POST['fecha_mapa']);
         $fecha2 = str_replace('T', ' ', $_POST['fecha2']);
@@ -999,7 +999,7 @@ class InfoDrogaController
 
 
     public static function DrogasCantGraficaAPI(){
-        hasPermission(['AMC_ADMIN', 'AMC_COMANDO']);
+        hasPermissionApi(['AMC_ADMIN', 'AMC_COMANDO']);
         
 
 
@@ -1082,7 +1082,7 @@ class InfoDrogaController
     
     public static function DrogasDepartamentoGraficaAPI(){
         
-        hasPermission(['AMC_ADMIN', 'AMC_COMANDO']);
+        hasPermissionApi(['AMC_ADMIN', 'AMC_COMANDO']);
 
         $fecha1 = str_replace('T', ' ', $_POST['fecha_grafica']);
             $fecha2 = str_replace('T', ' ', $_POST['fecha_grafica2']);
@@ -1108,7 +1108,7 @@ class InfoDrogaController
 
     public static function IncautacionesPorDiaGraficaAPI()
     {
-        hasPermission(['AMC_ADMIN', 'AMC_COMANDO']);
+        hasPermissionApi(['AMC_ADMIN', 'AMC_COMANDO']);
 
         try {
 
@@ -1175,7 +1175,7 @@ class InfoDrogaController
 
 
     public static function MatasPorDiaGraficaAPI(){
-     hasPermission(['AMC_ADMIN', 'AMC_COMANDO']);
+     hasPermissionApi(['AMC_ADMIN', 'AMC_COMANDO']);
 
         try {
 
@@ -1211,7 +1211,7 @@ class InfoDrogaController
     
     public static function incautaciones_por_mes_y_droga($mes, $droga, $años)
     {
-        hasPermission(['AMC_ADMIN', 'AMC_COMANDO']);
+        hasPermissionApi(['AMC_ADMIN', 'AMC_COMANDO']);
 
         $sentencia = "SELECT sum(cantidad) as  cantidad  from amc_incautacion_droga inner join amc_topico on amc_incautacion_droga.topico = amc_topico.id where year(amc_topico.fecha) = $años and month(amc_topico.fecha) = $mes  and amc_topico.situacion = 1 and amc_incautacion_droga.situacion = 1 and amc_incautacion_droga.tipo_droga = $droga and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
         $result = Droga::fetchArray($sentencia);
@@ -1229,7 +1229,7 @@ class InfoDrogaController
    
     public static function incautacionesmatas_por_mes_y_droga($mes, $droga, $años)
     {
-        hasPermission(['AMC_ADMIN', 'AMC_COMANDO']);
+        hasPermissionApi(['AMC_ADMIN', 'AMC_COMANDO']);
 
        
         $sentencia = "SELECT sum(cantidad) as  cantidad  from amc_incautacion_droga inner join amc_topico on amc_incautacion_droga.topico = amc_topico.id where year(amc_topico.fecha) = $años and  month(amc_topico.fecha) = $mes  and amc_topico.situacion = 1 and amc_incautacion_droga.situacion = 1 and amc_incautacion_droga.tip_droga_plantacion = $droga and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
@@ -1249,7 +1249,7 @@ class InfoDrogaController
    
 
     public static function GraficatrimestralKilosAPI(){
-       hasPermission(['AMC_ADMIN', 'AMC_COMANDO']);
+       hasPermissionApi(['AMC_ADMIN', 'AMC_COMANDO']);
 
         try {
 
@@ -1315,7 +1315,7 @@ class InfoDrogaController
    
 
     public static function GraficatrimestralMatasAPI(){
-      hasPermission(['AMC_ADMIN', 'AMC_COMANDO']);
+      hasPermissionApi(['AMC_ADMIN', 'AMC_COMANDO']);
 
         try {
 
@@ -1382,7 +1382,7 @@ class InfoDrogaController
 
 
     public static function GraficatrimestralPistasAPI(){
-       hasPermission(['AMC_ADMIN', 'AMC_COMANDO']);
+       hasPermissionApi(['AMC_ADMIN', 'AMC_COMANDO']);
 
         try {
 
@@ -1445,7 +1445,7 @@ class InfoDrogaController
 
 
     public static function GraficaTrimestralIncautacionesGeneralAPI(){
-        hasPermission(['AMC_ADMIN', 'AMC_COMANDO']);
+        hasPermissionApi(['AMC_ADMIN', 'AMC_COMANDO']);
 
         try {
 

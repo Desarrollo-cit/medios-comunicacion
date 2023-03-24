@@ -40,7 +40,7 @@ class InfoCapturaController
     protected static function cantidadCapturas($fecha1 = "", $fecha2 = "")
     {
 
-        hasPermission(['AMC_ADMIN']);
+        hasPermissionApi(['AMC_ADMIN']);
 
         $sql = "SELECT  count (*) as cantidad from amc_per_capturadas inner join amc_topico on amc_per_capturadas.topico = amc_topico.id  where  amc_topico.situacion = 1 and amc_per_capturadas.situacion = 1  and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
 
@@ -66,7 +66,7 @@ class InfoCapturaController
 
     protected static function delitoIncurrente($fecha1 = "", $fecha2 = "")
     {
-        hasPermission(['AMC_ADMIN']);
+        hasPermissionApi(['AMC_ADMIN']);
 
 
         $sql = "SELECT FIRST 1 amc_delito.desc, count(*) as cantidad FROM amc_per_capturadas inner join amc_topico on amc_per_capturadas.topico = amc_topico.id inner join amc_delito on amc_per_capturadas.delito = amc_delito.id   where     amc_topico.situacion = 1 and amc_per_capturadas.situacion = 1  and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
@@ -96,7 +96,7 @@ class InfoCapturaController
 
     protected static function mujeres($fecha1 = "", $fecha2 = "")
     {
-        hasPermission(['AMC_ADMIN']);
+        hasPermissionApi(['AMC_ADMIN']);
 
 
         $sql = "SELECT  count(*) as cantidad from amc_per_capturadas inner join amc_topico on amc_per_capturadas.topico = amc_topico.id   where   amc_topico.situacion = 1 and amc_per_capturadas.sexo = 2 and amc_per_capturadas.situacion = 1  and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
@@ -121,7 +121,7 @@ class InfoCapturaController
 
     protected static function hombres($fecha1 = "", $fecha2 = "")
     {
-        hasPermission(['AMC_ADMIN']);
+        hasPermissionApi(['AMC_ADMIN']);
 
         $sql = "SELECT count(*) as cantidad1 from amc_per_capturadas inner join amc_topico on amc_per_capturadas.topico = amc_topico.id   where  amc_topico.situacion = 1 and sexo = 1 and amc_per_capturadas.situacion = 1  and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
 
@@ -147,7 +147,7 @@ class InfoCapturaController
 
     protected static function departamento_capturas($fecha1 = "", $fecha2 = "")
     {
-        hasPermission(['AMC_ADMIN']);
+        hasPermissionApi(['AMC_ADMIN']);
 
         $sql = "SELECT FIRST 1 amc_topico.departamento as departamento, count(*) as cantidad FROM amc_topico inner join amc_per_capturadas on amc_topico.id = amc_per_capturadas.topico where  amc_topico.situacion = 1  and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
         if ($fecha1 != '' && $fecha2 != '') {
@@ -185,7 +185,7 @@ class InfoCapturaController
 
     public static function resumenAPI()
     {
-        hasPermission(['AMC_ADMIN']);
+        hasPermissionApi(['AMC_ADMIN']);
 
         // getHeadersApi();
         // echo json_encode($_POST) ;
@@ -214,7 +214,7 @@ class InfoCapturaController
     public static function listadoAPI()
     {
         getHeadersApi();
-        hasPermission(['AMC_ADMIN']);
+        hasPermissionApi(['AMC_ADMIN']);
 
 
         try {
@@ -280,7 +280,7 @@ class InfoCapturaController
     public static function modalAPI()
     {
         getHeadersApi();
-        hasPermission(['AMC_ADMIN']);
+        hasPermissionApi(['AMC_ADMIN']);
 
        
         
@@ -359,7 +359,7 @@ class InfoCapturaController
     public static function informacionModalAPI()
     {
         getHeadersApi();
-        hasPermission(['AMC_ADMIN']);
+        hasPermissionApi(['AMC_ADMIN']);
         // echo json_encode($sql);
 
         try {
@@ -419,7 +419,7 @@ class InfoCapturaController
     public static function informacionModalAPI1()
     {
         getHeadersApi();
-        hasPermission(['AMC_ADMIN']);
+        hasPermissionApi(['AMC_ADMIN']);
 
         // echo json_encode($sql);
 
@@ -444,7 +444,7 @@ class InfoCapturaController
     public static function mapaCalorAPI()
     {
         getHeadersApi();
-        hasPermission(['AMC_ADMIN']);
+        hasPermissionApi(['AMC_ADMIN']);
 
         // echo json_encode($sql);
 
@@ -490,7 +490,7 @@ class InfoCapturaController
     public static function coloresAPI()
     {
         getHeadersApi();
-        hasPermission(['AMC_ADMIN']);
+        hasPermissionApi(['AMC_ADMIN']);
 
         try {
             $sql = "SELECT * from amc_colores where topico = 1 and situacion = 1 order by nivel asc ";
@@ -505,7 +505,7 @@ class InfoCapturaController
     public static function mapaCalorDeptoAPI()
     {
         getHeadersApi();
-        hasPermission(['AMC_ADMIN']);
+        hasPermissionApi(['AMC_ADMIN']);
 
         try {
 
@@ -573,7 +573,7 @@ class InfoCapturaController
 
     public static function mapaCalorPorDeptoGraficaAPI()
     {
-        hasPermission(['AMC_ADMIN']);
+        hasPermissionApi(['AMC_ADMIN']);
 
         try {
 
@@ -626,7 +626,7 @@ class InfoCapturaController
 
     public static function DelitosCantGraficaAPI()
     {
-        hasPermission(['AMC_ADMIN']);
+        hasPermissionApi(['AMC_ADMIN']);
 
         try {
 
@@ -679,7 +679,7 @@ class InfoCapturaController
 
     public static function CapturasPorDiaGraficaAPI()
     {
-        hasPermission(['AMC_ADMIN']);
+        hasPermissionApi(['AMC_ADMIN']);
 
         try {
 
@@ -713,7 +713,7 @@ class InfoCapturaController
 
     public static function GraficaTrimestralAPI()
     {
-        hasPermission(['AMC_ADMIN']);
+        hasPermissionApi(['AMC_ADMIN']);
 
         try {
 
@@ -779,7 +779,7 @@ class InfoCapturaController
 
     public static function GraficaTrimestralGeneralAPI()
     {
-        hasPermission(['AMC_ADMIN']);
+        hasPermissionApi(['AMC_ADMIN']);
 
         try {
 
@@ -887,7 +887,7 @@ class InfoCapturaController
 
     public static function capturas_por_mes_y_delito($mes, $delito, $año)
     {
-        hasPermission(['AMC_ADMIN']);
+        hasPermissionApi(['AMC_ADMIN']);
 
 
         $sentencia = "SELECT count(*) as  cantidad  from amc_per_capturadas inner join amc_topico on amc_per_capturadas.topico = amc_topico.id where  month(amc_topico.fecha) = $mes  and amc_topico.situacion = 1 and amc_per_capturadas.situacion = 1 and amc_per_capturadas.delito = $delito AND year(amc_topico.fecha) = $año and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
@@ -904,7 +904,7 @@ class InfoCapturaController
 
     public static function DelitosDepartamentoGraficaAPI()
     {
-        hasPermission(['AMC_ADMIN']);
+        hasPermissionApi(['AMC_ADMIN']);
 
         try {
 
@@ -971,7 +971,7 @@ class InfoCapturaController
 
     public static function coloresAPI1()
     {
-        hasPermission(['AMC_ADMIN']);
+        hasPermissionApi(['AMC_ADMIN']);
 
 
         try {
@@ -986,7 +986,7 @@ class InfoCapturaController
 
     public static function delitosApi()
     {
-        hasPermission(['AMC_ADMIN']);
+        hasPermissionApi(['AMC_ADMIN']);
 
 
         try {

@@ -1,7 +1,7 @@
 <?php
 
 namespace Controllers;
-
+use Exception;
 use Model\Fuentes;
 use MVC\Router;
 class FuentesController{

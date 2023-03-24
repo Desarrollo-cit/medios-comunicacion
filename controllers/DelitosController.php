@@ -1,7 +1,7 @@
 <?php
 
 namespace Controllers;
-
+use Exception;
 use Model\Delitos;
 use MVC\Router;
 class DelitosController{

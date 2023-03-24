@@ -85,7 +85,7 @@ $router->post('/API/calibres/eliminar', [CalibresController::class, 'eliminarAPI
 $router->post('/API/calibres/cambiarSituacion', [CalibresController::class, 'cambiarSituacionAPI'] );
 
 
-$router->get('-s', [DelitosController::class , 'index']);
+$router->get('/delitos', [DelitosController::class , 'index']);
 $router->post('/API/delitos/guardar', [DelitosController::class, 'guardarAPI'] );
 $router->get('/API/delitos/buscar', [DelitosController::class, 'buscarAPI'] );
 $router->post('/API/delitos/modificar', [DelitosController::class, 'modificarAPI'] );
@@ -156,7 +156,7 @@ $router->post('/API/asesinatos/guardar', [AsesinatosController::class, 'guardar'
 $router->post('/API/asesinatos/modificar', [AsesinatosController::class, 'modificar']);
 $router->get('/API/asesinatos/buscar', [AsesinatosController::class, 'buscarAsesinatosAPI']);
 $router->post('/API/asesinatos/asesinado/eliminar', [AsesinatosController::class, 'eliminarAsesinado']);
-$router->post('/API/asesinatos/eliminar', [AsesinatosController::class, 'eliminarAsesinato']);
+$router->post('/API/asesinatos/asesinado/eliminar', [AsesinatosController::class, 'eliminarAsesinato']);
 
 
 $router->post('/API/migrantes/guardar', [MigrantesController::class, 'guardar']);

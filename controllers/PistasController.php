@@ -11,7 +11,7 @@ use Model\Desastre_natural;
 class PistasController{
     public static function guardar(){
         getHeadersApi();
-        hasPermissionApi(['AMC_ADMIN']);
+        hasPermissionApi(['AMC_ADMIN', 'AMC_COMANDO']);
 
     
         try {
@@ -69,7 +69,7 @@ class PistasController{
 public static function buscarPistasAPI(){
 
     getHeadersApi();
-    hasPermissionApi(['AMC_ADMIN']);
+    hasPermissionApi(['AMC_ADMIN', 'AMC_COMANDO']);
     $topico = $_GET['topico'];
     // echo json_encode("hola");
     // exit;
@@ -109,7 +109,7 @@ public static function buscarPistasAPI(){
 
     public static function modificar(){
         getHeadersApi();
-        hasPermissionApi(['AMC_ADMIN']);
+        hasPermissionApi(['AMC_ADMIN', 'AMC_COMANDO']);
 
 
  
@@ -169,7 +169,7 @@ public static function buscarPistasAPI(){
 
     public static function eliminarPistas(){
         getHeadersApi();
-        hasPermissionApi(['AMC_ADMIN']);
+        hasPermissionApi(['AMC_ADMIN' , 'AMC_COMANDO']);
 
         
         
