@@ -10,7 +10,7 @@ class MonedaController{
     {
         hasPermission(['AMC_ADMIN']);
 
-        $router->render('Moneda/index');
+        $router->render('moneda/index');
     }
     public static function guardarAPI(){
         getHeadersApi();
