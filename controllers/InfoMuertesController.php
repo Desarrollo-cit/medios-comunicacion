@@ -38,7 +38,7 @@ class InfoMuertesController
 
     protected static function cantidadCapturas($fecha1 = "", $fecha2 = "")
     {
-        hasPermissionApi(['AMC_ADMIN']);
+        // hasPermissionApi(['AMC_ADMIN']);
 
         $sql = " SELECT  count (*) as cantidad from amc_per_asesinadas inner join amc_topico on amc_per_asesinadas.topico = amc_topico.id  where   amc_topico.situacion = 1 and amc_per_asesinadas.situacion >0 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user)";
 
@@ -64,7 +64,7 @@ class InfoMuertesController
 
     protected static function delitoIncurrente($fecha1 = "", $fecha2 = "")
     {
-        hasPermissionApi(['AMC_ADMIN']);
+        // hasPermissionApi(['AMC_ADMIN']);
 
         $sql = "SELECT first 1  amc_per_asesinadas.situacion as delito, count(*) as cantidad from amc_per_asesinadas 
         inner join amc_topico on amc_per_asesinadas.topico = amc_topico.id   
@@ -127,7 +127,7 @@ class InfoMuertesController
 
     protected static function mujeres($fecha1 = "", $fecha2 = "")
     {
-        hasPermissionApi(['AMC_ADMIN']);
+        // hasPermissionApi(['AMC_ADMIN']);
 
 
         $sql = "SELECT  count(*) as cantidad from amc_per_asesinadas inner join amc_topico on amc_per_asesinadas.topico = amc_topico.id 
@@ -154,7 +154,7 @@ class InfoMuertesController
 
     protected static function hombres($fecha1 = "", $fecha2 = "")
     {
-        hasPermissionApi(['AMC_ADMIN']);
+        // hasPermissionApi(['AMC_ADMIN']);
         $sql = "SELECT count(*) as cantidad1 from amc_per_asesinadas inner join amc_topico on amc_per_asesinadas.topico = amc_topico.id   where   amc_topico.situacion = 1 and sexo = 1 and amc_per_asesinadas.situacion > 0 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
 
 
@@ -179,7 +179,7 @@ class InfoMuertesController
 
     protected static function departamento_capturas($fecha1 = "", $fecha2 = "")
     {
-        hasPermissionApi(['AMC_ADMIN']);
+        // hasPermissionApi(['AMC_ADMIN']);
         $sql = "  SELECT FIRST 1 amc_topico.departamento as departamento, count(*) as cantidad FROM amc_topico 
         inner join amc_per_asesinadas on amc_topico.id = amc_per_asesinadas.topico 
         where year(amc_topico.fecha) = year(current) and amc_topico.situacion = 1
@@ -607,9 +607,9 @@ class InfoMuertesController
     }
 
 
-    public static function coloresAPI1()
+    protected static function coloresAPI1()
     {
-        hasPermissionApi(['AMC_ADMIN']);
+        // hasPermissionApi(['AMC_ADMIN']);
 
         try {
             $sql = "SELECT * from amc_colores where topico = 2  ";
@@ -623,9 +623,9 @@ class InfoMuertesController
     }
 
 
-    public static function delitosApi()
+    protected static function delitosApi()
     {
-        hasPermissionApi(['AMC_ADMIN']);
+        // hasPermissionApi(['AMC_ADMIN']);
         try {
             $sql = "SELECT * from amc_delito where situacion = 1  ";
             $info = Delito::fetchArray($sql);

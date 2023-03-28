@@ -44,7 +44,7 @@ class InfoMarasController
 
     protected static function maras_actividades($fecha1 = "", $fecha2 = "", $depto = "", $mara = "", $topico1 = "")
     {
-        hasPermissionApi(['AMC_ADMIN']);
+        // hasPermissionApi(['AMC_ADMIN']);
 
 
         $sql = "   SELECT count (*) as cantidad from amc_topico where amc_topico.situacion = 1  ";
@@ -91,7 +91,7 @@ class InfoMarasController
 
     protected static function marerosCapturados($fecha1 = "", $fecha2 = "", $depto = "")
     {
-        hasPermissionApi(['AMC_ADMIN']);
+        // hasPermissionApi(['AMC_ADMIN']);
 
 
         $sql = "   SELECT count (*) as cantidad from amc_per_capturadas inner join amc_topico on amc_per_capturadas.topico = amc_topico.id  where  amc_topico.situacion = 1 and amc_per_capturadas.vinculo in (1,2)  and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user)  ";
@@ -123,7 +123,7 @@ class InfoMarasController
 
     protected static  function capturas18($fecha1 = "", $fecha2 = "", $depto = "")
     {
-        hasPermissionApi(['AMC_ADMIN']);
+        // hasPermissionApi(['AMC_ADMIN']);
 
 
         $sql = "   SELECT count (*) as cantidad from amc_per_capturadas inner join amc_topico on amc_per_capturadas.topico = amc_topico.id  where  amc_topico.situacion = 1 and amc_per_capturadas.vinculo = 1  and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
@@ -160,7 +160,7 @@ class InfoMarasController
     protected static function capturasSalvatrucha($fecha1 = "", $fecha2 = "", $depto = "")
     {
 
-        hasPermissionApi(['AMC_ADMIN']);
+        // hasPermissionApi(['AMC_ADMIN']);
 
         $sql = "   SELECT count (*) as cantidad from amc_per_capturadas inner join amc_topico on amc_per_capturadas.topico = amc_topico.id  where  amc_topico.situacion = 1 and amc_per_capturadas.vinculo = 2  and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
 
@@ -193,7 +193,7 @@ class InfoMarasController
     protected static  function departamentoMasIncidenciaMaras($fecha1 = "", $fecha2 = "")
     {
 
-        hasPermissionApi(['AMC_ADMIN']);
+        // hasPermissionApi(['AMC_ADMIN']);
 
         $sql = "SELECT FIRST 1 amc_topico.departamento as departamento, count(*) as cantidad FROM amc_topico  where year(amc_topico.fecha) = year(current) and amc_topico.actividad in (1,5) and amc_topico.situacion = 1  and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
 
@@ -234,7 +234,7 @@ class InfoMarasController
 
     protected static function incidencia_mara($fecha1 = "", $fecha2 = "",  $depto = "", $tipo = "")
     {
-        hasPermissionApi(['AMC_ADMIN']);
+        // hasPermissionApi(['AMC_ADMIN']);
 
 
 
@@ -1309,7 +1309,7 @@ class InfoMarasController
     }
 
     protected static function tiposTopicos(){
-        hasPermissionApi(['AMC_ADMIN']);
+        // hasPermissionApi(['AMC_ADMIN']);
 
 
         $sql = "SELECT * from amc_tipo_topics where situacion = 1";
@@ -1397,9 +1397,9 @@ class InfoMarasController
     }
 
 
-    public static function coloresAPI1()
+    protected static function coloresAPI1()
     {
-        hasPermissionApi(['AMC_ADMIN']);
+        // hasPermissionApi(['AMC_ADMIN']);
 
         try {
             $sql = "SELECT * from amc_colores where topico = 11  ";

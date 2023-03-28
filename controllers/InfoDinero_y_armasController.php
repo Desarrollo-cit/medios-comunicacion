@@ -42,7 +42,7 @@ class InfoDinero_y_armasController
     {
 
 
-        hasPermissionApi(['AMC_ADMIN']);
+        // hasPermissionApi(['AMC_ADMIN']);
 
 
         $sql = "  SELECT count (*) as cantidad from amc_topico where amc_topico.situacion = 1 and amc_topico.tipo in (5,6)  and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
@@ -70,7 +70,7 @@ class InfoDinero_y_armasController
 
     protected static function total_dinero($fecha1 = "", $fecha2 = "", $depto = "")
     {
-        hasPermissionApi(['AMC_ADMIN']);
+        // hasPermissionApi(['AMC_ADMIN']);
 
         $sql = "  SELECT sum(conversion) as cantidad_din from amc_incautacion_dinero inner join amc_topico on amc_incautacion_dinero.topico = amc_topico.id  where   amc_topico.situacion = 1 and amc_incautacion_dinero.situacion = 1  and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
 
@@ -102,7 +102,7 @@ class InfoDinero_y_armasController
 
     protected static function total_armas($fecha1 = "", $fecha2 = "", $depto = "", $arma = "")
     {
-        hasPermissionApi(['AMC_ADMIN']);
+        // hasPermissionApi(['AMC_ADMIN']);
 
         $sql = "  SELECT sum(cantidad) as cantidad_arm from amc_detalle_arma inner join amc_topico on amc_detalle_arma.topico = amc_topico.id  where  amc_topico.situacion = 1 and amc_detalle_arma.situacion = 1 and amc_topico.tipo = 6 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
 
@@ -140,9 +140,9 @@ class InfoDinero_y_armasController
         return $result;
     }
 
-    public static function armas1()
+    protected static function armas1()
     {
-        hasPermissionApi(['AMC_ADMIN']);
+        // hasPermissionApi(['AMC_ADMIN']);
         $sql = "SELECT * from amc_tipo_armas where situacion = 1";
         $result = Muertes::fetchArray($sql);
         return $result;
@@ -154,7 +154,7 @@ class InfoDinero_y_armasController
     {
 
 
-        hasPermissionApi(['AMC_ADMIN']);
+        // hasPermissionApi(['AMC_ADMIN']);
         $sql = "  SELECT FIRST 1 amc_tipo_armas.desc as descripcion,  sum(amc_detalle_arma.cantidad) as cantidad, amc_calibre.desc as municion from amc_detalle_arma inner join amc_tipo_armas on amc_detalle_arma.tipo_arma = amc_tipo_armas.id inner join amc_calibre on amc_detalle_arma.calibre = amc_calibre.id inner join amc_topico on amc_detalle_arma.topico = amc_topico.id where  amc_detalle_arma.situacion = 1 and amc_topico.situacion = 1 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user)  ";
 
 
@@ -189,7 +189,7 @@ class InfoDinero_y_armasController
     protected static function departamento_con_mas_armas_incautadas($fecha1 = "", $fecha2 = "")
     {
 
-        hasPermissionApi(['AMC_ADMIN']);
+        // hasPermissionApi(['AMC_ADMIN']);
 
         $sql = "SELECT FIRST 1 amc_topico.departamento as departamento, sum(cantidad) as cantidad FROM amc_detalle_arma inner join amc_topico on amc_detalle_arma.topico = amc_topico.id  where   amc_topico.situacion = 1  and amc_topico.tipo= 6 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
 
@@ -614,9 +614,9 @@ class InfoDinero_y_armasController
     }
 
 
-    public static function coloresAPI1()
+    protected static function coloresAPI1()
     {
-hasPermissionApi(['AMC_ADMIN']);
+        // hasPermissionApi(['AMC_ADMIN']);
         try {
             $sql = "SELECT * from amc_colores where topico = 5  ";
             $info = Capturadas::fetchArray($sql);
@@ -627,9 +627,9 @@ hasPermissionApi(['AMC_ADMIN']);
     }
 
 
-    public static function delitosApi()
+    protected static function delitosApi()
     {
-        hasPermissionApi(['AMC_ADMIN']);
+        // hasPermissionApi(['AMC_ADMIN']);
         try {
             $sql = "SELECT * from amc_delito where situacion = 1  ";
             $info = Delito::fetchArray($sql);
