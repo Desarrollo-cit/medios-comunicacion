@@ -12,7 +12,7 @@ use MVC\Router;
 
 class InfoDesastresController
 {
-    public function index(Router $router)
+    public static function index(Router $router)
     {   
         hasPermission(['AMC_ADMIN']);
 
@@ -54,7 +54,7 @@ class InfoDesastresController
         ]);
     }
 
-    static function  fenomeno_natural()
+    public static function  fenomeno_natural()
     {
 
         hasPermissionApi(['AMC_ADMIN']);
@@ -64,7 +64,7 @@ class InfoDesastresController
         return $result;
     }
 
-    static public function coloresAPI()
+    public static function coloresAPI()
     {
         getHeadersApi();
         hasPermissionApi(['AMC_ADMIN']);
@@ -78,7 +78,7 @@ class InfoDesastresController
         }
     }
 
-    static public function coloresAPI1()
+    public static function coloresAPI1()
     {
         hasPermissionApi(['AMC_ADMIN']);
 
@@ -121,7 +121,7 @@ class InfoDesastresController
     }
 
 
-    static function totalPersonasEvacuadas($fecha1 = "", $fecha2 = "",  $fenomeno = "", $depto="")
+    public static function totalPersonasEvacuadas($fecha1 = "", $fecha2 = "",  $fenomeno = "", $depto="")
     {
 
         hasPermissionApi(['AMC_ADMIN']);
@@ -165,7 +165,7 @@ class InfoDesastresController
     }
 
 
-    static function totalalbergues($fecha1 = "", $fecha2 = "",  $fenomeno = "", $depto="")
+    public static function totalalbergues($fecha1 = "", $fecha2 = "",  $fenomeno = "", $depto="")
     {
         hasPermissionApi(['AMC_ADMIN']);
 
@@ -209,7 +209,7 @@ class InfoDesastresController
     }
 
 
-    static function totalPersonasFallecida($fecha1 = "", $fecha2 = "",  $fenomeno = "", $depto="")
+    public static function totalPersonasFallecida($fecha1 = "", $fecha2 = "",  $fenomeno = "", $depto="")
     {
         hasPermissionApi(['AMC_ADMIN']);
 
@@ -250,7 +250,7 @@ class InfoDesastresController
     }
 
 
-    static function IncidenciaDesastre($fecha1 = "", $fecha2 = "", $depto="")
+    public static function IncidenciaDesastre($fecha1 = "", $fecha2 = "", $depto="")
     {
 
         hasPermissionApi(['AMC_ADMIN']);
@@ -289,7 +289,7 @@ class InfoDesastresController
         }
     }
 
-    static function totalPersonaAfectada($fecha1 = "", $fecha2 = "",   $fenomeno = "" , $depto ="")
+    public static function totalPersonaAfectada($fecha1 = "", $fecha2 = "",   $fenomeno = "" , $depto ="")
     {
         hasPermissionApi(['AMC_ADMIN']);
 
@@ -330,7 +330,7 @@ class InfoDesastresController
     }
 
   
-    static function EstructuraColapsada($fecha1 = "", $fecha2 = "",  $fenomeno = "", $depto="")
+    public static function EstructuraColapsada($fecha1 = "", $fecha2 = "",  $fenomeno = "", $depto="")
     {
         hasPermissionApi(['AMC_ADMIN']);
 
@@ -369,7 +369,7 @@ class InfoDesastresController
         }
     }
 
-    static function Inundaciones($fecha1 = "", $fecha2 = "",  $fenomeno = "", $depto ="")
+    public static function Inundaciones($fecha1 = "", $fecha2 = "",  $fenomeno = "", $depto ="")
     {
         hasPermissionApi(['AMC_ADMIN']);
 
@@ -410,7 +410,7 @@ class InfoDesastresController
     }
 
 
-    static function Derrumbes($fecha1 = "", $fecha2 = "",  $fenomeno = "", $depto ="")
+    public static function Derrumbes($fecha1 = "", $fecha2 = "",  $fenomeno = "", $depto ="")
     {
         hasPermissionApi(['AMC_ADMIN']);
 
@@ -450,7 +450,7 @@ class InfoDesastresController
     }
 
 
-    static function CarreterasyPuentes($fecha1 = "", $fecha2 = "",  $fenomeno = "", $depto ="")
+    public static function CarreterasyPuentes($fecha1 = "", $fecha2 = "",  $fenomeno = "", $depto ="")
     {
 
         hasPermissionApi(['AMC_ADMIN']);
@@ -491,7 +491,7 @@ class InfoDesastresController
     }
 
 
-    static function hectareasQuemadas($fecha1 = "", $fecha2 = "",  $fenomeno = "", $depto ="")
+    public static function hectareasQuemadas($fecha1 = "", $fecha2 = "",  $fenomeno = "", $depto ="")
     {
 
         hasPermissionApi(['AMC_ADMIN']);
@@ -531,7 +531,7 @@ class InfoDesastresController
     }
 
 
-    static function DesbordamientosRios($fecha1 = "", $fecha2 = "",  $fenomeno = "", $depto ="")
+    public static function DesbordamientosRios($fecha1 = "", $fecha2 = "",  $fenomeno = "", $depto ="")
     {
         hasPermissionApi(['AMC_ADMIN']);
 
@@ -570,7 +570,7 @@ class InfoDesastresController
         }
     }
 
-    static function departamentoAfectado($fecha1 = "", $fecha2 = "",  $fenomeno = "", $depto ="")
+    public static function departamentoAfectado($fecha1 = "", $fecha2 = "",  $fenomeno = "", $depto ="")
     {
 
         hasPermissionApi(['AMC_ADMIN']);
@@ -821,7 +821,7 @@ class InfoDesastresController
         }
     }
 
-   public function informacionModalAPI1()
+   public static function informacionModalAPI1()
     {
         getHeadersApi();
         hasPermissionApi(['AMC_ADMIN']);
@@ -846,7 +846,7 @@ class InfoDesastresController
         }
     }
 
-  public function informacionPersonasAPI()
+  public static function informacionPersonasAPI()
     {
         getHeadersApi();
         hasPermissionApi(['AMC_ADMIN']);
@@ -1074,7 +1074,7 @@ class InfoDesastresController
         }
     }
 
-    function mapaCalorPorDeptoPistasAPI()
+    public static function mapaCalorPorDeptoPistasAPI()
     {
         hasPermissionApi(['AMC_ADMIN']);
 
