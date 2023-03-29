@@ -15,7 +15,7 @@ class Actividad_vinculadaController{
     // }
 
     public static function index(Router $router){
-        $router->render('Actividad_vinculada/index');
+        $router->render('actividad_vinculada/index');
 
     }
 
