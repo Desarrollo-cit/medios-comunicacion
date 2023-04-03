@@ -22,7 +22,9 @@ date_default_timezone_set('America/Guatemala');
 setlocale(LC_TIME, "es_ES");
 
 $fechaLarga = strftime(" %B ");
+
 $capturas = $capturas[0]['cantidad'];
+
 $delito = $delito[0]['desc'];
 $mujeres = $mujeres[0]['cantidad'];
 $hombres = $hombres[0]['cantidad1'];
@@ -692,97 +694,123 @@ $depto = $depto[0]['desc'];
             </div>
         </div>
     </div>
+</div>
 
-    <div class=" ms-2 container-fluid text-center pt-4" id="div_graficas" style="display:none; ">
-        <div class="justify-content-center">
-            <div class="  row col-lg-12 justify-content-end " style="border:solid; border-radius:10px; background-color:white;">
-                <h1 style="color:black">ESTADISTICAS DEL MES DE <?= strtoupper($fechaLarga) ?> </h1>
 
-                <hr style="color:#0B3254; height:10px;">
-                <div class="row mb-1">
-                    <div class="col-lg-6 ">
+<div class=" ms-2 container-fluid text-center pt-4" id="div_graficas" style="display:none; ">
+    <div class="justify-content-center">
+        <div class="  row col-lg-12 justify-content-end " style="border:solid; border-radius:10px; background-color:white;">
+            <h1 style="color:black">ESTADISTICAS DEL MES DE <?= strtoupper($fechaLarga) ?> <a type="button" id="buscarGrafica"> <img src="<?= asset('./images/iconos/lupa.png') ?>" style="width:40px; height:40px;" alt="capturas"></a>
+</h1>
+            <div id="cuadro_busquedad_grafica" class="row mb-3 " style="display:none">
+            <div class="col-lg-12 text-center ">
 
-                        <div style="width: 800px; height:900px; ">
-                            <h2 style="color:black">Delitos cometidos</h2>
-                            <canvas id="myChart1" width="50" height="50"></canvas>
+                <form class=" ms-5  col-lg-11 justify-content-center border border-2 border-dark rounded bg-dark pt-3  " id="formBusqueda_grafica">
+                    <div class="row mb-3">
+                        <div class="col">
+                            <h2 style="color: white;">Ingrese los criterios de busqueda</h2>
                         </div>
                     </div>
-                    <div class="col-lg-6 ">
-
-                        <div style="width: 800px; height:900px; ">
-                            <h2 style="color:black">Delitos cometidos por departamentos</h2>
-                            <canvas id="myChart2" width="50" height="50"></canvas>
+                    <div class="row mb-3 justify-content-center">
+                        <div class="col-lg-3">
+                            <label for="fecha_grafica" style="color: white;">DE</label>
+                            <input type="datetime-local" id="fecha_grafica" name="fecha_grafica" class="form-control" required>
+                        </div>
+                        <div class="col-lg-3">
+                            <label for="fecha_grafica2" style="color: white;">HASTA</label>
+                            <input type="datetime-local" id="fecha_grafica2" name="fecha_grafica2" class="form-control" required>
+                        </div>
+                        <div class="col-lg-2 pt-4">
+                            <button type="submit" class="btn btn-info w-100"><i class="bi bi-search me-2"></i>Buscar</button>
                         </div>
                     </div>
 
+
+                </form>
+
+            </div>
+        </div>
+
+
+            <hr style="color:#0B3254; height:10px;">
+            <div class="row mb-1">
+                <div class="col-lg-6 ">
+
+                <h2 style="color:black">ASESINATOS COMETIDOS</h2>
+                <div id="texto_no1" style="display:none;">
+                            <h3> No se encontraron delitos</h3>
+                        </div>
+                    <div id="graficaDelitos" style="width: 800px; height:900px; ">
+                        
+                        <canvas id="myChart1" width="50" height="50"></canvas>
+                    </div>
+                    
                 </div>
-                <hr style="color:#0B3254; height:10px;">
-                <div class="row mb-1">
-
-
-
-                    <div class="col-lg-12 ">
-
-                        <div class="col-lg-12 " style="height:800px;">
-                            <h2 style="color:black">Capturas realizadas en el mes de <?= strtoupper($fechaLarga) ?></h2>
-                            <canvas id="myChart3" height="100"></canvas>
+                <div class="col-lg-6 ">
+                <h2 style="color:black">Asesinatos cometidos por departamentos</h2>
+                <div id="texto_no2" style="display:none;">
+                            <h3> No se encontraron Asesinatos</h3>
                         </div>
+                    <div id="graficaDelitosDepartamento" style="width: 800px; height:900px; ">
+                       
+                        <canvas id="myChart2" width="50" height="50"></canvas>
                     </div>
-
-
                 </div>
-                <hr style="color:#0B3254; height:10px;">
-                <div class="row mb-1">
+
+            </div>
+            <hr style="color:#0B3254; height:10px;">
+            <div class="row mb-1">
 
 
 
-                    <div class="col-lg-12 ">
+                <div class="col-lg-12 ">
 
-                        <div class="col-lg-12 " style="height:800px;">
-                            <h2 style="color:black">ESTADISTICAS TRIMESTRALES </h2>
-                            <canvas id="myChart4" height="100"></canvas>
-                        </div>
+                    <div class="col-lg-12 " style="height:800px;">
+                        <h2 style="color:black">Asesinatos en el mes de <?= strtoupper($fechaLarga) ?></h2>
+                        <canvas id="myChart3" height="100" width="300"></canvas>
                     </div>
-
-
                 </div>
-                <hr style="color:#0B3254; height:10px;">
-                <div class="row mb-1">
+
+
+            </div>
+            <hr style="color:#0B3254; height:10px;">
+            <div class="row mb-1">
 
 
 
-                    <div class="col-lg-12 ">
+                <div class="col-lg-12 ">
 
-                        <div class="col-lg-12 " style="height:800px;">
-                            <h2 style="color:black">ESTADISTICAS TRIMESTRALES </h2>
-                            <canvas id="myChart5" height="100"></canvas>
-                        </div>
+                    <div class="col-lg-12 " style="height:800px;">
+                        <h2 style="color:black">ESTADISTICAS TRIMESTRALES </h2>
+                        <canvas id="myChart4" height="100"></canvas>
                     </div>
-
-
                 </div>
+
+
+            </div>
+            <hr style="color:#0B3254; height:10px;">
+            <div class="row mb-1">
+
+
+
+                <div class="col-lg-12 ">
+
+                    <div class="col-lg-12 " style="height:800px;">
+                        <h2 style="color:black">ESTADISTICAS TRIMESTRALES </h2>
+                        <canvas id="myChart5" height="100"></canvas>
+                    </div>
+                </div>
+
+
             </div>
         </div>
     </div>
+</div>
 
 
 
 
-    <!-- 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script type="text/javascript" src="../assets/jquery/jqueryTabla.min.js"></script>
-    <script type="text/javascript" src="../assets/dataTables/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" src="../assets/dataTables/js/dataTables.bootstrap4.min.js"></script>
-    <script type="text/javascript" src="../assets/dataTables/js/datatables-demo.js"></script>
-    <script src="../assets/leaflet/leaflet.js"></script>
 
-    <script src="../assets/leaflet/leafletPrint/leaflet-print.js"></script>
-    <script src="../assets/bootstrap5/js/bootstrap.min.js"></script>
-    <script src="../assets/tinymce/js/tinymce/tinymce.min.js"></script>
-    <script src="../assets/js/scriptsgenerales.js"></script>
-    <script src="../assets/js/lenguaje.js"></script>
-    <script src="../assets/js/capturas_info.js"></script> -->
 
-    <!-- <script src="../assets/js/scriptscarga.js"></script> -->
 
     <script src="../public/build/js/mapas/IndexMuertes.js"></script>

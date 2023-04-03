@@ -1,3 +1,18 @@
+<!-- 
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/bootstrap5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets/bootstrapIcons/bootstrap-icons.css">
+
+
+
+    <script src="../assets/js/sweetalert2.all.min.js"></script>
+    <script src="../assets/jquery/jquery.js"> </script>
+
+    <link rel="stylesheet" href="../assets/leaflet/leaflet.css">
+-->
+
 <?php
 
 // ini_set('display_errors', 1);
@@ -7,7 +22,19 @@ date_default_timezone_set('America/Guatemala');
 setlocale(LC_TIME, "es_ES");
 
 $fechaLarga = strftime(" %B ");
-// var_dump($departamentoAfectado);
+$capturas = $capturas[0]['cantidad'];
+$delito = $delito[0]['desc'];
+$mujeres = $mujeres[0]['cantidad'];
+$total_armas = $total_armas[0]['cantidad_arm'];
+$depto = $depto[0]['desc'];
+//  var_dump($depto);
+// exit; 
+
+$total_dinero = $total_dinero[0]['cantidad_din'];
+$incidencia_arma2 = $incidencia_arma[0]['descripcion'];
+$incidencia_arma1 = $incidencia_arma['municion'];
+$armas;
+
 
 
 
@@ -20,11 +47,11 @@ $fechaLarga = strftime(" %B ");
         <div class=" col-lg-12  justify-content-center">
             <div class="row mb-2 ">
                 <div class="justify-content-center d-flex ">
-                    <h1> Resumen de Desastres naturales en el mes de <?php echo     $fechaLarga; ?>
-                        <a type="button" id="buscarresumen"> <img src="<?= asset('./images/iconos/lupa.png') ?>" style="width:40px; height:40px;" alt="migracion"></a>
-                        <a type="button" id="buscarinfo"> <img src="<?= asset('./images/iconos/reporte.png') ?>" style="width:40px; height:40px;" alt="migracion"></a>
-                        <a type="button" id="ver_mapa"> <img src="<?= asset('./images/iconos/mapa_calor.png ') ?>" style="width:40px; height:40px;" alt="migracion"></a>
-                        <a type="button" id="ver_grafica"> <img src="<?= asset('./images/iconos/btn_graficas.png') ?>" style="width:40px; height:40px;" alt="migracion"></a>
+                    <h1> Resumen de Armas y Dinero de <?php echo     $fechaLarga; ?>
+                        <a type="button" id="buscarresumen"> <img src="<?= asset('./images/iconos/lupa.png') ?>" style="width:40px; height:40px;" alt="capturas"></a>
+                        <a type="button" id="buscarcapturas"> <img src="<?= asset('./images/iconos/reporte.png') ?>" style="width:40px; height:40px;" alt="capturas"></a>
+                        <a type="button" id="ver_mapa"> <img src="<?= asset('./images/iconos/mapa_calor.png ') ?>" style="width:40px; height:40px;" alt="capturas"></a>
+                        <a type="button" id="ver_grafica"> <img src="<?= asset('./images/iconos/btn_graficas.png') ?>" style="width:40px; height:40px;" alt="capturas"></a>
                     </h1>
                 </div>
             </div>
@@ -40,21 +67,12 @@ $fechaLarga = strftime(" %B ");
                     </div>
                     <div class="row mb-3 justify-content-center">
                         <div class="col-lg-3">
-                            <label for="fenomenos_naturales" style="color: white;">Fenomeno Natural</label>
-                            <select class="form-control" name="fenomenos_naturales" id="fenomenos_naturales">
-                                <option value="">Seleccione...</option>
-                                <?php foreach ($fenomeno_natural as $ca3) { ?>
-                                    <option value="<?= $ca3['id']  ?>"><?= $ca3['desc']  ?></option>
-                                <?php  }  ?>
-                            </select>
-                        </div>
-                        <div class="col-lg-3">
                             <label for="fecha_resumen" style="color: white;">DE</label>
-                            <input type="datetime-local" id="fecha_resumen" name="fecha_resumen" class="form-control">
+                            <input type="datetime-local" id="fecha_resumen" name="fecha_resumen" class="form-control" required>
                         </div>
                         <div class="col-lg-3">
                             <label for="fecha_resumen2" style="color: white;">HASTA</label>
-                            <input type="datetime-local" id="fecha_resumen2" name="fecha_resumen2" class="form-control">
+                            <input type="datetime-local" id="fecha_resumen2" name="fecha_resumen2" class="form-control" required>
                         </div>
                         <div class="col-lg-2 pt-4">
                             <button type="submit" class="btn btn-info w-100"><i class="bi bi-search me-2"></i>Buscar</button>
@@ -67,267 +85,116 @@ $fechaLarga = strftime(" %B ");
             </div>
         </div>
 
-
         <div class="row mb-3">
-
-            <div id="desastresId" class="col-lg-2 text-center">
-                <div class="row">
-                    <div class="col">
-                        <p class="h5">Desastres </p>
-                    </div>
-                </div>
-
-                <div class="row justify-content-center">
-                    <div class="col-2 col-sm-4">
-                        <img src="<?= asset('./images/7.png') ?>" class="w-100" alt="operaciones">
-
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <p class="h3" id="cantidadDesastres"><?= $cantidadDesastres[0]['cantidad'] ?></p>
-                    </div>
-                </div>
-
-            </div>
-
-            <div id="incurrenciaId" class="col-lg-2 text-center">
-                <div class="row">
-                    <div class="col">
-                        <p class="h5">Incurrencia </p>
-                    </div>
-                </div>
-
-                <div class="row justify-content-center">
-                    <div class="col-2 col-sm-4">
-                        <img src="<?= asset('./images/7.png') ?>" class="w-100" alt="operaciones">
-
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <p class="h3" id="IncurrenciaDesastres"><?= $IncidenciaDesastre[0]['desc'] ?></p>
-                    </div>
-                </div>
-
-            </div>
-
-
             <div class="col-lg-2 text-center">
                 <div class="row">
                     <div class="col">
-                        <p class="h5">Personas Afectadas</p>
+                        <p class="h5">Incautaciones</p>
                     </div>
                 </div>
-
                 <div class="row justify-content-center">
                     <div class="col-2 col-sm-4">
-                        <img src="<?= asset('./images/iconos/desastres/afectadas.png') ?>" class="w-100" alt="operaciones">
+                        <img src="<?= asset('./images/iconos/capturas/delito.png') ?>" class="w-100" alt="capturas">
 
                     </div>
                 </div>
                 <div class="row">
                     <div class="col">
-                        <p class="h3" id="personasAfectadas"><?= $totalPersonaAfectada[0]['cantidad'] ?></p>
+                        <p class="h3" id="cantidad_incautaciones"><?= $capturas ?></p>
                     </div>
                 </div>
-
             </div>
-
             <div class="col-lg-2 text-center">
                 <div class="row">
                     <div class="col">
-                        <p class="h5">Personas Evacuadas</p>
+                        <p class="h5"> Total de dinero incautado</p>
                     </div>
                 </div>
-
                 <div class="row justify-content-center">
                     <div class="col-2 col-sm-4">
-                        <img src="<?= asset('./images/iconos/desastres/evacuadas.png') ?>" class="w-100" alt="operaciones">
+                        <img src="<?= asset('./images/iconos//money-bag.png') ?>" class="w-100" alt="capturas">
 
                     </div>
                 </div>
                 <div class="row">
                     <div class="col">
-                        <p class="h3" id="personasEvacuadas"><?= $totalPersonasEvacuadas[0]['cantidad'] ?></p>
+                        <p class="h3" id="total_dinero"><?= $total_dinero ?></p>
                     </div>
                 </div>
-
             </div>
-
             <div class="col-lg-2 text-center">
                 <div class="row">
                     <div class="col">
-                        <p class="h5">Personas Fallecidas</p>
+                        <p class="h5"> Armas incautadas</p>
                     </div>
                 </div>
-
                 <div class="row justify-content-center">
                     <div class="col-2 col-sm-4">
-                        <img src="<?= asset('./images/iconos/desastres/fallecidas.png') ?>" class="w-100" alt="operaciones">
+                        <img src="<?= asset('./images/iconos//rifle.png') ?>" class="w-100" alt="capturas">
 
                     </div>
                 </div>
                 <div class="row">
                     <div class="col">
-                        <p class="h3" id="personasFallecidas"><?= $totalPersonasFallecida[0]['cantidad'] ?></p>
+                        <p class="h3" id="total_armas"><?= $total_armas ?></p>
                     </div>
                 </div>
-
             </div>
-
+            <div class="col-lg-2 text-center">
+                <div class="row">
+                    <div class="col">
+                        <p class="h5"> Incidencia</p>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-2 col-sm-4">
+                        <img src="<?= asset('./images/iconos//reporte.png') ?>" class="w-100" alt="capturas">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <p class="h3" id="delito_concurrente"><?= $incidencia_arma2 . " " . $incidencia_arma1  ?></p>
+                    </div>
+                </div>
+            </div>
             <div id="mes_elegido" class="col-lg-2 text-center">
                 <div class="row">
                     <div class="col">
-                        <p class="h5">Departamento mas afectado</p>
+                        <p class="h5"> Mes</p>
                     </div>
                 </div>
-
                 <div class="row justify-content-center">
                     <div class="col-2 col-sm-4">
-                        <img src="<?= asset('./images/iconos/desastres/mundo.png') ?>" class="w-100" alt="operaciones">
+                        <img src="<?= asset('./images/iconos/calendario.png') ?>" class="w-100" alt="capturas">
 
                     </div>
                 </div>
                 <div class="row">
                     <div class="col">
-                        <p class="h3" id="Departamento_afectado"><?= $departamentoAfectado[0]['departamento'] ?></p>
+                        <p class="h3" id="delito_concurrente"><?php echo strtoupper($fechaLarga) ?></p>
                     </div>
                 </div>
-
-            </div>
-
-        </div>
-        <div class="row mb-3">
-
-            <div class="col-lg-2 text-center">
-                <div class="row">
-                    <div class="col">
-                        <p class="h5">Estructuras Colapsadas</p>
-                    </div>
-                </div>
-
-                <div class="row justify-content-center">
-                    <div class="col-2 col-sm-4">
-                        <img src="<?= asset('./images/iconos/desastres/colapsadas.png') ?>" class="w-100" alt="operaciones">
-
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <p class="h3" id="estructurasColapsadas"><?= $EstructuraColapsada[0]['cantidad'] ?></p>
-                    </div>
-                </div>
-
             </div>
 
 
             <div class="col-lg-2 text-center">
                 <div class="row">
                     <div class="col">
-                        <p class="h5">Inundaciones</p>
+                        <p class="h5">Departamento </p>
                     </div>
                 </div>
-
                 <div class="row justify-content-center">
                     <div class="col-2 col-sm-4">
-                        <img src="<?= asset('./images/iconos/desastres/inundaciones.png') ?>" class="w-100" alt="operaciones">
+                        <img src="<?= asset('./images/iconos/ubicacion.png') ?>" class="w-100" alt="capturas">
 
                     </div>
                 </div>
                 <div class="row">
                     <div class="col">
-                        <p class="h3" id="inundaciones"><?= $Inundaciones[0]['cantidad'] ?></p>
+                        <p id="depto_mayor" class="h3"><?= $depto ?></p>
                     </div>
                 </div>
-
             </div>
-
-            <div class="col-lg-2 text-center">
-                <div class="row">
-                    <div class="col">
-                        <p class="h5">Derrumbes</p>
-                    </div>
-                </div>
-
-                <div class="row justify-content-center">
-                    <div class="col-2 col-sm-4">
-                        <img src="<?= asset('./images/iconos/desastres/derrumbes.png') ?>" class="w-100" alt="operaciones">
-
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <p class="h3" id="derrumbes"><?= $Derrumbes[0]['cantidad'] ?></p>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="col-lg-2 text-center">
-                <div class="row">
-                    <div class="col">
-                        <p class="h5">Carreteras y puentes colapsados</p>
-                    </div>
-                </div>
-
-                <div class="row justify-content-center">
-                    <div class="col-2 col-sm-4">
-                        <img src="<?= asset('./images/iconos/desastres/puentes.png') ?>" class="w-100" alt="operaciones">
-
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <p class="h3" id="carreterasPuentesColapsados"><?= $CarreterasyPuentes[0]['cantidad'] ?></p>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="col-lg-2 text-center">
-                <div class="row">
-                    <div class="col">
-                        <p class="h5">Hectareas Quemadas</p>
-                    </div>
-                </div>
-
-                <div class="row justify-content-center">
-                    <div class="col-2 col-sm-4">
-                        <img src="<?= asset('./images/iconos/desastres/incendios.png') ?>" class="w-100" alt="operaciones">
-
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <p class="h3" id="hectareasQuemadas"><?= $hectareasQuemadas[0]['cantidad'] ?></p>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="col-lg-2 text-center">
-                <div class="row">
-                    <div class="col">
-                        <p class="h5">Desbordamientos de rios</p>
-                    </div>
-                </div>
-
-                <div class="row justify-content-center">
-                    <div class="col-2 col-sm-4">
-                        <img src="<?= asset('./images/iconos/desastres/desbordamientos.png') ?>" class="w-100" alt="operaciones">
-
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <p class="h3" id="desbordamientosderios"><?= $DesbordamientosRios[0]['cantidad'] ?></p>
-                    </div>
-                </div>
-
-            </div>
-
-
         </div>
     </div>
 </div>
@@ -335,7 +202,7 @@ $fechaLarga = strftime(" %B ");
 <div class="container-fluid text-center pt-4">
     <div class="justify-content-center">
         <div id="tabla" class="mb-5 ms-5 justify-content-center pt-5" style="border:solid; background-color: #707B7C; display:none;">
-            <h1 style="color:aliceblue;">INFORMACIÓN DE LOS DESASTRES NATURALES</h1>
+            <h1 style="color:aliceblue;">INFORMACIÓN DE LAS CAPTURAS REALIZADAS</h1>
             <hr style="color: #9A7D0A; height:10px">
             <div class="row col-lg-12 justify-content-center ms-2 mb-3 " style="color:aliceblue;">
 
@@ -349,10 +216,8 @@ $fechaLarga = strftime(" %B ");
                                 <th>FECHA</th>
                                 <th>DEPARTAMENTO</th>
                                 <th>LUGAR</th>
-                                <th>TIPO DE DESASTRE</th>
-                                <th>FENOMENO</th>
-                                <th>MUERTOS</th>
-
+                                <th>DELITO</th>
+                                <th>ACTIVIDAD VINCULADA</th>
                                 <th>DETALLE</th>
                                 <th>REPORTE</th>
 
@@ -370,11 +235,12 @@ $fechaLarga = strftime(" %B ");
     </div>
 </div>
 
-<div class="modal fade" id="modaldesastre" name="modaldesastre" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
+
+<div class="modal fade" id="modalPersonal12" name="modalPersonal" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header ">
-                <h5 class="modal-title " id="infoModalLabel">Informacion del desastre</h5>
+                <h5 class="modal-title " id="infoModalLabel">Informacion de las Incautaciones</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body container">
@@ -388,13 +254,14 @@ $fechaLarga = strftime(" %B ");
                                 <label for="fecha">
                                     Fecha
                                 </label>
-                                <input type="datetime-local" id="fecha1" name="fech1a" class="form-control" required readonly>
+                                <input type="datetime-local" id="fecha1" name="fecha1" class="form-control" required readonly>
 
                             </div>
                             <div class='col-lg-6'>
                                 <label>
                                     Topico
                                 </label>
+
                                 <input type="text" name="topico" id="topico" class="form-control" readonly novalidate>
 
 
@@ -412,7 +279,7 @@ $fechaLarga = strftime(" %B ");
                         </div>
                         <div class="row mb-3">
                             <div class="col">
-                                <label for="departamento">Departamento</label>
+                                <label for="departamentoBusqueda">Departamento</label>
                                 <input type="text" name="departamentoBusqueda" id="departamentoBusqueda" class="form-control" readonly novalidate>
 
                             </div>
@@ -423,7 +290,7 @@ $fechaLarga = strftime(" %B ");
                         </div>
 
                         <div class="col">
-                            <label>Direccion </label>
+                            <label> direccion </label>
                             <input type="text" id="lugar" name="lugar" class="form-control" required readonly>
                         </div>
                         <div>
@@ -432,91 +299,36 @@ $fechaLarga = strftime(" %B ");
 
                         </div>
 
+                    </form>
                 </div>
                 <hr>
-                <h2>DESASTRES</h2>
+                <h2>Informacion de las Armas</h2>
+                <div class="row mb-2 justify-content-center text-center" id="tabla1">
+                    <div class="col-sm-12 col-lg-12 table-responsive ">
+                        <table id='dataTable3' class='table table-hover table-condensed table-bordered w-100'>
+                            <thead class='table-dark'>
+                                <tr>
+                                    <th>NO.</th>
+                                    <th>TIPO DE ARMA</th>
+                                    <th>CALIBRE</th>
+                                    <th>CANTIDAD</th>
 
-                <div class="row mb-3">
-                    <div class='col-lg-3'>
-                        <label for="personaEvacuada">
-                            PERSONAS EVACUADAS
-                        </label>
-                        <input type="text" id="personasEvacuadas" name="personasEvacuadas" style="background-color:#F7DC6F; color:black;  opacity: 0.5;" class="form-control" required readonly>
-                    </div>
 
-                    <div class='col-lg-3'>
-                        <label>
-                            PERSONAS AFECTADAS
-                        </label>
-                        <input type="text" name="personasAfectadas" id="personasAfectadas" style="background-color:#F7DC6F; color:black; opacity: 0.5;" class="form-control" readonly novalidate>
-                    </div>
 
-                    <div class='col-lg-3'>
-                        <label>
-                            PERSONAS FALLECIDAS
-                        </label>
-                        <input type="text" name="personasFallecidas" id="personasFallecidas" class="form-control" style="background-color: rgb(255, 0, 0, 1); color:black; opacity: 0.5;" readonly novalidate>
-                    </div>
+                                </tr>
+                            </thead>
+                            <tbody>
 
-                    <div class='col-lg-3'>
-                        <label>
-                            ALBERGUES CONSTRUIDOS
-                        </label>
-                        <input type="text" name="albergues" id="albergues" class="form-control" style="background-color:#7DCEA0; color:black; opacity: 0.5;" readonly novalidate>
+                            </tbody>
+                        </table>
+
+
                     </div>
                 </div>
-
-                <!-- 661D1|0e -->
-                <div class="row mb-3">
-                    <div class='col-lg-4'>
-                        <label for="estructurasColapsadas">
-                            ESTRUCTURAS COLAPSADAS
-                        </label>
-                        <input type="text" id="estructurasColapsadas" name="estructurasColapsadas" style="background-color: #BFC9CA;" class="form-control" required readonly>
-                    </div>
-
-                    <div class='col-lg-4'>
-                        <label>
-                           INUNDACIONES
-                        </label>
-                        <input type="text" name="inundaciones" id="inundaciones" class="form-control" style="background-color: #BFC9CA;" readonly novalidate>
-                    </div>
-
-                    <div class='col-lg-4'>
-                        <label>
-                            DERRUMBES
-                        </label>
-                        <input type="text" name="derrumbes" id="derrumbes" class="form-control" style="background-color: #BFC9CA;" readonly novalidate>
-                    </div>
-                </div>
-
-                <div class="row mb-3">
-                    <div class='col-lg-4'>
-                        <label for="personaEvacuada">
-                            COLAPSO DE CARRETERAS
-                        </label>
-                        <input type="text" id="colapsoCarreteras" name="colapsoCarreteras" class="form-control" style="background-color: #BFC9CA;" required readonly>
-                    </div>
-
-                    <div class='col-lg-4'>
-                        <label>
-                           HECTAREAS QUEMADAS
-                        </label>
-                        <input type="text" name="hectareasQuemadas" id="hectareasQuemadas" class="form-control" style="background-color: #BFC9CA;" readonly novalidate>
-                    </div>
-
-                    <div class='col-lg-4'>
-                        <label>
-                            DESBORDAMIENTOS DE RIOS
-                        </label>
-                        <input type="text" name="desbordamientosRios" id="desbordamientosRios" class="form-control" style="background-color: #BFC9CA;" readonly novalidate>
-                    </div>
-                </div>
-
-                </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <!-- <button type="submit" form="formIngreso" class="btn btn-primary" id="buttonGuardar">Guardar información</button> -->
             </div>
         </div>
     </div>
@@ -526,15 +338,120 @@ $fechaLarga = strftime(" %B ");
 <!-- ____________________________________________________________________________________________________________________________ -->
 <!-- ____________________________________________________________________________________________________________________________ -->
 
+<div class="modal fade" id="modalPersonal13" name="modalPersonal" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header ">
+                <h5 class="modal-title " id="infoModalLabel">Informacion de las capturax</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body container">
+
+                <div class="modal-body container ">
+                    <form id="formInformacion2" class="badge-light p-1 was-validated">
+
+                        <!-- <input type="hidden" name="codigo" id="codigo"> -->
+
+                        <div class="row mb-3">
+                            <div class='col-lg-6'>
+                                <label for="fecha">
+                                    Fecha
+                                </label>
+                                <input type="datetime-local" id="fecha1" name="fecha1" class="form-control" required readonly>
+
+                            </div>
+                            <div class='col-lg-6'>
+                                <label>
+                                    Topico
+                                </label>
+
+                                <input type="text" name="topico" id="topico" class="form-control" readonly novalidate>
+
+
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label for="latitud">Latitud</label>
+                                <input type="text" name="latitud" id="latitud" class="form-control" readonly novalidate>
+                            </div>
+                            <div class="col">
+                                <label for="longitud">Longitud</label>
+                                <input type="text" name="longitud" id="longitud" class="form-control" readonly novalidate>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label for="departamentoBusqueda">Departamento</label>
+                                <input type="text" name="departamentoBusqueda" id="departamentoBusqueda" class="form-control" readonly novalidate>
+
+                            </div>
+                            <div class="col">
+                                <label for="municipio">Municipio</label>
+                                <input type="text" id="municipio" name="municipio" class="form-control" required readonly>
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <label> direccion </label>
+                            <input type="text" id="lugar" name="lugar" class="form-control" required readonly>
+                        </div>
+                        <div>
+                            <label for="actvidad_vinculada"> Actividad vinculada</label>
+                            <input type="text" id="actvidad_vinculada" name="actvidad_vinculada" class="form-control" required readonly>
+
+                        </div>
+
+                    </form>
+
+
+                </div>
+                <hr>
+                <!-- <h1>Personas captuSradas</h1> -->
+                <div class="row mb-2 justify-content-center text-center" id="tabla1">
+                    <div class="col-sm-12 col-lg-12 table-responsive ">
+                        <table id='dataTable4' class='table table-hover table-condensed table-bordered w-100'>
+                            <thead class='table-dark'>
+                                <tr>
+                                    <th>NO.</th>
+                                    <th>MONEDA</th>
+                                    <th>CANTIDAD</th>
+                                  
+
+
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <!-- <button type="submit" form="formIngreso" class="btn btn-primary" id="buttonGuardar">Guardar información</button> -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
 <div class="  container-fluid text-center pt-2 rounded bg-secondary" id="mapa_calor">
+
+
     <div class="row mb-1 justify-content-center">
 
         <div class="  col-lg-12 ">
-            <h1 class="ms-5" style="color:white;"> DAÑOS POR DEPARTAMENTOS EN EL MES DE <?= strtoupper($fechaLarga) ?><a type="button" id="buscaravanzada"> <img src="<?= asset('./images/iconos/lupa.png') ?>" style="width:40px; height:40px;" alt="capturas"></a></h1>
+            <h1 class="ms-5" style="color:white;"> DEPARTAMENTOS CON MAS CAPTURAS EN EL MES DE <?= strtoupper($fechaLarga) ?><a type="button" id="buscaravanzada"> <img src="<?= asset('./images/iconos/lupa.png') ?>" style="width:40px; height:40px;" alt="capturas"></a></h1>
             <hr style="width:100%; height:5px; color:#9A7D0A;">
             <div id="mapa_de_calor">
 
-
+                <!-- <div class="  col-lg-12 justify-content-center align-items-center"> -->
                 <div class="row mb-3 ">
                     <div id="cuadro_busquedad_mapa" style="display:none;">
                         <form class=" col-lg-12 border border-2 border-dark bg-dark rounded " id="formBusqueda_mapa">
@@ -545,11 +462,12 @@ $fechaLarga = strftime(" %B ");
                             </div>
                             <div class="row mb-3 justify-content-center">
                                 <div class="col-lg-3">
-                                    <label for="fenomenos_mapa_calor" style="color: white;">FENOMENOS</label>
-                                    <select class="form-control" name="fenomenos_mapa_calor" id="fenomenos_mapa_calor">
+                                    <label for="delitos_mapa_calor" style="color: white;">Delito</label>
+                                    <!--  <select class="form-control" name="delitos_mapa_calor" id="delitos_mapa_calor"> -->
+                                    <select class="form-control" name="tipos_arma_mapa_calor" id="tipos_arma_mapa_calor" value="" selected readonly>
                                         <option value="">Seleccione...</option>
-                                        <?php foreach ($fenomeno_natural as $ca3) { ?>
-                                            <option value="<?= $ca3['id']  ?>"><?= $ca3['desc']  ?></option>
+                                        <?php foreach ($armas as $arma) { ?>
+                                            <option value="<?= $arma['id']  ?>"><?= $arma['desc']  ?></option>
                                         <?php  }  ?>
                                     </select>
                                 </div>
@@ -582,7 +500,7 @@ $fechaLarga = strftime(" %B ");
 
             <svg baseprofile="tiny" fill="#7c7c7c" height="100%" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" version="1.2" viewbox="0 0 1000 1056" width="100%" xmlns="http://www.w3.org/2000/svg">
 
-
+                <!-- <g transform="rotate(270)"><text c x="-650" y="330"   stroke-width = "2"  stroke = "black" fill="black" style="font-size: 25px">QUICHE</text></g> -->
                 <g transform="rotate(328)"><text x="-280" y="570" stroke-width="2" stroke="black" fill="black" style="font-size: 25px">HUEHUETENANGO</text></g>
                 <g transform="rotate(320)"><text x="-480" y="620" stroke-width="2" stroke="black" fill="black" style="font-size: 20px">SAN MARCOS</text></g>
                 <text x="490" y="250" stroke-width="2" stroke="black" fill="black" style="font-size: 40px">PETEN</text>
@@ -735,10 +653,11 @@ $fechaLarga = strftime(" %B ");
             </svg>
 
         </div>
+        <!-- </div>
 
+        <div class="  row justify-content-end   "> -->
         <div class="  col-lg-4 bg-dark rounded  pt-3 h-50">
             <div class="row mb-2 justify-content-between">
-                <h3 style="color:white" >CLASIFIACIÓN POR DAÑOS</h3>
                 <div class="col-7 ">
                     <label for="">
                         <h3 style="color:white"><?php echo $colores[0]['descripcion']; ?></h3>
@@ -798,6 +717,7 @@ $fechaLarga = strftime(" %B ");
 
 
 
+
     <div class="modal fade" id="modaldepto" name="modaldepto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
             <div class="modal-content  justify-content-start">
@@ -814,97 +734,43 @@ $fechaLarga = strftime(" %B ");
                         <div class="row mb-3">
                             <!-- <input type="hidden" name="codigo" id="codigo"> -->
                             <div class="col-lg-12 ">
-                                <h1 id="depto_name" for="depto">DAÑOS</h1>
+                                <h1 id="depto_name" for="depto"></h1>
                             </div>
                         </div>
                         <div class="row mb-3">
-                    
-                            <div class="col-lg-12 ">
-                                <h3 id="depto_incidencia" name ="depto_incidencia" for="depto"></h3>
+                            <div class="col-lg-4 justify-content-start">
+                                <label for="depto">
+                                    <h3> Tipo de fusil incautado:</h3>
+                                </label>
+                            </div>
+                            <div id="cantidad_capturas_depto" class="col-lg-2 justify-content-start">
+                                <h4 name="deptoinfo" id="deptoinfo" style="color:#116189"></h4>
                             </div>
                         </div>
-                        <hr>
-                <h2>DESASTRES</h2>
+                        <div class="row mb-1">
+                            <div class="col-lg-2 ms-3 ">
+                                <label for="depto">
+                                    <h3 id="label_delito"><span> Armas Incautadas: </span></h3>
+                                </label>
+                            </div>
+                            <div id="incidencia_capturas_depto" class="col-lg-6 justify-content-start">
+                                <h4 name="deptoincidencia" id="deptoincidencia" style="color:#116189"></h4>
+                            </div>
+                        </div>
+                        <div class="row mb-1">
+                            <div class="col-lg-2 ms-3 ">
+                                <label for="depto">
+                                    <h3 id="label_delito"><span> Dinero Incautado: </span></h3>
+                                </label>
+                            </div>
+                            <div id="incidencia_capturas_depto" class="col-lg-6 justify-content-start">
+                                <h4 name="dinero" id="dinero" style="color:#116189"></h4>
+                            </div>
+                        </div>
 
-                <div class="row mb-3">
-                    <div class='col-lg-3'>
-                        <label for="personaEvacuada">
-                            PERSONAS EVACUADAS
-                        </label>
-                        <input type="text" id="personasEvacuadas1" name="personasEvacuadas1" style="background-color:#F7DC6F; color:black;  opacity: 0.5;" class="form-control" required readonly>
-                    </div>
-
-                    <div class='col-lg-3'>
-                        <label>
-                            PERSONAS AFECTADAS
-                        </label>
-                        <input type="text" name="personasAfectadas" id="personasAfectadas" style="background-color:#F7DC6F; color:black; opacity: 0.5;" class="form-control" readonly novalidate>
-                    </div>
-
-                    <div class='col-lg-3'>
-                        <label>
-                            PERSONAS FALLECIDAS
-                        </label>
-                        <input type="text" name="personasFallecidas" id="personasFallecidas" class="form-control" style="background-color: rgb(255, 0, 0, 1); color:black; opacity: 0.5;" readonly novalidate>
-                    </div>
-
-                    <div class='col-lg-3'>
-                        <label>
-                            ALBERGUES CONSTRUIDOS
-                        </label>
-                        <input type="text" name="albergues" id="albergues" class="form-control" style="background-color:#7DCEA0; color:black; opacity: 0.5;" readonly novalidate>
-                    </div>
-                </div>
-
-                <!-- 661D1|0e -->
-                <div class="row mb-3">
-                    <div class='col-lg-4'>
-                        <label for="estructurasColapsadas">
-                            ESTRUCTURAS COLAPSADAS
-                        </label>
-                        <input type="text" id="estructurasColapsadas" name="estructurasColapsadas" style="background-color: #BFC9CA;" class="form-control" required readonly>
-                    </div>
-
-                    <div class='col-lg-4'>
-                        <label>
-                           INUNDACIONES
-                        </label>
-                        <input type="text" name="inundaciones" id="inundaciones" class="form-control" style="background-color: #BFC9CA;" readonly novalidate>
-                    </div>
-
-                    <div class='col-lg-4'>
-                        <label>
-                            DERRUMBES
-                        </label>
-                        <input type="text" name="derrumbes" id="derrumbes" class="form-control" style="background-color: #BFC9CA;" readonly novalidate>
-                    </div>
-                </div>
-
-                <div class="row mb-3">
-                    <div class='col-lg-4'>
-                        <label for="personaEvacuada">
-                            COLAPSO DE CARRETERAS
-                        </label>
-                        <input type="text" id="colapsoCarreteras" name="colapsoCarreteras" class="form-control" style="background-color: #BFC9CA;" required readonly>
-                    </div>
-
-                    <div class='col-lg-4'>
-                        <label>
-                           HECTAREAS QUEMADAS
-                        </label>
-                        <input type="text" name="hectareasQuemadas" id="hectareasQuemadas" class="form-control" style="background-color: #BFC9CA;" readonly novalidate>
-                    </div>
-
-                    <div class='col-lg-4'>
-                        <label>
-                            DESBORDAMIENTOS DE RIOS
-                        </label>
-                        <input type="text" name="desbordamientosRios" id="desbordamientosRios" class="form-control" style="background-color: #BFC9CA;" readonly novalidate>
-                    </div>
-                </div>
                         <div class="row mb-1">
                             <div id="texto_no" style="display:none;">
-                                <h3> No se encontraron FENOMENOS</h3>
+                                <h3> No se encontraron muertes</h3>
                             </div>
                             <!-- <div class="col-lg-6 ">
 
@@ -914,14 +780,11 @@ $fechaLarga = strftime(" %B ");
                                     </div> -->
                             <div id="grafica_depto1" class="col-lg-12 pt-5 ">
 
-                                <div class="col-lg-6 " style="width: 600px; height:400px; ">
-                                    <h2 style="color:black">DAÑOS GENERALES DE LOS FENOMENOS</h2>
+                                <div class="col-lg-6 ">
+                                    <h2 style="color:black">DINERO INCAUTADO</h2>
                                     <canvas id="delitos_cant" width="50" height="50"></canvas>
                                 </div>
-                                <div class="col-lg-6  " style="width: 600px; height:400px; ">
 
-                                    <canvas id="delitos_cant2" width="50" height="50"></canvas>
-                                </div>
                             </div>
 
                         </div>
@@ -941,6 +804,7 @@ $fechaLarga = strftime(" %B ");
     </div>
 </div>
 
+
 <div class=" ms-2 container-fluid text-center pt-4" id="div_graficas" style="display:none; ">
     <div class="justify-content-center">
         <div class="  row col-lg-12 justify-content-end " style="border:solid; border-radius:10px; background-color:white;">
@@ -950,32 +814,19 @@ $fechaLarga = strftime(" %B ");
                 <div class="col-lg-12 text-center ">
 
                     <form class=" ms-5  col-lg-11 justify-content-center border border-2 border-dark rounded bg-dark pt-3  " id="formBusqueda_grafica">
-
-                    
                         <div class="row mb-3">
                             <div class="col">
                                 <h2 style="color: white;">Ingrese los criterios de busqueda</h2>
                             </div>
                         </div>
                         <div class="row mb-3 justify-content-center">
-                        <div class="col-lg-3">
-                                <label for="select_grafica" style="color: white;">TIPO DE DESASTRE</label>
-                                <select class="form-control" name="select_grafica" id="select_grafica">
-                                        <option value="">Seleccione...</option>
-                                        <?php foreach ($fenomeno_natural as $ca3) { ?>
-                                            <option value="<?= $ca3['id']  ?>"><?= $ca3['desc']  ?></option>
-                                        <?php  }  ?>
-                                    </select>
-                                
-                            </div>
-
                             <div class="col-lg-3">
                                 <label for="fecha_grafica" style="color: white;">DE</label>
-                                <input type="datetime-local" id="fecha_grafica" name="fecha_grafica" class="form-control" >
+                                <input type="datetime-local" id="fecha_grafica" name="fecha_grafica" class="form-control" required>
                             </div>
                             <div class="col-lg-3">
                                 <label for="fecha_grafica2" style="color: white;">HASTA</label>
-                                <input type="datetime-local" id="fecha_grafica2" name="fecha_grafica2" class="form-control">
+                                <input type="datetime-local" id="fecha_grafica2" name="fecha_grafica2" class="form-control" required>
                             </div>
                             <div class="col-lg-2 pt-4">
                                 <button type="submit" class="btn btn-info w-100"><i class="bi bi-search me-2"></i>Buscar</button>
@@ -990,20 +841,55 @@ $fechaLarga = strftime(" %B ");
 
 
             <hr style="color:#0B3254; height:10px;">
-            <div class="row mb-1 justify-content-center">
-                <div class="col-lg-6 ">
+            <div class="row mb-1">
+                <div class="col-lg-5 ">
 
-                    <h2 style="color:black">CANTIDADES DE LOS DESASTRES NATURALES</h2>
+                    <h2 style="color:black">ARMAS INCAUTADAS</h2>
                     <div id="texto_no1" style="display:none;">
-                        <h3> No se encontraron cantidades</h3>
+                        <h3> No se encontraron registros</h3>
                     </div>
-                    <div id="graficaDelitos" style="width: 800px; height:900px; ">
+                    <div id="graficaDelitos" style="width: 750px; height:900px; ">
 
                         <canvas id="myChart1" width="50" height="50"></canvas>
                     </div>
 
                 </div>
-        
+                <div class="col-lg-6 ">
+
+                    <h2 style="color:black">DINERO INCAUTADO</h2>
+                    <div id="texto_no1" style="display:none;">
+                        <h3> No se encontraron registros</h3>
+                    </div>
+                    <div id="graficaDinero" style="width: 750px; height:900px; ">
+
+                        <canvas id="myChart55" width="50" height="50"></canvas>
+                    </div>
+
+                </div>
+                <div class="col-lg-6 ">
+                    <h2 style="color:black">Armas incuautadas por departamentos</h2>
+                    <div id="texto_no2" style="display:none;">
+                        <h3> No se encontraron Armas
+
+                        </h3>
+                    </div>
+                    <div id="graficaDelitosDepartamento" style="width: 700px; height:800px; ">
+
+                        <canvas id="myChart2" width="50" height="50"></canvas>
+                    </div>
+                </div>
+                <div class="col-lg-6 ">
+                    <h2 style="color:black">Dinero incuautadas por departamentos</h2>
+                    <div id="texto_no2" style="display:none;">
+                        <h3> No se encontraron Armas
+
+                        </h3>
+                    </div>
+                    <div id="graficaDinerDepartamento" style="width: 700px; height:800px; ">
+
+                        <canvas id="myChart99" width="50" height="50"></canvas>
+                    </div>
+                </div>
 
             </div>
             <hr style="color:#0B3254; height:10px;">
@@ -1014,14 +900,22 @@ $fechaLarga = strftime(" %B ");
                 <div class="col-lg-12 ">
 
                     <div class="col-lg-12 " style="height:800px;">
-                        <h2 style="color:black">Cantidades del desastre natural en el mes de <?= strtoupper($fechaLarga) ?></h2>
+                        <h2 style="color:black">Incautaciuones de Dinero en el mes de <?= strtoupper($fechaLarga) ?></h2>
                         <canvas id="myChart3" height="100" width="300"></canvas>
                     </div>
                 </div>
 
 
+                <div class="col-lg-12 ">
+
+                    <div class="col-lg-12 " style="height:800px;">
+                        <h2 style="color:black">Incautaciuones de Armas en el mes de <?= strtoupper($fechaLarga) ?></h2>
+                        <canvas id="myChart33" height="100" width="300"></canvas>
+                    </div>
+                </div>
+
             </div>
-            <hr style="color:#0B3254; height:10px;">
+            <!--   <hr style="color:#0B3254; height:10px;"> -->
             <div class="row mb-1">
 
 
@@ -1036,18 +930,18 @@ $fechaLarga = strftime(" %B ");
 
 
             </div>
-            <hr style="color:#0B3254; height:10px;">
+            <!--             <hr style="color:#0B3254; height:10px;"> -->
             <div class="row mb-1">
 
 
 
-                <!-- <div class="col-lg-12 ">
+                <div class="col-lg-12 ">
 
                     <div class="col-lg-12 " style="height:800px;">
                         <h2 style="color:black">ESTADISTICAS TRIMESTRALES </h2>
                         <canvas id="myChart5" height="100"></canvas>
                     </div>
-                </div> -->
+                </div>
 
 
             </div>
@@ -1060,4 +954,5 @@ $fechaLarga = strftime(" %B ");
 
 
 
-<script src="../public/build/js/mapas/infoDesastres.js"></script>
+
+<script src="../public/build/js/mapas/IndexDinero_y_armas.js"></script>

@@ -61,12 +61,12 @@ public function modificarAPI(){
         foreach ($cantidades as $key => $c) {
             if( $cantidad >= $c['cantidad'] ){
                 $validaciones = false;
-                break;
-
+                
                 echo json_encode([
                     "mensaje" => "NO SE PUEDE MODIFICAR, NO RESPETA LOS NIVELES.",
                     "codigo" => 6,
                 ]);
+                break;
             }
         }
 

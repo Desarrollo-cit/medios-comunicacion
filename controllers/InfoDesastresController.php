@@ -28,6 +28,7 @@ class InfoDesastresController
         $hectareasQuemadas = static::hectareasQuemadas();
         $DesbordamientosRios = static::DesbordamientosRios();
         $departamentoAfectado = static::departamentoAfectado();
+        $fenomeno_natural = static::fenomeno_natural();
 
         $colores = static::coloresAPI1();
 
@@ -63,7 +64,7 @@ class InfoDesastresController
     {
         getHeadersApi();
         try {
-            $sql = "SELECT * from amc_colores where topico = 4 and situacion = 1 order by nivel asc ";
+            $sql = "SELECT * from amc_colores where topico = 7 and situacion = 1 order by nivel asc ";
             $info = Des_natural::fetchArray($sql);
             echo json_encode($info);
         } catch (Exception $e) {
@@ -75,7 +76,7 @@ class InfoDesastresController
     {
 
         try {
-            $sql = "SELECT * from amc_colores where topico = 4  ";
+            $sql = "SELECT * from amc_colores where topico = 7  ";
             $info = Des_natural::fetchArray($sql);
             return $info;
         } catch (Exception $e) {
@@ -111,7 +112,7 @@ class InfoDesastresController
     }
 
 
-    static function totalPersonasEvacuadas($fecha1 = "", $fecha2 = "",  $fenomeno = "")
+    static function totalPersonasEvacuadas($fecha1 = "", $fecha2 = "",  $fenomeno = "", $depto="")
     {
 
 
@@ -128,7 +129,7 @@ class InfoDesastresController
 
             $sql .= " AND amc_desastre_natural.nombre_desastre = $fenomeno";
         }
-
+       
 
         if ($fecha1 != '' && $fecha2 != '') {
 
@@ -149,7 +150,50 @@ class InfoDesastresController
     }
 
 
-    static function totalPersonasFallecida($fecha1 = "", $fecha2 = "",  $fenomeno = "")
+    static function totalalbergues($fecha1 = "", $fecha2 = "",  $fenomeno = "", $depto="")
+    {
+
+
+        $sql = "SELECT  sum(amc_desastre_natural.albergues) as cantidad from amc_desastre_natural inner join amc_topico on amc_desastre_natural.topico = amc_topico.id  where  amc_desastre_natural.situacion = 1 ";
+
+
+
+        if ($fecha1 == '' && $fecha2 == '') {
+
+            $sql .= " AND year(amc_topico.fecha) = year(current) and month(amc_topico.fecha) = month(current) ";
+        }
+
+        if ($fenomeno != ''   ) {
+
+            $sql .= " AND amc_desastre_natural.nombre_desastre = $fenomeno";
+        }
+
+        if ($depto != ''   ) {
+
+            $sql .= " AND amc_topico.departamento = $depto";
+        }
+       
+
+        if ($fecha1 != '' && $fecha2 != '' ) {
+
+            $sql .= " AND amc_topico.fecha   BETWEEN '$fecha1' AND  '$fecha2' ";
+        }
+        
+        $result = Des_natural::fetchArray($sql);
+        if ($result[0]['cantidad'] != null) {
+            return $result;
+        } else {
+
+            $result = [[
+                "cantidad" =>
+                "0"
+            ]];
+            return $result;
+        }
+    }
+
+
+    static function totalPersonasFallecida($fecha1 = "", $fecha2 = "",  $fenomeno = "", $depto="")
     {
 
 
@@ -164,7 +208,7 @@ class InfoDesastresController
 
             $sql .= " AND amc_desastre_natural.nombre_desastre = $fenomeno";
         }
-
+       
 
         if ($fecha1 != '' && $fecha2 != '') {
 
@@ -184,7 +228,7 @@ class InfoDesastresController
     }
 
 
-    static function IncidenciaDesastre($fecha1 = "", $fecha2 = "")
+    static function IncidenciaDesastre($fecha1 = "", $fecha2 = "", $depto="")
     {
 
 
@@ -195,8 +239,8 @@ class InfoDesastresController
             $sql .= " AND  year(amc_topico.fecha) = year(current) and month(amc_topico.fecha) = month(current) ";
         }
 
-
-
+      
+       
 
         if ($fecha1 != '' && $fecha2 != '') {
 
@@ -219,7 +263,7 @@ class InfoDesastresController
         }
     }
 
-    static function totalPersonaAfectada($fecha1 = "", $fecha2 = "",   $fenomeno = "")
+    static function totalPersonaAfectada($fecha1 = "", $fecha2 = "",   $fenomeno = "" , $depto ="")
     {
 
 
@@ -234,7 +278,7 @@ class InfoDesastresController
 
             $sql .= " AND amc_desastre_natural.nombre_desastre = $fenomeno";
         }
-
+       
 
         if ($fecha1 != '' && $fecha2 != '') {
 
@@ -253,7 +297,7 @@ class InfoDesastresController
         }
     }
 
-
+  
     static function EstructuraColapsada($fecha1 = "", $fecha2 = "",  $fenomeno = "")
     {
 
@@ -269,7 +313,7 @@ class InfoDesastresController
 
             $sql .= " AND amc_desastre_natural.nombre_desastre = $fenomeno";
         }
-
+       
 
         if ($fecha1 != '' && $fecha2 != '') {
 
@@ -288,7 +332,7 @@ class InfoDesastresController
         }
     }
 
-    static function Inundaciones($fecha1 = "", $fecha2 = "",  $fenomeno = "")
+    static function Inundaciones($fecha1 = "", $fecha2 = "",  $fenomeno = "", $depto ="")
     {
 
 
@@ -303,7 +347,7 @@ class InfoDesastresController
 
             $sql .= " AND amc_desastre_natural.nombre_desastre = $fenomeno";
         }
-
+       
 
         if ($fecha1 != '' && $fecha2 != '') {
 
@@ -323,7 +367,7 @@ class InfoDesastresController
     }
 
 
-    static function Derrumbes($fecha1 = "", $fecha2 = "",  $fenomeno = "")
+    static function Derrumbes($fecha1 = "", $fecha2 = "",  $fenomeno = "", $depto ="")
     {
 
 
@@ -338,7 +382,7 @@ class InfoDesastresController
 
             $sql .= " AND amc_desastre_natural.nombre_desastre = $fenomeno";
         }
-
+       
 
         if ($fecha1 != '' && $fecha2 != '') {
 
@@ -358,7 +402,7 @@ class InfoDesastresController
     }
 
 
-    static function CarreterasyPuentes($fecha1 = "", $fecha2 = "",  $fenomeno = "")
+    static function CarreterasyPuentes($fecha1 = "", $fecha2 = "",  $fenomeno = "", $depto ="")
     {
 
 
@@ -373,7 +417,7 @@ class InfoDesastresController
 
             $sql .= " AND amc_desastre_natural.nombre_desastre = $fenomeno";
         }
-
+       
 
         if ($fecha1 != '' && $fecha2 != '') {
 
@@ -393,7 +437,7 @@ class InfoDesastresController
     }
 
 
-    static function hectareasQuemadas($fecha1 = "", $fecha2 = "",  $fenomeno = "")
+    static function hectareasQuemadas($fecha1 = "", $fecha2 = "",  $fenomeno = "", $depto ="")
     {
 
 
@@ -408,7 +452,7 @@ class InfoDesastresController
 
             $sql .= " AND amc_desastre_natural.nombre_desastre = $fenomeno";
         }
-
+       
 
         if ($fecha1 != '' && $fecha2 != '') {
 
@@ -428,7 +472,7 @@ class InfoDesastresController
     }
 
 
-    static function DesbordamientosRios($fecha1 = "", $fecha2 = "",  $fenomeno = "")
+    static function DesbordamientosRios($fecha1 = "", $fecha2 = "",  $fenomeno = "", $depto ="")
     {
 
 
@@ -443,7 +487,7 @@ class InfoDesastresController
 
             $sql .= " AND amc_desastre_natural.nombre_desastre = $fenomeno";
         }
-
+       
 
         if ($fecha1 != '' && $fecha2 != '') {
 
@@ -462,7 +506,7 @@ class InfoDesastresController
         }
     }
 
-    static function departamentoAfectado($fecha1 = "", $fecha2 = "",  $fenomeno = "")
+    static function departamentoAfectado($fecha1 = "", $fecha2 = "",  $fenomeno = "", $depto ="")
     {
 
 
@@ -477,7 +521,7 @@ class InfoDesastresController
 
             $sql .= " AND amc_desastre_natural.nombre_desastre = $fenomeno";
         }
-
+       
 
         if ($fecha1 != '' && $fecha2 != '') {
 
@@ -687,7 +731,7 @@ class InfoDesastresController
 
             $id = $_POST['id'];
 
-            $sql = "SELECT amc_incautacion_droga.cantidad as cantidad,  amc_incautacion_droga.tipo_transporte as tipo_t, amc_incautacion_droga.id, amc_incautacion_droga.tipo_droga, matricula, amc_drogas.desc as droga, amc_transporte.desc as transporte   from amc_incautacion_droga inner join amc_drogas on amc_incautacion_droga.tipo_droga = amc_drogas.id inner join amc_transporte on amc_incautacion_droga.transporte = amc_transporte.id where amc_incautacion_droga.topico =$id and  amc_incautacion_droga.situacion = 1";
+            $sql = "SELECT * from amc_desastre_natural   inner join amc_fenomeno_natural on nombre_desastre = amc_fenomeno_natural.id inner join amc_topico on amc_desastre_natural.topico = amc_topico.id where amc_desastre_natural.topico =$id and  amc_topico.situacion = 1";
             $info = Des_natural::fetchArray($sql);
 
 
@@ -818,16 +862,24 @@ class InfoDesastresController
         // echo json_encode($sql);
 
         try {
-            $tipo_droga = $_POST['incautaciondroga_mapa_calor'];
+            $fenomeno = $_POST['fenomenos_mapa_calor'];
             $fecha1 = str_replace('T', ' ', $_POST['fecha_mapa']);
             $fecha2 = str_replace('T', ' ', $_POST['fecha2']);
 
 
-            $sql = " SELECT distinct dm_desc_lg as descripcion, dm_codigo as codigo, count (*) as cantidad FROM amc_topico inner join depmun on departamento = dm_codigo inner join amc_incautacion_droga on amc_topico.id = amc_incautacion_droga.topico where  amc_topico.situacion = 1 and amc_topico.tipo = 4 ";
+            $sql = "  SELECT amc_fenomeno_natural.desc as nombre, dm_desc_lg as departamento,dm_codigo as codigo, amc_desastre_natural.id,
+            (per_fallecida + per_evacuada + per_afectada + albergues + est_colapsadas + inundaciones + derrumbes + carre_colap + hectareas_quemadas + rios)/10 as promedio, 
+            per_fallecida + per_evacuada + per_afectada + albergues + est_colapsadas + inundaciones + derrumbes + carre_colap + hectareas_quemadas + rios as suma
+            from amc_desastre_natural 
+            inner join amc_fenomeno_natural on nombre_desastre = amc_fenomeno_natural.id
+            inner join amc_tipo_desastre_natural on amc_tipo_desastre_natural.id = amc_desastre_natural.tipo
+            inner join amc_topico on amc_desastre_natural.topico = amc_topico.id
+            inner join depmun on amc_topico.departamento = dm_codigo 
+            where amc_topico.situacion = 1 ";
 
-            if ($tipo_droga != '') {
+            if ($fenomeno != '') {
 
-                $sql .= "AND amc_incautacion_droga.tipo_droga = $tipo_droga";
+                $sql .= "AND amc_desastre_natural.nombre_desastre = $fenomeno";
             }
 
             if ($fecha1 != '' && $fecha2 != '') {
@@ -836,30 +888,12 @@ class InfoDesastresController
             if ($fecha1 == '' && $fecha2 == '') {
                 $sql .= " AND year(fecha) = year(current) AND month(fecha) = month(current)";
             }
-            $sql .= " group by descripcion, codigo";
+            // $sql .= " group by descripcion, codigo";
 
             $info = Des_natural::fetchArray($sql);
 
 
-            if ($info == null && $tipo_droga != '') {
-
-                $sql = " SELECT distinct dm_desc_lg as descripcion, dm_codigo as codigo, count (*) as cantidad FROM amc_topico inner join depmun on departamento = dm_codigo inner join amc_incautacion_droga on amc_topico.id = amc_incautacion_droga.topico where  amc_topico.situacion = 1 and amc_topico.tipo = 4  ";
-
-                if ($tipo_droga != '') {
-
-                    $sql .= "AND amc_incautacion_droga.tip_droga_plantacion = $tipo_droga";
-                }
-
-                if ($fecha1 != '' && $fecha2 != '') {
-                    $sql .= " AND amc_topico.fecha   BETWEEN '$fecha1' AND  '$fecha2' ";
-                }
-                if ($fecha1 == '' && $fecha2 == '') {
-                    $sql .= " AND year(fecha) = year(current) AND month(fecha) = month(current)";
-                }
-                $sql .= " group by descripcion, codigo";
-
-                $info = Des_natural::fetchArray($sql);
-            }
+          
             echo json_encode($info);
         } catch (Exception $e) {
             echo json_encode([
@@ -877,23 +911,23 @@ class InfoDesastresController
         try {
 
             $depto = $_POST['departamento'];
-            $fenomeno = $_POST['incautaciondroga_mapa_calor'];
+            $fenomeno = $_POST['fenomenos_mapa_calor'];
             $fecha1 = str_replace('T', ' ', $_POST['fecha_mapa']);
             $fecha2 = str_replace('T', ' ', $_POST['fecha2']);
 
 
-            $totalPersonasEvacuadas = static::totalPersonasEvacuadas($fecha1, $fecha2, $depto = "", $fenomeno);
-            $IncidenciaDesastre = static::IncidenciaDesastre($fecha1, $fecha2, $depto = "", $fenomeno);
-            $totalPersonaAfectada = static::totalPersonaAfectada($fecha1, $fecha2, $depto = "", $fenomeno);
-            $totalPersonasFallecida = static::totalPersonasFallecida($fecha1, $fecha2, $depto = "", $fenomeno);
-            $EstructuraColapsada = static::EstructuraColapsada($fecha1, $fecha2, $depto = "", $fenomeno);
-            $Inundaciones = static::Inundaciones($fecha1, $fecha2, $depto = "", $fenomeno);
-            $Derrumbes = static::Derrumbes($fecha1, $fecha2, $depto = "", $fenomeno);
-            $CarreterasyPuentes = static::CarreterasyPuentes($fecha1, $fecha2, $depto = "", $fenomeno);
-            $hectareasQuemadas = static::hectareasQuemadas($fecha1, $fecha2, $depto = "", $fenomeno);
-            $DesbordamientosRios = static::DesbordamientosRios($fecha1, $fecha2, $depto = "", $fenomeno);
-
-            $array_resultante = array_merge($IncidenciaDesastre, $totalPersonasEvacuadas, $totalPersonaAfectada, $totalPersonasFallecida,  $EstructuraColapsada,  $Inundaciones, $Derrumbes, $CarreterasyPuentes, $hectareasQuemadas, $DesbordamientosRios);
+            $totalPersonasEvacuadas = static::totalPersonasEvacuadas($fecha1, $fecha2, $depto ="", $fenomeno);
+            $IncidenciaDesastre = static::IncidenciaDesastre($fecha1, $fecha2, $depto ="", $fenomeno);
+            $totalPersonaAfectada = static::totalPersonaAfectada($fecha1, $fecha2, $depto ="", $fenomeno);
+            $totalPersonasFallecida = static::totalPersonasFallecida($fecha1, $fecha2, $depto ="", $fenomeno);
+            $EstructuraColapsada = static::EstructuraColapsada($fecha1, $fecha2, $depto ="", $fenomeno);
+            $Inundaciones = static::Inundaciones($fecha1, $fecha2, $depto ="", $fenomeno);
+            $Derrumbes = static::Derrumbes($fecha1, $fecha2, $depto ="", $fenomeno);
+            $CarreterasyPuentes = static::CarreterasyPuentes($fecha1, $fecha2, $depto ="", $fenomeno);
+            $hectareasQuemadas = static::hectareasQuemadas($fecha1, $fecha2, $depto ="", $fenomeno);
+            $DesbordamientosRios = static::DesbordamientosRios($fecha1, $fecha2, $depto ="", $fenomeno);
+          
+            $array_resultante = array_merge( $IncidenciaDesastre, $totalPersonasEvacuadas, $totalPersonaAfectada, $totalPersonasFallecida,  $EstructuraColapsada,  $Inundaciones, $Derrumbes, $CarreterasyPuentes, $hectareasQuemadas, $DesbordamientosRios);
 
             echo json_encode($array_resultante);
         } catch (Exception $e) {
@@ -901,15 +935,14 @@ class InfoDesastresController
         }
     }
 
-    function departamental_grafica($mes, $fecha1, $fecha2, $depto, $droga)
+    function departamental_grafica( $fecha1, $fecha2, $depto, $fenomeno)
     {
 
-        if ($mes == 13) {
-            return static::totalPersonasEvacuadas($fecha1, $fecha2, $depto, $droga);
-        }
-        if ($mes == 14) {
-            return static::totalPersonaAfectada($fecha1, $fecha2, $depto, $droga);
-        }
+      
+            
+        
+            return static::totalPersonaAfectada($fecha1, $fecha2, $depto, $fenomeno);
+        
     }
 
 
@@ -919,7 +952,7 @@ class InfoDesastresController
 
 
             $depto = $_POST['departamento'];
-            $droga = $_POST['incautaciondroga_mapa_calor'];
+            $droga = $_POST['fenomenos_mapa_calor'];
             $fecha1 = str_replace('T', ' ', $_POST['fecha_mapa']);
             $fecha2 = str_replace('T', ' ', $_POST['fecha2']);
             // echo json_encode($_POST);
@@ -936,42 +969,45 @@ class InfoDesastresController
 
 
 
-            for ($i = 13; $i <= 14; $i++) {
+                for ($i = 13; $i <= 14; $i++) {
 
                 foreach ($tipos as $key => $tipo) {
 
-                    $droga = (int)$tipo['id'];
+                        $droga = (int)$tipo['id'];
 
                     $labels[] = $tipo['desc'];
 
-                    $operaciones = static::departamental_grafica($i,  $fecha1, $fecha2, $depto, $droga);
+                        $operaciones = static::departamental_grafica($i,  $fecha1, $fecha2, $depto, $droga);
 
-                    if ($i == 13) {
-                        $dataset = 'KILOS';
-                    } else {
-                        if ($i == 14) {
-                            $dataset = 'MATAS';
+                        if ($i == 13) {
+                            $dataset = 'KILOS';
+                        } else {
+                            if ($i == 14) {
+                                $dataset = 'MATAS';
+                            }
                         }
+                       
+                      
+                        $cantidades[$dataset][] = (int) $operaciones[0]['cantidad'];
                     }
-
-
-                    $cantidades[$dataset][] = (int) $operaciones[0]['cantidad'];
+                   
+                    
+                     
                 }
-            }
+               
+               
+                foreach ($tipos as $key => $tipo) {
 
+                    $droga = $tipo['id'];
 
-            foreach ($tipos as $key => $tipo) {
+                    $drogas[] = $tipo['desc'];
+                }
 
-                $droga = $tipo['id'];
-
-                $drogas[] = $tipo['desc'];
-            }
-
-            $data = [
-                'labels' => $drogas,
-                'cantidades' => $cantidades,
-
-            ];
+                $data = [
+                    'labels' => $drogas,
+                    'cantidades' => $cantidades,
+                   
+                ];
 
 
             echo json_encode($data);
