@@ -274,6 +274,7 @@ $router->get('/reportes/topico', [ReporteController::class, 'reporteTopico']);
 $router->get('/reportes/general', [ReporteController::class, 'reporteGeneral']);
 
 
+
 $router->get('/mapas/droga', [InfoDrogaController::class , 'index']);
 $router->post('/API/mapas/infoDroga/resumen', [InfoDrogaController::class , 'resumenAPI'] );
 $router->get('/API/mapas/infoDroga/listado', [InfoDrogaController::class , 'listadoAPI'] );
@@ -355,6 +356,7 @@ $router->post('/API/mapas/infoDesastres/MigrantesDepartamentoGrafica', [InfoDesa
 $router->post('/API/mapas/infoDesastres/MigrantesPorDiaGrafica', [InfoDesastresController::class , 'MigrantesPorDiaGraficaAPI'] );
 $router->post('/API/mapas/infoDesastres/GraficaTrimestral', [InfoDesastresController::class , 'GraficaTrimestralAPI'] );
 $router->post('/API/mapas/infoDesastres/GraficaTrimestralGeneral', [InfoDesastresController::class , 'GraficaTrimestralGeneralAPI'] );
+
 
 
 
