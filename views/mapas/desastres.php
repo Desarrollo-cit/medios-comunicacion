@@ -1029,7 +1029,7 @@ $fechaLarga = strftime(" %B ");
                 <div class="col-lg-12 ">
 
                     <div class="col-lg-12 " style="height:800px;">
-                        <h2 style="color:black">ESTADISTICAS TRIMESTRALES </h2>
+                        <h2 style="color:black">PROMEDIO DE DAÑOS POR DESASTRE DEL AÑO</h2>
                         <canvas id="myChart4" height="100"></canvas>
                     </div>
                 </div>

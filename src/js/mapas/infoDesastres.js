@@ -1064,7 +1064,7 @@ const trimestralesDesastres = async () => {
        
         info.forEach(d => {
             
-            labels = [...labels,d.nombre, "Primer Trimestre","Segundo Trimestre","Tercer Trimestre","Cuarto Trimestre"]
+            labels = [...labels,d.nombre,]
 
            
             cantidades = [...cantidades, d.promedio ]
@@ -1308,9 +1308,9 @@ desastres_estadisticas();
 
 desastrepormes();
 trimestralesDesastres();
-CapturasPorDia();
-trimestralesDelitos();
-trimestral_capturas_general();
+
+// trimestralesDelitos();
+// trimestral_capturas_general();
 
 
 

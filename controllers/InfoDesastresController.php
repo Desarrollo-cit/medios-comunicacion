@@ -1122,53 +1122,52 @@ where year(amc_topico.fecha) = $año and month(amc_topico.fecha) = $mes  ");
 
         try {
 
-            $primer_trimestre = Des_natural::fetchArray("SELECT amc_fenomeno_natural.desc as nombre, dm_desc_lg as departamento,dm_codigo as codigo, amc_desastre_natural.id,
-            (per_fallecida + per_evacuada + per_afectada + albergues + est_colapsadas + inundaciones + derrumbes + carre_colap + hectareas_quemadas + rios)/10 as promedio, 
-            per_fallecida + per_evacuada + per_afectada + albergues + est_colapsadas + inundaciones + derrumbes + carre_colap + hectareas_quemadas + rios as suma, month(fecha) as mes
-            from amc_desastre_natural 
-            inner join amc_fenomeno_natural on nombre_desastre = amc_fenomeno_natural.id
-            inner join amc_tipo_desastre_natural on amc_tipo_desastre_natural.id = amc_desastre_natural.tipo
-            inner join amc_topico on amc_desastre_natural.topico = amc_topico.id
-            inner join depmun on amc_topico.departamento = dm_codigo 
-            where amc_topico.situacion = 1 
-             AND year(fecha) = year(current) AND month(fecha) between 01 and 03 ");
+            $data = Des_natural::fetchArray("SELECT amc_fenomeno_natural.desc as nombre, amc_desastre_natural.id,
+                        (per_fallecida + per_evacuada + per_afectada + albergues + est_colapsadas + inundaciones + derrumbes + carre_colap + hectareas_quemadas + rios)/10 as promedio, 
+                        per_fallecida + per_evacuada + per_afectada + albergues + est_colapsadas + inundaciones + derrumbes + carre_colap + hectareas_quemadas + rios as suma
+                        from amc_desastre_natural 
+                        inner join amc_fenomeno_natural on nombre_desastre = amc_fenomeno_natural.id
+                        inner join amc_tipo_desastre_natural on amc_tipo_desastre_natural.id = amc_desastre_natural.tipo
+                        inner join amc_topico on amc_desastre_natural.topico = amc_topico.id
+                        where amc_topico.situacion = 1 
+                         AND year(fecha) = year(current)");
 
-            $segundo_trimestre = Des_natural::fetchArray("SELECT amc_fenomeno_natural.desc as nombre, dm_desc_lg as departamento,dm_codigo as codigo, amc_desastre_natural.id,
-            (per_fallecida + per_evacuada + per_afectada + albergues + est_colapsadas + inundaciones + derrumbes + carre_colap + hectareas_quemadas + rios)/10 as promedio, 
-            per_fallecida + per_evacuada + per_afectada + albergues + est_colapsadas + inundaciones + derrumbes + carre_colap + hectareas_quemadas + rios as suma, month(fecha) as mes
-            from amc_desastre_natural 
-            inner join amc_fenomeno_natural on nombre_desastre = amc_fenomeno_natural.id
-            inner join amc_tipo_desastre_natural on amc_tipo_desastre_natural.id = amc_desastre_natural.tipo
-            inner join amc_topico on amc_desastre_natural.topico = amc_topico.id
-            inner join depmun on amc_topico.departamento = dm_codigo 
-            where amc_topico.situacion = 1 
-            AND year(fecha) = year(current) AND month(fecha) between 03 and 0 ");
+            // $segundo_trimestre = Des_natural::fetchArray("SELECT amc_fenomeno_natural.desc as nombre, dm_desc_lg as departamento,dm_codigo as codigo, amc_desastre_natural.id,
+            // (per_fallecida + per_evacuada + per_afectada + albergues + est_colapsadas + inundaciones + derrumbes + carre_colap + hectareas_quemadas + rios)/10 as promedio, 
+            // per_fallecida + per_evacuada + per_afectada + albergues + est_colapsadas + inundaciones + derrumbes + carre_colap + hectareas_quemadas + rios as suma, month(fecha) as mes
+            // from amc_desastre_natural 
+            // inner join amc_fenomeno_natural on nombre_desastre = amc_fenomeno_natural.id
+            // inner join amc_tipo_desastre_natural on amc_tipo_desastre_natural.id = amc_desastre_natural.tipo
+            // inner join amc_topico on amc_desastre_natural.topico = amc_topico.id
+            // inner join depmun on amc_topico.departamento = dm_codigo 
+            // where amc_topico.situacion = 1 
+            // AND year(fecha) = year(current) AND month(fecha) between 03 and 0 ");
 
 
-            $tercer_trimestre = Des_natural::fetchArray("SELECT amc_fenomeno_natural.desc as nombre, dm_desc_lg as departamento,dm_codigo as codigo, amc_desastre_natural.id,
-            (per_fallecida + per_evacuada + per_afectada + albergues + est_colapsadas + inundaciones + derrumbes + carre_colap + hectareas_quemadas + rios)/10 as promedio, 
-             per_fallecida + per_evacuada + per_afectada + albergues + est_colapsadas + inundaciones + derrumbes + carre_colap + hectareas_quemadas + rios as suma, month(fecha) as mes
-            from amc_desastre_natural 
-            inner join amc_fenomeno_natural on nombre_desastre = amc_fenomeno_natural.id
-            inner join amc_tipo_desastre_natural on amc_tipo_desastre_natural.id = amc_desastre_natural.tipo
-            inner join amc_topico on amc_desastre_natural.topico = amc_topico.id
-            inner join depmun on amc_topico.departamento = dm_codigo 
-            where amc_topico.situacion = 1 
-            AND year(fecha) = year(current) AND month(fecha) between 07 and 09 ");
+            // $tercer_trimestre = Des_natural::fetchArray("SELECT amc_fenomeno_natural.desc as nombre, dm_desc_lg as departamento,dm_codigo as codigo, amc_desastre_natural.id,
+            // (per_fallecida + per_evacuada + per_afectada + albergues + est_colapsadas + inundaciones + derrumbes + carre_colap + hectareas_quemadas + rios)/10 as promedio, 
+            //  per_fallecida + per_evacuada + per_afectada + albergues + est_colapsadas + inundaciones + derrumbes + carre_colap + hectareas_quemadas + rios as suma, month(fecha) as mes
+            // from amc_desastre_natural 
+            // inner join amc_fenomeno_natural on nombre_desastre = amc_fenomeno_natural.id
+            // inner join amc_tipo_desastre_natural on amc_tipo_desastre_natural.id = amc_desastre_natural.tipo
+            // inner join amc_topico on amc_desastre_natural.topico = amc_topico.id
+            // inner join depmun on amc_topico.departamento = dm_codigo 
+            // where amc_topico.situacion = 1 
+            // AND year(fecha) = year(current) AND month(fecha) between 07 and 09 ");
 
-            $cuarto_trimestre = Des_natural::fetchArray("SELECT amc_fenomeno_natural.desc as nombre, dm_desc_lg as departamento,dm_codigo as codigo, amc_desastre_natural.id,
-            (per_fallecida + per_evacuada + per_afectada + albergues + est_colapsadas + inundaciones + derrumbes + carre_colap + hectareas_quemadas + rios)/10 as promedio, 
-            per_fallecida + per_evacuada + per_afectada + albergues + est_colapsadas + inundaciones + derrumbes + carre_colap + hectareas_quemadas + rios as suma, month(fecha) as mes
+            // $cuarto_trimestre = Des_natural::fetchArray("SELECT amc_fenomeno_natural.desc as nombre, dm_desc_lg as departamento,dm_codigo as codigo, amc_desastre_natural.id,
+            // (per_fallecida + per_evacuada + per_afectada + albergues + est_colapsadas + inundaciones + derrumbes + carre_colap + hectareas_quemadas + rios)/10 as promedio, 
+            // per_fallecida + per_evacuada + per_afectada + albergues + est_colapsadas + inundaciones + derrumbes + carre_colap + hectareas_quemadas + rios as suma, month(fecha) as mes
 
-            from amc_desastre_natural 
-            inner join amc_fenomeno_natural on nombre_desastre = amc_fenomeno_natural.id
-            inner join amc_tipo_desastre_natural on amc_tipo_desastre_natural.id = amc_desastre_natural.tipo
-            inner join amc_topico on amc_desastre_natural.topico = amc_topico.id
-            inner join depmun on amc_topico.departamento = dm_codigo 
-            where amc_topico.situacion = 1 
-            AND year(fecha) = year(current) AND month(fecha) between 10 and 12 ");
+            // from amc_desastre_natural 
+            // inner join amc_fenomeno_natural on nombre_desastre = amc_fenomeno_natural.id
+            // inner join amc_tipo_desastre_natural on amc_tipo_desastre_natural.id = amc_desastre_natural.tipo
+            // inner join amc_topico on amc_desastre_natural.topico = amc_topico.id
+            // inner join depmun on amc_topico.departamento = dm_codigo 
+            // where amc_topico.situacion = 1 
+            // AND year(fecha) = year(current) AND month(fecha) between 10 and 12 ");
 
-            $data = array_merge($primer_trimestre,$segundo_trimestre,$tercer_trimestre,$cuarto_trimestre);
+            // $data = array_merge($primer_trimestre,$segundo_trimestre,$tercer_trimestre,$cuarto_trimestre);
 
             echo json_encode($data);
 
