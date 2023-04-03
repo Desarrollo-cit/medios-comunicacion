@@ -70,7 +70,7 @@
                             </li>
                             <li>
 
-                                <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/usuarios"><i class="fa-sharp fa-solid fa-users"></i>Usuarios</a>
+                                <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/usuarios"><i class="fa-sharp fa-solid fa-users me-2"></i>Usuarios</a>
                             </li>
                             <li>
 

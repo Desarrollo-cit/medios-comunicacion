@@ -43,11 +43,11 @@ class InfoMigrantesController
 
 
 
-    public static function migrantes($fecha1 = "", $fecha2 = "")
+    protected static function migrantes($fecha1 = "", $fecha2 = "")
     {
 
 
-        hasPermissionApi(['AMC_ADMIN']);
+        // hasPermissionApi(['AMC_ADMIN']);
 
 
         $sql =  "SELECT sum (cantidad ) as cantidad from amc_migrantes inner join amc_topico on amc_migrantes.topic = amc_topico.id  where  amc_topico.situacion = 1 and amc_migrantes.situacion = 1  and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
@@ -102,9 +102,9 @@ class InfoMigrantesController
         }
     }
 
-    public static function edades($fecha1 = "", $fecha2 = "")
+    protected static function edades($fecha1 = "", $fecha2 = "")
     {
-        hasPermissionApi(['AMC_ADMIN']);
+        // hasPermissionApi(['AMC_ADMIN']);
 
         $sql = " SELECT first 1 amc_edades.edades , sum (cantidad ) as cantidad from amc_migrantes inner join amc_topico on amc_migrantes.topic = amc_topico.id inner join amc_edades on amc_migrantes.edad = amc_edades.id  where  amc_topico.situacion = 1 and amc_migrantes.situacion > 0  and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
 
@@ -131,9 +131,9 @@ class InfoMigrantesController
         }
     }
 
-    public static function cant_paises($fecha1 = "", $fecha2 = "")
+    protected static function cant_paises($fecha1 = "", $fecha2 = "")
     {
-        hasPermissionApi(['AMC_ADMIN']);
+        // hasPermissionApi(['AMC_ADMIN']);
 
         $sql = " SELECT count(DISTINCT pais_migrante) as cantidad from amc_migrantes inner join amc_topico on amc_topico.id = amc_migrantes.topic where amc_topico.situacion = 1 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
 
@@ -157,9 +157,9 @@ class InfoMigrantesController
         }
     }
 
-    public static function pais($fecha1 = "", $fecha2 = "")
+   protected static function pais($fecha1 = "", $fecha2 = "")
     {
-        hasPermissionApi(['AMC_ADMIN']);
+        // hasPermissionApi(['AMC_ADMIN']);
         $cero = [];
         $sql = "  SELECT FIRST 1 paises.pai_desc_lg as pais, sum (cantidad ) as cantidad from amc_migrantes inner join amc_topico on amc_migrantes.topic = amc_topico.id inner join amc_nacionalidad on amc_migrantes.pais_migrante = amc_nacionalidad.id inner join paises on paises.pai_codigo = amc_nacionalidad.pais where  amc_topico.situacion = 1 and amc_migrantes.situacion > 0 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
 
@@ -184,9 +184,9 @@ class InfoMigrantesController
     }
 
 
-    public static function mujeres($fecha1 = "", $fecha2 = "")
+    protected static function mujeres($fecha1 = "", $fecha2 = "")
     {
-        hasPermissionApi(['AMC_ADMIN']);
+        // hasPermissionApi(['AMC_ADMIN']);
 
         $sql =  "SELECT sum (cantidad ) as cantidad from amc_migrantes inner join amc_topico on amc_migrantes.topic = amc_topico.id  where  amc_topico.situacion = 1 and amc_migrantes.situacion = 1 and sexo = 2 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
 
@@ -207,10 +207,10 @@ class InfoMigrantesController
         }
     }
 
-    public static function hombres($fecha1 = "", $fecha2 = "")
+    protected static function hombres($fecha1 = "", $fecha2 = "")
     {
 
-        hasPermissionApi(['AMC_ADMIN']);
+        // hasPermissionApi(['AMC_ADMIN']);
 
         $sql = "SELECT  sum (cantidad ) as cantidad from amc_migrantes inner join amc_topico on amc_migrantes.topic = amc_topico.id   where amc_topico.situacion = 1 and sexo = 1 and amc_migrantes.situacion = 1 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
 
@@ -231,10 +231,10 @@ class InfoMigrantesController
         }
     }
 
-    public static function departamento_migrantes($fecha1 = "", $fecha2 = "")
+    protected static function departamento_migrantes($fecha1 = "", $fecha2 = "")
     {
 
-        hasPermissionApi(['AMC_ADMIN']);
+        // hasPermissionApi(['AMC_ADMIN']);
 
         $sql = "SELECT FIRST 1 amc_topico.departamento, count(*) as cantidad FROM amc_topico inner join amc_migrantes on amc_topico.id = amc_migrantes.topic where    amc_topico.situacion = 1 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
 
@@ -446,9 +446,9 @@ class InfoMigrantesController
         }
     }
 
-    public static function tipos_de_edades()
+    protected static function tipos_de_edades()
     {
-        hasPermissionApi(['AMC_ADMIN']);
+        // hasPermissionApi(['AMC_ADMIN']);
         $sentencia = "SELECT * from amc_edades where situacion = 1";
         $result =  Migrantes::fetchArray($sentencia);
         return $result;
@@ -582,7 +582,7 @@ class InfoMigrantesController
         }
     }
 
-    public static function coloresAPI1()
+    protected static function coloresAPI1()
     {
 
         try {
