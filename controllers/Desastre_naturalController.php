@@ -6,12 +6,15 @@ use Model\Desastre_natural;
 use MVC\Router;
 class Desastre_naturalController{
 
-    public function index(Router $router)
+    public static function index(Router $router)
     {
+        hasPermission(['AMC_ADMIN']);
+
         $router->render('desastre_natural/index');
     }
-    public function guardarAPI(){
+    public static function guardarAPI(){
         getHeadersApi();
+        hasPermissionApi(['AMC_ADMIN']);
 
         try {
             $desastre = new Desastre_natural($_POST);
@@ -56,8 +59,10 @@ class Desastre_naturalController{
         
     }
 
-    public function buscarApi(){
+    public static function buscarApi(){
         getHeadersApi();
+        hasPermissionApi(['AMC_ADMIN']);
+
         $desastre = Desastre_natural::where('situacion', '1');
         echo json_encode($desastre);
     }
@@ -65,8 +70,10 @@ class Desastre_naturalController{
 
 
 
-    public function modificarAPI(){
+    public static function modificarAPI(){
         getHeadersApi();
+        hasPermissionApi(['AMC_ADMIN']);
+
         $desastre = new Desastre_natural($_POST);
         $valor = $desastre->desc;
         $existe = Desastre_natural::SQL("select * from amc_tipo_desastre_natural where situacion =1 AND desc = '$valor'");
@@ -96,8 +103,10 @@ class Desastre_naturalController{
         }
     }
 
-    public function eliminarAPI(){
+    public static function eliminarAPI(){
         getHeadersApi();
+        hasPermissionApi(['AMC_ADMIN']);
+
         $_POST['situacion'] = 0;
         $desastre = new Desastre_natural($_POST);
         

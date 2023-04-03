@@ -11,6 +11,8 @@ use Model\Desastre_natural;
 class Des_naturalController{
     public static function guardar(){
         getHeadersApi();
+        hasPermissionApi(['AMC_ADMIN', 'AMC_COMANDO']);
+
 
         // echo json_encode($_POST);
         // exit;
@@ -79,6 +81,8 @@ class Des_naturalController{
 public static function buscarDesastresAPI(){
 
     getHeadersApi();
+    hasPermissionApi(['AMC_ADMIN', 'AMC_COMANDO']);
+
     $topico = $_GET['topico'];
     // echo json_encode("hola");
     // exit;
@@ -118,7 +122,7 @@ public static function buscarDesastresAPI(){
 
     public static function modificar(){
         getHeadersApi();
-
+        hasPermissionApi(['AMC_ADMIN', 'AMC_COMANDO']);
         
         try {
             
@@ -186,7 +190,8 @@ public static function buscarDesastresAPI(){
 
     public static function eliminarDesastre(){
         getHeadersApi();
-        
+        hasPermissionApi(['AMC_ADMIN', 'AMC_COMANDO']);
+
         
         try {
 

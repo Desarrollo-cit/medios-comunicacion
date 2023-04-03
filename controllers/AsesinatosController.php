@@ -12,6 +12,7 @@ class AsesinatosController
 {
     public static function guardar(){
         getHeadersApi();
+        hasPermissionApi(['AMC_ADMIN', 'AMC_COMANDO']);
                     
         $cantidadasesinados = count($_POST['nombre']);
         
@@ -82,6 +83,7 @@ class AsesinatosController
 
    
         getHeadersApi();
+        hasPermissionApi(['AMC_ADMIN', 'AMC_COMANDO']);
      
         $topico = $_GET['topico'];
 
@@ -107,7 +109,7 @@ class AsesinatosController
     }
     public static function modificar(){
         getHeadersApi();
-        
+        hasPermissionApi(['AMC_ADMIN', 'AMC_COMANDO']);
         
         try {
 
@@ -164,7 +166,7 @@ class AsesinatosController
 
     public static function eliminarAsesinado(){
         getHeadersApi();
-        
+        hasPermissionApi(['AMC_ADMIN', 'AMC_COMANDO']);
         
         try {
             $asesinado = asesinados::find($_POST['id']);
@@ -196,7 +198,7 @@ class AsesinatosController
 
     public static function eliminarAsesinato(){
         getHeadersApi();
-        
+        hasPermissionApi(['AMC_ADMIN', 'AMC_COMANDO']);
         
         try {
 

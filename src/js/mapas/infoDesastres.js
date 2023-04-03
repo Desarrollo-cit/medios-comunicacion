@@ -524,17 +524,13 @@ window.detalle = async (valor) => {
         const response = await fetch(url_grafica, configGrafica)
         const datos = await response.json()
 
-        console.log(datos);
-        if (datos.length > 0) {
+        // console.log(datos.info1);
+        if (datos.info1 != null) {
             document.getElementById('grafica_depto1').style.display = "block"
             document.getElementById('texto_no').style.display = "none"
 
 
-            let labels = [], cantidades = []
-            datos.forEach(d => {
-                labels = [...labels, d.descripcion]
-                cantidades = [...cantidades, d.cantidad]
-            })
+            const { descripcion, cantidades } = datos;
             // mostrar(datos)
             //  $("#delitos_cant").destroy();
             const ctx = document.getElementById('delitos_cant');
@@ -545,7 +541,7 @@ window.detalle = async (valor) => {
             window.grafica = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels,
+                    labels: descripcion,
                     datasets: [{
                         label: 'fenomenos',
                         data: cantidades,

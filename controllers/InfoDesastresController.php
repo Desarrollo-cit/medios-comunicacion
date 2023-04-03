@@ -13,7 +13,9 @@ use MVC\Router;
 class InfoDesastresController
 {
     public function index(Router $router)
-    {
+    {   
+        hasPermission(['AMC_ADMIN']);
+
         $fenomeno_natural = static::fenomeno_natural();
         $cantidadDesastres = static::cantidadDesastres();
         $totalPersonasEvacuadas = static::totalPersonasEvacuadas();
@@ -55,6 +57,8 @@ class InfoDesastresController
     static function  fenomeno_natural()
     {
 
+        hasPermissionApi(['AMC_ADMIN']);
+
         $sentencia = "SELECT * from amc_fenomeno_natural where situacion = 1";
         $result = Des_natural::fetchArray($sentencia);
         return $result;
@@ -63,6 +67,8 @@ class InfoDesastresController
     static public function coloresAPI()
     {
         getHeadersApi();
+        hasPermissionApi(['AMC_ADMIN']);
+
         try {
             $sql = "SELECT * from amc_colores where topico = 7 and situacion = 1 order by nivel asc ";
             $info = Des_natural::fetchArray($sql);
@@ -74,6 +80,8 @@ class InfoDesastresController
 
     static public function coloresAPI1()
     {
+        hasPermissionApi(['AMC_ADMIN']);
+
 
         try {
             $sql = "SELECT * from amc_colores where topico = 7  ";
@@ -85,11 +93,12 @@ class InfoDesastresController
     }
     protected static function cantidadDesastres($fecha1 = "", $fecha2 = "")
     {
+        hasPermissionApi(['AMC_ADMIN']);
 
 
         $sql = " SELECT  count (*) as cantidad from amc_desastre_natural 
         inner join amc_topico on amc_desastre_natural.topico = amc_topico.id 
-        where  amc_topico.situacion = 1 and amc_desastre_natural.situacion = 1";
+        where  amc_topico.situacion = 1 and amc_desastre_natural.situacion = 1 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
 
         if ($fecha1 != '' && $fecha2 != '') {
 
@@ -115,8 +124,9 @@ class InfoDesastresController
     static function totalPersonasEvacuadas($fecha1 = "", $fecha2 = "",  $fenomeno = "", $depto="")
     {
 
+        hasPermissionApi(['AMC_ADMIN']);
 
-        $sql = "SELECT  sum(amc_desastre_natural.per_evacuada) as cantidad from amc_desastre_natural inner join amc_topico on amc_desastre_natural.topico = amc_topico.id  where  amc_desastre_natural.situacion = 1 ";
+        $sql = "SELECT  sum(amc_desastre_natural.per_evacuada) as cantidad from amc_desastre_natural inner join amc_topico on amc_desastre_natural.topico = amc_topico.id  where  amc_desastre_natural.situacion = 1 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
 
 
 
@@ -152,9 +162,10 @@ class InfoDesastresController
 
     static function totalalbergues($fecha1 = "", $fecha2 = "",  $fenomeno = "", $depto="")
     {
+        hasPermissionApi(['AMC_ADMIN']);
 
 
-        $sql = "SELECT  sum(amc_desastre_natural.albergues) as cantidad from amc_desastre_natural inner join amc_topico on amc_desastre_natural.topico = amc_topico.id  where  amc_desastre_natural.situacion = 1 ";
+        $sql = "SELECT  sum(amc_desastre_natural.albergues) as cantidad from amc_desastre_natural inner join amc_topico on amc_desastre_natural.topico = amc_topico.id  where  amc_desastre_natural.situacion = 1 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
 
 
 
@@ -195,9 +206,10 @@ class InfoDesastresController
 
     static function totalPersonasFallecida($fecha1 = "", $fecha2 = "",  $fenomeno = "", $depto="")
     {
+        hasPermissionApi(['AMC_ADMIN']);
 
 
-        $sql = "SELECT  sum(amc_desastre_natural.per_fallecida) as cantidad from amc_desastre_natural inner join amc_topico on amc_desastre_natural.topico = amc_topico.id  where  amc_desastre_natural.situacion = 1 ";
+        $sql = "SELECT  sum(amc_desastre_natural.per_fallecida) as cantidad from amc_desastre_natural inner join amc_topico on amc_desastre_natural.topico = amc_topico.id  where  amc_desastre_natural.situacion = 1 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
 
         if ($fecha1 == '' && $fecha2 == '') {
 
@@ -231,8 +243,9 @@ class InfoDesastresController
     static function IncidenciaDesastre($fecha1 = "", $fecha2 = "", $depto="")
     {
 
+        hasPermissionApi(['AMC_ADMIN']);
 
-        $sql = "  SELECT FIRST 1  amc_tipo_desastre_natural.desc, count(amc_tipo_desastre_natural.desc) as cantidad from amc_desastre_natural inner join amc_tipo_desastre_natural on amc_desastre_natural.tipo = amc_tipo_desastre_natural.id inner join amc_topico on amc_desastre_natural.topico = amc_topico.id  where  amc_desastre_natural.situacion = 1 and amc_topico.situacion = 1";
+        $sql = "  SELECT FIRST 1  amc_tipo_desastre_natural.desc, count(amc_tipo_desastre_natural.desc) as cantidad from amc_desastre_natural inner join amc_tipo_desastre_natural on amc_desastre_natural.tipo = amc_tipo_desastre_natural.id inner join amc_topico on amc_desastre_natural.topico = amc_topico.id  where  amc_desastre_natural.situacion = 1 and amc_topico.situacion = 1 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
 
         if ($fecha1 == '' && $fecha2 == '') {
 
@@ -265,9 +278,10 @@ class InfoDesastresController
 
     static function totalPersonaAfectada($fecha1 = "", $fecha2 = "",   $fenomeno = "" , $depto ="")
     {
+        hasPermissionApi(['AMC_ADMIN']);
 
 
-        $sql = "SELECT  sum(amc_desastre_natural.per_afectada) as cantidad from amc_desastre_natural inner join amc_topico on amc_desastre_natural.topico = amc_topico.id  where  amc_desastre_natural.situacion = 1 ";
+        $sql = "SELECT  sum(amc_desastre_natural.per_afectada) as cantidad from amc_desastre_natural inner join amc_topico on amc_desastre_natural.topico = amc_topico.id  where  amc_desastre_natural.situacion = 1 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
 
         if ($fecha1 == '' && $fecha2 == '' && $fenomeno == "") {
 
@@ -300,9 +314,10 @@ class InfoDesastresController
   
     static function EstructuraColapsada($fecha1 = "", $fecha2 = "",  $fenomeno = "")
     {
+        hasPermissionApi(['AMC_ADMIN']);
 
 
-        $sql = "SELECT  sum(amc_desastre_natural.est_colapsadas) as cantidad from amc_desastre_natural inner join amc_topico on amc_desastre_natural.topico = amc_topico.id  where amc_desastre_natural.situacion = 1 ";
+        $sql = "SELECT  sum(amc_desastre_natural.est_colapsadas) as cantidad from amc_desastre_natural inner join amc_topico on amc_desastre_natural.topico = amc_topico.id  where amc_desastre_natural.situacion = 1 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
 
         if ($fecha1 == '' && $fecha2 == '' && $fenomeno == "") {
 
@@ -334,9 +349,10 @@ class InfoDesastresController
 
     static function Inundaciones($fecha1 = "", $fecha2 = "",  $fenomeno = "", $depto ="")
     {
+        hasPermissionApi(['AMC_ADMIN']);
 
 
-        $sql = "SELECT  sum(amc_desastre_natural.inundaciones) as cantidad from amc_desastre_natural inner join amc_topico on amc_desastre_natural.topico = amc_topico.id  where  amc_desastre_natural.situacion = 1 ";
+        $sql = "SELECT  sum(amc_desastre_natural.inundaciones) as cantidad from amc_desastre_natural inner join amc_topico on amc_desastre_natural.topico = amc_topico.id  where  amc_desastre_natural.situacion = 1 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
 
         if ($fecha1 == '' && $fecha2 == '' && $fenomeno == "") {
 
@@ -369,9 +385,10 @@ class InfoDesastresController
 
     static function Derrumbes($fecha1 = "", $fecha2 = "",  $fenomeno = "", $depto ="")
     {
+        hasPermissionApi(['AMC_ADMIN']);
 
 
-        $sql = "SELECT  sum(amc_desastre_natural.derrumbes) as cantidad from amc_desastre_natural inner join amc_topico on amc_desastre_natural.topico = amc_topico.id  where  amc_desastre_natural.situacion = 1 ";
+        $sql = "SELECT  sum(amc_desastre_natural.derrumbes) as cantidad from amc_desastre_natural inner join amc_topico on amc_desastre_natural.topico = amc_topico.id  where  amc_desastre_natural.situacion = 1 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
 
         if ($fecha1 == '' && $fecha2 == '' && $fenomeno == "") {
 
@@ -405,8 +422,9 @@ class InfoDesastresController
     static function CarreterasyPuentes($fecha1 = "", $fecha2 = "",  $fenomeno = "", $depto ="")
     {
 
+        hasPermissionApi(['AMC_ADMIN']);
 
-        $sql = "SELECT  sum(amc_desastre_natural.carre_colap) as cantidad from amc_desastre_natural inner join amc_topico on amc_desastre_natural.topico = amc_topico.id  where  amc_desastre_natural.situacion = 1 ";
+        $sql = "SELECT  sum(amc_desastre_natural.carre_colap) as cantidad from amc_desastre_natural inner join amc_topico on amc_desastre_natural.topico = amc_topico.id  where  amc_desastre_natural.situacion = 1 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
 
         if ($fecha1 == '' && $fecha2 == '' && $fenomeno == "") {
 
@@ -440,8 +458,9 @@ class InfoDesastresController
     static function hectareasQuemadas($fecha1 = "", $fecha2 = "",  $fenomeno = "", $depto ="")
     {
 
+        hasPermissionApi(['AMC_ADMIN']);
 
-        $sql = "SELECT  sum(amc_desastre_natural.hectareas_quemadas) as cantidad from amc_desastre_natural inner join amc_topico on amc_desastre_natural.topico = amc_topico.id  where  amc_desastre_natural.situacion = 1 ";
+        $sql = "SELECT  sum(amc_desastre_natural.hectareas_quemadas) as cantidad from amc_desastre_natural inner join amc_topico on amc_desastre_natural.topico = amc_topico.id  where  amc_desastre_natural.situacion = 1 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
 
         if ($fecha1 == '' && $fecha2 == '' && $fenomeno == "") {
 
@@ -474,9 +493,10 @@ class InfoDesastresController
 
     static function DesbordamientosRios($fecha1 = "", $fecha2 = "",  $fenomeno = "", $depto ="")
     {
+        hasPermissionApi(['AMC_ADMIN']);
 
 
-        $sql = "SELECT  sum(amc_desastre_natural.rios) as cantidad from amc_desastre_natural inner join amc_topico on amc_desastre_natural.topico = amc_topico.id  where  amc_desastre_natural.situacion = 1 ";
+        $sql = "SELECT  sum(amc_desastre_natural.rios) as cantidad from amc_desastre_natural inner join amc_topico on amc_desastre_natural.topico = amc_topico.id  where  amc_desastre_natural.situacion = 1 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
 
         if ($fecha1 == '' && $fecha2 == '' && $fenomeno == "") {
 
@@ -509,8 +529,9 @@ class InfoDesastresController
     static function departamentoAfectado($fecha1 = "", $fecha2 = "",  $fenomeno = "", $depto ="")
     {
 
+        hasPermissionApi(['AMC_ADMIN']);
 
-        $sql = " SELECT FIRST 1 amc_fenomeno_natural.desc as nombre, dm_desc_lg as departamento, (per_fallecida + per_evacuada + per_afectada + albergues + est_colapsadas + inundaciones + derrumbes + carre_colap + hectareas_quemadas + rios)/6 as promedio, per_fallecida + per_evacuada + per_afectada + albergues + est_colapsadas + inundaciones + derrumbes + carre_colap + hectareas_quemadas + rios as suma from amc_desastre_natural inner join amc_fenomeno_natural on nombre_desastre = amc_fenomeno_natural.id inner join amc_topico on amc_desastre_natural.topico = amc_topico.id inner join depmun on amc_topico.departamento = dm_codigo  where amc_topico.situacion = 1";
+        $sql = " SELECT FIRST 1 amc_fenomeno_natural.desc as nombre, dm_desc_lg as departamento, (per_fallecida + per_evacuada + per_afectada + albergues + est_colapsadas + inundaciones + derrumbes + carre_colap + hectareas_quemadas + rios)/6 as promedio, per_fallecida + per_evacuada + per_afectada + albergues + est_colapsadas + inundaciones + derrumbes + carre_colap + hectareas_quemadas + rios as suma from amc_desastre_natural inner join amc_fenomeno_natural on nombre_desastre = amc_fenomeno_natural.id inner join amc_topico on amc_desastre_natural.topico = amc_topico.id inner join depmun on amc_topico.departamento = dm_codigo  where amc_topico.situacion = 1 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
 
         if ($fecha1 == '' && $fecha2 == '' && $fenomeno == "") {
 
@@ -546,9 +567,11 @@ class InfoDesastresController
 
 
 
-    public function resumenAPI()
+    public static function resumenAPI()
     {
         getHeadersApi();
+        hasPermissionApi(['AMC_ADMIN']);
+
         // echo json_encode($_POST) ;
         // exit;
 
@@ -580,9 +603,10 @@ class InfoDesastresController
         echo json_encode($array_resultante);
     }
 
-    public function listadoAPI()
+    public static function listadoAPI()
     {
         getHeadersApi();
+        hasPermissionApi(['AMC_ADMIN']);
 
 
         try {
@@ -592,7 +616,7 @@ class InfoDesastresController
             inner join amc_topico on amc_desastre_natural.topico = amc_topico.id
             inner join amc_tipo_desastre_natural on amc_tipo_desastre_natural.id = amc_desastre_natural.tipo
             inner join depmun on amc_topico.departamento = dm_codigo 
-            where amc_topico.situacion = 1 ";
+            where amc_topico.situacion = 1 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
             $info = Des_natural::fetchArray($sql);
 
             $data = [];
@@ -647,9 +671,10 @@ class InfoDesastresController
         }
     }
 
-    public function modalAPI()
+    public static function modalAPI()
     {
         getHeadersApi();
+        hasPermissionApi(['AMC_ADMIN']);
 
         // echo json_encode($sql);
 
@@ -658,7 +683,7 @@ class InfoDesastresController
             $id = $_POST['id'];
 
 
-            $sql = "SELECT amc_topico.id, fecha, lugar, departamento, municipio as muni, tipo,latitud,longitud,actividad, amc_topico.situacion, depmun.dm_desc_lg as departamento1, amc_actividad_vinculada.desc as act, amc_tipo_topics.desc as topico from amc_topico inner join depmun on amc_topico.departamento = depmun.dm_codigo inner join amc_actividad_vinculada on amc_topico.actividad = amc_actividad_vinculada.id inner join amc_tipo_topics on amc_topico.tipo = amc_tipo_topics.id where amc_topico.situacion = 1 and amc_topico.id =  $id";
+            $sql = "SELECT amc_topico.id, fecha, lugar, departamento, municipio as muni, tipo,latitud,longitud,actividad, amc_topico.situacion, depmun.dm_desc_lg as departamento1, amc_actividad_vinculada.desc as act, amc_tipo_topics.desc as topico from amc_topico inner join depmun on amc_topico.departamento = depmun.dm_codigo inner join amc_actividad_vinculada on amc_topico.actividad = amc_actividad_vinculada.id inner join amc_tipo_topics on amc_topico.tipo = amc_tipo_topics.id where amc_topico.situacion = 1 and amc_topico.id =  $id and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
             $info = Des_natural::fetchArray($sql);
             $data = [];
 
@@ -721,9 +746,10 @@ class InfoDesastresController
         }
     }
 
-    public function informacionModalAPI()
+    public static function informacionModalAPI()
     {
-        getHeadersApi();
+        getHeadersApi();     
+           hasPermissionApi(['AMC_ADMIN']);
 
         // echo json_encode($sql);
 
@@ -731,7 +757,7 @@ class InfoDesastresController
 
             $id = $_POST['id'];
 
-            $sql = "SELECT * from amc_desastre_natural   inner join amc_fenomeno_natural on nombre_desastre = amc_fenomeno_natural.id inner join amc_topico on amc_desastre_natural.topico = amc_topico.id where amc_desastre_natural.topico =$id and  amc_topico.situacion = 1";
+            $sql = "SELECT * from amc_desastre_natural   inner join amc_fenomeno_natural on nombre_desastre = amc_fenomeno_natural.id inner join amc_topico on amc_desastre_natural.topico = amc_topico.id where amc_desastre_natural.topico =$id and  amc_topico.situacion = 1 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
             $info = Des_natural::fetchArray($sql);
 
 
@@ -746,11 +772,10 @@ class InfoDesastresController
         }
     }
 
-
-    public function informacionModalAPI1()
+   public function informacionModalAPI1()
     {
         getHeadersApi();
-
+        hasPermissionApi(['AMC_ADMIN']);
         // echo json_encode($sql);
 
         try {
@@ -772,11 +797,10 @@ class InfoDesastresController
         }
     }
 
-
-    public function informacionPersonasAPI()
+  public function informacionPersonasAPI()
     {
         getHeadersApi();
-
+        hasPermissionApi(['AMC_ADMIN']);
         // echo json_encode($sql);
 
         try {
@@ -830,34 +854,12 @@ class InfoDesastresController
             ]);
         }
     }
-    public function distanciaPistaAPI()
+
+   
+    public static function mapaCalorAPI()
     {
         getHeadersApi();
-
-        // echo json_encode($sql);
-
-        try {
-
-            $id = $_POST['id'];
-
-            $sql = "SELECT amc_destruccion_pista.distancia as cantidad from amc_destruccion_pista where amc_destruccion_pista.topico =$id and  amc_destruccion_pista.situacion = 1";
-            $info = Des_natural::fetchArray($sql);
-
-
-            echo json_encode($info);
-        } catch (Exception $e) {
-            echo json_encode([
-                "detalle" => $e->getMessage(),
-                "mensaje" => "ocurrio un error en base de datos",
-
-                "codigo" => 4,
-            ]);
-        }
-    }
-
-    public function mapaCalorAPI()
-    {
-        getHeadersApi();
+        hasPermissionApi(['AMC_ADMIN']);
 
         // echo json_encode($sql);
 
@@ -875,7 +877,7 @@ class InfoDesastresController
             inner join amc_tipo_desastre_natural on amc_tipo_desastre_natural.id = amc_desastre_natural.tipo
             inner join amc_topico on amc_desastre_natural.topico = amc_topico.id
             inner join depmun on amc_topico.departamento = dm_codigo 
-            where amc_topico.situacion = 1 ";
+            where amc_topico.situacion = 1 and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user)  ";
 
             if ($fenomeno != '') {
 
@@ -905,9 +907,11 @@ class InfoDesastresController
         }
     }
 
-    public function mapaCalorDeptoAPI()
+    public static function mapaCalorDeptoAPI()
     {
         getHeadersApi();
+        hasPermissionApi(['AMC_ADMIN']);
+
         try {
 
             $depto = $_POST['departamento'];
@@ -935,7 +939,7 @@ class InfoDesastresController
         }
     }
 
-    function departamental_grafica( $fecha1, $fecha2, $depto, $fenomeno)
+    public static function departamental_grafica( $fecha1, $fecha2, $depto, $fenomeno)
     {
 
       
@@ -946,17 +950,33 @@ class InfoDesastresController
     }
 
 
-    public function mapaCalorPorDeptoGraficaAPI()
+    public static function mapaCalorPorDeptoGraficaAPI()
     {
+        hasPermissionApi(['AMC_ADMIN']);
+
         try {
 
 
             $depto = $_POST['departamento'];
-            $droga = $_POST['fenomenos_mapa_calor'];
+            $fenomeno = $_POST['fenomenos_mapa_calor'];
             $fecha1 = str_replace('T', ' ', $_POST['fecha_mapa']);
             $fecha2 = str_replace('T', ' ', $_POST['fecha2']);
             // echo json_encode($_POST);
             // exit;
+            $sql = " SELECT amc_fenomeno_natural.desc as nombre,  
+            (per_fallecida + per_evacuada + per_afectada + albergues + est_colapsadas + inundaciones + derrumbes + carre_colap + hectareas_quemadas + rios)/10 as promedio
+            
+             from amc_desastre_natural 
+                        inner join amc_fenomeno_natural on nombre_desastre = amc_fenomeno_natural.id
+                        inner join amc_tipo_desastre_natural on amc_tipo_desastre_natural.id = amc_desastre_natural.tipo
+                        inner join amc_topico on amc_desastre_natural.topico = amc_topico.id
+                        inner join depmun on amc_topico.departamento = dm_codigo 
+                        where amc_topico.situacion = 1   AND amc_topico.departamento =  $depto and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user) ";
+                        
+            if ($fenomeno != '') {
+
+                $sql .= "AND amc_desastre_natural.nombre_desastre = $fenomeno";
+            }
 
 
             $tipos = static::fenomeno_natural();
@@ -1021,8 +1041,11 @@ class InfoDesastresController
             ]);
         }
     }
+
     function mapaCalorPorDeptoPistasAPI()
     {
+        hasPermissionApi(['AMC_ADMIN']);
+
         $fecha1 = str_replace('T', ' ', $_POST['fecha_mapa']);
         $fecha2 = str_replace('T', ' ', $_POST['fecha2']);
 
@@ -1047,11 +1070,16 @@ class InfoDesastresController
         echo json_encode($info);
     }
 
-    function DesastresCantGraficaAPI()
-    {
+
+
+
+    
+    public static function DesastresCantGraficaAPI(){
+
         getHeadersApi();
+        hasPermissionApi(['AMC_ADMIN']);
 
-
+    
 
 
         $fenomeno_natural = $_POST['select_grafica'];
@@ -1065,8 +1093,9 @@ class InfoDesastresController
                 $grafica = Des_natural::fetchArray("SELECT sum(per_fallecida) as per_fallecida, sum(per_evacuada) as per_evacuada,sum(per_afectada) as per_afectada,sum(albergues) as albergues,sum(est_colapsadas) as est_colapsadas,
                 sum(inundaciones) as inundaciones,sum(derrumbes) as derrumbes,sum(carre_colap) as carre_colap,sum(hectareas_quemadas) as hectareas_quemadas,sum(rios) as rios,sum(per_fallecida +per_evacuada+per_afectada+albergues+est_colapsadas+inundaciones+derrumbes+carre_colap+hectareas_quemadas+rios) as total
                 from amc_desastre_natural  inner join amc_topico on amc_desastre_natural.topico = amc_topico.id
-                where nombre_desastre = $fenomeno_natural and amc_topico.fecha BETWEEN '$fecha1' AND '$fecha2'  ");
+                where nombre_desastre = $fenomeno_natural and amc_topico.fecha BETWEEN '$fecha1' AND '$fecha2' and amc_topico.dependencia = (SELECT org_dependencia from mper inner join morg on per_plaza = org_plaza where per_catalogo = user)  ");
                 echo json_encode($grafica);
+
             } else {
                 $grafica = Des_natural::fetchArray("SELECT sum(per_fallecida) as per_fallecida, sum(per_evacuada) as per_evacuada,sum(per_afectada) as per_afectada,sum(albergues) as albergues,sum(est_colapsadas) as est_colapsadas,sum(inundaciones) as inundaciones,sum(derrumbes) as derrumbes,sum(carre_colap) as carre_colap,sum(hectareas_quemadas) as hectareas_quemadas,sum(rios) as rios, sum(per_fallecida +per_evacuada+per_afectada+albergues+est_colapsadas+inundaciones+derrumbes+carre_colap+hectareas_quemadas+rios) as total from amc_desastre_natural where nombre_desastre = $fenomeno_natural");
 
@@ -1087,11 +1116,11 @@ class InfoDesastresController
 
 
     static public function DesastrespormesAPI()
-
     {
 
-        getHeadersApi();
 
+        getHeadersApi();
+        hasPermissionApi(['AMC_ADMIN']);
         $mes = date('m');
         $año = date('Y');
 
@@ -1117,8 +1146,14 @@ where year(amc_topico.fecha) = $año and month(amc_topico.fecha) = $mes  ");
 
     static public function DesastresTrimestralAPI()
 
+
+    public static function IncautacionesPorDiaGraficaAPI()
     {
-        getHeadersApi();
+      getHeadersApi();
+        hasPermissionApi(['AMC_ADMIN']);
+
+        try {
+
 
         try {
 
@@ -1197,9 +1232,10 @@ where year(amc_topico.fecha) = $año and month(amc_topico.fecha) = $mes  ");
 
 
 
+    public static function KilosPorDiaGraficaAPI(){
+           hasPermissionApi(['AMC_ADMIN']);
 
-    public function KilosPorDiaGraficaAPI()
-    {
+
         try {
 
             $diasMes =  date('t');
@@ -1231,8 +1267,11 @@ where year(amc_topico.fecha) = $año and month(amc_topico.fecha) = $mes  ");
     }
 
 
-    public function MatasPorDiaGraficaAPI()
-    {
+
+
+    public static function MatasPorDiaGraficaAPI(){
+           hasPermissionApi(['AMC_ADMIN']);
+
         try {
 
             $diasMes =  date('t');
@@ -1264,27 +1303,14 @@ where year(amc_topico.fecha) = $año and month(amc_topico.fecha) = $mes  ");
     }
 
 
-    // public function DesastrespormesAPI()
-    // {
+    
 
-    //     $sentencia = "SELECT sum(cantidad) as  cantidad  from amc_incautacion_droga inner join amc_topico on amc_incautacion_droga.topico = amc_topico.id where year(amc_topico.fecha) = $años and month(amc_topico.fecha) = $mes  and amc_topico.situacion = 1 and amc_incautacion_droga.situacion = 1 and amc_incautacion_droga.tipo_droga = $droga";
-    //     $result = Des_natural::fetchArray($sentencia);
-    //     if ($result[0]['cantidad'] == null) {
-
-    //         $valor[0]['cantidad'] = 0;
-    //     } else {
-    //         $valor = $result[0]['cantidad'];
-    //     }
-
-
-
-    //     return $valor;
-    // }
-
-    function incautacionesmatas_por_mes_y_droga($mes, $droga, $años)
+   
+    public static function incautacionesmatas_por_mes_y_droga($mes, $droga, $años)
     {
+        hasPermissionApi(['AMC_ADMIN']);
 
-
+       
         $sentencia = "SELECT sum(cantidad) as  cantidad  from amc_incautacion_droga inner join amc_topico on amc_incautacion_droga.topico = amc_topico.id where year(amc_topico.fecha) = $años and  month(amc_topico.fecha) = $mes  and amc_topico.situacion = 1 and amc_incautacion_droga.situacion = 1 and amc_incautacion_droga.tip_droga_plantacion = $droga";
         $result = Des_natural::fetchArray($sentencia);
         if ($result[0]['cantidad'] == null) {
@@ -1299,9 +1325,13 @@ where year(amc_topico.fecha) = $año and month(amc_topico.fecha) = $mes  ");
         return $valor;
     }
 
+   
+   
 
-    public function GraficatrimestralKilosAPI()
-    {
+    public static function GraficatrimestralKilosAPI(){
+            hasPermissionApi(['AMC_ADMIN']);
+
+
         try {
 
             $mes = date("n");
@@ -1361,8 +1391,13 @@ where year(amc_topico.fecha) = $año and month(amc_topico.fecha) = $mes  ");
         }
     }
 
-    public function GraficatrimestralMatasAPI()
-    {
+
+   
+
+    public static function GraficatrimestralMatasAPI(){
+            hasPermissionApi(['AMC_ADMIN']);
+
+
         try {
 
             $mes = date("n");
@@ -1424,8 +1459,10 @@ where year(amc_topico.fecha) = $año and month(amc_topico.fecha) = $mes  ");
 
 
 
-    public function GraficatrimestralPistasAPI()
-    {
+    public static function GraficatrimestralPistasAPI(){
+            hasPermissionApi(['AMC_ADMIN']);
+
+
         try {
 
             $mes = date("n");
@@ -1483,8 +1520,10 @@ where year(amc_topico.fecha) = $año and month(amc_topico.fecha) = $mes  ");
     }
 
 
-    public function GraficaTrimestralIncautacionesGeneralAPI()
-    {
+
+    public static function GraficaTrimestralIncautacionesGeneralAPI(){
+        hasPermissionApi(['AMC_ADMIN']);
+
         try {
 
             $mes = date("n");

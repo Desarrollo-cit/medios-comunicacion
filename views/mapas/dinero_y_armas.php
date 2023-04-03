@@ -857,7 +857,7 @@ $armas;
                 <div class="col-lg-6 ">
 
                     <h2 style="color:black">DINERO INCAUTADO</h2>
-                    <div id="texto_no1" style="display:none;">
+                    <div id="texto_no2" style="display:none;">
                         <h3> No se encontraron registros</h3>
                     </div>
                     <div id="graficaDinero" style="width: 750px; height:900px; ">
@@ -885,7 +885,7 @@ $armas;
 
                         </h3>
                     </div>
-                    <div id="graficaDinerDepartamento" style="width: 700px; height:800px; ">
+                    <div id="graficaDineroDepartamento" style="width: 700px; height:800px; ">
 
                         <canvas id="myChart99" width="50" height="50"></canvas>
                     </div>

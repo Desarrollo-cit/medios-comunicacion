@@ -6,14 +6,16 @@ use Model\Armas;
 use MVC\Router;
 class ArmasController{
 
-    public function index(Router $router)
-    {
+    public static function index(Router $router)
+    { 
+        hasPermission(['AMC_ADMIN', 'AMC_COMANDO']);
+
         $router->render('armas/index');
     }
 
-    public function guardarAPI(){
+    public static function guardarAPI(){
         getHeadersApi();
-
+        hasPermissionApi(['AMC_ADMIN', 'AMC_COMANDO']);
         try {
             // $_POST["desc"] = strtoupper($_POST["desc"]);
             $armas = new Armas($_POST);
@@ -56,14 +58,17 @@ class ArmasController{
         
     }
 
-    public function buscarApi(){
+    public static function buscarApi(){
         getHeadersApi();
+        hasPermissionApi(['AMC_ADMIN', 'AMC_COMANDO']);
         $armas = Armas::where('situacion', '0','>');
         echo json_encode($armas);
     }
 
-    public function modificarAPI(){
+    public static function modificarAPI(){
         getHeadersApi();
+        hasPermissionApi(['AMC_ADMIN']);
+
        try {
             // $_POST["desc"] = strtoupper($_POST["desc"]);
             $armas = new Armas($_POST);
@@ -102,8 +107,10 @@ class ArmasController{
         }
     }
 
-    public function eliminarAPI(){
+    public static function eliminarAPI(){
         getHeadersApi();
+        hasPermissionApi(['AMC_ADMIN', 'AMC_COMANDO']);
+
         $_POST['situacion'] = 0;
         $armas = new Armas($_POST);
         
@@ -121,8 +128,9 @@ class ArmasController{
 
         }
     }
-    public function cambioSituacionAPI(){
+    public static function cambioSituacionAPI(){
         getHeadersApi();
+        hasPermissionApi(['AMC_ADMIN', 'AMC_COMANDO']);
     if ($_POST['situacion'] == 1){
         $_POST['situacion'] = 2;
     }else{

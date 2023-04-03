@@ -1,30 +1,35 @@
 <?php
 
 namespace Controllers;
-use Exception;
-use Model\Fuentes;
+
+use Model\Actividad_vinculada;
 use MVC\Router;
-class FuentesController{
 
-    public static function index(Router $router)
-    {
-        hasPermission(['AMC_ADMIN']);
+class Actividad_vinculadaController{
 
-        $router->render('Fuentes/index');
+    // public static function index(Router $router)
+    // { 
+    //     hasPermission(['AMC_ADMIN']);
+
+    //     $router->render('Actividad_vinculada/index');
+    // }
+
+    public static function index(Router $router){
+        $router->render('Actividad_vinculada/index');
+
     }
 
     public static function guardarAPI(){
         getHeadersApi();
         hasPermissionApi(['AMC_ADMIN']);
-
-
         try {
             // $_POST["desc"] = strtoupper($_POST["desc"]);
-            $Fuentes = new Fuentes($_POST);
-            $valor = $Fuentes->desc;
-            $existe = Fuentes::SQL("SELECT * from amc_fuentes where situacion = 1 AND desc = '$valor'");
+            $Actividad_vinculada = new Actividad_vinculada($_POST);
+            $valor = $Actividad_vinculada->desc;
+            $existe = Actividad_vinculada::SQL("SELECT * from amc_actividad_vinculada where situacion =1 AND desc = '$valor'");
             
-            // 
+            // echo json_encode($existe);
+            // exit;
             if (count($existe)>0){
                echo json_encode([
                    "mensaje" => "El registro ya existe",
@@ -33,10 +38,8 @@ class FuentesController{
                exit;
             }
              
-            $resultado = $Fuentes->guardar();
-            // echo json_encode($resultado);
-            // exit;
-
+            $resultado = $Actividad_vinculada->guardar();
+    
             if($resultado['resultado'] == 1){
                 echo json_encode([
                     "mensaje" => "El registro se guardo",
@@ -64,9 +67,8 @@ class FuentesController{
     public static function buscarApi(){
         getHeadersApi();
         hasPermissionApi(['AMC_ADMIN']);
-
-        $Fuentes = Fuentes::where('situacion', '0', '>');
-        echo json_encode($Fuentes);
+        $Actividad_vinculada = Actividad_vinculada::where('situacion', '0','>');
+        echo json_encode($Actividad_vinculada);
     }
 
     public static function modificarAPI(){
@@ -75,9 +77,9 @@ class FuentesController{
 
        try {
             // $_POST["desc"] = strtoupper($_POST["desc"]);
-            $Fuentes = new Fuentes($_POST);
-            $valor = $Fuentes->desc;
-            $existe = Fuentes::SQL("select * from amc_fuentes where situacion =1 AND desc = '$valor'");
+            $Actividad_vinculada = new Actividad_vinculada($_POST);
+            $valor = $Actividad_vinculada->desc;
+            $existe = Actividad_vinculada::SQL("select * from amc_actividad_vinculada where situacion =1 AND desc = '$valor'");
             if (count($existe)>0){
                echo json_encode([
                    "mensaje" => "El valor no se modificó.",
@@ -86,7 +88,7 @@ class FuentesController{
                exit;
             }
              
-            $resultado = $Fuentes->guardar();
+            $resultado = $Actividad_vinculada->guardar();
     
             if($resultado['resultado'] == 1){
                 echo json_encode([
@@ -116,9 +118,9 @@ class FuentesController{
         hasPermissionApi(['AMC_ADMIN']);
 
         $_POST['situacion'] = 0;
-        $Fuentes = new Fuentes($_POST);
+        $Actividad_vinculada = new Actividad_vinculada($_POST);
         
-        $resultado = $Fuentes->guardar();
+        $resultado = $Actividad_vinculada->guardar();
 
         if($resultado['resultado'] == 1){
             echo json_encode([
@@ -132,21 +134,17 @@ class FuentesController{
 
         }
     }
-
-
     public static function cambioSituacionAPI(){
         getHeadersApi();
         hasPermissionApi(['AMC_ADMIN']);
-
-        // echo($_POST['situacion']);
     if ($_POST['situacion'] == 1){
         $_POST['situacion'] = 2;
     }else{
         $_POST['situacion'] = 1;
 
         }
-        $Fuentes = new Fuentes($_POST);
-        $resultado = $Fuentes->guardar();
+        $Actividad_vinculada = new Actividad_vinculada($_POST);
+        $resultado = $Actividad_vinculada->guardar();
         if($resultado['resultado'] == 1){
             echo json_encode([
                 "resultado" => 1
@@ -159,4 +157,6 @@ class FuentesController{
 
         }
     }
-}
+} 
+
+

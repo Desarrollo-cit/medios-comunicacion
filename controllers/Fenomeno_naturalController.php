@@ -6,12 +6,14 @@ use Model\Fenomeno_natural;
 use MVC\Router;
 class Fenomeno_naturalController{
 
-    public function index(Router $router)
+    public static function index(Router $router)
     {
+        hasPermission(['AMC_ADMIN']);
         $router->render('fenomeno_natural/index');
     }
-    public function guardarAPI(){
+    public static function guardarAPI(){
         getHeadersApi();
+        hasPermissionApi(['AMC_ADMIN']);
 
         try {
             $fenomeno = new Fenomeno_natural($_POST);
@@ -56,8 +58,10 @@ class Fenomeno_naturalController{
         
     }
 
-    public function buscarApi(){
+    public static function buscarApi(){
         getHeadersApi();
+        hasPermissionApi(['AMC_ADMIN']);
+
         $fenomeno = Fenomeno_natural::where('situacion', '1');
         echo json_encode($fenomeno);
     }
@@ -65,8 +69,10 @@ class Fenomeno_naturalController{
 
 
 
-    public function modificarAPI(){
+    public static function modificarAPI(){
         getHeadersApi();
+        hasPermissionApi(['AMC_ADMIN']);
+
         $fenomeno = new Fenomeno_natural($_POST);
         $valor = $fenomeno->desc;
         $existe = Fenomeno_natural::SQL("select * from amc_fenomeno_natural where situacion =1 AND desc = '$valor'
@@ -97,8 +103,10 @@ class Fenomeno_naturalController{
         }
     }
 
-    public function eliminarAPI(){
+    public static function eliminarAPI(){
         getHeadersApi();
+        hasPermissionApi(['AMC_ADMIN']);
+
         $_POST['situacion'] = 0;
         $fenomeno = new Fenomeno_natural($_POST);
      

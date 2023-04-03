@@ -10,6 +10,7 @@ use Exception;
 class DineroController{
     public static function guardar(){
         getHeadersApi();
+        hasPermissionApi(['AMC_ADMIN', 'AMC_COMANDO']);
 
 
         $cantidaddinero = count($_POST['cantidad']);
@@ -85,10 +86,8 @@ class DineroController{
     }
 
 public static function buscarDineroAPI(){
-
-
-
         getHeadersApi();
+        hasPermissionApi(['AMC_ADMIN', 'AMC_COMANDO']);
 
         $topico = $_GET['topico'];
 
@@ -124,6 +123,7 @@ public static function buscarDineroAPI(){
 
     public static function modificar(){
         getHeadersApi();
+        hasPermissionaPI(['AMC_ADMIN', 'AMC_COMANDO']);
 
  
         $cantidaddinero = count($_POST['cantidad']);
@@ -200,7 +200,7 @@ public static function buscarDineroAPI(){
 
     public static function eliminarDinero(){
         getHeadersApi();
-
+        hasPermissionApi(['AMC_ADMIN', 'AMC_COMANDO']);
 
         
         
@@ -235,6 +235,8 @@ public static function buscarDineroAPI(){
 
     public static function eliminarDineros(){
         getHeadersApi();
+        hasPermissionApi(['AMC_ADMIN', 'AMC_COMANDO']);
+
         
         
         try {

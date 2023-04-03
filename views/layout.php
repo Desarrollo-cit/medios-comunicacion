@@ -76,6 +76,11 @@
 
                                 <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/Fuentes"><i class="ms-lg-0 ms-2 bi bi-arrows-move me-2"></i>Fuentes</a>
                             </li>
+
+                            <li>
+
+                                <a class="dropdown-item nav-link text-white " href="/medios-comunicacion/Actividad_vinculada"><i class="ms-lg-0 ms-2 bi bi-arrows-move me-2"></i>Actividades Vinculadas</a>
+                            </li>
                             
 
                         
@@ -122,7 +127,7 @@
                 </ul> 
                 <div class="col-lg-1 d-grid mb-lg-0 mb-2">
                     <!-- Ruta relativa desde el archivo donde se incluye menu.php -->
-                    <a href="/medios-comunicacion/cerrar-sesion" class="btn btn-danger"><i class="bi bi-arrow-bar-left"></i>MENÚ</a>
+                    <a href="/menu/" class="btn btn-danger"><i class="bi bi-arrow-bar-left"></i>MENÚ</a>
                 </div>
 
             

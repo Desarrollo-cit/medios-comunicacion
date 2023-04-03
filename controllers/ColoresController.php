@@ -8,6 +8,8 @@ use Model\Colores;
 class ColoresController{
 
 public static function index(Router $router){
+    hasPermission(['AMC_ADMIN']);
+
     $busqueda = Colores::fetchArray('SELECT * FROM amc_tipo_topics');
     $router->render('colores/index',[
 
@@ -16,13 +18,14 @@ public static function index(Router $router){
 }
 
 
-public function buscarApi(){
+public static function buscarApi(){
     $topico= $_GET['topico'];
   
     
     // echo json_encode($_GET);
     try {
         getHeadersApi();
+        hasPermissionApi(['AMC_ADMIN']);
 
       
         $armas = Colores::fetchArray("SELECT amc_colores.id, amc_colores.descripcion, amc_colores.cantidad,amc_colores.color, amc_colores.nivel, amc_colores.topico, amc_tipo_topics.desc from amc_colores inner join amc_tipo_topics on amc_tipo_topics.id = amc_colores.topico where amc_colores.situacion = 1 and amc_colores.topico= $topico");
@@ -34,9 +37,10 @@ public function buscarApi(){
     
 }
 
-public function modificarAPI(){
+public static function modificarAPI(){
     try {
         getHeadersApi();
+        hasPermissionApi(['AMC_ADMIN']);
 
         // echo json_encode($_POST);
         // exit;
@@ -112,10 +116,6 @@ public function modificarAPI(){
             "codigo" => 4,
         ]);
     }
-}
-
-
-
-
+    }
 }
 

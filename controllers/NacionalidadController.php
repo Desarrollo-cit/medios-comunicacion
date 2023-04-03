@@ -7,8 +7,9 @@ use Model\Nacionalidad;
 use MVC\Router;
 class NacionalidadController{
 
-    public function index(Router $router)
+    public static function index(Router $router)
     {
+        hasPermission(['AMC_ADMIN']);
         $busqueda=  Nacionalidad::fetchArray('SELECT * FROM paises');
         $router->render('nacionalidad/index',[
 
@@ -17,8 +18,9 @@ class NacionalidadController{
     }
    
 
-    public function guardarAPI(){
+    public static function guardarAPI(){
         getHeadersApi();
+        hasPermissionApi(['AMC_ADMIN']);
 
         try {
             $tipo = new Nacionalidad($_POST);
@@ -36,7 +38,7 @@ class NacionalidadController{
              
             $resultado = $tipo->guardar();
             // echo json_encode($resultado['resultado']);
-    
+
             if($resultado['resultado'] == 1){
                 echo json_encode([
                     "mensaje" => "El registro se guardó correctamente.",
@@ -62,7 +64,8 @@ class NacionalidadController{
     }
 
 
-    public function buscarApi(){
+    public static function buscarApi(){
+        hasPermissionApi(['AMC_ADMIN']);
         try {
             getHeadersApi();
             $nacionalidad = Nacionalidad::fetchArray('SELECT amc_nacionalidad.id, amc_nacionalidad.desc, paises.pai_desc_lg as pais, paises.pai_codigo as idpais from amc_nacionalidad inner join paises on amc_nacionalidad.pais = paises.pai_codigo');
@@ -70,11 +73,15 @@ class NacionalidadController{
         } catch (Exception $e) {
             echo json_encode(["error"=>$e->getMessage()]);
         }
+
+   
+
        
     }
 
-    public function modificarAPI(){
+    public static function modificarAPI(){
         getHeadersApi();
+        hasPermissionApi(['AMC_ADMIN']);
         try {
             $Nacionalidad = new Nacionalidad($_POST);
             $dato = $Nacionalidad->desc;
@@ -112,26 +119,51 @@ class NacionalidadController{
         }
     }
 
-    public function eliminarAPI(){
+    public static function eliminarAPI(){
         getHeadersApi();
+        hasPermissionApi(['AMC_ADMIN']);
         $_POST['situacion'] = 0;
         $Nacionalidad = new Nacionalidad($_POST);
-        
         $resultado = $Nacionalidad->guardar();
-
-
-        
         if($resultado['resultado'] == 1){
             echo json_encode([
                 "resultado" => 1
-            ]);
-            
+            ]);   
         }else{
             echo json_encode([
                 "resultado" => 0
             ]);
-
         }
+    }
+    public static function cambioSituacionAPI(){
+        try{
+        getHeadersApi();
+    if ($_POST['situacion'] == 1){
+        $_POST['situacion'] = 2;
+    }else{
+        $_POST['situacion'] = 1;
+        }
+        $Nacionalidad = new Nacionalidad($_POST);
+        $resultado = $Nacionalidad->guardar();
+
+        if($resultado['resultado'] == 1){
+            echo json_encode([
+                "mensaje" => "El registro se cambio correctamente.",
+                "codigo" => 1,
+            ]);   
+        }else{
+            echo json_encode([
+                "mensaje" => "Ocurrió un error.",
+                "codigo" => 0,
+            ]);
+        }
+    }catch(Exception $e){
+        echo json_encode([
+            "detalle" => $e ->getMessage(),
+            "mensaje" => "Ocurrió un error en la base de datos.",
+            "codigo " => 4,
+        ]);
+    }
     }
 } 
 

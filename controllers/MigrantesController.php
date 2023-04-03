@@ -9,6 +9,7 @@ use Exception;
 
 class MigrantesController{
     public static function guardar(){
+        hasPermissionApi(['AMC_ADMIN', 'AMC_COMANDO']);
         getHeadersApi();
 
 
@@ -90,7 +91,7 @@ class MigrantesController{
     public static function buscarMigrantesAPI(){
 
         getHeadersApi();
-
+        hasPermissionApi(['AMC_ADMIN', 'AMC_COMANDO']);
         $topico = $_GET['topic'];
 
 
@@ -124,8 +125,7 @@ class MigrantesController{
     public static function buscarEdadAPI(){
 
         getHeadersApi();
-
-
+        hasPermissionApi(['AMC_ADMIN', 'AMC_COMANDO']);
 
         try{
 
@@ -149,7 +149,7 @@ class MigrantesController{
     public static function buscarPaisAPI(){
 
         getHeadersApi();
-
+        hasPermissionApi(['AMC_ADMIN', 'AMC_COMANDO']);
 
 
         try{
@@ -172,7 +172,7 @@ class MigrantesController{
     }
     public static function modificar(){
         getHeadersApi();
-
+        hasPermissionApi(['AMC_ADMIN', 'AMC_COMANDO']);
  
     
         $cantidadmigrantes = count($_POST['edad']);
@@ -234,7 +234,7 @@ class MigrantesController{
 
     public static function eliminarMigrante(){
         getHeadersApi();
-
+        hasPermissionApi(['AMC_ADMIN', 'AMC_COMANDO']);
 
         
         
@@ -269,7 +269,7 @@ class MigrantesController{
 
     public static function eliminarMigrantes(){
         getHeadersApi();
-        
+        hasPermissionApi(['AMC_ADMIN', 'AMC_COMANDO']);
         
         try {
 

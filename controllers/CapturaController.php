@@ -12,7 +12,7 @@ class CapturaController
 {
     public static function guardar(){
         getHeadersApi();
-        
+        hasPermissionApi(['AMC_ADMIN', 'AMC_COMANDO']);
         
         try {
 
@@ -69,6 +69,7 @@ class CapturaController
 
     public static function buscarCapturaAPI(){
         getHeadersApi();
+        hasPermissionApi(['AMC_ADMIN', 'AMC_COMANDO']);
         $topico = $_GET['topico'];
 
         try{
@@ -96,7 +97,7 @@ class CapturaController
     
     public static function modificar(){
         getHeadersApi();
-        
+        hasPermissionApi(['AMC_ADMIN', 'AMC_COMANDO']);
         
         try {
 
@@ -159,7 +160,7 @@ class CapturaController
 
     public static function eliminarCapturado(){
         getHeadersApi();
-        
+        hasPermissionApi(['AMC_ADMIN', 'AMC_COMANDO']);
         
         try {
             $capturado = Capturados::find($_POST['id']);
@@ -191,7 +192,7 @@ class CapturaController
 
     public static function eliminarCaptura(){
         getHeadersApi();
-        
+        hasPermissionApi(['AMC_ADMIN', 'AMC_COMANDO']);
         
         try {
 

@@ -6,13 +6,17 @@ use Model\Calibres;
 use MVC\Router;
 class CalibresController{
 
-    public function index(Router $router)
+    public static function index(Router $router)
     {
         $router->render('calibres/index');
+        hasPermission(['AMC_ADMIN']);
+
     }
 
-    public function guardarAPI(){
+    public static function guardarAPI(){
         getHeadersApi();
+        hasPermissionApi(['AMC_ADMIN']);
+
 
         try {
             $_POST["desc"] = strtoupper($_POST["desc"]);
@@ -53,16 +57,19 @@ class CalibresController{
         
     }
 
-    public function buscarApi(){
+    public static function buscarApi(){
         getHeadersApi();
+        hasPermissionApi(['AMC_ADMIN']);
+
         $calibres = Calibres::where('situacion', '0','>');
         echo json_encode($calibres);
     }
 
-    public function modificarAPI(){
+    public static function modificarAPI(){
         getHeadersApi();
+        hasPermissionApi(['AMC_ADMIN']);
        try {
-            $_POST["desc"] = strtoupper($_POST["desc"]);
+            // $_POST["desc"] = strtoupper($_POST["desc"]);
             $calibres = new Calibres($_POST);
             $valor = $calibres->desc;
             $existe = Calibres::SQL("select * from amc_calibre where situacion =1 AND desc = '$valor'");
@@ -99,8 +106,10 @@ class CalibresController{
         }
     }
 
-    public function eliminarAPI(){
+    public static function eliminarAPI(){
         getHeadersApi();
+        hasPermissionApi(['AMC_ADMIN']);
+
         $_POST['situacion'] = 0;
         $calibres = new Calibres($_POST);
         
@@ -118,8 +127,10 @@ class CalibresController{
 
         }
     }
-    public function cambiarSituacionAPI(){
+    public static function cambiarSituacionAPI(){
         getHeadersApi();
+        hasPermissionApi(['AMC_ADMIN']);
+
         if($_POST['situacion'] == 1){
             $_POST['situacion']=2;
         }else{

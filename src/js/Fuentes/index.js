@@ -181,7 +181,7 @@ const buscarFuentes = async (evento) => {
                 { 
                     data : 'id',
                     'render': (data, type, row, meta) => {
-                        return `<button class="btn btn-info" onclick="asignarValores('${row.id}', '${row.desc}')">Modificar</button>`
+                        return `<button class="btn btn-warning" onclick="asignarValores('${row.id}', '${row.desc}')">Modificar</button>`
                     } 
                 },
                 
@@ -195,24 +195,14 @@ const buscarFuentes = async (evento) => {
                     data : 'id',
                     'render': (data, type, row, meta) => {
                         if(row.situacion==1){
-                            return `<button class="btn btn-warning" onclick="cambiarSituacion('${row.id}', '${row.desc}', '${row.situacion}')">DESACTIVAR</button>`
+                            return `<button class="btn btn-secondary" onclick="cambiarSituacion('${row.id}', '${row.desc}', '${row.situacion}')">DESACTIVAR</button>`
                         }else{
                             return `<button class="btn btn-success" onclick="cambiarSituacion('${row.id}', '${row.desc}', '${row.situacion}')">ACTIVAR</button>`
 
                         }
                     } 
                 },
-                { 
-                    data : 'situacion',
-                    'render': (data, type, row, meta) => {
-                        if(row.situacion==1){
-                            return `<a class="text-succee" >ACTIVADO</a>`
-                        }else{
-                            return `<a class="text-warning" >DESACTIVADO</a>`
-
-                        }
-                    } 
-                },
+               
                 
             ]
         })

@@ -4,21 +4,25 @@ import Datatable from 'datatables.net-bs5';
 import { lenguaje } from "../lenguaje";
 import Swal from "sweetalert2";
 
-const formCalibres = document.getElementById('formCalibres');
+const formActividad_vinculada = document.getElementById('formActividad_vinculada');
 const btnGuardar = document.getElementById('btnGuardar');
 const btnModificar = document.getElementById('btnModificar');
+const btnCancelar = document.getElementById('btnCancelar')
 const divTabla = document.getElementById('divTabla');
-let tablaProductos = new Datatable('#calibresTabla');
+let tablaProductos = new Datatable('#Actividad_vinculadaTabla');
 
 btnModificar.parentElement.style.display = 'none';
+btnCancelar.parentElement.style.display = 'none';
+btnCancelar.disabled = true;
 btnGuardar.disabled = false;
 btnModificar.disabled = true;
 
 
-const guardarcalibres = async (evento) => {
+
+const guardarActividad_vinculada = async (evento) => {
     evento.preventDefault();
 
-    let formularioValido = validarFormulario(formCalibres, ['id']);
+    let formularioValido = validarFormulario(formActividad_vinculada, ['id']);
     if (!formularioValido) {
         Toast.fire({
             icon: 'warning',
@@ -31,9 +35,9 @@ const guardarcalibres = async (evento) => {
 
     try {
         //Crear el cuerpo de la consulta
-        const url = '/medios-comunicacion/API/calibres/guardar'
+        const url = '/medios-comunicacion/API/Actividad_vinculada/guardar'
 
-        const body = new FormData(formCalibres);
+        const body = new FormData(formActividad_vinculada);
         body.delete('id');
         const headers = new Headers();
         headers.append("X-Requested-With", "fetch");
@@ -53,12 +57,12 @@ const guardarcalibres = async (evento) => {
         switch (codigo) {
             case 1:
                 icon = "success"
-                formCalibres.reset();
+                formActividad_vinculada.reset();
                
                 break;
             case 2:
                 icon = "warning"
-                formCalibres.reset();
+                formActividad_vinculada.reset();
 
                 break;
             case 3:
@@ -81,7 +85,7 @@ const guardarcalibres = async (evento) => {
         })
 
 
-        buscarcalibres()
+        buscarActividad_vinculada()
 
     } catch (error) {
         console.log(error);
@@ -92,12 +96,11 @@ const guardarcalibres = async (evento) => {
 
 
 
-
-const buscarcalibres = async (evento) => {
+const buscarActividad_vinculada = async (evento) => {
     evento && evento.preventDefault();
 
     try {
-        const url = '/medios-comunicacion/API/calibres/buscar'
+        const url = '/medios-comunicacion/API/Actividad_vinculada/buscar'
         const headers = new Headers();
         headers.append("X-Requested-With", "fetch");
 
@@ -108,12 +111,12 @@ const buscarcalibres = async (evento) => {
         const respuesta = await fetch(url, config);
         const data = await respuesta.json();
 
-        // console.log(data);
+        console.log(data);
 
         
         tablaProductos.destroy();
         let contador = 1;
-        tablaProductos = new Datatable('#calibresTabla', {
+        tablaProductos = new Datatable('#Actividad_vinculada', {
             language : lenguaje,
             data : data,
             columns : [
@@ -124,6 +127,7 @@ const buscarcalibres = async (evento) => {
                     }
                 },
                 { data : 'desc'},
+                // { data: 'situacion'},
                 
                 { 
                     data : 'id',
@@ -137,18 +141,17 @@ const buscarcalibres = async (evento) => {
                         return `<button class="btn btn-danger" onclick="eliminarRegistro('${row.id}')">Eliminar</button>`
                     } 
                 },
-                {
+                { 
                     data : 'id',
-                    'render':(data, type, row, meta)=>{
-                        if (row.situacion == 2){
-                            return `<button class="btn btn-secondary" onclick="cambiarSituacion('${row.id}','${row.situacion}','${row.desc}')">DESACTIVAR</button>`
-                        }else{
-                            return `<button class="btn btn-success" onclick="cambiarSituacion('${row.id}','${row.situacion}','${row.desc}')">ACTIVAR</button>`
-                        }
+                    'render': (data, type, row, meta) => {
+                        if(row.situacion == 1){
+                        return `<button class="btn btn-secondary" onclick="cambiarSituacion('${row.id}',' ${row.situacion}',' ${row.desc}')">DESACTIVAR</button>`
+                    }if (row.situacion == 2){
+                        return `<button class="btn btn-success" onclick="cambiarSituacion('${row.id}',' ${row.situacion}',' ${row.desc}')">ACTIVAR</button>`
 
                     }
+                    } 
                 },
-
             ]
         })
 
@@ -157,10 +160,12 @@ const buscarcalibres = async (evento) => {
     }
 }
 
-const modificarcalibres = async (evento) => {
+
+
+const modificarActividad_vinculada = async (evento) => {
     evento.preventDefault();
 
-    let formularioValido = validarFormulario(formCalibres);
+    let formularioValido = validarFormulario(formActividad_vinculada);
     if (!formularioValido) {
         Toast.fire({
             icon: 'warning',
@@ -173,9 +178,9 @@ const modificarcalibres = async (evento) => {
 
     try {
         //Crear el cuerpo de la consulta
-        const url = '/medios-comunicacion/API/calibres/modificar'
+        const url = '/medios-comunicacion/API/Actividad_vinculada/modificar'
 
-        const body = new FormData(formCalibres);
+        const body = new FormData(formActividad_vinculada);
         
         const headers = new Headers();
         headers.append("X-Requested-With", "fetch");
@@ -183,8 +188,9 @@ const modificarcalibres = async (evento) => {
         const config = {
             method: 'POST',
             headers,
-            body
+            body            
         }
+        
 
         const respuesta = await fetch(url, config);
         const data = await respuesta.json();
@@ -195,12 +201,12 @@ const modificarcalibres = async (evento) => {
         switch (codigo) {
             case 1:
                 icon = "success"
-                formCalibres.reset();
+                formActividad_vinculada.reset();
                
                 break;
             case 2:
                 icon = "warning"
-                formCalibres.reset();
+                formActividad_vinculada.reset();
 
                 break;
             case 3:
@@ -223,8 +229,8 @@ const modificarcalibres = async (evento) => {
         })
 
 
-        buscarcalibres()
-        formCalibres.reset();
+        buscarActividad_vinculada()
+        formActividad_vinculada.reset();
             btnModificar.parentElement.style.display = 'none';
             btnGuardar.parentElement.style.display = '';
             btnGuardar.disabled = false;
@@ -236,11 +242,13 @@ const modificarcalibres = async (evento) => {
     }
 }
 
-buscarcalibres();
+
+
+
 
 window.asignarValores = (id, desc) => {
-    formCalibres.id.value = id;
-    formCalibres.desc.value = desc;
+    formActividad_vinculada.id.value = id;
+    formActividad_vinculada.desc.value = desc;
     btnModificar.parentElement.style.display = '';
     btnGuardar.parentElement.style.display = 'none';
     btnGuardar.disabled = true;
@@ -259,7 +267,7 @@ window.eliminarRegistro = (id) => {
         confirmButtonText: 'Si, eliminar'
     }).then( async (result) => {
         if(result.isConfirmed){
-            const url = '/medios-comunicacion/API/calibres/eliminar'
+            const url = '/medios-comunicacion/API/Actividad_vinculada/eliminar'
             const body = new FormData();
             body.append('id', id);
             const headers = new Headers();
@@ -282,8 +290,8 @@ window.eliminarRegistro = (id) => {
                     title : 'Registro eliminado'
                 })
     
-                formCalibres.reset();
-                buscarcalibres();
+                formActividad_vinculada.reset();
+                buscarActividad_vinculada();
             }else{
                 Toast.fire({
                     icon : 'error',
@@ -291,6 +299,8 @@ window.eliminarRegistro = (id) => {
                 })
             }
         }
+        btnCancelar.parentElement.style.display = '';
+        btnCancelar.disabled = true;
     })
 }
 window.cambiarSituacion = (id, situacion, desc) => {
@@ -305,7 +315,7 @@ window.cambiarSituacion = (id, situacion, desc) => {
         confirmButtonText: 'Si, Cambiar'
     }).then( async (result) => {
         if(result.isConfirmed){
-            const url = '/medios-comunicacion/API/calibres/cambiarSituacion'
+            const url = '/medios-comunicacion/API/Actividad_vinculada/cambiarSituacion'
             const body = new FormData();
             body.append('id', id);
             body.append('situacion', situacion);
@@ -324,7 +334,7 @@ window.cambiarSituacion = (id, situacion, desc) => {
             // cosole.log(data)
             const {resultado} = data;
             // const resultado = data.resultado;
-            
+          
             if(resultado == 1){
                 
                 Toast.fire({
@@ -332,9 +342,9 @@ window.cambiarSituacion = (id, situacion, desc) => {
                     title : 'Se cambió situación'
                                        
                 })
-                formCalibres.reset();
+                formActividad_vinculada.reset();
                 
-                buscarcalibres();
+                buscarActividad_vinculada();
             }else{
                 Toast.fire({
                     icon : 'error',
@@ -345,6 +355,7 @@ window.cambiarSituacion = (id, situacion, desc) => {
     })
 }
 
-formCalibres.addEventListener('submit', guardarcalibres )
-btnModificar.addEventListener('click', modificarcalibres);
 
+buscarActividad_vinculada();
+formActividad_vinculada.addEventListener('submit', guardarActividad_vinculada )
+btnModificar.addEventListener('click', modificarActividad_vinculada);
