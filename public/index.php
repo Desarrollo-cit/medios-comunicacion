@@ -376,6 +376,8 @@ $router->post('/API/Actividad_vinculada/modificar', [Actividad_vinculadaControll
 $router->post('/API/Actividad_vinculada/eliminar', [Actividad_vinculadaController::class, 'eliminarAPI'] );
 $router->post('/API/Actividad_vinculada/cambiarSituacion', [Actividad_vinculadaController::class, 'cambioSituacionAPI'] );
 
+$router->post('/API/mapas/infoDesastres/desastrespormes', [infoDesastresController::class , 'DesastrespormesAPI'] );
+$router->post('/API/mapas/infoDesastres/GraficaTrimestral', [infoDesastresController::class , 'DesastresTrimestralAPI'] );
 
 
 // Comprueba y valida las rutas, que existan y les asigna las funciones del Controlador
