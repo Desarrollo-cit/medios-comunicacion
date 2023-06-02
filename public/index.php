@@ -156,7 +156,6 @@ $router->post('/API/asesinatos/guardar', [AsesinatosController::class, 'guardar'
 $router->post('/API/asesinatos/modificar', [AsesinatosController::class, 'modificar']);
 $router->get('/API/asesinatos/buscar', [AsesinatosController::class, 'buscarAsesinatosAPI']);
 $router->post('/API/asesinatos/asesinado/eliminar', [AsesinatosController::class, 'eliminarAsesinado']);
-$router->post('/API/asesinatos/asesinado/eliminar', [AsesinatosController::class, 'eliminarAsesinato']);
 
 
 $router->post('/API/migrantes/guardar', [MigrantesController::class, 'guardar']);

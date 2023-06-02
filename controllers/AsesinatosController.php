@@ -165,14 +165,15 @@ class AsesinatosController
     }
 
     public static function eliminarAsesinado(){
+
         getHeadersApi();
         hasPermissionApi(['AMC_ADMIN', 'AMC_COMANDO']);
-        
+
         try {
             $asesinado = asesinados::find($_POST['id']);
             $asesinado->situacion = 0;
             $resultado = $asesinado->guardar();
-    
+
             if($resultado['resultado'] == 1){
                 echo json_encode([
                     "mensaje" => "El registro del asesinado se eliminó.",

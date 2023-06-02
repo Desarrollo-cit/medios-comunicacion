@@ -233,7 +233,7 @@ const guardarEvento = async e => {
 
         const respuesta = await fetch(url, config);
         const data = await respuesta.json();
-        // console.log(data);
+        // // console.log(data);
         // seleccionarTopico(null, `divTopico${formInformacion.tipo.value}`, formInformacion.tipo.value);
         const { mensaje, codigo, detalle, id } = data;
         buscarEventoId(id)
@@ -353,7 +353,7 @@ const buscarEventos = async e => {
 
         const respuesta = await fetch(url, config);
         const data = await respuesta.json();
-        console.log(data);
+        // console.log(data);
 
         if (data.length > 0) {
             data.forEach(p => {
@@ -456,7 +456,7 @@ const buscarEventoId = async (id) => {
 
         const respuesta = await fetch(url, config);
         const data = await respuesta.json();
-        console.log(data);
+        // console.log(data);
 
 
         let latlng = [data.latitud, data.longitud]
@@ -691,7 +691,7 @@ const recargarModalCaptura = async (id) => {
 
         const respuesta = await fetch(url, config);
         const data = await respuesta.json();
-        console.log(data);
+        // console.log(data);
         const { captura, capturados } = data;
         console.log(captura.info);
         // if(captura){
@@ -701,7 +701,7 @@ const recargarModalCaptura = async (id) => {
         formCaptura.usuarioCaptura.value = captura.usuario
         // }
         if (capturados) {
-            // console.log(data);
+            // // console.log(data);
             capturados.forEach(c => {
                 agregarInputsCaptura(null, c.id, c.nombre, c.edad, c.nacionalidad, c.sexo, c.delito, c.vinculo, true, 0, divCapturados)
             })
@@ -759,7 +759,7 @@ const recargarModalAsesinatos = async (id) => {
 
         const respuesta = await fetch(url, config);
         const data = await respuesta.json();
-        console.log(data);
+        // console.log(data);
         const { asesinatos, asesinados } = data;
         // if(captura){
         asesinatos && tinymce.get('info2').setContent(asesinatos.info)
@@ -768,7 +768,7 @@ const recargarModalAsesinatos = async (id) => {
         formAsesinatos.usuarioAsesinato.value = asesinatos.usuario
         // }
         if (asesinados) {
-            // console.log(data);
+            // // console.log(data);
             asesinados.forEach(a => {
                 agregarInputsAsesinatos(null, a.id, a.nombre, a.edad, a.sexo, true)
             })
@@ -826,7 +826,7 @@ const recargarModalMigrantes = async (id) => {
 
         const respuesta = await fetch(url, config);
         const data = await respuesta.json();
-        console.log(data);
+        // console.log(data);
         const { migrantes, migrante } = data;
         console.log(migrantes.info);
 
@@ -836,7 +836,7 @@ const recargarModalMigrantes = async (id) => {
         formMigrantes.usuarioMigrante.value = migrantes.usuario
         // }
         if (migrante) {
-            // console.log(data);
+            // // console.log(data);
             migrante.forEach(m => {
                 agregarInputsMigrantes(null, m.id, m.pais_migrante, m.edad, m.cantidad, m.sexo, m.lugar_ingreso, m.destino, true)
             })
@@ -895,7 +895,7 @@ const recargarModalDinero = async (id) => {
 
         const respuesta = await fetch(url, config);
         const data = await respuesta.json();
-        console.log(data);
+        // console.log(data);
         const { info, dinero } = data;
 
 
@@ -905,7 +905,7 @@ const recargarModalDinero = async (id) => {
         formDinero.usuarioDinero.value = info.usuario
         // }
         if (dinero) {
-            // console.log(data);
+            // // console.log(data);
             dinero.forEach(d => {
                 agregarInputsDinero(null, d.id, d.cantidad, d.moneda, d.conversion, true)
             })
@@ -957,7 +957,7 @@ const recargarModalDesastres = async (id) => {
 
         const respuesta = await fetch(url, config);
         const data = await respuesta.json();
-        console.log(data);
+        // console.log(data);
 
         const { info, desastre } = data;
 
@@ -969,7 +969,7 @@ const recargarModalDesastres = async (id) => {
         // }
         if (desastre) {
 
-            // console.log(data);
+            // // console.log(data);
             desastre.forEach(d => {
                 formDesastres.id.value = d.id,
                     formDesastres.topico.value = d.topico,
@@ -1038,7 +1038,7 @@ const recargarModalPistas = async (id) => {
 
         const respuesta = await fetch(url, config);
         const data = await respuesta.json();
-        console.log(data);
+        // console.log(data);
 
         const { info, pista } = data;
 
@@ -1050,7 +1050,7 @@ const recargarModalPistas = async (id) => {
         // }
         if (pista) {
 
-            // console.log(data);
+            // // console.log(data);
             pista.forEach(p => {
                 formPistas.id.value = p.id,
                     formPistas.topico.value = p.topico,
@@ -1110,7 +1110,7 @@ const recargarModalMovimiento = async (id) => {
 
         const respuesta = await fetch(url, config);
         const data = await respuesta.json();
-        console.log(data);
+        // console.log(data);
 
 
         const { info, movimiento } = data;
@@ -1123,7 +1123,7 @@ const recargarModalMovimiento = async (id) => {
         // }
         if (movimiento) {
 
-            // console.log(data);
+            // // console.log(data);
             movimiento.forEach(m => {
                 formMovimiento.id.value = m.id,
                     formMovimiento.topico.value = m.topico,
@@ -1183,7 +1183,7 @@ const recargarModalDroga = async (id) => {
 
         const respuesta = await fetch(url, config);
         const data = await respuesta.json();
-        console.log(data);
+        // console.log(data);
         const { evento, incautacion, capturados } = data;
 
         //     // if(captura){
@@ -1205,7 +1205,7 @@ const recargarModalDroga = async (id) => {
 
         //     // }
         if (capturados) {
-            // console.log(data);
+            // // console.log(data);
             capturados.forEach(c => {
                 agregarInputsCaptura(null, c.id, c.nombre, c.edad, c.nacionalidad, c.sexo, c.delito, c.vinculo, true, 1, divCapturadosDroga)
             })
@@ -1261,7 +1261,7 @@ const recargarModalArmas = async (id) => {
 
         const respuesta = await fetch(url, config);
         const data = await respuesta.json();
-        console.log(data);
+        // console.log(data);
         const { evento, armas, municion } = data;
 
         evento && tinymce.get('info_incautacion_armas').setContent(evento.info)
@@ -1270,14 +1270,14 @@ const recargarModalArmas = async (id) => {
         formArmas.usuarioArmas.value = evento.usuario
 
         if (armas) {
-            // console.log(data);
+            // // console.log(data);
             armas.forEach(arma => {
                 agregarInputsArmas(null, arma.id, arma.cantidad, arma.tipo_arma, arma.calibre, true)
             })
 
         }
         if (municion) {
-            // console.log(data);
+            // // console.log(data);
             municion.forEach(municion => {
                 agregarInputsMunicion(null, municion.id, municion.cantidad, municion.calibre, true)
             })
@@ -2616,7 +2616,7 @@ const guardarCaptura = async e => {
             const respuesta = await fetch(url, config);
             const data = await respuesta.json();
 
-            console.log(data);
+            // console.log(data);
             const { mensaje, codigo, detalle } = data;
             // const resultado = data.resultado;
             let icon = "";
@@ -2688,7 +2688,7 @@ const guardarIncautacion = async e => {
             const respuesta = await fetch(url, config);
             const data = await respuesta.json();
 
-            console.log(data);
+            // console.log(data);
 
             const { mensaje, codigo, detalle } = data;
             // const resultado = data.resultado;
@@ -2760,7 +2760,7 @@ const guardarIncautacionArmamento = async e => {
             const respuesta = await fetch(url, config);
             const data = await respuesta.json();
 
-            console.log(data);
+            // console.log(data);
 
             const { mensaje, codigo, detalle } = data;
             // const resultado = data.resultado;
@@ -2835,7 +2835,7 @@ const guardarAsesinatos = async e => {
             const respuesta = await fetch(url, config);
             const data = await respuesta.json();
 
-            // console.log(data);
+            // // console.log(data);
             const { mensaje, codigo, detalle } = data;
             // const resultado = data.resultado;
             let icon = "";
@@ -2909,7 +2909,7 @@ const guardarMigrantes = async e => {
             const respuesta = await fetch(url, config);
             const data = await respuesta.json();
 
-            console.log(data);
+            // console.log(data);
             const { mensaje, codigo, detalle } = data;
             // const resultado = data.resultado;
             let icon = "";
@@ -2988,7 +2988,7 @@ const guardarDinero = async e => {
             const respuesta = await fetch(url, config);
             const data = await respuesta.json();
 
-            console.log(data);
+            // console.log(data);
             const { mensaje, codigo, detalle } = data;
             // const resultado = data.resultado;
             let icon = "";
@@ -3066,7 +3066,7 @@ const guardarDesastres = async e => {
             const respuesta = await fetch(url, config);
             const data = await respuesta.json();
 
-            console.log(data);
+            // console.log(data);
             const { mensaje, codigo, detalle } = data;
             // const resultado = data.resultado;
             let icon = "";
@@ -3145,7 +3145,7 @@ const guardarPistas = async e => {
             const respuesta = await fetch(url, config);
             const data = await respuesta.json();
 
-            console.log(data);
+            // console.log(data);
             const { mensaje, codigo, detalle } = data;
             // const resultado = data.resultado;
             let icon = "";
@@ -3224,7 +3224,7 @@ const guardarMovimiento = async e => {
             const respuesta = await fetch(url, config);
             const data = await respuesta.json();
 
-            console.log(data);
+            // console.log(data);
             const { mensaje, codigo, detalle } = data;
             // const resultado = data.resultado;
             let icon = "";
@@ -3307,7 +3307,7 @@ const eliminarCapturado = async (e, id, contador) => {
                 const respuesta = await fetch(url, config);
                 const data = await respuesta.json();
 
-                // console.log(data);
+                // // console.log(data);
                 // return 
                 const { mensaje, codigo, detalle } = data;
                 // const resultado = data.resultado;
@@ -3382,7 +3382,7 @@ const eliminarAsesinado = async (e, id) => {
     }).then(async (result) => {
         if (result.isConfirmed) {
             try {
-
+                
                 const url = '/medios-comunicacion/API/asesinatos/asesinado/eliminar'
 
                 const body = new FormData();
@@ -3469,7 +3469,7 @@ const eliminarMigrante = async (e, id) => {
                 const respuesta = await fetch(url, config);
                 const data = await respuesta.json();
 
-                // console.log(data);
+                // // console.log(data);
                 // return 
                 const { mensaje, codigo, detalle } = data;
                 // const resultado = data.resultado;
@@ -3539,7 +3539,7 @@ const eliminarDinero = async (e, id) => {
                 const respuesta = await fetch(url, config);
                 const data = await respuesta.json();
 
-                // console.log(data);
+                // // console.log(data);
                 // return 
                 const { mensaje, codigo, detalle } = data;
                 // const resultado = data.resultado;
@@ -3611,7 +3611,7 @@ const eliminarCaptura = async (e) => {
                 const respuesta = await fetch(url, config);
                 const data = await respuesta.json();
 
-                console.log(data);
+                // console.log(data);
                 // return 
                 const { mensaje, codigo, detalle } = data;
                 // const resultado = data.resultado;
@@ -3682,7 +3682,7 @@ const eliminarAsesinato = async (e) => {
                 const respuesta = await fetch(url, config);
                 const data = await respuesta.json();
 
-                console.log(data);
+                // console.log(data);
                 // return 
                 const { mensaje, codigo, detalle } = data;
                 // const resultado = data.resultado;
@@ -3750,7 +3750,7 @@ const eliminarIncautacion = async (e) => {
                 const respuesta = await fetch(url, config);
                 const data = await respuesta.json();
 
-                console.log(data);
+                // console.log(data);
                 // return 
                 const { mensaje, codigo, detalle } = data;
                 // const resultado = data.resultado;
@@ -3822,7 +3822,7 @@ const eliminarDineros = async (e) => {
                 const respuesta = await fetch(url, config);
                 const data = await respuesta.json();
 
-                console.log(data);
+                // console.log(data);
                 // return 
                 const { mensaje, codigo, detalle } = data;
                 // const resultado = data.resultado;
@@ -3892,7 +3892,7 @@ const eliminarDesastre = async (e) => {
                 const respuesta = await fetch(url, config);
                 const data = await respuesta.json();
 
-                console.log(data);
+                // console.log(data);
                 // return 
                 const { mensaje, codigo, detalle } = data;
                 // const resultado = data.resultado;
@@ -3962,7 +3962,7 @@ const eliminarPistas = async (e) => {
                 const respuesta = await fetch(url, config);
                 const data = await respuesta.json();
 
-                console.log(data);
+                // console.log(data);
                 // return 
                 const { mensaje, codigo, detalle } = data;
                 // const resultado = data.resultado;
@@ -4033,7 +4033,7 @@ const eliminarMovimiento = async (e) => {
                 const respuesta = await fetch(url, config);
                 const data = await respuesta.json();
 
-                console.log(data);
+                // console.log(data);
                 // return 
                 const { mensaje, codigo, detalle } = data;
                 // const resultado = data.resultado;
@@ -4101,7 +4101,7 @@ const modificarCaptura = async e => {
             const respuesta = await fetch(url, config);
             const data = await respuesta.json();
 
-            // console.log(data);
+            // // console.log(data);
             // return 
             const { mensaje, codigo, detalle } = data;
             // const resultado = data.resultado;
@@ -4177,7 +4177,7 @@ const modificarIncautacion = async e => {
             const respuesta = await fetch(url, config);
             const data = await respuesta.json();
 
-            console.log(data);
+            // console.log(data);
             // return 
             const { mensaje, codigo, detalle } = data;
             // const resultado = data.resultado;
@@ -4249,7 +4249,7 @@ const modificarAsesinato = async e => {
             const respuesta = await fetch(url, config);
             const data = await respuesta.json();
 
-            console.log(data);
+            // console.log(data);
             // return 
             const { mensaje, codigo, detalle } = data;
             // const resultado = data.resultado;
@@ -4319,7 +4319,7 @@ const modificarMigrantes = async e => {
             const respuesta = await fetch(url, config);
             const data = await respuesta.json();
 
-            console.log(data);
+            // console.log(data);
             // return 
             const { mensaje, codigo, detalle } = data;
             // const resultado = data.resultado;
@@ -4390,7 +4390,7 @@ const modificarDinero = async e => {
             const respuesta = await fetch(url, config);
             const data = await respuesta.json();
 
-            console.log(data);
+            // console.log(data);
             // return 
             const { mensaje, codigo, detalle } = data;
             // const resultado = data.resultado;
@@ -4461,7 +4461,7 @@ const modificarDesastres = async e => {
             const respuesta = await fetch(url, config);
             const data = await respuesta.json();
 
-            console.log(data);
+            // console.log(data);
             // return 
             const { mensaje, codigo, detalle } = data;
             // const resultado = data.resultado;
@@ -4533,7 +4533,7 @@ const modificarPistas = async e => {
             const respuesta = await fetch(url, config);
             const data = await respuesta.json();
 
-            console.log(data);
+            // console.log(data);
             // return 
             const { mensaje, codigo, detalle } = data;
             // const resultado = data.resultado;
@@ -4605,7 +4605,7 @@ const modificarMovimiento = async e => {
             const respuesta = await fetch(url, config);
             const data = await respuesta.json();
 
-            console.log(data);
+            // console.log(data);
             // return 
             const { mensaje, codigo, detalle } = data;
             // const resultado = data.resultado;
@@ -4694,7 +4694,7 @@ const modificarIncautacionArmamento = async e => {
             const respuesta = await fetch(url, config);
             const data = await respuesta.json();
 
-            console.log(data);
+            // console.log(data);
 
             const { mensaje, codigo, detalle } = data;
             // const resultado = data.resultado;
@@ -4769,7 +4769,7 @@ const eliminarArmamento = async (e, id) => {
                 const respuesta = await fetch(url, config);
                 const data = await respuesta.json();
 
-                // console.log(data);
+                // // console.log(data);
                 // return 
                 const { mensaje, codigo, detalle } = data;
                 // const resultado = data.resultado;
@@ -4838,7 +4838,7 @@ const eliminarMunicion = async (e, id) => {
                 const respuesta = await fetch(url, config);
                 const data = await respuesta.json();
 
-                // console.log(data);
+                // // console.log(data);
                 // return 
                 const { mensaje, codigo, detalle } = data;
                 // const resultado = data.resultado;
@@ -4908,7 +4908,7 @@ const eliminarIncautacionArmamento = async (e) => {
                 const respuesta = await fetch(url, config);
                 const data = await respuesta.json();
 
-                console.log(data);
+                // console.log(data);
                 // return 
                 const { mensaje, codigo, detalle } = data;
                 // const resultado = data.resultado;
@@ -4979,7 +4979,7 @@ const eliminarMigrantes = async (e) => {
                 const respuesta = await fetch(url, config);
                 const data = await respuesta.json();
     
-                console.log(data);
+                // console.log(data);
                 // return 
                 const { mensaje, codigo, detalle } = data;
                 // const resultado = data.resultado;
